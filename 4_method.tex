@@ -1,0 +1,40 @@
+
+
+\section{Method}
+
+
+\newpage
+
+\subsection{Analytically optimal structure}
+
+When any structure would fail by breakage or plastic deformation,
+the structure could be enhanced by reinforcing the location where that fault would happen.
+Our interlocking structure consists of beams of two materials.
+Reinforcing the beams of one material means that we reduce beams of the other material.
+If we consider beams of a homogeneous width then the respective widths of the beams is subject to optimization.
+The width ratio is optimal when both materials would fail under the same load:
+
+\begin{align*}
+	F_\text{PLA} &= F_\text{PP} \\
+	A_\text{PLA} \times \sigma_\text{PLA} &= 	A_\text{PP} \times \sigma_\text{PP}\\
+	\sigma_\text{PLA} &\approx 37 \si{\mega\pascal} \\
+	\sigma_\text{PP} &\approx 8.7 \si{\mega\pascal}
+\end{align*}
+where $\sigma$ is the yield stress.
+
+The optimized ratio between PLA and PP is therefore 
+$
+A_\text{PP} / A_\text{PLA} = \sigma_\text{PLA} / \sigma_\text{PP}  \approx 4.3
+$
+
+If we choose the width of the PLA beams to be two standard lines wide, \SI{0.7}{\milli\meter}, then the PP beams should be \SI{3.0}{\milli\meter}.
+
+
+
+
+The height of the beams is relatively irrelevant to the optimization.
+Only when the beams are a lot higher than the layer thickness does a new failure mode come into play where the beams in the orthogonal directions shear off each other.
+Given that the ultimate shear stress is approximately half the ultimate tensile stress,
+this failure mode plays a role when the contact area between the beams is half the cross sectional area of a beam.
+However, the width of the beams is in the order of twice the nozzle size, whereas the layer height is in the order of a quarter of the nozzle size.
+If we keep the beams as high as two layers the shearing failure mode will not take effect.

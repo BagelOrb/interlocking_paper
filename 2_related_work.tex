@@ -1,0 +1,144 @@
+\section{Related Work}
+
+\subsection{Interlocking}
+
+\begin{itemize}
+	\item friction
+	\item dovetail
+	\item interlocking
+\end{itemize}
+
+\subsection{Microstructures}
+
+
+\subsection{Adhesion}
+\citeauthor{tamburrino19} investigate the adhesion between multi-material prints and propose a simple friction based interlocking structure, which consists of straight extrusions of the one material around the other~\cite{tamburrino19}.
+
+
+
+
+\iffalse
+% This paragraph explains what toolpath generation is, and the context where toolpath generation is positioned in
+%Toolpath generation for deposition based additive manufacturing consists in generating geometric paths which the nozzle follow during printing.
+%Extrusion toolpaths are generated within the planar contour of a layer at the intersection of a horizontal plane and a 3D solid object.
+Toolpath generation consists in generating a path in the a planar contour, representing the intersection of a plane and a 3D solid object.
+The nozzle is then instructed to move along the path while extruding material.
+Sites along the toolpath\revise{}{s} are assigned several properties such as movement speed, but for this paper we will focus on the assigned width of the extruded bead.
+Toolpath generation is an integral part of process planning for 3D printing.
+For an overview of the processing pipeline, we refer to the survey by \citeauthor{Livesu2017CGF}~\cite{Livesu2017CGF}.
+For reducing printing time and material cost, sparse infill structures such as triangular and hexagonal patterns have been used to approximate the interior of 3D shapes.
+In this paper, we focus on \revise{generating toolpath that seamlessly fills the entire 2D contour.}{the generation of toolpaths for dense regions, such as the boundary shell of 3D shapes.}
+This is sometimes called `dense infill'~\cite{Livesu2017CGF}.
+
+% criteria for toolpath generation
+The toolpath has a direct influence on the printing time, material cost, and mechanical properties of the printed object~\cite{N.Turner2014,ahn2002anisotropic}.
+FDM calls for toolpaths with several desirable properties.
+First, the extrusion path should be as continuous as possible.
+A discontinuous path requires to stop and restart material extrusion.
+For certain materials\revise{}{,} such as TPU, this could lead to printing defects or even print failure~\cite{KUIPERS2019CAD}.
+Second, the toolpath is preferred to be smooth.
+Sharp turns require to reduce the movement speed of the nozzle, and so this prolongs the printing process.
+Third, the extruded path should cover \revise{a }{}the region of the contour without \revise{gaps}{underfilling}.
+Such underfill negatively influences the mechanical performance of the parts.
+Fourth, the extrusion paths should not overlap with one another.
+Such overfill causes a pressure build up in the mechanical system, which leads to overextrusion in \revise{further}{later} paths and in extreme cases cause print failure~\cite{KUIPERS2019CAD}.
+An analysis of under- and overfill from a vertical cross-section was presented in~\cite{Han2002JMSE}. 
+Our method is primarily concerned with minimizing under- and overfill within horizontal cross-sections.
+
+
+% basic toolpath strategies and their variations
+Two basic strategies for dense toolpath generation are \revise{}{the }direction-parallel\revise{}{ strategy} and \revise{}{the }contour-parallel\revise{}{ strategy}.
+Direction-parallel (or zig-zag) toolpaths fill an arbitrarily shaped contour with a set of parallel, equally spaced line segments.
+These parallel segments are linked together at one of their extremities, to avoid discontinuous extrusion.
+Contour-parallel toolpaths typically consists of a set of equally spaced offsets from the slice boundary outline polygons.
+\citeauthor{steuben2016implicit} presented a method for generating sparse infill toolpaths based on the isocontours of surface plots of some variable generated on each 2D contour~\cite{steuben2016implicit}.
+In order to increase the continuity of contour-parallel toolpaths, a strategy to connect dense toolpaths into spirals was introduced by \citeauthor{Zhao2016}~\cite{Zhao2016} and later extended to also connect a mixture of dense and sparse toolpaths together~\cite{KUIPERS2019CAD}.
+\citeauthor{Jin2017RCIM} discusses several approaches for connecting direction-parallel and contour-parallel toolpaths into continuous paths~\cite{Jin2017RCIM}.
+Spiral toolpaths have also been applied to (CNC) machining~\cite{Held2009,Huang2017}.
+One of the problems with contour-parallel toolpath\revise{}{s} is that it tends to leave gaps between the toolpaths (see \cref{intro_wedge_uniform}).
+This is due to the fact that the diameter of the part is not exact multiple of the (constant) deposition width in those regions.
+To avoid problems with such gaps, hybrid approaches that combine direction and contour-parallel are often used~\cite{Mcmains2000DETC,Jin2013adaptive}.
+Close to the slice boundary, there are several contour-parallel curves, while \revise{in }{}the interior is filled using a zig-zag pattern.
+For complex shapes, the entire cross-section could be decomposed into a set of patches, and for each of them the basic strategies can be applied~\cite{Ding2014,Jin2017RCIM}.
+Alternative toolpath patterns, seen also in CNC machining, include space-filling curves~\cite{Cox1994CAD,Griffiths1994,Shaikh2016}.
+
+% the idea, and (some of) the most related work
+Reducing under- and over-filling can be accurately achieved by making use \revise{over}{of} adaptive \revise{depisition}{deposition} width.
+Adaptive width can be used to locally match the nonuniform space between adjacent paths, and thus to ensure a better filling of the area.
+%Material extrusion with a varying width can be realized by changing the extrusion rate or the nozzle travel velocity~\cite{Ertay2018,Kuipers2018}.
+\citeauthor{kao1998optimal} propose smooth adaptive toolpaths based on the medial axis skeleton of the boundary contour~\cite{kao1998optimal}.
+Their approach handles simple geometry where there are no branches in the medial axis.
+An extension was proposed by \citeauthor{Ding2016a} to handle complex shapes~\cite{Ding2016a}.
+However, this extension inherits a problem in the original method:
+from any point in the skeleton to the boundary, the number of toolpaths is constant.
+\revise{%sdg
+Since the distance may vary considerably for shapes with both large and small features, this strategy leads to a toolpath with widths that may differ by a factor beyond $3$, which is impossible for some FDM systems.
+}{%f
+Depending on the size of small and large features in the layer outlines, this strategy can require a range of bead widths beyond the capabilities of the manufacturing system.
+}%sagd
+\citeauthor{Jin2017JMS} proposed a strategy of adding \revise{a }{}toolpath\revise{}{s} with varying width along the center edges of the skeleton, while leaving other paths unchanged~\cite{Jin2017JMS}.
+The resulting \revise{variation of width in the center is still up to a factor of $2$}{beads have widths within the wide range of $[0.25w,1.8w]$} (see \cref{intro_wedge_centered}).
+In this paper we propose a novel scheme to distribute the width alterations throughout a region around the center, and thus limit the occurrence of extreme \revise{deviations}{variation} in width (see \cref{intro_wedge_distributed}).
+
+% the context where our method can be positioned, and some related problems in that context
+Under- and over-filling issues have a large proportional impact for thin geometric features.
+\citeauthor{Jin2017a} proposed a sparse wavy path pattern for thin-walled parts~\cite{Jin2017a}.
+Besides under- and over-filling, there are a few other robustness issues in toolpath generation for thin geometric features.
+\citeauthor{Moesen2011} proposed a method to \revise{make beam compensation more reliable for}{reliably manufacture} thin geometric features\revise{}{ using laser-based additive manufacturing techniques}~\cite{Moesen2011}.
+>> achange!!
+\citeauthor{Behandish2019a} presented a method to characterize local- topological discrepancies due to material under- and over-deposition, and used this information to modify the as-manufactured outcomes~\cite{Behandish2019a}. 
+
+\fi
+
+% \subsection{Toolpath strategies}
+% Simple Zig-Zag toolpathing strategy~\cite{mcmains2000layered}.
+% Patchwise Zig-Zag toolpathing strategy~\cite{Ding2014}.
+
+% Combining concentric toolpaths into continuous extrusion spirals~\cite{Held2009}.
+
+% Fractal based toolpaths~\cite{Griffiths1994, mandal2016}.
+
+% \subsection{Space filling toolpaths}
+% \todo{find other literature which tries to minimize underfilling and overfilling which is not based on a skeletonization.}
+
+
+% \subsection{Medial axis based toolpaths}
+% Adjusted Medial Axis Transform (MAT) structure for only printing the outer wall, rest area to be filled using normal infill~\cite{Moesen2011}.
+% \Cref{moessen}
+% Problem: small grey areas which are too small for the second wall lines.
+
+% Figuring out underfilling and overfilling arteas in concentric fill and using single squigly lines to prevent overfilling~\cite{Jin2017JMS}.
+% \Cref{jin}
+
+% Using variable width lines to fit a precise amount of lines using the MAT.
+%~\cite{Ding2016a} apply the method from~\cite{kao1998optimal}.
+% \Cref{ding}
+
+% \begin{figure}
+% \begin{subfigure}{0.45\columnwidth}
+% \includegraphics[width=\columnwidth]{sources-related-work-moessen.jpg}
+% \caption{\citeauthor{Moesen2011}}
+% \label{moessen}
+% \end{subfigure}
+% \begin{subfigure}{0.45\columnwidth}
+% \includegraphics[width=\columnwidth]{sources-related-work-jin.jpg}
+% \caption{\citeauthor{Jin2017JMS}}
+% \label{jin}
+% \end{subfigure}
+% \end{figure}
+
+% \begin{figure}
+% \centering
+% \includegraphics[width=\columnwidth]{sources-related-work-ding.jpg}
+% \includegraphics[width=.7\columnwidth]{sources-related-work-kao.jpg}
+% \caption{Path planning strategies proposed by Kao (bottom) and employed in FDM by Ding et al (top).}
+% \label{ding}
+% \end{figure}
+
+% \subsection{Variable extrusion width}
+
+% Changing extrusion rate and temperature to match a given velocity~\cite{Ertay2018}.
+
+% Changing velocity in order to change extrusion rate.
+% Shortly discussed in~\cite{Kuipers2018}.
+% \todo{find another reference}
