@@ -1,13 +1,30 @@
 \section{Introduction}
 
+
+A common type of interlocking can be found in jigsaw puzzles.
+The pieces interlock and stay connected because of the material stiffness.
+The interlock can be broken in plane by deformation of the pieces.
+Out of plane the pieces can be disassembled easily.
+
+A better type of interlocking can be found in a chain.
+The only way to break a chain is by breaking one of the links.
+They cannot be broken by deformation alone, because links of a chain have a topology of genus 1.
+We therefore consider high genus interlocking structures.
+
+For the application of dual material FDM 3D printing we propose a high genus interlocking structure where holes in the one material are filled with the other material and vice versa.
+Introducing discontinuities in the extrusion process leads to defects, which influence the accuracy and the mechanical properties of the resulting part.
+Moreover, depositing disconnected islands of one material on top of a chemically incompatible material cannot reliably be performed since the island isn't fastened to anything.
+We therefore have to generate interlocking geometry for which the layers consist of continuously connected areas.
+
 Intuitively it seems impossible to generate high genus interlocking geometry while enforcing continuous extrusion for both materials;
 if the one material leaves a hole in a layer then filling that hole with the other material will cause it to be disconnected from the other regions of the second material.
+The trick is to align all holes horizontally, so that they never cross a plane at which a layer is sliced.
 
 
 
 Our contributions are as follows:
 \begin{itemize}
 	\item A high genus interlocking structure for continuous extrusion
-	\item A similar structure optimized for bending
-	\item A similar structure optimized for tensile pulling
+	\item A similar structure optimized for bending (?)
+	\item A similar structure optimized for tensile pulling (?)
 \end{itemize}
