@@ -5,7 +5,7 @@
 
 \newpage
 
-\subsection{Analytically optimal structure}
+\subsection{Optimal Finger Dimensions}
 
 When any structure would fail by breakage or plastic deformation,
 the structure could be enhanced by reinforcing the location where that fault would happen.
@@ -22,7 +22,7 @@ The width ratio is optimal when both materials would fail under the same load:
 \end{align*}
 where $\sigma$ is the yield stress.
 
-The optimized ratio between PLA and PP is therefore 
+The optimized ratio between PLA and PP is therefore
 $
 A_\text{PP} / A_\text{PLA} = \sigma_\text{PLA} / \sigma_\text{PP}  \approx 4.3
 $
@@ -38,3 +38,102 @@ Given that the ultimate shear stress is approximately half the ultimate tensile 
 this failure mode plays a role when the contact area between the beams is half the cross sectional area of a beam.
 However, the width of the beams is in the order of twice the nozzle size, whereas the layer height is in the order of a quarter of the nozzle size.
 If we keep the beams as high as two layers the shearing failure mode will not take effect.
+
+
+\subsection{Optimal Varying Finger Width}
+
+Let's consider a PLA finger which crosses $N=3$ beams, which is allowed to vary in width.
+See \cref{force_distribution}.
+Assuming both materials have the same stiffness $\sigma$.
+
+In general:
+\begin{align*}
+    \sigma &= \frac{F_x}{w_x h} \\
+    w_x &= \frac{F_x}{h\sigma} \\
+    w &= w_x + w_{N+1-x} \\
+    F_1 &= F_x + F_{N+2-x} \\
+    \frac{w_1}{h \sigma} &= \frac{w_x}{h \sigma} + \frac{w_{N+2-x}}{h \sigma} \\
+    w_1 &= w_x + w_{N+2-x} \\
+    w_N &= w - w _1 = w_{N+1-x} - w_{N+2-x} = w_x - w_{x+1} \\
+    w_x &= (N + 1 - x) * w_N
+\end{align*}
+
+For $N=2$:
+\begin{align*}
+    w_1 &= \frac{F_1}{h \sigma} \\
+    F_2 &= .5 F_1 \\
+    w_2 &= \frac{F_2}{h \sigma} = .5 \frac{F_1}{h \sigma} = .5 w_1 \\
+    w &= w_1 + w_2 \\
+    w_1 &= \nicefrac{2}{3} w \\
+    w_2 &= \nicefrac{1}{3} w
+\end{align*}
+
+
+For $N=3$:
+\begin{align*}
+	F_1 &= F_2 + F_3 \\
+    % \sigma &= \frac{F_x}{h w_x} \\
+    w_1 &= w - w_3 = \frac{F_1}{h\sigma} \\
+    w_3 &= w - w_1 = \frac{F_3}{h\sigma} = w - \frac{F_1}{h\sigma} \\
+    w_2 &= .5 w = \frac{F_2}{h\sigma} \\
+    F_2 &= .5 w h \sigma \\
+    F_3 &= F_1 - .5 w h \sigma \\
+    w_3 &= \frac{F_3}{h \sigma} = \frac{F_1}{h \sigma} - .5 w = w_1 - .5 w \\
+    w_3 &= w - w_1 = w_1 - .5 w \\
+    2 w_1 &= w + .5 w \\
+    w_1 &= .75 w \\
+    w_2 &= .5w \\
+    w_3 &= .25w
+\end{align*}
+
+For $N=4$:
+\begin{align*}
+    F_1 &= F_2 + F_4 \\
+    2 F_3 &= F_2 + F_4 \\
+    F_3 &= .5 F_1 \\
+    w_3 &= \frac{F_3}{h \sigma} = .5 \frac{F_1}{h \sigma} = .5 w_1 \\
+    \\
+    % w_1 &= \frac{F_1}{h \sigma} \\
+    % w_1 &= w - w_4 = \frac{F_1}{h\sigma} \\
+    w_4 &= w - w_1 = \frac{F_4}{h\sigma} = w - \frac{F_1}{h\sigma} \\
+    F_4 &= wh \sigma - F_1 \\
+    F_1 &= F_2 + wh \sigma - F_1 \\
+    F_2 &= 2 F_1 - w h \sigma \\
+    w_2 &= \frac{F_2}{h \sigma} = \frac{2 F_1 - w h \sigma}{h \sigma} \\
+     &= \frac{2 F_1}{h \sigma} - \frac{w h \sigma}{h \sigma} = 2 w_1 - w \\
+    w_3 &= w - w_2 = w - (2w_1 - w) = 2w - 2w_1 = 2 w_4 \\
+    w_3 &= 2w - 2w_1 = .5 w_1 \\
+    w_1 &= 4w - 4w_1 \\
+    5 w_1 &= 4w \\
+    w_1 &= \nicefrac{4}{5} w \\
+    w_2 &= 2 \nicefrac{4}{5} w - w = \nicefrac{3}{5} \\
+    w_3 &=  .5 w_1 = \nicefrac{2}{5} w \\
+    w_4 &= w - w_1 = \nicefrac{1}{5} w \\
+\end{align*}
+
+
+
+Given an extension $\epsilon$ of two parallel springs a and b which are connected at the ends:
+\begin{align*}
+    E &= \frac{\sigma}{\epsilon} \\
+    \sigma &= \frac{F}{A} \\
+    % F &= \sigma A = E \epsilon A \\
+    % F_a &= E_a \epsilon A_a \\
+    % F_b &= E_b \epsilon A_b \\
+    % \frac{F_a}{F_b} &= \frac{E_a A_a}{E_b A_b} \\
+    a
+\end{align*}
+
+
+
+\iffalse
+
+\begin{figure}
+	\centering
+	\includegraphics[height=.5\columnwidth]{sources/method/stress_distribution.pdf}
+	\caption{Force distribution along a beam with varying width.}
+	\label{force_distribution}
+\end{figure}
+
+\fi
+
