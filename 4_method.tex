@@ -67,7 +67,7 @@ In case one segment would have a higher stress than the others then that one wou
 
 \begin{align*}
     \sigma &= \frac{F_x}{w_x h} \\
-    F_x &= w_x h\sigma \\
+    % F_x &= w_x h\sigma \\
     w &= w_x + w_{N+1-x} \\
     F_1 &= F_x + F_{N+2-x} \\
     w_1 h \sigma &= w_x h \sigma + w_{N+2-x} h \sigma \\
@@ -83,17 +83,103 @@ We therefore conclude that if the two materials have the same properties
 the optimal fingers have a linear width change from $w$ at the base to $0$ at the tip.
 However, this result doesn't extrapolate when the materials have different properties.
 
-Given an extension $\epsilon$ of two parallel springs a and b which are connected at the ends:
+
+When the two materials are different it is not possible to optimize the structure such that both links will break at the same time.
+Since the links of the fingers are (inter)locked at either end the elongation of the link will be shared among both materials, so the material with the lowest value for elongation at break will always be the link that breaks first.
+
+Given an extension $\epsilon$ of a link consisting of two parallel beams $a$ and $b$ which are connected at the ends:
 \begin{align*}
-    E &= \frac{\sigma}{\epsilon} \\
-    \sigma &= \frac{F}{A} \\
-    % F &= \sigma A = E \epsilon A \\
-    % F_a &= E_a \epsilon A_a \\
-    % F_b &= E_b \epsilon A_b \\
-    % \frac{F_a}{F_b} &= \frac{E_a A_a}{E_b A_b} \\
-    a
+    E &\equiv \frac{\sigma}{\epsilon} \\
+    \sigma &= E \epsilon \\
+    \frac{\sigma_a}{\sigma_b} &=  \frac{E_a \epsilon}{E_b \epsilon} 
+    = \frac{E_a}{E_b}  \\
+    \\
+    \sigma &\equiv \frac{F}{A} \\
+    F &= \sigma A = E \epsilon hw \\
+    \frac{F_a}{F_b} &= \frac{E_a \epsilon h w_a}{E_b \epsilon h w_b}
+    = \frac{E_a w_a}{E_b w_b} \\
+    F_b &= F_a \frac{E_b w_b}{E_a w_a} \\
+\end{align*}
+So the actual distribution of stresses between the two beams depends on their relative Young's moduli and the total elongation.
+However, the total elongation depends on the widths of the beams.
+
+Let's assume that material $a$ yields (or breaks) at a lower strain value
+and that $a$ yields before $b$ yields (?), i.e. $\sigma_{a \text{ yield}} < \sigma_{b \text{ yield}} \nicefrac{E_A}{E_b}$.
+Then the total strain when the link fails is determined by $a$.
+
+
+\begin{align*}
+	\epsilon &= \frac{F_a}{E_a h w_a} \\
+	F &= F_a + F_b \\
+	&\dots \\
+	% &= F_a + F_a \frac{E_b w_b}{E_a w_a} \\
+	% &= F_a \left( 1 + \frac{E_b w_b}{E_a w_a} \right) \\
+	% &= \sigma_a h w_a \left( 1 + \frac{E_b w_b}{E_a w_a} \right) \\
+	% &= \sigma_a h \left( w_a + \frac{E_b}{E_a} w_b \right) \\
+	% &= \sigma_a h w_a + \sigma_a h \frac{E_b}{E_a} w_b \\
+	F^* &= \sigma_a^\text{yield} h \left( w_a + \frac{E_b}{E_a} w_b \right) \\
 \end{align*}
 
+So if the total width is constrained $w = w_a + w_b$ then the optimal distribution is $w = w_a$ and $w_b=0$.
+However, the widths are not constrained in such pairs.
+
+In general:
+\begin{align*}
+    \sigma_x^m &= \frac{F_x^m}{w_x^m h}\\
+    w &= w_x^a + w_{N+1-x}^b \\
+    F_1^a &= F_1^b = F_x^a + F_{N+2-x}^b \\
+    F_1^a &= F_1^b % = F_x^a + F^a_x \frac{E^b}{E^a} \frac{w^b_{N+2-x}}{w^a_x} \\
+     = F_x^a \left( 1 + \frac{E^b}{E^a} \frac{w^b_{N+2-x}}{w^a_x} \right) \\
+    % w_1^a h \sigma_1^a &= w_1^b h \sigma_1^b = w_x^a h \sigma_x^a + w_{N+2-x}^b h \sigma_{N+2-x}^b \\
+    w_1^a \sigma_1^a &= w_1^b \sigma_1^b = w_x^a \sigma_x^a \left( 1 + \frac{E^b}{E^a} \frac{w^b_{N+2-x}}{w^a_x} \right) \\
+    %&= w_x^a \sigma_x^a + w_x^a \sigma_x^a \frac{E^b}{E^a} \frac{w^b_{N+2-x}}{w^a_x} \\
+    &= w_x^a \sigma_x^a + \sigma_x^a \frac{E^b}{E^a} w^b_{N+2-x} \\
+    w_1^a &= w_x^a \frac{\sigma_x^a}{\sigma_1^a} + \frac{\sigma_x^a}{\sigma_1^a} \frac{E^b}{E^a} w^b_{N+2-x} \\
+    %w_1^a \sigma_1^a &= w_1^b \sigma_1^b = w_x^a \sigma_x^a + w_{N+2-x}^b \sigma_{N+2-x}^b \\
+    w_N^b &= w - w_1^a =  w_x^a + w_{N+1-x}^b  -  w_x^a \frac{\sigma_x^a}{\sigma_1^a} - \frac{\sigma_x^a}{\sigma_1^a} \frac{E^b}{E^a} w^b_{N+2-x} \\
+    &= w_x^a \left( 1 - \frac{\sigma_x^a}{\sigma_1^a} \right) + w_{N+1-x}^b - \frac{\sigma_x^a}{\sigma_1^a} \frac{E^b}{E^a} w^b_{N+2-x} \\
+\end{align*}
+
+If material $a$ will fail first then the optimal structure has the same stress for material $a$ in each beam, i.e. $\sigma_x^a = \sigma_1^a$.
+
+\begin{align*}
+	w_N^b &= w_{N+1-x}^b - \frac{E^b}{E^a} w^b_{N+2-x} \\
+	%w_N^b &= w_{N-1}^b - \frac{E^b}{E^a} w^b_N \\
+	%w_N^b \left( 1 + \frac{E^b}{E^a}  \right) &= w_{N-1}^b \\
+	%w_N^b &= w_{N-2}^b - \frac{E^b}{E^a} w^b_{N-1} \\
+	%w_N^b + \frac{E^b}{E^a} w^b_{N-1} &= w_{N-2}^b \\
+	%w_N^b + \frac{E^b}{E^a} w_N^b \left( 1 + \frac{E^b}{E^a}  \right) &= w_{N-2}^b %\\
+	%w_N^b \left( 1 + \frac{E^b}{E^a} \left( 1 + \frac{E^b}{E^a}  \right) \right) &= w_{N-2}^b \\
+	%\\
+	%w_{N+1-x}^b &= w_N^b + \frac{E^b}{E^a} w^b_{N+2-x} \\
+	&\dots \\
+	w^b_x &= w_N^b \left( 1 + \frac{E^b}{E^a}  \right)^{N-x} \\
+\end{align*}
+
+We will optimize the structure such that material $b$ will break at the base at the same point as material $a$ break anywhere along the chain, i.e. $\sigma^b_1 = \sigma^b_\text{yield}$ and $\sigma^a  = \sigma^a_\text{yield}$.
+
+\begin{align*}
+	\sigma_x^m &= \frac{F_x^m}{w_x^m h}\\
+	h w_1^a &= \frac{F_1^a}{\sigma^a} \\
+	&= \frac{F_1^b}{\sigma_1^b} \frac{\sigma^b_\text{yield}}{\sigma^a_\text{yield}}\\
+	&= w_1^b h \frac{\sigma^b_\text{yield}}{\sigma^a_\text{yield}}\\
+	w_1^a &= w_1^b \frac{\sigma^b_\text{yield}}{\sigma^a_\text{yield}}\\
+\end{align*}
+
+
+Let's consider the case for $N=2$, $a$ is PLA and $b$ is PP.
+
+\begin{align*}
+	w_1^\text{PLA} &= w_1^\text{PP} \frac{\sigma^\text{PP}_\text{yield}}{\sigma^\text{PLA}_\text{yield}} = w_1^\text{PP} \frac{8.7}{37} \\
+	w^\text{PP}_1 &=  w_2^\text{PP} \left( 1 + \frac{E^\text{PP}}{E^\text{PLA}}  \right) \\
+	&=  w_2^\text{PP} \left( 1 + \frac{220}{1820}  \right) \\
+	\\
+	w_1^\text{PLA} &= 1.1 \text{ (just below 3x nozzle size)}\\
+	w_1^\text{PP} &= 4.68 \\
+	w_2^\text{PP} &= 4.17 \\
+	w &= 5.27 \\
+	w_2^\text{PLA} &= 0.60 \\
+\end{align*}
 
 
 \iffalse
