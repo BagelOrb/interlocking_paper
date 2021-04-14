@@ -32,16 +32,16 @@ If we consider beams of a homogeneous width then the respective widths of the be
 The width ratio is optimal when both materials would fail under the same load:
 
 \begin{align*}
-	F_\text{PLA} &= F_\text{PP} \\
-	A_\text{PLA} \times \sigma_\text{PLA} &= 	A_\text{PP} \times \sigma_\text{PP}\\
-	\sigma_\text{PLA} &\approx 37 \si{\mega\pascal} \\
-	\sigma_\text{PP} &\approx 8.7 \si{\mega\pascal}
+	F^\text{PLA} &= F^\text{PP} \\
+	A^\text{PLA} \times \sigma_\text{PLA} &= 	A^\text{PP} \times \sigma_\text{PP}\\
+	\sigma^\text{PLA} &\approx 37 \si{\mega\pascal} \\
+	\sigma^\text{PP} &\approx 8.7 \si{\mega\pascal}
 \end{align*}
 where $\sigma$ is the yield stress.
 
 The optimized ratio between PLA and PP is therefore
 $
-A_\text{PP} / A_\text{PLA} = \sigma_\text{PLA} / \sigma_\text{PP}  \approx 4.3
+A^\text{PP} / A^\text{PLA} = \sigma^\text{PLA} / \sigma^\text{PP}  \approx 4.3
 $
 
 If we choose the width of the PLA beams to be two standard lines wide, \SI{0.7}{\milli\meter}, then the PP beams should be \SI{3.0}{\milli\meter}.
@@ -55,7 +55,12 @@ Given that the ultimate shear stress is approximately half the ultimate tensile 
 this failure mode plays a role when the contact area between the beams is half the cross sectional area of a beam.
 However, the width of the beams is in the order of twice the nozzle size, whereas the layer height is in the order of a quarter of the nozzle size.
 If we keep the beams as high as two layers the shearing failure mode will not take effect.
-
+\begin{align*}
+	\sigma_\text{tensile} &= \frac{F}{h w_\text{finger}} \\
+	\sigma_\text{shear} &= \frac{F}{w_\text{beam} w_\text{finger}} \\
+	\sigma_\text{ultimate shear}^m &\in \left(50\%,100\%\right) \sigma_\text{ultimate tensile}^m \text{ for any material $m$} \\
+	h &< \nicefrac12 w_\text{beam} \\ 
+\end{align*}
 
 \subsection{Optimal Varying Finger Width}
 
@@ -88,41 +93,56 @@ Since the links of the fingers are (inter)locked at either end the elongation of
 
 Given an extension $\epsilon$ of a link consisting of two parallel beams $a$ and $b$ which are connected at the ends:
 \begin{align*}
-    E &\equiv \frac{\sigma}{\epsilon} \\
-    \sigma &= E \epsilon \\
-    \frac{\sigma_a}{\sigma_b} &=  \frac{E_a \epsilon}{E_b \epsilon} 
-    = \frac{E_a}{E_b}  \\
-    \\
-    \sigma &\equiv \frac{F}{A} \\
-    F &= \sigma A = E \epsilon hw \\
-    \frac{F_a}{F_b} &= \frac{E_a \epsilon h w_a}{E_b \epsilon h w_b}
-    = \frac{E_a w_a}{E_b w_b} \\
-    F_b &= F_a \frac{E_b w_b}{E_a w_a} \\
+	E &\equiv \frac{\sigma}{\epsilon} \\
+	\sigma &= E \epsilon \\
+	\frac{\sigma^a}{\sigma^b} &=  \frac{E^a \epsilon}{E^b \epsilon} 
+	= \frac{E^a}{E^b}  \\
+	\\
+	\sigma &\equiv \frac{F}{A} \\
+	F &= \sigma A = E \epsilon hw \\
+	\frac{F^a}{F^b} &= \frac{E^a \epsilon h w^a}{E^b \epsilon h w^b}
+	= \frac{E^a w^a}{E^b w^b} \\
+	F^b &= F^a \frac{E^b}{E^a} \frac{w^b}{w^a} \\
+	\\
+	F^a &= F^b \frac{E^a}{E^b} \frac{w^a}{w^b} \\
 \end{align*}
 So the actual distribution of stresses between the two beams depends on their relative Young's moduli and the total elongation.
 However, the total elongation depends on the widths of the beams.
 
 Let's assume that material $a$ yields (or breaks) at a lower strain value
-and that $a$ yields before $b$ yields (?), i.e. $\sigma_{a \text{ yield}} < \sigma_{b \text{ yield}} \nicefrac{E_A}{E_b}$.
+and that $a$ yields before $b$ yields (?), i.e. $\sigma^a_{\text{ yield}} < \sigma^b_{\text{ yield}} \nicefrac{E^a}{E^b}$.
 Then the total strain when the link fails is determined by $a$.
 
 
 \begin{align*}
-	\epsilon &= \frac{F_a}{E_a h w_a} \\
-	F &= F_a + F_b \\
+	\epsilon &= \frac{F^a}{E^a h w^a} \\
+	F &= F^a + F^b \\
 	&\dots \\
-	% &= F_a + F_a \frac{E_b w_b}{E_a w_a} \\
-	% &= F_a \left( 1 + \frac{E_b w_b}{E_a w_a} \right) \\
-	% &= \sigma_a h w_a \left( 1 + \frac{E_b w_b}{E_a w_a} \right) \\
-	% &= \sigma_a h \left( w_a + \frac{E_b}{E_a} w_b \right) \\
-	% &= \sigma_a h w_a + \sigma_a h \frac{E_b}{E_a} w_b \\
-	F^* &= \sigma_a^\text{yield} h \left( w_a + \frac{E_b}{E_a} w_b \right) \\
+	% &= F^a + F^a \frac{E^b w^b}{E^a w^a} \\
+	% &= F^a \left( 1 + \frac{E^b w^b}{E^a w^a} \right) \\
+	% &= \sigma^a h w^a \left( 1 + \frac{E^b w^b}{E^a w^a} \right) \\
+	% &= \sigma^a h \left( w^a + \frac{E^b}{E^a} w^b \right) \\
+	% &= \sigma^a h w^a + \sigma^a h \frac{E^b}{E^a} w^b \\
+	F^* &= \sigma^a_\text{yield} h \left( w^a + \frac{E^b}{E^a} w^b \right) \\
 \end{align*}
 
-So if the total width is constrained $w = w_a + w_b$ then the optimal distribution is $w = w_a$ and $w_b=0$.
+So if the total width is constrained $w = w^a + w^b$ then the optimal distribution is $w = w^a$ and $w^b=0$.
 However, the widths are not constrained in such pairs.
 
 In general:
+\iffalse
+\begin{align*}
+    \sigma_x^m &= \frac{F_x^m}{w_x^m h}\\
+	w &= w_x^a + w_{N+1-x}^b \\
+	F_1^a &= F_1^b = F_x^a + F_{N+2-x}^b \\
+	F_1^a &= F_1^b = F_{N+2-x}^b \frac{E^a}{E^b} \frac{w_x^a}{w_{N+2-x}^b} + F_{N+2-x}^b \\
+	F_1^b &= F_{N+2-x}^b \left( 1 + \frac{E^a}{E^b} \frac{w_x^a}{w_{N+2-x}^b} \right) \\
+	w_1^b \sigma_1^b &= w_{N+2-x}^b \sigma_{N+2-x}^b \left( 1 + \frac{E^a}{E^b} \frac{w_x^a}{w_{N+2-x}^b} \right) \\
+	w_1^b &= \frac{\sigma_{N+2-x}^b}{\sigma_1^b} \left( w_{N+2-x}^b + \frac{E^a}{E^b} w_x^a \right) \\
+\end{align*}
+This isn't going anywhere, because there's no specific relationship for $\frac{\sigma_{N+2-x}^b}{\sigma_1^b}$.
+\fi
+
 \begin{align*}
     \sigma_x^m &= \frac{F_x^m}{w_x^m h}\\
     w &= w_x^a + w_{N+1-x}^b \\
@@ -143,16 +163,28 @@ If material $a$ will fail first then the optimal structure has the same stress f
 
 \begin{align*}
 	w_N^b &= w_{N+1-x}^b - \frac{E^b}{E^a} w^b_{N+2-x} \\
-	%w_N^b &= w_{N-1}^b - \frac{E^b}{E^a} w^b_N \\
-	%w_N^b \left( 1 + \frac{E^b}{E^a}  \right) &= w_{N-1}^b \\
-	%w_N^b &= w_{N-2}^b - \frac{E^b}{E^a} w^b_{N-1} \\
-	%w_N^b + \frac{E^b}{E^a} w^b_{N-1} &= w_{N-2}^b \\
-	%w_N^b + \frac{E^b}{E^a} w_N^b \left( 1 + \frac{E^b}{E^a}  \right) &= w_{N-2}^b %\\
-	%w_N^b \left( 1 + \frac{E^b}{E^a} \left( 1 + \frac{E^b}{E^a}  \right) \right) &= w_{N-2}^b \\
+	w_N^b &= w_{x}^b - \frac{E^b}{E^a} w^b_{x+1} \\
+	w_{x}^b &= w_N^b + \frac{E^b}{E^a} w^b_{x+1} \\
 	%\\
-	%w_{N+1-x}^b &= w_N^b + \frac{E^b}{E^a} w^b_{N+2-x} \\
-	&\dots \\
-	w^b_x &= w_N^b \left( 1 + \frac{E^b}{E^a}  \right)^{N-x} \\
+	%% x = N - 1
+	%w_{N-1}^b &= w_N^b + \frac{E^b}{E^a} w^b_{N} \\
+	%&= w_N^b \left( 1 + \frac{E^b}{E^a} \right) \\
+	%\\
+	%% x = N - 2
+	%w_{N-2}^b &= w_N^b + \frac{E^b}{E^a} w^b_{N-1} \\
+	%&= w_N^b + \frac{E^b}{E^a} w_N^b \left( 1 + \frac{E^b}{E^a} \right) \\
+	%&= w_N^b \left( 1 + \frac{E^b}{E^a} \left( 1 + \frac{E^b}{E^a} \right) \right) \\
+	%&= w_N^b \left( 1 + \frac{E^b}{E^a} + \left(\frac{E^b}{E^a} \right)^2 \right) \right) \\
+	%\\
+	%% x = N - 3
+	%w_{N-3}^b &= w_N^b + \frac{E^b}{E^a} w^b_{N-2} \\
+	%&= w_N^b + \frac{E^b}{E^a} w_N^b \left( 1 + \frac{E^b}{E^a} \left( 1 + \frac{E^b}{E^a} \right) \right) \\
+	%&= w_N^b \left( 1 + \frac{E^b}{E^a} \left( 1 + \frac{E^b}{E^a} \left( 1 + \frac{E^b}{E^a} \right) \right) \right) \\
+	%&= w_N^b \left( 1 + \frac{E^b}{E^a} + \left(\frac{E^b}{E^a} \right)^2  + \left(\frac{E^b}{E^a} \right)^3 \right) \right) \\
+	%\\
+	\dots \\
+	%w^b_{N-x} &= w^b_N \left( \left(\frac{E^b}{E^a}\right)^0 + \dots + \left(\frac{E^b}{E^a}\right)^x \right) \\
+	w^b_{N-x} &= w^b_N \sum\limits_{i=0}^x \left(\frac{E^b}{E^a}\right)^i \\
 \end{align*}
 
 We will optimize the structure such that material $b$ will break at the base at the same point as material $a$ break anywhere along the chain, i.e. $\sigma^b_1 = \sigma^b_\text{yield}$ and $\sigma^a  = \sigma^a_\text{yield}$.
@@ -173,13 +205,19 @@ Let's consider the case for $N=2$, $a$ is PLA and $b$ is PP.
 	w^\text{PP}_1 &=  w_2^\text{PP} \left( 1 + \frac{E^\text{PP}}{E^\text{PLA}}  \right) \\
 	&=  w_2^\text{PP} \left( 1 + \frac{220}{1820}  \right) \\
 	\\
-	w_1^\text{PLA} &= 1.1 \text{ (just below 3x nozzle size)}\\
+	w_1^\text{PLA} &= 1.1 \text{ (just below $3\times$ nozzle size)}\\
 	w_1^\text{PP} &= 4.68 \\
 	w_2^\text{PP} &= 4.17 \\
 	w &= 5.27 \\
 	w_2^\text{PLA} &= 0.60 \\
 \end{align*}
 
+To verify:
+\begin{align*}
+	\frac{w_2^\text{PLA}}{w_1^\text{PP}} &= \frac{F^\text{PLA} E^\text{PP}}{F^\text{PP} E^\text{PLA}} \\
+	\\
+	\frac{F_\text{PLA}}{F_\text{PP}} &= \frac{E_\text{PLA} w_\text{PLA}}{E_\text{PP} w_\text{PP}} \\
+\end{align*}
 
 \iffalse
 
