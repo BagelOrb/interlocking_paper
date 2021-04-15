@@ -185,18 +185,55 @@ To verify:
 
 \fi
 
+\subsection{Optimal Cross Beam Dimensions}
+
+Optimize against beam shear-breaking
+
+\begin{align*}
+ 	 F^{a \text{,beam}}_x &= F^a_x - F^a_{x+1} + F^b_{N+1-x} - F^b_{N+2-x} \\
+	 &= F^a_x - F^a_{x+1} + \left(F^a_1 - F^a_{x+1}\right) - \left(F^a_1 - F^a_x\right) \\
+	 &= F^a_x - F^a_{x+1} - F^a_{x+1} + F^a_x \\
+	 &= 2 F^a_x - 2 F^a_{x+1} \\
+	 &= 2 \sigma^a_x h w^a_x - 2 \sigma^a_{x+1} h w^a_{x+1} \\
+	 &= 2 \sigma^a_\text{yield} h \left( w^a_x - w^a_{x+1} \right) \\
+	 &= 2 \sigma^a_\text{yield} h \left( w - w^b_N \sum\limits_{i=0}^{N-x} \left(\frac{E^b}{E^a}\right)^i - w + w^b_N \sum\limits_{i=0}^{N-x-1} \left(\frac{E^b}{E^a}\right)^i \right) \\
+	 &= 2 \sigma^a_\text{yield} h w^b_N \left(\frac{E^b}{E^a}\right)^{N-x} \\
+\end{align*}
+
+So the cross beams of material $a$ would shear-break when
+\begin{align*}
+	A^a_x &= \frac{  2 \sigma^a_\text{yield} h w^b_N \left(\nicefrac{E^b}{E^a}\right)^{N-x}  }{\sigma^a_\text{shear}} \\
+	&=   2 \frac{\sigma^a_\text{yield}}{\sigma^a_\text{shear}} h w^b_N \left(\frac{E^b}{E^a}\right)^{N-x}   \\
+	\sigma^a_\text{shear} &\approx \nicefrac34 \sigma^a_\text{yield} \\ 
+	A^a_x &\approx  \nicefrac83 h w^b_N \left(\frac{E^b}{E^a}\right)^{N-x}   \\
+\end{align*}
+
+
+What if we make the height of cross beams higher than the fingers?
+That way we can ensure that the pattern stays relatively shallow.
+
+Make sure the under-tensioned PP links also don't cause problems
+
+Make sure shearing off doesn't happen.
+
+
+Draw failure modes!
+
+
+
 
 \subsection{Orientation}
 According to experimental results the diagonal orientation outperforms the axis aligned one.
 See \cref{graph:45vs90}.
-Tensile tests were performed on $15\times15\times100$\si{\milli\meter} bars of Ultimaker green Tough PLA and Ultimaker transparent PP
+Tensile tests were performed on $14.6\times15\times100$\si{\milli\meter} bars of Ultimaker green Tough PLA and Ultimaker transparent PP
 printed on an Ultimaker S5 at a default layer height profile of \SI{0.1}{\milli\meter} with an adjusted infill density of \SI{80}{\percent}
 on an Instron 3366 Universal Testing machine at \SI{5}{\milli\meter\per\minute}.
-
+The structures consisted of beams with a constant width of twice the outer wall line width, i.e. \SI{0.7}{\milli\meter} and \SI{0.76}{\milli\meter} for TPLA and PP respectively,
+oriented at \SI{90}{\degree} and \SI{45}{\degree} w.r.t the tensile force.
 
 \begin{figure}
 	\centering
-	\includegraphics[height=.66\columnwidth]{sources/testing/45vs90.png}
+	\includegraphics[width=.5\columnwidth]{sources/testing/45vs90.png}
 	\caption{Impact of pattern orientation.}
 	\label{graph:45vs90}
 \end{figure}
@@ -204,7 +241,7 @@ on an Instron 3366 Universal Testing machine at \SI{5}{\milli\meter\per\minute}.
 
 \begin{figure}
 	\centering
-	\includegraphics[height=.66\columnwidth]{sources/testing/45vs90_stress_strain.png}
+	\includegraphics[width=\columnwidth]{sources/testing/45vs90_stress_strain.png}
 	\caption{Impact of pattern orientation.}
 	\label{graph:45vs90_stress_strain}
 \end{figure}
