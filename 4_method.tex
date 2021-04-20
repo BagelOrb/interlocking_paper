@@ -86,7 +86,7 @@ Given an extension $\epsilon$ of a link consisting of two parallel beams $a$ and
 	\\
 	\sigma &\equiv \frac{F}{A} \\
 	F &= \sigma A = E \epsilon hw \\
-	\frac{F^a}{F^b} &= \frac{E^a \epsilon h w^a}{E^b \epsilon h w^b}
+	\frac{F^a}{F^b} &= \frac{E^a \epsilon h_\text{f} w^a}{E^b \epsilon h_\text{f} w^b}
 	= \frac{E^a w^a}{E^b w^b} \\
 	F^b &= F^a \frac{E^b}{E^a} \frac{w^b}{w^a} \\
 \end{align*}
@@ -113,19 +113,19 @@ This isn't going anywhere, because there's no specific relationship for $\frac{\
 \fi
 
 \begin{align*}
-    \sigma_x^m &= \frac{F_x^m}{w_x^m h}\\
-    w &= w_x^a + w_{N+1-x}^b \\
-    F_1^a &= F_1^b = F_x^a + F_{N+2-x}^b \\
-    F_1^a &= F_1^b % = F_x^a + F^a_x \frac{E^b}{E^a} \frac{w^b_{N+2-x}}{w^a_x} \\
-     = F_x^a \left( 1 + \frac{E^b}{E^a} \frac{w^b_{N+2-x}}{w^a_x} \right) \\
-    % w_1^a h \sigma_1^a &= w_1^b h \sigma_1^b = w_x^a h \sigma_x^a + w_{N+2-x}^b h \sigma_{N+2-x}^b \\
-    w_1^a \sigma_1^a &= w_1^b \sigma_1^b = w_x^a \sigma_x^a \left( 1 + \frac{E^b}{E^a} \frac{w^b_{N+2-x}}{w^a_x} \right) \\
-    %&= w_x^a \sigma_x^a + w_x^a \sigma_x^a \frac{E^b}{E^a} \frac{w^b_{N+2-x}}{w^a_x} \\
-    &= w_x^a \sigma_x^a + \sigma_x^a \frac{E^b}{E^a} w^b_{N+2-x} \\
-    w_1^a &= w_x^a \frac{\sigma_x^a}{\sigma_1^a} + \frac{\sigma_x^a}{\sigma_1^a} \frac{E^b}{E^a} w^b_{N+2-x} \\
-    %w_1^a \sigma_1^a &= w_1^b \sigma_1^b = w_x^a \sigma_x^a + w_{N+2-x}^b \sigma_{N+2-x}^b \\
-    w_N^b &= w - w_1^a =  w_x^a + w_{N+1-x}^b  -  w_x^a \frac{\sigma_x^a}{\sigma_1^a} - \frac{\sigma_x^a}{\sigma_1^a} \frac{E^b}{E^a} w^b_{N+2-x} \\
-    &= w_x^a \left( 1 - \frac{\sigma_x^a}{\sigma_1^a} \right) + w_{N+1-x}^b - \frac{\sigma_x^a}{\sigma_1^a} \frac{E^b}{E^a} w^b_{N+2-x} \\
+	\sigma_x^m &= \frac{F_x^m}{w_x^m h}\\
+	w &= w_x^a + w_{N+1-x}^b \\
+	F_1^a &= F_1^b = F_x^a + F_{N+2-x}^b \\
+	F_1^a &= F_1^b % = F_x^a + F^a_x \frac{E^b}{E^a} \frac{w^b_{N+2-x}}{w^a_x} \\
+	= F_x^a \left( 1 + \frac{E^b}{E^a} \frac{w^b_{N+2-x}}{w^a_x} \right) \\
+	% w_1^a h_\text{f} \sigma_1^a &= w_1^b h_\text{f} \sigma_1^b = w_x^a h_\text{f} \sigma_x^a + w_{N+2-x}^b h_\text{f} \sigma_{N+2-x}^b \\
+	w_1^a \sigma_1^a &= w_1^b \sigma_1^b = w_x^a \sigma_x^a \left( 1 + \frac{E^b}{E^a} \frac{w^b_{N+2-x}}{w^a_x} \right) \\
+	%&= w_x^a \sigma_x^a + w_x^a \sigma_x^a \frac{E^b}{E^a} \frac{w^b_{N+2-x}}{w^a_x} \\
+	&= w_x^a \sigma_x^a + \sigma_x^a \frac{E^b}{E^a} w^b_{N+2-x} \\
+	w_1^a &= w_x^a \frac{\sigma_x^a}{\sigma_1^a} + \frac{\sigma_x^a}{\sigma_1^a} \frac{E^b}{E^a} w^b_{N+2-x} \\
+	%w_1^a \sigma_1^a &= w_1^b \sigma_1^b = w_x^a \sigma_x^a + w_{N+2-x}^b \sigma_{N+2-x}^b \\
+	w_N^b &= w - w_1^a =  w_x^a + w_{N+1-x}^b  -  w_x^a \frac{\sigma_x^a}{\sigma_1^a} - \frac{\sigma_x^a}{\sigma_1^a} \frac{E^b}{E^a} w^b_{N+2-x} \\
+	&= w_x^a \left( 1 - \frac{\sigma_x^a}{\sigma_1^a} \right) + w_{N+1-x}^b - \frac{\sigma_x^a}{\sigma_1^a} \frac{E^b}{E^a} w^b_{N+2-x} \\
 \end{align*}
 
 If material $a$ will fail first then the optimal structure has the same stress for material $a$ in each beam, i.e. $\sigma_x^a = \sigma_1^a$.
@@ -152,20 +152,35 @@ If material $a$ will fail first then the optimal structure has the same stress f
 	%&= w_N^b \left( 1 + \frac{E^b}{E^a} + \left(\frac{E^b}{E^a} \right)^2  + \left(\frac{E^b}{E^a} \right)^3 \right) \right) \\
 	%\\
 	\dots \\
-	%w^b_{N-x} &= w^b_N \left( \left(\frac{E^b}{E^a}\right)^0 + \dots + \left(\frac{E^b}{E^a}\right)^x \right) \\
-	w^b_{N-x} &= w^b_N \sum\limits_{i=0}^x \left(\frac{E^b}{E^a}\right)^i \\
+	%w^b_{N-x} &= w^b_N \sum\limits_{i=0}^x \left(\frac{E^b}{E^a}\right)^i \\
+	w^b_{x} &= w^b_N \sum\limits_{i=0}^{N-x} \left(\frac{E^b}{E^a}\right)^i \\
 \end{align*}
 
 We will optimize the structure such that material $b$ will break at the base at the same point as material $a$ break anywhere along the chain, i.e. $\sigma^b_1 = \sigma^b_\text{yield}$ and $\sigma^a  = \sigma^a_\text{yield}$.
 
 \begin{align*}
 	%\sigma_x^m &= \frac{F_x^m}{w_x^m h}\\
-	h w_1^a &= \frac{F_1^a}{\sigma^a} \\
+	h_\text{f} w_1^a &= \frac{F_1^a}{\sigma^a} \\
 	%&= \frac{F_1^b}{\sigma_1^b} \frac{\sigma^b_\text{yield}}{\sigma^a_\text{yield}}\\
-	&= w_1^b h \frac{\sigma^b_\text{yield}}{\sigma^a_\text{yield}}\\
+	&= w_1^b h_\text{f} \frac{\sigma^b_\text{yield}}{\sigma^a_\text{yield}}\\
 	w_1^a &= w_1^b \frac{\sigma^b_\text{yield}}{\sigma^a_\text{yield}}\\
 \end{align*}
 
+
+Then we can derive the other widths of material $a$ using the total width, which stays constant:
+
+\begin{align*}
+	w &= w^a_1 + w^b_N \\
+	&= w_1^b \frac{\sigma^b_\text{yield}}{\sigma^a_\text{yield}} + w^b_N \\
+	&= w^b_N \sum\limits_{i=0}^{N-1} \left(\frac{E^b}{E^a}\right)^i \frac{\sigma^b_\text{yield}}{\sigma^a_\text{yield}} + w^b_N \\
+	&= w^b_N \left( \frac{\sigma^b_\text{yield}}{\sigma^a_\text{yield}} \sum\limits_{i=0}^{N-1} \left(\frac{E^b}{E^a}\right)^i  + 1 \right) \\
+	\\
+	w^a_x &= w - w^b_{N+1-x} \\
+	&= w^b_N \left( \frac{\sigma^b_\text{yield}}{\sigma^a_\text{yield}} \sum\limits_{i=0}^{N-1} \left(\frac{E^b}{E^a}\right)^i  + 1 \right) - \left( w^b_N \sum\limits_{i=0}^{x-1} \left(\frac{E^b}{E^a}\right)^i  \right) \\
+	&= w^b_N \left( 1 + \frac{\sigma^b_\text{yield}}{\sigma^a_\text{yield}} \sum\limits_{i=0}^{N-1} \left(\frac{E^b}{E^a}\right)^i  - \sum\limits_{i=0}^{x-1} \left(\frac{E^b}{E^a}\right)^i  \right) \\
+\end{align*}
+
+\iffalse
 
 Let's consider the case for $N=2$, $a$ is PLA and $b$ is PP.
 
@@ -188,7 +203,6 @@ To verify:
 	\frac{F_\text{PLA}}{F_\text{PP}} &= \frac{E_\text{PLA} w_\text{PLA}}{E_\text{PP} w_\text{PP}} \\
 \end{align*}
 
-\iffalse
 
 \begin{figure}
 	\centering
@@ -199,28 +213,71 @@ To verify:
 
 \fi
 
+
+
 \subsection{Optimal Cross Beam Dimensions}
 
-Optimize against beam shear-breaking
+Optimize the cross beams against beam shear-breaking:
 
 \begin{align*}
- 	 F^{a \text{,beam}}_x &= F^a_x - F^a_{x+1} + F^b_{N+1-x} - F^b_{N+2-x} \\
-	 &= F^a_x - F^a_{x+1} + \left(F^a_1 - F^a_{x+1}\right) - \left(F^a_1 - F^a_x\right) \\
-	 &= F^a_x - F^a_{x+1} - F^a_{x+1} + F^a_x \\
-	 &= 2 F^a_x - 2 F^a_{x+1} \\
-	 &= 2 \sigma^a_x h w^a_x - 2 \sigma^a_{x+1} h w^a_{x+1} \\
-	 &= 2 \sigma^a_\text{yield} h \left( w^a_x - w^a_{x+1} \right) \\
-	 &= 2 \sigma^a_\text{yield} h \left( w - w^b_N \sum\limits_{i=0}^{N-x} \left(\frac{E^b}{E^a}\right)^i - w + w^b_N \sum\limits_{i=0}^{N-x-1} \left(\frac{E^b}{E^a}\right)^i \right) \\
-	 &= 2 \sigma^a_\text{yield} h w^b_N \left(\frac{E^b}{E^a}\right)^{N-x} \\
+	F^{b \text{,beam}}_x &=F^{a \text{,beam}}_{N+1-x} \\
+	\\
+	F^{a \text{,beam}}_1 &= F^a_1 \\
+	F^{a \text{,beam}}_N &= F^a_N \\
+	\\
+	\forall x &: 1 < x < N  : \\
+	F^{a \text{,beam}}_x &= F^a_x - F^a_{x+1} \\
+	&= \sigma^a_x h_\text{f} w^a_x - \sigma^a_{x+1} h_\text{f} w^a_{x+1} \\
+	&= \sigma^a_\text{yield} h_\text{f} \left( w^a_x - w^a_{x+1} \right) \\
+	&= \sigma^a_\text{yield} h_\text{f} \left( w - w^b_N \sum\limits_{i=0}^{N-x} \left(\frac{E^b}{E^a}\right)^i - w + w^b_N \sum\limits_{i=0}^{N-x-1} \left(\frac{E^b}{E^a}\right)^i \right) \\
+	&= \sigma^a_\text{yield} h_\text{f} w^b_N \left(\frac{E^b}{E^a}\right)^{N-x} \\
 \end{align*}
 
 So the cross beams of material $a$ would shear-break when
 \begin{align*}
-	A^a_x &= \frac{  2 \sigma^a_\text{yield} h w^b_N \left(\nicefrac{E^b}{E^a}\right)^{N-x}  }{\sigma^a_\text{shear}} \\
-	&=   2 \frac{\sigma^a_\text{yield}}{\sigma^a_\text{shear}} h w^b_N \left(\frac{E^b}{E^a}\right)^{N-x}   \\
+	v^a_x  h_\text{c} &= \frac{ F^{a \text{,beam}}_x }{\sigma^a_\text{shear}} \\
+	v^a_x &= \frac{ F^{a \text{,beam}}_x }{\sigma^a_\text{shear} h_\text{c}} \\
+	\\
+	v^a_1 &= \frac{ F^a_1 }{\sigma^a_\text{shear} h_\text{c}} \\
+	&= \frac{ \sigma^a_\text{yield}  w^a_1 h_\text{f}}{\sigma^a_\text{shear} h_\text{c} } \\
+	v^a_N &= \frac{ F^a_N }{\sigma^a_\text{shear} h_\text{c}} \\
+	&= \frac{ \sigma^a_\text{yield} w^a_N h_\text{f} }{\sigma^a_\text{shear} h_\text{c} } \\
+	\\
+	% &= \frac{  \sigma^a_\text{yield} \frac{h_\text{f}}{h_\text{c} } w^b_N \left(\nicefrac{E^b}{E^a}\right)^{N-x}  }{\sigma^a_\text{shear}} \\
+	v^a_x &=   \frac{\sigma^a_\text{yield}}{\sigma^a_\text{shear}} \frac{h_\text{f}}{h_\text{c} } w^b_N \left(\frac{E^b}{E^a}\right)^{N-x}   \\
 	\sigma^a_\text{shear} &\approx \nicefrac34 \sigma^a_\text{yield} \\ 
-	A^a_x &\approx  \nicefrac83 h w^b_N \left(\frac{E^b}{E^a}\right)^{N-x}   \\
+	v^a_x &\approx  \nicefrac43 \frac{h_\text{f}}{h_\text{c} } w^b_N \left(\frac{E^b}{E^a}\right)^{N-x}   \\
 \end{align*}
+
+\begin{align*}
+	v^b_x &= \frac{ F^{b \text{,beam}}_x }{\sigma^b_\text{shear} h_\text{c}} \\
+	&=  \frac{ \sigma^a_\text{yield} }{\sigma^b_\text{shear} } \frac{ h_\text{f}  }{h_\text{c}}   w^b_N \left(\frac{E^b}{E^a}\right)^{x-1} \\
+\end{align*}
+
+In order to keep the pattern as short as possible, i.e. to minimize the $v$ values,
+we would like to maximize $h_\text{c}$ and minimize $h_\text{f}$.
+
+
+\subsection{Shearing requirement}
+If the height of the total pattern becomes too high the stresses will concentrate along the interface between the fingers and the cross beams.
+The total height $h$ of the pattern should therefore be limited:
+
+
+\begin{align*}
+	\frac{F^{a \text{,beam}}_x }{2w^a_x v^a_x} &< \sigma^a_\text{shear} \\
+	\frac{F^{a \text{,beam}}_x }{ \sigma^a_\text{shear}} &< 2 w^a_x v^a_x \\
+	\frac{F^{a \text{,beam}}_x }{ \sigma^a_\text{shear}} &< 2 w^a_x \frac{ F^{a \text{,beam}}_x }{\sigma^a_\text{shear} h_\text{c}} \\
+	h_\text{c} &< 2 w^a_x  \\
+\end{align*}
+(The contact area between a finger and the beam above and the beam below is given by $2 w^a_x v^a_x$ because it's the same on top of the finger as on the bottom.)
+
+Since this holds for all widths, we only need to look at the link with the smallest width:
+\begin{align*}
+	h_\text{c} &< 2 w^a_N \\
+	h_\text{c} &< 2 w^b_N \left( 1 + \frac{\sigma^b_\text{yield}}{\sigma^a_\text{yield}} \sum\limits_{i=0}^{N-1} \left(\frac{E^b}{E^a}\right)^i  - \sum\limits_{i=0}^{N-1} \left(\frac{E^b}{E^a}\right)^i  \right) \\
+	h_\text{c} &< 2 w^b_N \left( 1 + \left( \frac{\sigma^b_\text{yield}}{\sigma^a_\text{yield}} - 1 \right)     \sum\limits_{i=0}^{N-1} \left(\frac{E^b}{E^a}\right)^i   \right) \\
+\end{align*}
+
 
 
 What if we make the height of cross beams higher than the fingers?
@@ -231,9 +288,13 @@ Make sure the under-tensioned PP links also don't cause problems
 Make sure shearing off doesn't happen.
 
 
-Draw failure modes!
+The analytical approach presented here depends on some simplifications
 
 
+\subsection{Examples}
+Example geometry for N equal 1 to 4;
+
+Show max equivalent stress etc.
 
 
 \subsection{Orientation}
