@@ -77,7 +77,24 @@ Since the links of the fingers are (inter)locked at either end the elongation of
 We therefore set the stress along all links with the material with the lower elongation at break at the yield stress, while setting only the stress of the base link of the other material at its respective yield stress;
 the stresses of the other links will be lower, because they are constrained.
 
-Given an extension $\epsilon$ of a link consisting of two parallel beams $a$ and $b$ which are connected at the ends:
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{\columnwidth}
+		\includegraphics[width=\columnwidth]{sources/method/varying_width_fingers.pdf}
+		\caption{Top view}
+	\end{subfigure}
+	\begin{subfigure}{\columnwidth}
+		\includegraphics[width=\columnwidth]{sources/method/stress_distribution.pdf}
+		\caption{Side view (schematic)}
+	\end{subfigure}
+\caption{Tension forces in the links of fingers with varying width. The effective width of a link equals the smallest width along the link.}
+\label{force_distribution}
+\end{figure}
+
+
+Given an extension $\epsilon$ of a link consisting of two parallel beams $a$ and $b$ which are connected at the ends,
+the distribution of forces depends on the ratio in Young's moduli and the ratio in cross section:
 \begin{align*}
 	E &\equiv \frac{\sigma}{\epsilon} \\
 	\sigma &= E \epsilon \\
