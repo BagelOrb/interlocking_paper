@@ -364,7 +364,92 @@ If we add a constraint on the total length $\sum v^a_x + \sum v^b_x$ then $N=1$ 
 \subsection{Examples}
 Example geometry for N equal 1 to 4;
 
-Show max equivalent stress etc.
+Show max equivalent stress etc. in a graph
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Slanted design}
+So far we have considered the situation where the grid pattern of the interlocking structure is aligned with the interface.
+Let's consider other orientations as well.
+Since the tensile force applied is aligned with the normal of the interface, the situation is symmetrical.
+It would make sense that the optimal pattern is also symmetrical.
+We therefore only consider the diagonal orientation in which the angle between both beams and the interface $\alpha$ is the same.
+However, this angle doesn't neccesarily have to be \SI{45}{\degree} if we allow the microstructure cell shape to be parallelepiped instead of cuboid.
+
+In such a case the tensile force on the specimen has two components in the beams:
+one in the axial direction and one in the orthogonal direction,
+corresponding to a tensile force $F_\text{t}$ and a shear force  $F_\text{s}$ component.
+\begin{align}
+	F_\text{t} &= F \cos \alpha \\
+	F_\text{s} &= F \sin \alpha \\
+	F &= \frac{F_\text{t}}{\cos \alpha} \\
+	F &= \frac{F_\text{s}}{\sin \alpha} \\
+\end{align}
+
+A beam with width $w$ and height $h$ will fail when either:
+\begin{align}
+	F_\text{t} &= \sigma_\text{yield} w h \\
+	F_\text{s} &= \tau w h 
+\end{align}
+
+In the optimal case both tensile and shear failure will happen at the same time.
+In such a case, however, the tensile and shear forces will interact and the structure will break at a lower total force compared to when these two breaking scenarios were independent.
+
+Without such an interaction, we can compute the optimal angle for either of the materials as such:
+\begin{align}
+	% F &= F
+	\frac{F_\text{t}}{\cos \alpha} &= \frac{F_\text{s}}{\sin \alpha} \\
+	\frac{\sigma_\text{yield} w h}{\cos \alpha} &= \frac{\tau w h}{\sin \alpha} \\
+	\frac{\sigma_\text{yield}}{\cos \alpha} &= \frac{\tau}{\sin \alpha} \\
+	\frac{\sin \alpha}{\cos \alpha} &= \frac{\tau}{\sigma_\text{yield}} \\
+	\tan \alpha &= \frac{\tau}{\sigma_\text{yield}} \\
+	\alpha &= \tan^{-1} \frac{\tau}{\sigma_\text{yield}}
+\end{align}
+
+However, the angle $\alpha$ is shared between the two materials, so it can only be optimal for either material in any given structure.
+
+
+
+
+
+Such a structure may fail in several ways.
+See \cref{fig:failure_modes_diagonal}.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.75\columnwidth]{sources/method/failure_modes_diagonal.pdf}
+	\caption{Failure can happen when either beam shears off completely (M1), when both beams break in one location (M2) or at the interface between the two (M3).}
+	\label{fig:failure_modes_diagonal}
+\end{figure}
+
+
+
+
+
+
+
+
+
+Maybe the pattern does perform better in a non-45 degree angle!
+Can we force the fingers to be tensile-prone, but the beams to be shear-prone?
+
+
+
+
+
+
+
+
+
 
 
 \subsection{Orientation}
