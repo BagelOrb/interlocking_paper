@@ -138,6 +138,7 @@
 	%\newcommand{\revise}[2]{#2}
 	%\newcommand{\revise}[2]{#1}
 
+	\newcommand{\outdated}[1]{{\color{red}{#1}}}
 
 	\setulcolor{red}
 
@@ -155,7 +156,7 @@
 	\newlength{\tempheightTwo}
 
 	% deal with missing images which are not directly included in the repo
-	\iffalse
+	\iftrue
 	\newcommand{\noimage}[1]{%
 	  \setlength{\fboxsep}{-\fboxrule}%
 	  \fbox{\phantom{\rule{10pt}{10pt}} Missing file: \path{#1} \phantom{\rule{10pt}{10pt}}}% Framed box
