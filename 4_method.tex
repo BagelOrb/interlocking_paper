@@ -1,27 +1,53 @@
-
-
 \section{Method}
 
+The obstacle for generating an interlocking pattern for FDM 3D printing is satisfying the semi-continuous extrusion constraint.
+We propose a geometry consisting of parallel horizontal beams of alternating material for even layers and the same pattern but rotated by some angle for odd layers, 
+so that it connects the beams of the even layers and thusly interlocks the other material.
+This design ensures semi-continuous extrusion in two ways:
+\begin{itemize*}
+	\item the geometry contains beams connected to the outline of the shape such that the outer wall is a continuous line for both the shape and the beams
+	\item the geometry contains cross beams which are long and horizontal, so that the toolpaths to fill them are as such as well.
+\end{itemize*}
 
-\newpage
+\tim{Show that this geometry is high genus and interlocking.}
 
-\subsection{Optimal Finger Dimensions}
-When considering the structure failure can happen in different ways.
-\Cref{fig:failure_modes} shows the three types of failure mode.
-This section derives the optimal geometry of the structure to push the stresses for these failures as far back as possible.
+\tim{Show picture of the general idea.}
 
+The proposed geometry had several design variables and it might be optimized for several loading conditions.
+For simplicity we will consider only tensile forces perpendicular to the interface between the two bodies.
+Design variables include beam widths and heights for either material.
+Also the horizontal orientation of the pattern w.r.t. a vertical interface is of interest.
+Rotating our pattern about a horizontal axis is not a design variable, because then the geometry would violate the continuity constraint .
+
+Let's consider a vertical interface, 
+i.e. the two bodies lie horizontally next to each other.
+The tensile force will then be applied horizontally orthogonal to the interface.
+Because this combination of interface and tensile load is symmetrical, 
+we only consider two orientations of the interlocking pattern:
+\begin{description}
+	\item[Straight] even beams (`cross beams') are aligned parallel to the interface and odd beams (`fingers') are perpendicular
+	\item[Diagonal] even beams and odd beams (both `fingers') are at equal and opposite angles w.r.t. the interface.
+\end{description}
+
+
+
+
+
+
+\subsection{Straight Orientation}
 
 \begin{figure}
 	\centering
-	\includegraphics[width=.75\columnwidth]{sources/method/failure_modes.pdf}
-	\caption{Failure can happen along the fingers (M1), along the cross beams (M2) or at the interface between the two (M3).}
+	\includegraphics[width=\columnwidth]{sources/method/straight_model_v2.pdf}
+	\caption{
+		One straight unit cell connecting material $a$ (left) to material $b$ (right).
+		Failure can happen along the fingers ($M_x$), along the cross beams ($M_y$) or at the interface between the two ($M_z$) for either material.}
 	\label{fig:failure_modes}
 \end{figure}
 
 
 
-Material properties:
-\begin{table}[h!]
+\begin{table}
 	\centering
 	\caption{Material properties according to Ultimaker technical data sheets.}
 	\label{tab:mat_props}
@@ -39,40 +65,37 @@ Material properties:
 \end{table}
 
 
-When any structure would fail by breakage or plastic deformation,
-the structure could be enhanced by reinforcing the location where that fault would happen.
-Our interlocking structure consists of beams of two materials.
-Reinforcing the beams of one material means that we reduce beams of the other material.
-If we consider beams of a homogeneous width then the respective widths of the beams is subject to optimization.
-The width ratio is optimal when both materials would fail under the same load.
-The optimized ratio between PLA and PP is therefore
+If we would only consider the size of the beams of the two materials,
+the optimal ratio would be when both materials would fail at the same time:
 $
-A^\text{PP} / A^\text{PLA} = \sigma^\text{PLA}_\text{yield} / \sigma^\text{PP}_\text{yield}  \approx 4.3
+A^\text{PP} / A^\text{PLA} = \sigma^\text{PLA}_\text{break} / \sigma^\text{PP}_\text{yield}  \approx 4.3
 $.
 See \cref{tab:mat_props}.
-If we choose the width of the PLA beams to be two standard lines wide, \SI{0.7}{\milli\meter}, then the PP beams should be \SI{3.0}{\milli\meter}.
+For example, if the beams are the same height and the PLA beams are the minimum of twice the line width of the default printing profile, \SI{0.7}{\milli\meter}, 
+then the PP beams should be \SI{3.0}{\milli\meter}.
+
+However, such an analysis is oversimplified, because it reduces the design variables to only two,
+while in fact we have six.
+\Cref{fig:failure_modes} shows one unit cell with the variables for material $a$ and $b$.
 
 
+Without loss of generality let's assume material $a$ is TODO
 
+When considering the structure failure can happen in different ways.
+\Cref{fig:failure_modes} shows the types of failure mode.
+Because of the high genus interlocking, some of these failure modes are not enough to break the structure apart.
+It is specifically only the $M_y$ failure modes which still require any of the other failures to happen for the two materials not to be interlocking any more.
+We can therefore ignore the $M_y$ failure modes and concentrate only on the $M_x$ and $M_z$ failure modes.
 
-The height of the beams is irrelevant to the optimization.
-Only when the beams are a lot higher than the layer thickness does a new failure mode come into play where the beams in the orthogonal directions shear off each other.
-Given that the ultimate shear stress is approximately half the ultimate tensile stress,
-this failure mode plays a role when the contact area between the beams is half the cross sectional area of a beam.
-However, the width of the beams is in the order of twice the nozzle size, whereas the layer height is in the order of a quarter of the nozzle size.
-If we keep the beams as high as two layers the shearing failure mode will not take effect.
-\begin{align*}
-	\sigma_\text{tensile} &= \frac{F}{h w_\text{finger}} \\
-	\tau &= \frac{F}{w_\text{beam} w_\text{finger}} \\
-	\tau^m &\in \left(50\%,100\%\right) \sigma_\text{ultimate tensile}^m \text{ for any material $m$} \\
-	h &< \nicefrac12 w_\text{beam} \\ 
-\end{align*}
+$M_y^a$ will always occur before $M_y^b$ happens.
 
-
+\tim{Put more emphasis on the point that we can ignore failure mode $M_y$.}
 
 
 
 \subsection{Optimal Multi-stage Geometry}
+
+\tim{Refactor this section to something shorter, because we found out that $N>1$ only gives worse performance.}
 
 Let's consider a PLA finger which crosses $N$ beams, which is allowed to vary in width.
 See \cref{fig:force_distribution}.
@@ -224,7 +247,7 @@ $w^a_N = w_\text{min}$
 
 
 
-\subsection{Optimal Cross Beam Dimensions}
+\subsubsection{Optimal Cross Beam Dimensions}
 So far we have optimized the widths of the fingers against failure mode M1.
 Let's now consider the required widths of the cross-beams to prevent failure mode M2.
 See \cref{fig:failure_modes}.
@@ -282,7 +305,7 @@ One should take care to avoid situations where the cross beam widths are less th
 
 
 
-\subsection{Shearing requirement}
+\subsubsection{Shearing requirement}
 If the height of the total pattern becomes too high the stresses will concentrate along the interface between the fingers and the cross beams.
 Such would be the case for failure mode M3.
 See \cref{fig:failure_modes}.
