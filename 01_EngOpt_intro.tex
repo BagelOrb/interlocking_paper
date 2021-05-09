@@ -28,16 +28,7 @@ We consider two orientations of the interlocking pattern:
 	\item[Diagonal] even beams and odd beams (both `fingers') are at equal and opposite angles w.r.t. the interface.
 \end{description}
 
-
-
-
-
-
-\section{Straight Orientation}
-
-
-
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=\columnwidth]{sources/method/straight_model_v3.pdf}
 	\caption{
@@ -45,6 +36,23 @@ We consider two orientations of the interlocking pattern:
 		Failure can happen along the fingers ($M_x$), along the cross beams ($M_y$) or at the interface between the two ($M_z$) for either material.}
 	\label{fig:failure_modes}
 \end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\columnwidth]{sources/method/diagonal_model_v3.pdf}
+	\caption{
+		One diagonal unit cell connecting material $a$ (left) to material $b$ (right).
+		Failure can happen along both the fingers ($M_x$), twice along one finger ($M_y$) or at the interface between the two fingers ($M_z$) for either material.}
+	\label{fig:diagonal_model}
+\end{figure}
+
+
+
+\section{Straight Orientation}
+
+
+
+
 
 \Cref{fig:failure_modes} shows one cell of the straight structure, along with the design variables and the failure modes.
 The optimization then consists of the following:
@@ -58,9 +66,11 @@ The optimization then consists of the following:
 	h_\text{f} &\ge h_\text{min} \\
 	h_\text{c} &\ge h_\text{min} \\
 	v^a + v^b &\le v_\text{max} \\
-	\frac{ F }{ w^m h_\text{f} } &\le \sigma^m_\text{yield} &&\text{ failure mode } M_x^m \\
-	\frac{ 2 F }{ 3 v^m h_\text{c}} &\le \tau^m 			&&\text{ failure mode } M_y^m \\
-	\frac{ 2 F }{ 3 v^m w^m } &\le \tau^m_\text{Z} 			&&\text{ failure mode } M_z^m \\
+	\frac{ F }{ w^m h_\text{f} } &\le \sigma^m_\text{yield} &&\text{ Tension failure } M_x^m \\
+	\frac{ 3 F }{ 4 v^m h_\text{c}} &\le \tau^m 			&&\text{ Shear failure } M_y^m \\
+	\frac{ 3 F }{ 4 v^m w^m } &\le \tau^m_\text{Z} 			&&\text{ Shear failure } M_z^m \\
+	\frac{ 3 F w^b }{ 4 \left( v^a \right)^2 h_\text{c} } &\le \sigma^a_\text{yield}			&&\text{ Bending failure } M_y^a \\
+	\frac{ 3 F w^a }{ 4 \left( v^b \right)^2 h_\text{c} } &\le \sigma^b_\text{yield}			&&\text{ Bending failure } M_y^b \\
 	& \text{for both materials } && m \in \{a, b\} \nonumber
 \end{align}
 
@@ -96,7 +106,6 @@ We should be able to find analytical solution(s), depending on the size of $v_\t
 
 Possible extensions:
 \begin{itemize}
-	\item Take bending stress constraint into account.
 	\item Consider multiple repetitions of the cell in the loading direction.
 	\item Consider tensile load in Z direction.
 	\item Consider FEM model.
@@ -126,13 +135,25 @@ Formula is given by this? :
 
 \section{Slanted design}
 
-\begin{figure}
-	\centering
-	\includegraphics[width=\columnwidth]{sources/method/diagonal_model_v3.pdf}
-	\caption{
-		One diagonal unit cell connecting material $a$ (left) to material $b$ (right).
-		Failure can happen along both the fingers ($M_x$), twice along one finger ($M_y$) or at the interface between the two fingers ($M_z$) for either material.}
-	\label{fig:diagonal_model}
-\end{figure}
+Another option is to place the fingers under an angle as shown in \autoref{fig:diagonal_model}. There are four design variables: the finger width of both materials: $w^a$ and $w^b$, the finger rotation angle $\alpha$, and the layer thickness $h$, which will be added to the figure instead of $l$ later on.
 
-TODO: \cref{fig:diagonal_model}
+
+
+
+The goal is to maximize the strength, while accounting for the failure modes in the constraints. With that, the optimization problem can be formulated as follows:
+
+\begin{align}
+	& \max \frac{F \sin \alpha}{\left( w^a + w^b \right) 2h } \\
+	\text{subject to:} & \nonumber \\
+	w^m &\ge w_\text{min}^m \\
+	h &\ge h_\text{min} \\
+	\alpha_{min} &\le \alpha \le \alpha_{max}\\
+	w^a + w^b &\le w_\text{max} \\
+	\frac{ F \sin \alpha}{ w^m h } &\le \sigma^m_\text{yield} &&\text{ Tension failure } M_x^m \\
+	\frac{ 3 F \cos \alpha }{ 4 w^m h_\text{c}} &\le \tau^m 			&&\text{ Shear failure } M_x^m \\
+	\frac{ 3 F \sin \alpha \cos \alpha }{ \left(w^m \right)^2 } &\le \tau^m_\text{Z} 			&&\text{ Shear failure } M_z^m \\
+	\frac{ 3 F w^b }{ 8 \sin \alpha \left(w^a \right)^2 h} & \le \sigma^a_\text{yield}			&&\text{ Bending failure } M_x^a \\
+	\frac{ 3 F w^a }{ 8 \sin \alpha \left(w^b \right)^2 h} & \le \sigma^b_\text{yield}			&&\text{ Bending failure } M_x^b \\
+	& \text{for both materials } && m \in \{a, b\} \nonumber
+\end{align}
+
