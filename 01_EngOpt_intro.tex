@@ -13,7 +13,8 @@ that is, we want to optimize the effective ultimate tensile strength of the inte
 We want to optimize our structure such that none of the components of breaks or yields at the highest applied force.
 On the other hand we would like our structure to be as small as possible, which is captured in both constraints and objective functions.
 
-We consider two closely related interlocking geometries consisting of beams of either material connected 
+We consider two closely related interlocking geometries consisting of beams of material $a$ and material $b$.
+Without loss of generality let us assume that material $a$ is the stronger one: $\sigma^a_\text{yield} > \sigma^b_\text{yield} $
 Both of these geometries are limited by manufacturing constraints:
 \begin{itemize}
 	\item heights are a discrete multiple of the layer thickness $h_\text{min}$
