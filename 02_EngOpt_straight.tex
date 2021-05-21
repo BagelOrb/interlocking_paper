@@ -194,27 +194,105 @@ We can then derive:
 \todo{We will show that} only \cref{eq:c3,eq:c1} for $m=a$ are the active bound constraints.
 
 
+\subsection{Derivation assuming certain constraints}
+Each step assumes a constraint on the first line of the derivation below.
+See system of equations excel file.
 
-Possible extensions:
-\begin{itemize}
-	\item Consider multiple repetitions of the cell in the loading direction.
-	\item Consider tensile load in Z direction.
-	\item Consider FEM model.
-\end{itemize}
-
-\iffalse
-Formula is given by this? :
-% from https://skyciv.com/docs/tutorials/beam-tutorials/bending-moment-equations/
+Step 1:
 \begin{align*}
-	\sigma_\text{bend} &= \frac{M r}{I} \\
-	&= \frac{M \nicefrac12 v}{I} \\
-	M_\text{max} &= \frac{v L}{12} \text{ for distributed force and fixed sides} 
+	w^a = 2 w^a_\text{min}
 \end{align*}
-\fi
 
+Step 2:
+\begin{align*}
+	h_\text{c} = h_\text{min}
+\end{align*}
 
+Step 3:
+\begin{align*}
+	v^a + v^b &= l_\text{max} \\
+	v^a &= l_\text{max} - v^b
+\end{align*}
 
+Step 4:
+\begin{align*}
+	\frac{ F }{ w^a h_\text{f} } &= \sigma^a_\text{fail} \\
+	%F  &= \sigma^a_\text{fail}  w^a h_\text{f}  \\
+	%\frac{F}{ \sigma^a_\text{fail}  w^a }  &=  h_\text{f}  \\
+	h_\text{f} %&= \frac{F}{ \sigma^a_\text{fail}  w^a } \\
+	 &= \frac{F}{ \sigma^a_\text{fail}  2 w^a_\text{min} }
+\end{align*}
 
+Step 5:
+\begin{align*}
+	\frac{ F }{ w^b h_\text{f} } &= \sigma^b_\text{fail} \\
+	%\frac{ F }{ 1 } = \sigma^b_\text{fail} w^b h_\text{f} \\
+	%\frac{ F }{ \sigma^b_\text{fail} h_\text{f} } =  w^b \\
+	w^b &= \frac{ F }{ \sigma^b_\text{fail} h_\text{f} } \\
+	%&= \frac{ F }{ \sigma^b_\text{fail} \frac{F}{ \sigma^a_\text{fail}  2 w^a_\text{min} } } \\
+	%&= \frac{ \sigma^a_\text{fail}  2 w^a_\text{min} }{ \sigma^b_\text{fail}} \\
+	&=  2 w^a_\text{min} \frac{ \sigma^a_\text{fail} }{ \sigma^b_\text{fail}}
+\end{align*}
 
+Step 6:
+\begin{align*}
+	\frac{ 3 F }{ 4 v^b h_\text{c}} &= \tau^b \\
+	%\frac{ 3 F }{ 4 } &= \tau^b v^b h_\text{c} \\
+	%\frac{ 3 F }{ 4 \tau^b h_\text{c} } &= v^b \\
+	v^b &= \frac{ 3 F }{ 4 \tau^b h_\text{c} } \\
+	&= \frac{ 3 F }{ 4 \tau^b h_\text{min} }
+\end{align*}
 
+Step 7:
+\begin{align*}
+	\frac{ 3 F w^b }{ 4 \left( v^a \right)^2 h_\text{c} } &= \sigma^a_\text{fail} \\
+	%3 F w^b &= 4 \left( v^a \right)^2 h_\text{c} \sigma^a_\text{fail} \\
+	F &= \frac{ 4 \left( v^a \right)^2 h_\text{c} \sigma^a_\text{fail} }{ 3 w^b } \\
+	%&= \frac{ 4 \left( l_\text{max} - v^b \right)^2 h_\text{min} \sigma^a_\text{fail} }{ 3 * 2 w^a_\text{min} \frac{ \sigma^a_\text{fail} }{ \sigma^b_\text{fail}} } \\
+	%&= \frac{ 2 \left( l_\text{max} - v^b \right)^2 h_\text{min} \sigma^a_\text{fail} }{ 3 w^a_\text{min} \frac{ \sigma^a_\text{fail} }{ \sigma^b_\text{fail}} } \\
+	%&= \frac{ 2 \left( l_\text{max} - v^b \right)^2 h_\text{min} }{ 3 w^a_\text{min} \frac{ 1 }{ \sigma^b_\text{fail}} } \\
+	%&= \frac{ 2 \left( l_\text{max} - v^b \right)^2 h_\text{min} \sigma^b_\text{fail} }{ 3 w^a_\text{min} } \\
+	%&= \frac{ 2 \left( l_\text{max} - \frac{ 3 F }{ 4 \tau^b h_\text{min} } \right)^2 h_\text{min} \sigma^b_\text{fail} }{ 3 w^a_\text{min} } \\
+	%&= \frac{ 2  h_\text{min} \sigma^b_\text{fail} }{ 3 w^a_\text{min} } \left( l_\text{max} - \frac{ 3 F }{ 4 \tau^b h_\text{min} } \right)^2 \\
+	%&= \frac{ 2  h_\text{min} \sigma^b_\text{fail} }{ 3 w^a_\text{min} } \left( l_\text{max} - \frac{ 3 }{ 4 \tau^b h_\text{min} } F \right)^2 \\
+	%&= r \left( l_\text{max} - s F \right)^2 \\
+	%&= r \left( l_\text{max}^2 - 2 l_\text{max} s F + s^2 F^2 \right) \\
+	%&= r l_\text{max}^2 - 2 r l_\text{max} s F + r s^2 F^2 \\
+	%0 &= r s^2 F^2 + \left(- 1 - 2 r l_\text{max} s \right) F + r l_\text{max}^2 \\
+	%F &= \frac{-\left( - 1 - 2 r l_\text{max} s \right) \pm \sqrt{ \left( - 1 - 2 r l_\text{max} s \right) ^2 - 4 r s^2 r l_\text{max}^2 }}{2 r s^2} \\
+	%F &= \frac{ 2 r l_\text{max} s + 1 \pm \sqrt{ \left( -1 - 2 r l_\text{max} s \right) ^2 - 4 r s^2 r l_\text{max}^2 }}{2 r s^2} \\
+	%F &= \frac{ 2 r l_\text{max} s + 1 \pm \sqrt{ \left( -1 - 2 r l_\text{max} s \right) ^2 - 4 r^2 s^2 l_\text{max}^2 }}{2 r s^2} \\
+	%F &= \frac{ 2 r l_\text{max} s + 1 \pm \sqrt{ 1 + 4 r l_\text{max} s + 4 r^2 l_\text{max}^2 s^2 - 4 r^2 s^2 l_\text{max}^2 }}{2 r s^2} \\
+	%F &= \frac{ 2 r l_\text{max} s + 1 \pm \sqrt{ 1 + 4 r l_\text{max} s }  }{2 r s^2} \\
+	%F &= \frac{ 2 r l_\text{max} s }{2 r s^2} + \frac{ 1 \pm \sqrt{ 1 + 4 r l_\text{max} s }  }{2 r s^2} \\
+	%F &= \frac{ l_\text{max} }{s} + \frac{ 1 \pm \sqrt{ 1 + 4 r l_\text{max} s }  }{2 r s^2} \\
+	%F &= \frac{ l_\text{max} }{ \frac{ 3 }{ 4 \tau^b h_\text{min} } } + \frac{ 1 \pm \sqrt{ 1 + 4 r l_\text{max} \frac{ 3 }{ 4 \tau^b h_\text{min} } }  }{2 r \left(\frac{ 3 }{ 4 \tau^b h_\text{min} }\right)^2} \\
+	%F &= \frac{ 4 \tau^b h_\text{min} l_\text{max} }{ 3 } + \frac{ 1 \pm \sqrt{ 1 + r l_\text{max} \frac{ 3 }{ \tau^b h_\text{min} } }  }{2 r \frac{ 9 }{ 16 (\tau^b)^2 h_\text{min}^2 }  } \\
+	%F &= \frac{ 4 \tau^b h_\text{min} l_\text{max} }{ 3 } + \frac{ 1 \pm \sqrt{ 1 + l_\text{max} \frac{ 2  h_\text{min} \sigma^b_\text{fail} }{ 3 w^a_\text{min} } \frac{ 3 }{ \tau^b h_\text{min} } }  }{2 \frac{ 2  h_\text{min} \sigma^b_\text{fail} }{ 3 w^a_\text{min} } \frac{ 9 }{ 16 (\tau^b)^2 h_\text{min}^2 }  } \\
+	%F &= \frac{ 4 \tau^b h_\text{min} l_\text{max} }{ 3 } + \frac{ 1 \pm \sqrt{ 1 + l_\text{max} \frac{ 2  h_\text{min} \sigma^b_\text{fail} }{ 3 w^a_\text{min} } \frac{ 3 }{ \tau^b h_\text{min} } }  }{2 \frac{ 9 * 2  h_\text{min} \sigma^b_\text{fail} }{ 3 w^a_\text{min} *  16 (\tau^b)^2 h_\text{min}^2 } } \\
+	%F &= \frac{ 4 \tau^b h_\text{min} l_\text{max} }{ 3 } + \frac{ 1 \pm \sqrt{ 1 + l_\text{max} \frac{ 2  h_\text{min} \sigma^b_\text{fail} }{ 3 w^a_\text{min} } \frac{ 3 }{ \tau^b h_\text{min} } }  }{  \frac{ 3  h_\text{min} \sigma^b_\text{fail} }{ 4 w^a_\text{min} (\tau^b)^2 h_\text{min}^2 } } \\
+	%F &= \frac{ 4 \tau^b h_\text{min} l_\text{max} }{ 3 } + \frac{ 1 \pm \sqrt{ 1 + l_\text{max} \frac{ 2  h_\text{min} \sigma^b_\text{fail} }{ w^a_\text{min} \tau^b h_\text{min} }  }  }{  \frac{ 3  h_\text{min} \sigma^b_\text{fail} }{ 4 w^a_\text{min} (\tau^b)^2 h_\text{min}^2 } } \\
+	%F &= \frac{ 4 \tau^b h_\text{min} l_\text{max} }{ 3 } + \frac{ 1 \pm \sqrt{ 1 + l_\text{max} \frac{ 2  \sigma^b_\text{fail} }{ w^a_\text{min} \tau^b }  }  }{  \frac{ 3  h_\text{min} \sigma^b_\text{fail} }{ 4 w^a_\text{min} (\tau^b)^2 h_\text{min}^2 } } \\
+	%F &= \frac{ 4 \tau^b h_\text{min} l_\text{max} }{ 3 } + \frac{ 1 \pm \sqrt{ 1 + l_\text{max} \frac{ 2  \sigma^b_\text{fail} }{ w^a_\text{min} \tau^b }  }  }{  \frac{ 3 \sigma^b_\text{fail} }{ 4 w^a_\text{min} (\tau^b)^2 h_\text{min} } } \\
+	%F &= \frac{ 4 \tau^b h_\text{min} l_\text{max} }{ 3 } + \frac{ 1 \pm \sqrt{ 1 + l_\text{max} \frac{ 2  \sigma^b_\text{fail} }{ w^a_\text{min} \nicefrac12 \sigma^b_\text{fail} }  }  }{  \frac{ 3 \sigma^b_\text{fail} }{ 4 w^a_\text{min} (\nicefrac12 \sigma^b_\text{fail})^2 h_\text{min} } } \\
+	%F &= \frac{ 4 \nicefrac12 \sigma^b_\text{fail} h_\text{min} l_\text{max} }{ 3 } + \frac{ 1 \pm \sqrt{ 1 + l_\text{max} \frac{ 4 }{ w^a_\text{min} }  }  }{  \frac{ 3 \sigma^b_\text{fail} }{ 4 w^a_\text{min} (\nicefrac12 \sigma^b_\text{fail})^2 h_\text{min} } } \\
+	%F &= \frac{ 2 \sigma^b_\text{fail} h_\text{min} l_\text{max} }{ 3 } + \frac{ 1 \pm \sqrt{ 1 + \frac{ 4 l_\text{max} }{ w^a_\text{min} }  }  }{  \frac{ 3 \sigma^b_\text{fail} }{ 4 w^a_\text{min} (\nicefrac12 \sigma^b_\text{fail})^2 h_\text{min} } } \\
+	%F &= \frac{ 2 \sigma^b_\text{fail} h_\text{min} l_\text{max} }{ 3 } + \frac{ 1 \pm \sqrt{ 1 + \frac{ 4 l_\text{max} }{ w^a_\text{min} }  }  }{  \frac{ 3 \sigma^b_\text{fail} }{ 4 w^a_\text{min} \nicefrac14 (\sigma^b_\text{fail})^2 h_\text{min} } } \\
+	%F &= \frac{ 2 \sigma^b_\text{fail} h_\text{min} l_\text{max} }{ 3 } + \frac{ 1 \pm \sqrt{ 1 + \frac{ 4 l_\text{max} }{ w^a_\text{min} }  }  }{  \frac{ 3 \sigma^b_\text{fail} }{ w^a_\text{min} (\sigma^b_\text{fail})^2 h_\text{min} } } \\
+	%F &= \frac{ 2 \sigma^b_\text{fail} h_\text{min} l_\text{max} }{ 3 } + \frac{ 1 \pm \sqrt{ 1 + \frac{ 4 l_\text{max} }{ w^a_\text{min} }  }  }{  \frac{ 3 }{ w^a_\text{min} \sigma^b_\text{fail} h_\text{min} } } \\
+	%F &= \frac{ 2 \sigma^b_\text{fail} h_\text{min} l_\text{max} }{ 3 } + \frac{ w^a_\text{min} \sigma^b_\text{fail} h_\text{min} \left( 1 \pm \sqrt{ 1 + \frac{ 4 l_\text{max} }{ w^a_\text{min} }  } \right) }{ 3 } \\
+	%F &= \frac{ \sigma^b_\text{fail} h_\text{min} }{ 3 } \left( 2 l_\text{max}  + w^a_\text{min} \left( 1 \pm \sqrt{ 1 + \frac{ 4 l_\text{max} }{ w^a_\text{min} }  } \right) \right) \\
+	%F &= \frac{ \sigma^b_\text{fail} h_\text{min} }{ 3 } \left( 2 l_\text{max}  + w^a_\text{min} \pm w^a_\text{min} \sqrt{ 1 + \frac{ 4 l_\text{max} }{ w^a_\text{min} }  } \right) \\
+	\dots \\
+	F &= \frac{ \sigma^b_\text{fail} h_\text{min} }{ 3 } \left( 2 l_\text{max}  + w^a_\text{min} \pm \sqrt{ w^a_\text{min} \left( w^a_\text{min} + 4 l_\text{max} \right)  } \right) \\
+\end{align*}
 
+Turns out the $\pm$ has to be $+$, otherwise $v^b > l_\text{max}$.
+
+Results:
+\begin{verbatim}
+	wa=0.6, wb=2.6857142857142855, va=0.8999999999999999, vb=2.6999999999999997, hf=0.2680851063829787, hc=0.4, F=7.56
+	rx=wb/wa=4.476190476190476, ry=vb/va=3.0, rw=va/wa=1.5, rz=hf/hc=0.6702127659574467
+	g1=0.0, g2=-3.4761904761904763, g3=-2.0, g4=-8.0, g5=0.3297872340425533, g6=0.0, g7=0.0, g8=0.0, g9=0.0, g10=-0.32978723404255317, g11=2.220446049250313e-16, g12=-0.36363636363636354, g13=-0.2222222222222221, g14=0.0, g15=-0.8888888888888888
+	Total effective stress:  3.443976737745777
+\end{verbatim}
