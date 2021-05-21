@@ -296,3 +296,82 @@ Results:
 	g1=0.0, g2=-3.4761904761904763, g3=-2.0, g4=-8.0, g5=0.3297872340425533, g6=0.0, g7=0.0, g8=0.0, g9=0.0, g10=-0.32978723404255317, g11=2.220446049250313e-16, g12=-0.36363636363636354, g13=-0.2222222222222221, g14=0.0, g15=-0.8888888888888888
 	Total effective stress:  3.443976737745777
 \end{verbatim}
+
+\subsection{Again}
+
+
+Step 1:
+\begin{align*}
+	w^a = 2 w^a_\text{min}
+\end{align*}
+
+Step 2:
+\begin{align*}
+	h_\text{f} = h_\text{min}
+\end{align*}
+
+Step 3:
+\begin{align*}
+	v^a + v^b &= l_\text{max} \\
+	v^a &= l_\text{max} - v^b
+\end{align*}
+
+Step 4:
+\begin{align*}
+	\frac{ F }{ w^a h_\text{f} } &= \sigma^a_\text{fail} \\
+	F &= w^a h_\text{f} \sigma^a_\text{fail} \\
+	&= 2 w^a_\text{min} h_\text{min} \sigma^a_\text{fail} 
+\end{align*}
+
+Step 5:
+\begin{align*}
+	\frac{ F }{ w^b h_\text{f} } &= \sigma^b_\text{fail} \\
+	%\frac{ F }{ h_\text{f} } &= w^b \sigma^b_\text{fail} \\
+	%\frac{ F }{ h_\text{f} \sigma^b_\text{fail} } &= w^b  \\
+	w^b &= \frac{ F }{ h_\text{f} \sigma^b_\text{fail} } \\
+	%&=  \frac{  2 w^a_\text{min} h_\text{min} \sigma^a_\text{fail}  }{ h_\text{min} \sigma^b_\text{fail} } \\
+	%&=  \frac{  2 w^a_\text{min} \sigma^a_\text{fail} }{ \sigma^b_\text{fail} } \\
+	&= 2 w^a_\text{min}  \frac{ \sigma^a_\text{fail} }{ \sigma^b_\text{fail} } 
+\end{align*}
+
+Step 6:
+\begin{align*}
+	\frac{ 3 F }{ 4 v^b h_\text{c}} &= \nicefrac12 \sigma^b_\text{fail} \\
+	%\frac{ 3 F }{ 4 v^b } &= h_\text{c} \nicefrac12 \sigma^b_\text{fail} \\
+	%\frac{ 3 F }{ 4 v^b \nicefrac12 \sigma^b_\text{fail} } &= h_\text{c} \\
+	h_\text{c} &= \frac{ 3 F }{ 2 v^b \sigma^b_\text{fail} } \\
+	h_\text{c} &= \frac{ 3 * 2 w^a_\text{min} h_\text{min} \sigma^a_\text{fail}  }{ 2 v^b \sigma^b_\text{fail} } \\
+	h_\text{c} &= \frac{ 3 w^a_\text{min} h_\text{min} \sigma^a_\text{fail}  }{ v^b \sigma^b_\text{fail} } \\
+	h_\text{c} &= \frac{ 3 w^a_\text{min} h_\text{min} \sigma^a_\text{fail}  }{ v^b \sigma^b_\text{fail} } \\
+\end{align*}
+
+Step 7:
+\begin{align*}
+	\frac{ 3 F w^b }{ 4 \left( v^a \right)^2 h_\text{c} } &= \sigma^a_\text{fail} \\
+	\sigma^a_\text{fail} &= \frac{   3 * 2 w^a_\text{min} h_\text{min} \sigma^a_\text{fail}  2 w^a_\text{min}  \frac{ \sigma^a_\text{fail} }{ \sigma^b_\text{fail} }   }{   4 \left( l_\text{max} - v^b \right)^2 \frac{ 3 w^a_\text{min} h_\text{min} \sigma^a_\text{fail}  }{ v^b \sigma^b_\text{fail} }   } \\
+	\dots \\ % wolfram alpha
+	v^b &= \pm \nicefrac12 \sqrt{w^a_\text{min} \left(w^a_\text{min} + 4 l_\text{max}\right)} + l_\text{max} + \nicefrac12 w^a_\text{min}
+\end{align*}
+
+\subsection{Future work}
+Possible extensions:
+\begin{itemize}
+	\item Consider how the optimal design depends on the constraint values.
+	\item Test various material combinations.
+	\item Consider multiple repetitions of the cell in the loading direction.
+	\item Consider tensile load in Z direction.
+	\item Consider FEM model.
+\end{itemize}
+
+\iffalse
+Formula is given by this? :
+% from https://skyciv.com/docs/tutorials/beam-tutorials/bending-moment-equations/
+\begin{align*}
+	\sigma_\text{bend} &= \frac{M r}{I} \\
+	&= \frac{M \nicefrac12 v}{I} \\
+	M_\text{max} &= \frac{v L}{12} \text{ for distributed force and fixed sides} 
+\end{align*}
+\fi
+
+
+
