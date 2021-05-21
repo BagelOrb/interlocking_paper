@@ -52,7 +52,7 @@ for ry_ in range(0, Nry):
 for rz_ in range(0, 5):
     for rw_ in range(0, 4):
         FEM_stress[rz_, rw_, 0:9, 0:9] = data_file[2 + 10 * rw_:2 + 10 * rw_ + 9, 1 + 10 * rz_:1 + 10 * rz_ + 9]
-
+FEM_stress[np.isnan(FEM_stress)] = 0
 
 def toCsv(data, filename):
     output_data = data_file
