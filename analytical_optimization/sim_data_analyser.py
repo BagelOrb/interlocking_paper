@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import pyplot
 
-data_file = np.genfromtxt('../../simulation/IS90-data.csv', delimiter=',')
+data_file = np.genfromtxt('../../../simulation/IS90-data.csv', delimiter=',')
 
 sa = 47
 sb = 10.5
