@@ -84,14 +84,13 @@ g6 = 1 - hc / h_min
 g7 = (va + vb) / l_max - 1
 g8 = F / (wa * hf * sa) - 1  # tensile
 g9 = F / (wb * hf * sb) - 1
-g10 = 3 * F / (4 * va * hc * ta) - 1  # shear
-g11 = 3 * F / (4 * vb * hc * tb) - 1
-g12 = 3 * F / (4 * va * wa * taz) - 1  # z shear
-g13 = 3 * F / (4 * vb * wa * tbz) - 1
-g14 = 3 * F * wb / (4 * va * va * hc * sa) - 1  # bending
-g15 = 3 * F * wa / (4 * vb * vb * hc * sb) - 1
+g10 = 3 * F / (4 * hc * min(va * ta, vb * tb)) - 1  # shear
+g11 = 3 * F / (4 * va * wa * taz) - 1  # z shear
+g12 = 3 * F / (4 * vb * wa * tbz) - 1
+g13 = 3 * F * wb / (4 * va * va * hc * sa) - 1  # bending
+g14 = 3 * F * wa / (4 * vb * vb * hc * sb) - 1
 
-print(f'{g1 = }, {g2 = }, {g3 = }, {g4 = }, {g5 = }, {g6 = }\n, {g7 = }, {g8 = }, {g9 = }, {g10 = }, {g11 = }, {g12 = }, {g13 = }, {g14 = }, {g15 = }')
+print(f'{g1 = }, {g2 = }, {g3 = }, {g4 = }, {g5 = }, {g6 = }\n, {g7 = }, {g8 = }, {g9 = }, {g10 = }, {g11 = }, {g12 = }, {g13 = }, {g14 = }')
 
 objective = F / ( (wa + wb) * (hf + hc) )
 

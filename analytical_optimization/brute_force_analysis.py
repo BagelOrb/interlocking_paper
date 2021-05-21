@@ -49,8 +49,8 @@ vb = va * ry
 gFs = []
 gFs.append(sa * wa * hf)
 gFs.append(sb * wb * hf)
-gFs.append(.5 * sa * 4 / 3 * va * hc)
-gFs.append(.5 * sb * 4 / 3 * vb * hc)
+gFs.append(.5 * np.maximum(sa * va, sb * vb) * 4 / 3 * hc)
+# gFs.append(.5 * sb * 4 / 3 * vb * hc)
 gFs.append(taz * 4 / 3 * va * wa)
 gFs.append(tbz * 4 / 3 * vb * wb)
 gFs.append(sa * 4 / 3 * va * va * hc / wb)
