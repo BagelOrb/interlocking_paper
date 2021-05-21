@@ -72,8 +72,8 @@ vb = va * ry
 
 best_idx = np.unravel_index(np.argmax(FEM_stress), FEM_stress.shape)
 print(f"best: stess={FEM_stress[best_idx]}")
-print(f" rx={rx[best_idx]:.4g}; ry={ry[best_idx]:.4g}; rw={rw[best_idx]:.4g}; rz={rz[best_idx]:.4g}; ")
-print(f" wa={wa[best_idx]:.4g}; wb={wb[best_idx]:.4g}; va={va[best_idx]:.4g}; vb={vb[best_idx]:.4g}; hf={hf[best_idx]:.4g}; hc={hc[best_idx]:.4g}; ")
+print(f" rx={rx[best_idx]:.4f}; ry={ry[best_idx]:.4f}; rw={rw[best_idx]:.4f}; rz={rz[best_idx]:.4f}; ")
+print(f" wa={wa[best_idx]:.4f}; wb={wb[best_idx]:.4f}; va={va[best_idx]:.4f}; vb={vb[best_idx]:.4f}; hf={hf[best_idx]:.4f}; hc={hc[best_idx]:.4f}; ")
 
 F = FEM_stress * (wa + wb) * (hf + hc)
 
@@ -87,11 +87,10 @@ gs.append(1 - hc / h_min)
 gs.append((va + vb) / l_max - 1)
 gs.append(F / (wa * hf * sa) - 1)  # tensile
 gs.append(F / (wb * hf * sb) - 1)
-gs.append(3 * F / (4 * hc * np.minimum(va * ta, vb * tb)) - 1)  # shear
+gs.append(
+    3 * F / (4 * hc) * np.minimum(np.maximum(2, wb / va) / (va * sa), np.maximum(2, wa / vb) / (vb * sb)) - 1)  # cross
 gs.append(3 * F / (4 * va * wa * taz) - 1)  # z shear
 gs.append(3 * F / (4 * vb * wa * tbz) - 1)
-gs.append(3 * F * wb / (4 * va * va * hc * sa) - 1)  # bending
-gs.append(3 * F * wa / (4 * vb * vb * hc * sb) - 1)
 
 l = va + vb
 
