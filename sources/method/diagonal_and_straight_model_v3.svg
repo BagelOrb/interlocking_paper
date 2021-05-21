@@ -7,9 +7,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="135.66667mm"
-   height="84.878883mm"
-   viewBox="0 0 135.66666 84.878882"
+   width="124.38911mm"
+   height="59.570923mm"
+   viewBox="0 0 124.3891 59.570922"
    version="1.1"
    id="svg8"
    inkscape:version="1.0.2-2 (e86c870879, 2021-01-15)"
@@ -642,9 +642,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="112.54823"
-     inkscape:cy="186.74633"
+     inkscape:zoom="0.70000001"
+     inkscape:cx="431.1388"
+     inkscape:cy="176.23985"
      inkscape:document-units="mm"
      inkscape:current-layer="layer9"
      inkscape:document-rotation="0"
@@ -661,8 +661,8 @@
     <inkscape:grid
        type="xygrid"
        id="grid833"
-       originx="-25.349854"
-       originy="-80.388603" />
+       originx="-17.180436"
+       originy="-16.791014" />
   </sodipodi:namedview>
   <metadata
      id="metadata5">
@@ -681,7 +681,7 @@
      id="layer3"
      inkscape:label="PP below"
      style="display:inline"
-     transform="translate(-25.349865,-80.388613)">
+     transform="translate(-17.180448,-16.791025)">
     <path
        style="fill:none;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.6, 0.6;stroke-dashoffset:0;stroke-opacity:1"
        d="M 139.7,63.499999 114.3,55.033333"
@@ -708,7 +708,7 @@
      inkscape:groupmode="layer"
      id="layer1"
      style="display:inline"
-     transform="translate(-25.349865,-80.388613)">
+     transform="translate(-17.180448,-16.791025)">
     <path
        style="fill:#00b800;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 42.333335,114.3 v 16.93333 l 50.8,-25.39999 V 88.9 Z"
@@ -796,7 +796,7 @@
      id="layer4"
      inkscape:label="PP mat"
      style="display:inline"
-     transform="translate(-25.349865,-80.388613)">
+     transform="translate(-17.180448,-16.791025)">
     <path
        id="path1054"
        style="fill:#00ffff;fill-opacity:0.432234;stroke:none;stroke-width:0.377953;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -846,7 +846,7 @@
      id="layer2"
      inkscape:label="PPlines"
      style="display:inline;opacity:1"
-     transform="translate(-25.349865,-80.388613)">
+     transform="translate(-17.180448,-16.791025)">
     <path
        style="fill:none;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 50.800003,38.100009 25.400007,8.46665"
@@ -878,7 +878,7 @@
      id="layer7"
      inkscape:label="failure modes PP"
      style="display:inline"
-     transform="translate(-25.349865,-80.388613)">
+     transform="translate(-17.180448,-16.791025)">
     <path
        style="display:inline;fill:#0000ff;fill-opacity:0.1;stroke:#0000ff;stroke-width:0.265;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.53, 1.59;stroke-dashoffset:0;stroke-opacity:1"
        d="m 71.966667,27.516666 25.4,8.466667 v 4.233333 l -25.4,-8.466666 z"
@@ -1041,7 +1041,7 @@
      id="layer6"
      inkscape:label="failure modes PLA"
      style="display:inline"
-     transform="translate(-25.349865,-80.388613)">
+     transform="translate(-17.180448,-16.791025)">
     <path
        style="fill:#ff0000;fill-opacity:0.1;stroke:#ff0000;stroke-width:0.265;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.53, 1.59;stroke-dashoffset:0;stroke-opacity:1"
        d="M 67.733333,46.566666 V 33.866667 L 76.2,29.633333 v 12.7 z"
@@ -1253,7 +1253,7 @@
      inkscape:groupmode="layer"
      id="layer10"
      inkscape:label="var arrows"
-     transform="translate(-7.063777,-63.617234)">
+     transform="translate(1.1056405,-0.01964551)">
     <circle
        style="display:inline;fill:none;fill-opacity:0.431373;stroke:#ff0000;stroke-width:0.3;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;marker-start:url(#marker11000);marker-end:url(#marker10810)"
        id="path9294"
@@ -1311,7 +1311,7 @@
      id="layer5"
      inkscape:label="vars"
      style="display:inline"
-     transform="translate(-25.349865,-80.388613)">
+     transform="translate(-17.180448,-16.791025)">
     <text
        xml:space="preserve"
        style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Italic';fill:#ff0000;stroke-width:0.3;stroke-miterlimit:4;stroke-dasharray:none"
@@ -1467,7 +1467,8 @@
   <g
      inkscape:groupmode="layer"
      id="layer9"
-     inkscape:label="size vars">
+     inkscape:label="size vars"
+     transform="translate(8.1694175,63.597588)">
     <path
        style="display:inline;opacity:1;fill:#0000ff;stroke:#0000ff;stroke-width:0.3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker2412);marker-end:url(#marker2422)"
        d="m 73.025001,24.341667 -25.4,12.7"
@@ -1576,7 +1577,7 @@
      inkscape:groupmode="layer"
      id="layer8"
      inkscape:label="force"
-     transform="translate(-0.09986408,-63.617234)"
+     transform="translate(8.0695534,-0.01964551)"
      style="display:inline">
     <path
        style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker4189)"
