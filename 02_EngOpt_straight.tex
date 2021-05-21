@@ -66,14 +66,16 @@ Can we perhaps derive the something like following?
 	<? \frac{ F }{ w^m h_\text{f} } &\le \sigma^m_\text{fail}
 \end{align*}
 
-If the ratio $\nicefrac{w^b}{v^a} < 1$ then the bending failure constraint \cref{eq:c_bending_a} is dominated by the shear failure \cref{eq:c_shear},
-because then 
+Conversely, if $\nicefrac{w^b}{v^a} > \nicefrac{ \sigma^a_\text{fail} }{ \tau^a } = 2$ 
+then the shear failure constraint \cref{eq:c_shear} is dominated by the bending failure constraint \cref{eq:c_bending_a},
+since then 
 $
-\frac{ 3 F w^b }{ 4 \left( v^a \right)^2 h_\text{c} }
-< \frac{ 3 F }{ 4 v^a h_\text{c}} 
-\le \tau^a < \sigma^a_\text{fail}
+\frac{ 3 F w^b }{ 4 \left( v^a \right)^2 h_\text{c} \sigma^a_\text{fail}}
+> \frac{ 3 F }{ 4 v^a h_\text{c} \tau^a} 
 $.
-The same holds vice versa with the materials $a$ and $b$ swapped.
+Otherwise the latter is dominated by the former.
+The same holds conversely with the materials $a$ and $b$ swapped.
+Therefore two of \cref{eq:c_shear}, \cref{eq:c_bending_a} and \cref{eq:c_bending_b} will be redundant.
 
 
 Depending on the types of material used the tensile and shear strength in the Z direction can be an order of magnitude lower than in the horizontal directions.
