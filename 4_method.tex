@@ -403,12 +403,14 @@ The optimization then consists of the following:
 
 
 TODO: shear criteria are inaccurate!
-The max shear experienced by any location along a rectangular beam is $\tau_\text{max} = \nicefrac43 \nicefrac{V}{A}$,
+The max shear experienced by any location along a rectangular beam is $\tau_\text{max} = \nicefrac32 \nicefrac{V}{A}$,
 where $V$ is the internal shear force, which for a uniformly distributed load comes out to $V=\nicefrac12 F$.
 So the criterion for shear should read as:
 \begin{align}
-	\frac{2 F}{3 w^m h_\text{f}} &\le \tau_\text{yield} \\
+	\frac{3 F}{4 w^m h_\text{f}} &\le \tau_\text{yield} \\
 \end{align}
+
+TODO: update constraints!
 
 
 There is a dependency between failure modes.
