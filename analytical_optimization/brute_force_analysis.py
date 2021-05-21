@@ -15,10 +15,10 @@ tbz = .5 * sbz
 line_w = .3
 layer_thickness = .1
 
-wa_min = 2 * line_w
-wb_min = 2 * line_w
-w_max = 6 * wa_min
-l_max = 6 * wa_min
+wa_min = line_w
+wb_min = line_w
+w_max = 6 * 2 * wa_min
+l_max = 6 * 2 * wa_min
 
 h_min = 2 * layer_thickness
 h_max = 6 * h_min
