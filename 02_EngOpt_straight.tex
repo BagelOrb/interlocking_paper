@@ -33,17 +33,21 @@ The optimization then consists of the following:
 	& \omit\rlap{$\displaystyle \max{ \frac{F}{\left( w^a + w^b \right) \left( h_\text{f} + h_\text{c} \right) }}$} \label{eq:obj} \\
 % 	& \min{ h_\text{f} + h_\text{c}}
 \omit\rlap{subject to} \nonumber \\
-	w^m &\ge 2 w_\text{min}^m 								&&\text{ Nozzle size} \label{eq:c1} \\
-	v^m &\ge w_\text{min}^m 								&&\text{ Nozzle size}  \label{eq:c2} \\
-	h_\text{f} &\ge h_\text{min}  							&&\text{ Layer thickness}  \label{eq:c3} \\
-	h_\text{c} &\ge h_\text{min} 							&&\text{ Layer thickness}  \label{eq:c4} \\
+	w^a &\ge 2 w_\text{min}^a 								&&\text{ Nozzle size } a \label{eq:cwa} \\
+	w^b &\ge 2 w_\text{min}^b 								&&\text{ Nozzle size } b \label{eq:cwb} \\
+	v^a &\ge w_\text{min}^a 								&&\text{ Nozzle size } a \label{eq:cva} \\
+	v^b &\ge w_\text{min}^b 								&&\text{ Nozzle size } b \label{eq:cvb} \\
+	h_\text{f} &\ge h_\text{min}  							&&\text{ Layer thickness}  \label{eq:chf} \\
+	h_\text{c} &\ge h_\text{min} 							&&\text{ Layer thickness}  \label{eq:chc} \\
 	v^a + v^b &\le l_\text{max} 							&&\text{ Design constraint}   \label{eq:c_total_length} \\
-	\frac{ F }{ w^m h_\text{f} } &\le \sigma^m_\text{fail} &&\text{ Tension failure } M_x^m  \label{eq:c_tensile} \\
-	\frac{ 3 F }{ 4 v^m h_\text{c}} &\le \nicefrac12 \sigma^m_\text{fail} 			&&\text{ Shear failure } M_y^m  \label{eq:c_shear} \\
-	\frac{ 3 F }{ 4 v^m w^m } &\le \tau^m_\text{Z} 			&&\text{ Shear failure } M_z^m  \label{eq:c_shear_z} \\
+	\frac{ F }{ w^a h_\text{f} } &\le \sigma^a_\text{fail} &&\text{ Tension failure } M_x^a  \label{eq:c_tensile_a} \\
+	\frac{ F }{ w^b h_\text{f} } &\le \sigma^b_\text{fail} &&\text{ Tension failure } M_x^b  \label{eq:c_tensile_b} \\
+	\frac{ 3 F }{ 4 v^a h_\text{c}} &\le \nicefrac12 \sigma^a_\text{fail} 			&&\text{ Shear failure } M_y^a  \label{eq:c_shear_a} \\
+	\frac{ 3 F }{ 4 v^b h_\text{c}} &\le \nicefrac12 \sigma^b_\text{fail} 			&&\text{ Shear failure } M_y^b  \label{eq:c_shear_b} \\
+	\frac{ 3 F }{ 4 v^a w^a } &\le \tau^a_\text{Z} 			&&\text{ Shear failure } M_z^a  \label{eq:c_shear_z_a} \\
+	\frac{ 3 F }{ 4 v^b w^b } &\le \tau^b_\text{Z} 			&&\text{ Shear failure } M_z^b  \label{eq:c_shear_z_b} \\
 	\frac{ 3 F w^b }{ 4 \left( v^a \right)^2 h_\text{c} } &\le \sigma^a_\text{fail}			&&\text{ Bending failure } M_y^a  \label{eq:c_bending_a} \\
-	\frac{ 3 F w^a }{ 4 \left( v^b \right)^2 h_\text{c} } &\le \sigma^b_\text{fail}			&&\text{ Bending failure } M_y^b  \label{eq:c_bending_b} \\
-	& \text{for both materials } && m \in \{a, b\} \nonumber
+	\frac{ 3 F w^a }{ 4 \left( v^b \right)^2 h_\text{c} } &\le \sigma^b_\text{fail}			&&\text{ Bending failure } M_y^b  \label{eq:c_bending_b}
 \end{align}
 
 This looks like a multi-objective optimization problem, but without the second objective the problem is under-constrained.
@@ -60,7 +64,7 @@ Materials properties of 3D printed materials are always such that $\tau_Z^m < \t
 Maximum shear stress theory further gives us that $\tau^m = \nicefrac12 \sigma^m_\text{fail}$.
 
 Conversely, if $\nicefrac{w^b}{v^a} > \nicefrac{ \sigma^a_\text{fail} }{ \tau^a } = 2$ 
-then the shear failure constraint \cref{eq:c_shear} is dominated by the bending failure constraint \cref{eq:c_bending_a},
+then the shear failure constraints \cref{eq:c_shear_a} is dominated by the bending failure constraint \cref{eq:c_bending_a},
 since then 
 $
 \frac{ 3 F w^b }{ 4 \left( v^a \right)^2 h_\text{c} \sigma^a_\text{fail}}
@@ -68,7 +72,7 @@ $
 $.
 Otherwise the latter is dominated by the former.
 The same holds conversely with the materials $a$ and $b$ swapped.
-Therefore two of \cref{eq:c_shear}, \cref{eq:c_bending_a} and \cref{eq:c_bending_b} will be redundant.
+Therefore two of \cref{eq:c_shear_a,eq:c_shear_b,eq:c_bending_a,eq:c_bending_b} will be redundant.
 
 
 Depending on the types of material used the tensile and shear strength in the Z direction can be an order of magnitude lower than in the horizontal directions.
@@ -82,24 +86,28 @@ In such a case the Z shearing failure constraint \cref{eq:c_shear_z} will be act
 	\max{ \frac{F}{\left( w^a + w^b \right) \left( h_\text{f} + h_\text{c} \right) } }
 																		&& F^+, w^{a-}, w^{b-},  h_\text{f}^-, h_\text{c}^-\\
 \omit\rlap{subject to} \nonumber \\
-	1 - \nicefrac{w^m }{2 w_\text{min}^m} &\le 0    					& w^{m-} \\
-	1 - \nicefrac{v^m }{w_\text{min}^m} &\le 0    						& v^{m-} \\
+	1 - \nicefrac{w^a }{2 w_\text{min}^a} &\le 0    					& w^{a-} \\
+	1 - \nicefrac{w^b }{2 w_\text{min}^b} &\le 0    					& w^{b-} \\
+	1 - \nicefrac{v^a }{w_\text{min}^a} &\le 0    						& v^{a-} \\
+	1 - \nicefrac{v^b }{w_\text{min}^b} &\le 0    						& v^{b-} \\
 	1 - \nicefrac{h_\text{f}}{h_\text{min}} &\le 0 						& h_\text{f}^- \\
 	1 - \nicefrac{h_\text{c}}{h_\text{min}} &\le 0 						& h_\text{c}^- \\
 	\frac{v^a + v^b}{ l_\text{max} }  - 1&\le 0 						& v^{a+}, v^{b+} \\
-	\frac{ F }{ w^m h_\text{f} \sigma^m_\text{fail} } - 1&\le 0 		& F^+, w^{m-}, h_\text{f}^- \\
-	\frac{ 3 F }{ 4 v^m h_\text{c} \tau^m } - 1 &\le 0 					& F^+, v^{m-}, h_\text{c}^- \\
-	\frac{ 3 F }{ 4 v^m w^m \tau^m_\text{Z} } - 1 &\le 0 				& F^+, v^{m-}, w^{m-} \\
+	\frac{ F }{ w^a h_\text{f} \sigma^a_\text{fail} } - 1&\le 0 		& F^+, w^{a-}, h_\text{f}^- \\
+	\frac{ F }{ w^b h_\text{f} \sigma^b_\text{fail} } - 1&\le 0 		& F^+, w^{b-}, h_\text{f}^- \\
+	\frac{ 3 F }{ 4 v^a h_\text{c} \tau^a } - 1 &\le 0 					& F^+, v^{a-}, h_\text{c}^- \\
+	\frac{ 3 F }{ 4 v^b h_\text{c} \tau^b } - 1 &\le 0 					& F^+, v^{b-}, h_\text{c}^- \\
+	\frac{ 3 F }{ 4 v^a w^a \tau^a_\text{Z} } - 1 &\le 0 				& F^+, v^{a-}, w^{a-} \\
+	\frac{ 3 F }{ 4 v^b w^b \tau^b_\text{Z} } - 1 &\le 0 				& F^+, v^{b-}, w^{b-} \\
 	\frac{ 3 F w^b }{ 4 \left( v^a \right)^2 h_\text{c} \sigma^a_\text{fail} } - 1 &\le 0			& F^+, w^{b+}, v^{a-}, h_\text{c}^-\\
-	\frac{ 3 F w^a }{ 4 \left( v^b \right)^2 h_\text{c} \sigma^b_\text{fail} } - 1 &\le 0			& F^+, w^{a+}, v^{b-}, h_\text{c}^-\\
-	\text{for both materials } && m \in \{a, b\}
+	\frac{ 3 F w^a }{ 4 \left( v^b \right)^2 h_\text{c} \sigma^b_\text{fail} } - 1 &\le 0			& F^+, w^{a+}, v^{b-}, h_\text{c}^-
 \end{align*}
 
-If we would scale all design variables linearly with some factor $R$ and $F$ by $R^2$ then the objective function and all mechanical constraints \crefrange{eq:c_tensile}{eq:c_bending_b} remain at the same value.
+If we would scale all design variables linearly with some factor $R$ and $F$ by $R^2$ then the objective function and all mechanical constraints \crefrange{eq:c_tensile_a}{eq:c_bending_b} remain at the same value.
 If only those constraints were to be considered the problem would have been under-constrained.
-Therefore some of the constraints \crefrange{eq:c1}{eq:c_total_length} will have to be active.
+Therefore some of the constraints \crefrange{eq:cwa}{eq:c_total_length} will have to be active.
 %incorrect! : Since only \cref{eq:c_total_length} provides an upper bound it must be active.
-If we set \cref{eq:c1} active for material $a$ \todo{we will show} that none of the other constraints will be violated, so this constraint has to be active.
+If we set \cref{eq:cwa} active \todo{we will show} that none of the other constraints will be violated, so this constraint has to be active.
 
 
 
