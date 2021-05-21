@@ -69,6 +69,12 @@ va = wa * rw
 hf = hc * rz
 vb = va * ry
 
+
+best_idx = np.unravel_index(np.argmax(FEM_stress), FEM_stress.shape)
+print(f"best: stess={FEM_stress[best_idx]}")
+print(f" rx={rx[best_idx]:.4g}; ry={ry[best_idx]:.4g}; rw={rw[best_idx]:.4g}; rz={rz[best_idx]:.4g}; ")
+print(f" wa={wa[best_idx]:.4g}; wb={wb[best_idx]:.4g}; va={va[best_idx]:.4g}; vb={vb[best_idx]:.4g}; hf={hf[best_idx]:.4g}; hc={hc[best_idx]:.4g}; ")
+
 F = FEM_stress * (wa + wb) * (hf + hc)
 
 gs = []
