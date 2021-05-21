@@ -70,6 +70,12 @@ Therefore some of the constraints \crefrange{eq:c1}{eq:c_total_length} will have
 %incorrect! : Since only \cref{eq:c_total_length} provides an upper bound it must be active.
 If we set \cref{eq:c1} active for material $a$ \todo{we will show} that none of the other constraints will be violated, so this constraint has to be active.
 
+The same holds for the heights.
+We can scale $h_\text{c}$, $h_\text{f}$ and $F$ up with a factor $R$ without changing the value of the objective function nor the mechanical constraints.
+The manufacturing constraints do change, but as long as we scale up they remain satisfied.
+This means the problem definition is not well-bounded.
+In order to solve this we set \cref{eq:c4} active and \todo{we will show} that \cref{eq:c3} (or the others) are not violated.
+
 \paragraph{Constraint redundancy}
 Conversely, if $\nicefrac{w^b}{v^a} > \nicefrac{ \sigma^a_\text{fail} }{ \tau^a } = 2$ 
 then the shear failure constraints \cref{eq:c_shear} for material $a$ is dominated by the bending failure constraint \cref{eq:c_bending_a},
