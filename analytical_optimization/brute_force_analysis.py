@@ -68,8 +68,10 @@ best_idx = np.unravel_index(np.argmax(viable_stress), viable_stress.shape)
 F_analytic = viable_stress * (wa + wb) * (hf + hc)
 print(
     f"best: s: {viable_stress[best_idx]}\n"
-    f"rz= {rz[best_idx]}, rw= {rw[best_idx]}, rx= {rx[best_idx]}, ry= {ry[best_idx]}, FF= {F_analytic[best_idx]}\n"
-    f"wa={wa[best_idx]}, wb={wb[best_idx]}, va={va[best_idx]}, vb={vb[best_idx]}, hc={hc[best_idx]}, hf={hf[best_idx]}")
+    f"rz={rz[best_idx]:.4g}; rw={rw[best_idx]:.4g}; rx={rx[best_idx]:.4g}; ry={ry[best_idx]:.4g}; FF={F_analytic[best_idx]:.4g};\n"
+    f"wa={wa[best_idx]:.4g}; wb={wb[best_idx]:.4g}; va={va[best_idx]:.4g}; vb={vb[best_idx]:.4g}; hf={hf[best_idx]:.4g}; hc={hc[best_idx]:.4g};")
+
+
 
 # fig, axs = plt.subplots(2, 2, figsize=(10, 6))
 # axs[0, 0].scatter(l.reshape(-1), FEM_stress.reshape(-1), c=colors)
