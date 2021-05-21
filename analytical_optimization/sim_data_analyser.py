@@ -87,40 +87,19 @@ gs.append(1 - hc / h_min)
 gs.append((va + vb) / l_max - 1)
 gs.append(F / (wa * hf * sa) - 1)  # tensile
 gs.append(F / (wb * hf * sb) - 1)
-gs.append(3 * F / (4 * va * hc * ta) - 1)  # shear
-gs.append(3 * F / (4 * vb * hc * tb) - 1)
+gs.append(3 * F / (4 * hc * np.minimum(va * ta, vb * tb)) - 1)  # shear
 gs.append(3 * F / (4 * va * wa * taz) - 1)  # z shear
 gs.append(3 * F / (4 * vb * wa * tbz) - 1)
 gs.append(3 * F * wb / (4 * va * va * hc * sa) - 1)  # bending
 gs.append(3 * F * wa / (4 * vb * vb * hc * sb) - 1)
 
-gFs = []
-gFs.append(sa * wa * hf)
-gFs.append(sb * wb * hf)
-gFs.append(.5 * sa * 4 / 3 * va * hc)
-gFs.append(.5 * sb * 4 / 3 * vb * hc)
-gFs.append(taz * 4 / 3 * va * wa)
-gFs.append(tbz * 4 / 3 * vb * wb)
-gFs.append(sa * 4 / 3 * va * va * hc / wb)
-gFs.append(sb * 4 / 3 * vb * vb * hc / wa)
-
 l = va + vb
-
-minF = np.minimum.reduce(gFs)
-stress = minF / ((wa + wb) * (hf + hc))
-toCsv(stress, 'stress.csv')
-
-viable_stress = stress
-viable_stress[l > 3.6] = 0
-F_analytic = viable_stress * (wa + wb) * (hf + hc)
-best_idx = np.unravel_index(np.argmax(viable_stress), viable_stress.shape)
-print(f"best: s: {viable_stress[best_idx]}, rz: {rz[best_idx]}, rw: {rw[best_idx]}, rx: {rx[best_idx]}, ry: {ry[best_idx]}, F: {F_analytic[best_idx]}")
 
 
 constraints = np.maximum.reduce(gs)
 toCsv(constraints, 'constraints.csv')
 
-mech_constraints = np.maximum.reduce(gs[7:15])
+mech_constraints = np.maximum.reduce(gs[6:14])
 toCsv(mech_constraints, 'mech_constraints.csv')
 
 
