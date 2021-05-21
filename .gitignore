@@ -1,6 +1,6 @@
 ## TK added ignores:
-sources/applications/inward
-BS*
+*/venv
+*/.idea
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
