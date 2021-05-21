@@ -120,11 +120,76 @@ If we would scale all design variables linearly with some factor $R$ and $F$ by 
 If only those constraints were to be considered the problem would have been under-constrained.
 Therefore some of the constraints \crefrange{eq:c1}{eq:c_total_length} will have to be active.
 %incorrect! : Since only \cref{eq:c_total_length} provides an upper bound it must be active.
+If we set \cref{eq:c1} active for material $a$ \todo{we will show} that none of the other constraints will be violated, so this constraint has to be active.
 
-If we set \cref{eq:c1} active for material $a$ we can show that none of the other constraints will be violated.
-Moreover, using larger widths will not change the objective function value, because \cref{eq:c_tensile,eq:c_shear_z} scale along with the objective function (assuming those are the active constraints).
-For the sake of keeping the micro-structure small, it is justified to set \cref{eq:c1} active for $a$.
-\tim{But that means it should have been an objective!}
+Let's assume \cref{eq:c_shear_z} is inactive.
+In that case the objective function value and all the mechanical constraint values are invariant under scaling of $F$, $h_\text{f}$ and $h_\text{c}$ by any value $R$.
+Therefore, either constraint \crefrange{eq:c1}{eq:c2} needs to be active.
+We will assume that \cref{eq:c1} is active and \todo{we will show} that this doesn't violate \cref{eq:c2},
+thus showing that the assumption is correct.
+
+
+Let's \todo{assume} that \cref{eq:c_tensile} is active for both materials.
+We can then derive:
+\begin{align*}
+%	\frac{ F }{ w^a h_\text{f} } &= \sigma^a_\text{fail} \\
+%	\frac{ F }{ w^b h_\text{f} } &= \sigma^b_\text{fail} \\
+%	\frac{ \nicefrac{ F }{ w^a h_\text{f} } }{ \nicefrac{ F }{ w^b h_\text{f} } } &= \frac{w^b}{w^a} = \frac{ \sigma^a_\text{fail}}{\sigma^b_\text{fail}} \\
+	w^b &= w^a \frac{ \sigma^a_\text{fail}}{\sigma^b_\text{fail}} 
+\end{align*}
+
+
+
+The $v^m$ variables will have to be decided on by one of \crefrange{eq:c_shear}{eq:c_bending_b}.
+Let's \todo{assume} that \cref{eq:c_shear} is active for material $b$.
+We can then derive:
+\begin{align*}
+ 	%\frac{ 3 F }{ 4 v^b h_\text{c}} &= \tau^b
+	%\frac{ 3 F }{ 4 v^b h_\text{c}} &= \frac12 \sigma^m_\text{fail} \\
+	%\frac{ F }{ w^b h_\text{f} } &= \sigma^m_\text{fail} \\
+	\frac{ F }{ 2 w^b h_\text{f} } &= \frac{ 3 F }{ 4 v^b h_\text{c}} \\
+	\frac{ 1 }{ 2 w^b h_\text{f} } &= \frac{ 3 }{ 4 v^b h_\text{c}} \\
+	4 v^b h_\text{c} &= 6 w^b h_\text{f} \\
+	v^b &= \nicefrac32 w^b \frac{h_\text{f}}{h_\text{c}} \\
+\end{align*}
+
+Let's further \todo{assume} that \cref{eq:c_bending_a} is active.
+We can then derive:
+\begin{align*}
+	%\frac{ 3 F w^b }{ 4 \left( v^a \right)^2 h_\text{c} } &= \sigma^a_\text{fail} \\
+	%\frac{ F }{ w^b h_\text{f} } &= \sigma^m_\text{fail} \\
+	\frac{ 3 F w^b }{ 4 \left( v^a \right)^2 h_\text{c} } &= \frac{ F }{ w^b h_\text{f} } \\
+	\frac{ 3 w^b }{ 4 \left( v^a \right)^2 h_\text{c} } &= \frac{ 1 }{ w^b h_\text{f} } \\
+	\frac{ 3 }{ 4 \left( v^a \right)^2 h_\text{c} } &= \frac{ 1 }{ \left( w^b \right)^2 h_\text{f} } \\
+	\nicefrac43  \left( v^a \right)^2 h_\text{c} &= \left( w^b \right)^2 h_\text{f} \\
+	 \left( v^a \right)^2  &= \nicefrac34  \left( w^b \right)^2 \frac{ h_\text{f} }{ h_\text{c} } \\
+\end{align*}
+
+
+Let's also \todo{assume} \cref{eq:c_total_length} to be active.
+We can then derive:
+\begin{align*}
+%	v^a + v^b &= l_\text{max} \\
+%	v^a + v^a  \frac{v^b}{v^a} &= l_\text{max} \\
+%	v^a + v^a  \frac{\sigma^b_\text{fail}}{ \sigma^a_\text{fail}} &= l_\text{max} \\
+	v^a &= \frac{l_\text{max}}{1 + \nicefrac{\sigma^b_\text{fail}}{ \sigma^a_\text{fail}} } \\
+\end{align*}
+
+
+\begin{align*}
+	& \max{ \frac{F}{\left( w^a + w^b \right) \left( h_\text{f} + h_\text{c} \right) }} \\
+	\omit\rlap{subject to} \nonumber \\
+	\left\{ \nicefrac12 w^m, v^m \right\} &\ge w_\text{min}^m \\
+	\left\{ h_\text{f} , h_\text{c} \right\}&\ge h_\text{min} \\
+	v^a + v^b &\le l_\text{max} \\
+	\frac{ F }{ w^m h_\text{f} } &= \sigma^m_\text{fail} \\
+	\frac{ 3 F }{ 4 v^m h_\text{c}} &= \frac12 \sigma^m_\text{fail} \\
+	\frac{ 3 F w^b }{ 4 \left( v^a \right)^2 h_\text{c} } &\le \sigma^a_\text{fail}	\\
+	\frac{ 3 F w^a }{ 4 \left( v^b \right)^2 h_\text{c} } &\le \sigma^b_\text{fail}	\\
+	& \text{for both materials }  m \in \{a, b\} \nonumber
+\end{align*}
+
+
 
 \todo{We will show that} only \cref{eq:c3,eq:c1} for $m=a$ are the active bound constraints.
 
