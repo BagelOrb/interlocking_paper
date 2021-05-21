@@ -59,13 +59,6 @@ but it is required that $l_\text{max} \ge v_\text{min}^a + v_\text{min}^b$.
 Materials properties of 3D printed materials are always such that $\tau_Z^m < \tau^m$.
 Maximum shear stress theory further gives us that $\tau^m = \nicefrac12 \sigma^m_\text{fail}$.
 
-Can we perhaps derive the something like following?
-\begin{align*}
-	\frac{ 3 F }{ 4 v^m h_\text{c}} &\le \tau^m 	\\
-%	<? \frac{ 3 F }{ 4 v^m w^m } &\le \tau^m_\text{Z} 	\\
-	<? \frac{ F }{ w^m h_\text{f} } &\le \sigma^m_\text{fail}
-\end{align*}
-
 Conversely, if $\nicefrac{w^b}{v^a} > \nicefrac{ \sigma^a_\text{fail} }{ \tau^a } = 2$ 
 then the shear failure constraint \cref{eq:c_shear} is dominated by the bending failure constraint \cref{eq:c_bending_a},
 since then 
@@ -80,20 +73,6 @@ Therefore two of \cref{eq:c_shear}, \cref{eq:c_bending_a} and \cref{eq:c_bending
 
 Depending on the types of material used the tensile and shear strength in the Z direction can be an order of magnitude lower than in the horizontal directions.
 In such a case the Z shearing failure constraint \cref{eq:c_shear_z} will be active for that material.
-
-Suppose that \cref{eq:c_shear_z} is active.
-\tim{Some steps?}
-So we can conclude that \cref{eq:c_shear_z} is not active.
-
-So some combination of \cref{eq:c_tensile,eq:c1} needs to be active on $a$ and $b$. 
-\tim{Some steps?}
-So \cref{eq:c1} is active on material $a$, and \cref{eq:c_tensile} is active on both material $a$ and $b$.
-
-
-If \cref{eq:c_tensile} is active and \cref{eq:c_shear} is active then we can show that we can choose the height values such that \cref{eq:c_shear_z} is not active.
-
-If \cref{eq:c_tensile} is active and \cref{eq:c_shear} is not active then?
-
 
 
 
