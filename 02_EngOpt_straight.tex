@@ -375,3 +375,149 @@ Formula is given by this? :
 
 
 
+
+\subsection{Assuming only constraints from exhaustive search}
+
+
+Step 1:
+\begin{align*}
+	w^a = 2 w^a_\text{min}
+\end{align*}
+
+Step 2:
+\begin{align*}
+	h_\text{c} = h_\text{min}
+\end{align*}
+
+Step 3:
+\begin{align*}
+	v^a + v^b &= l_\text{max} \\
+	v^a &= l_\text{max} - v^b
+\end{align*}
+
+Step 4:
+\begin{align*}
+	\frac{ F }{ w^b h_\text{f} } &= \sigma^b_\text{fail} \\
+	%\frac{ F }{ h_\text{f} } &= w^b \sigma^b_\text{fail} \\
+	%\frac{ F }{ h_\text{f} \sigma^b_\text{fail} } &= w^b  \\
+	w^b &= \frac{ F }{ h_\text{f} \sigma^b_\text{fail} } \\
+\end{align*}
+
+Step 5:
+\begin{align*}
+	\frac{ 3 F }{ 4 v^a h_\text{c}} &= \nicefrac12 \sigma^a_\text{fail} \\
+	%v^a &= \frac{ 3 F }{ 4 \nicefrac12 \sigma^a_\text{fail} h_\text{c}}  \\
+	%v^a &= \frac{ 3 F }{ 2 \sigma^a_\text{fail} h_\text{c}}  \\
+	v^a &=  \frac{ 3 F }{ 2 \sigma^a_\text{fail} h_\text{min}}  \\
+	\\
+	%l_\text{max} - v^b &= \frac{ 3 F }{ 2 \sigma^a_\text{fail} h_\text{min}}  \\
+	v^b % &= l_\text{max} - \frac{ 3 F }{ 2 \sigma^a_\text{fail} h_\text{min}} \\ 
+	&= l_\text{max} - \frac{ 3 F }{ 2 \sigma^a_\text{fail} h_\text{min}} \\
+\end{align*}
+
+Step 6:
+\begin{align*}
+	\frac{ 3 F }{ 4 v^b h_\text{c}} &= \nicefrac12 \sigma^b_\text{fail} \\
+	%3 F &= 4 v^b h_\text{c} \nicefrac12 \sigma^b_\text{fail} \\
+	%F &= \nicefrac{2}{3} v^b h_\text{c} \sigma^b_\text{fail} \\
+	%&= \nicefrac{2}{3} \left( l_\text{max} - \frac{ 3 F }{ 2 \sigma^a_\text{fail} h_\text{min}} \right) h_\text{min} \sigma^b_\text{fail} \\
+	%&= \nicefrac{2}{3} l_\text{max}  h_\text{min} \sigma^b_\text{fail} - \nicefrac{2}{3} \frac{ 3 F }{ 2 \sigma^a_\text{fail} h_\text{min}} h_\text{min} \sigma^b_\text{fail} \\
+	%&= \nicefrac{2}{3} l_\text{max}  h_\text{min} \sigma^b_\text{fail} - \frac{ F }{ \sigma^a_\text{fail} h_\text{min}} h_\text{min} \sigma^b_\text{fail} \\
+	%&= \nicefrac{2}{3} l_\text{max}  h_\text{min} \sigma^b_\text{fail} - \frac{ F }{ \sigma^a_\text{fail} } \sigma^b_\text{fail} \\
+	%&= \nicefrac{2}{3} l_\text{max}  h_\text{min} \sigma^b_\text{fail} - F \frac{ \sigma^b_\text{fail} }{ \sigma^a_\text{fail} } \\
+	%F + F \frac{ \sigma^b_\text{fail} }{ \sigma^a_\text{fail} } &= \nicefrac{2}{3} l_\text{max}  h_\text{min} \sigma^b_\text{fail} \\
+	%F \left( 1 + \frac{ \sigma^b_\text{fail} }{ \sigma^a_\text{fail} } \right) &= \nicefrac{2}{3} l_\text{max}  h_\text{min} \sigma^b_\text{fail} \\
+	%F &= \frac{  \nicefrac{2}{3} l_\text{max}  h_\text{min} \sigma^b_\text{fail}  }{  1 + \frac{ \sigma^b_\text{fail} }{ \sigma^a_\text{fail} }  } \\
+	F &= \frac{  \nicefrac{2}{3} l_\text{max}  h_\text{min} \sigma^b_\text{fail} \sigma^a_\text{fail} }{  \sigma^a_\text{fail} + \sigma^b_\text{fail}  } \\
+	\\
+	% \nicefrac{1}{3} l_\text{max} h_\text{min} \sigma^b_\text{fail}
+	% replace
+	%
+	% by
+	% \frac{  \nicefrac{2}{3} l_\text{max}  h_\text{min} \sigma^b_\text{fail} \sigma^a_\text{fail} }{  \sigma^a_\text{fail} + \sigma^b_\text{fail}  }
+	%
+	\\
+	%w^b &= \frac{ \frac{  \nicefrac{2}{3} l_\text{max}  h_\text{min} \sigma^b_\text{fail} \sigma^a_\text{fail} }{  \sigma^a_\text{fail} + \sigma^b_\text{fail}  } }{ h_\text{f} \sigma^b_\text{fail} } \\
+	w^b &= \frac{  \nicefrac{2}{3} l_\text{max}  h_\text{min} \sigma^a_\text{fail} }{  \left(\sigma^a_\text{fail} + \sigma^b_\text{fail}\right) h_\text{f}  }  \\
+	\\
+	%v^a &=  \frac{ 3 \frac{  \nicefrac{2}{3} l_\text{max}  h_\text{min} \sigma^b_\text{fail} \sigma^a_\text{fail} }{  \sigma^a_\text{fail} + \sigma^b_\text{fail}  } }{ 2 \sigma^a_\text{fail} h_\text{min}}  \\
+	%v^a &=  \frac{ \frac{ l_\text{max}  h_\text{min} \sigma^b_\text{fail} \sigma^a_\text{fail} }{  \sigma^a_\text{fail} + \sigma^b_\text{fail}  } }{ \sigma^a_\text{fail} h_\text{min}}  \\
+	v^a &=   \frac{ l_\text{max}   \sigma^b_\text{fail}  }{  \sigma^a_\text{fail} + \sigma^b_\text{fail}  }  \\
+	\\
+	%v^b &= l_\text{max} - v^a \\
+	v^b &= l_\text{max} - \frac{ l_\text{max}   \sigma^b_\text{fail}  }{  \sigma^a_\text{fail} + \sigma^b_\text{fail}  }  \\
+	v^b &= l_\text{max} \left( 1 - \frac{ \sigma^b_\text{fail}  }{  \sigma^a_\text{fail} + \sigma^b_\text{fail}  } \right)  \\
+\end{align*}
+
+Redefining our objective problem we get:
+\begin{align*}
+	& \max{ \frac{F}{\left( 2 w^a_\text{min} + w^b \right) \left( h_\text{f} + h_\text{c} \right) }} \\
+	& \max{ \frac{F}{\left( 2 w^a_\text{min} + \frac{ F }{ h_\text{f} \sigma^b_\text{fail} } \right) \left( h_\text{f} + h_\text{c} \right) }} \\
+	& \max{ \frac{1}{\left( \frac{2 w^a_\text{min}}{F} + \frac{ 1 }{ h_\text{f} \sigma^b_\text{fail} } \right) \left( h_\text{f} + h_\text{c} \right) }} \\
+	& \min{ \left( \frac{2 w^a_\text{min}}{F} + \frac{ 1 }{ h_\text{f} \sigma^b_\text{fail} } \right) \left( h_\text{f} + h_\text{c} \right) } \\
+	& \min{ \left( 2 w^a_\text{min} \frac{  \sigma^a_\text{fail} + \sigma^b_\text{fail}  }{  \nicefrac{2}{3} l_\text{max}  h_\text{min} \sigma^b_\text{fail} \sigma^a_\text{fail} } + \frac{ 1 }{ h_\text{f} \sigma^b_\text{fail} } \right) \left( h_\text{f} + h_\text{c} \right) } \\
+	& \min{ \left( 3 w^a_\text{min} \frac{  \sigma^a_\text{fail} + \sigma^b_\text{fail}  }{  l_\text{max}  h_\text{min} \sigma^b_\text{fail} \sigma^a_\text{fail} } + \frac{ 1 }{ h_\text{f} \sigma^b_\text{fail} } \right) \left( h_\text{f} + h_\text{c} \right) } \\
+\end{align*}
+
+
+An optimum is located at:
+\begin{align*}
+	0 &= \frac{\partial f}{\partial h_\text{f}} \\
+	% wolfram alpha
+	% wolfram alpha
+	h_\text{f} &= \pm \frac{ \sqrt{  h_\text{min}  }   }{   \sqrt{ 3 w^a_\text{min} \frac{  \sigma^a_\text{fail} + \sigma^b_\text{fail}  }{  l_\text{max}  h_\text{min} \sigma^b_\text{fail} \sigma^a_\text{fail} } }  \sqrt{ \sigma^b_\text{fail}  }  }
+\end{align*} 
+
+subject to \tim{Wrong! uses mistake in F.}
+\begin{align}
+	%l_\text{max} - v^b &\ge w_\text{min}^a \\
+	%l_\text{max} - \frac{ 3 \nicefrac{1}{3} l_\text{max} h_\text{min} \sigma^b_\text{fail} }{ 2 \sigma^a_\text{fail} h_\text{min}} &\le l_\text{max} - w_\text{min}^a \\
+	%l_\text{max} - \frac{ l_\text{max} \sigma^b_\text{fail} }{ 2 \sigma^a_\text{fail} } &\le l_\text{max} - w_\text{min}^a \\
+	%- \frac{ l_\text{max} \sigma^b_\text{fail} }{ 2 \sigma^a_\text{fail} } &\le - w_\text{min}^a \\
+	%l_\text{max} \frac{ \sigma^b_\text{fail} }{ 2 \sigma^a_\text{fail} } &\ge w_\text{min}^a \\
+	% ^contains to free variables
+	%l_\text{max} - \frac{ 3 \nicefrac{1}{3} l_\text{max} h_\text{min} \sigma^b_\text{fail} }{ 2 \sigma^a_\text{fail} h_\text{min}} &\ge w_\text{min}^b \\
+	%l_\text{max} - \frac{l_\text{max} \sigma^b_\text{fail} }{ 2 \sigma^a_\text{fail} } &\ge w_\text{min}^b \\
+	%l_\text{max} \left( 1 - \frac{\sigma^b_\text{fail} }{ 2 \sigma^a_\text{fail} } \right) &\ge w_\text{min}^b \\
+	% ^contains to free variables
+	h_\text{f} &\ge h_\text{min} \\
+	%\frac{ l_\text{max} h_\text{min} \sigma^b_\text{fail} }{ 6 w^a_\text{min} h_\text{f} } &\le \sigma^a_\text{fail} \\
+	% ^contains to free variables
+	%\frac{ 3 F }{ 4 \frac{ 3 F }{ 2 \sigma^a_\text{fail} h_\text{min}} 2 w^a_\text{min} } &\le \tau^a_\text{Z} \\
+	%\frac{ \sigma^a_\text{fail} h_\text{min} }{ 4 w^a_\text{min} } &\le \tau^a_\text{Z} \\
+	%\frac{ \sigma^a_\text{fail} h_\text{min} }{ 4 w^a_\text{min} } &\le \tau^a_\text{Z} \\
+	% ^contains to free variables
+	%\frac{ 3 F }{ 4 v^b w^b } &\le \tau^b_\text{Z} \\
+	%\frac{ 3 F }{ 4 v^b \frac{ F }{ h_\text{f} \sigma^b_\text{fail} } } &\le \tau^b_\text{Z} \\
+	%\frac{ 3 h_\text{f} \sigma^b_\text{fail} }{ 4 v^b } &\le \tau^b_\text{Z} \\
+	%\frac{ 3 h_\text{f} \sigma^b_\text{fail} }{ 4 \left(l_\text{max} - \frac{ 3 F }{ 2 \sigma^a_\text{fail} h_\text{min}}\right)  } &\le \tau^b_\text{Z} \\
+	%\frac{ 3 h_\text{f} \sigma^b_\text{fail} }{ 4 l_\text{max} - \frac{ 6 F }{  \sigma^a_\text{fail} h_\text{min}}  } &\le \tau^b_\text{Z} \\
+	%\frac{ 3 h_\text{f} \sigma^b_\text{fail} }{ 4 l_\text{max} - \frac{ 6 \nicefrac{1}{3} l_\text{max} h_\text{min} \sigma^b_\text{fail} }{  \sigma^a_\text{fail} h_\text{min}}  } &\le \tau^b_\text{Z} \\
+	%\frac{ 3 h_\text{f} \sigma^b_\text{fail} }{ 4 l_\text{max} - \frac{ 2 l_\text{max} \sigma^b_\text{fail} }{  \sigma^a_\text{fail} }  } &\le \tau^b_\text{Z} \\
+	%\frac{ 3 h_\text{f} \sigma^b_\text{fail} }{ 2 l_\text{max} \left( 2 - \frac{ \sigma^b_\text{fail} }{  \sigma^a_\text{fail} } \right)  } &\le \tau^b_\text{Z} \\
+	%\frac{ 3 h_\text{f} }{ 2 l_\text{max} \left( \frac{2}{\sigma^b_\text{fail}} - \frac{ 1 }{  \sigma^a_\text{fail} } \right)  } &\le \tau^b_\text{Z} \\
+	%3 h_\text{f} &\le \tau^b_\text{Z} 2 l_\text{max} \left( \frac{2}{\sigma^b_\text{fail}} - \frac{ 1 }{  \sigma^a_\text{fail} } \right) \\
+	h_\text{f} &\le \nicefrac23 \tau^b_\text{Z}  l_\text{max} \left( \frac{2}{\sigma^b_\text{fail}} - \frac{ 1 }{  \sigma^a_\text{fail} } \right) \\
+	%\frac{ 3 F w^b }{ 4 \left( v^a \right)^2 h_\text{c} } &\le \sigma^a_\text{fail}	\\
+	%\frac{ 3 F \frac{ F }{ h_\text{f} \sigma^b_\text{fail} } }{ 4 \left( \frac{ 3 F }{ 2 \sigma^a_\text{fail} h_\text{min}} \right)^2 h_\text{min} } &\le \sigma^a_\text{fail}	\\
+	%\frac{ 3 \frac{ 1 }{ h_\text{f} \sigma^b_\text{fail} } }{ 4 \left( \frac{ 3 }{ 2 \sigma^a_\text{fail} h_\text{min}} \right)^2 h_\text{min} } &\le \sigma^a_\text{fail}	\\
+	%\frac{ 3 }{ 4 \left( \frac{ 3 }{ 2 \sigma^a_\text{fail} h_\text{min}} \right)^2 h_\text{min} h_\text{f} \sigma^b_\text{fail} } &\le \sigma^a_\text{fail}	\\
+	%\frac{ 3 }{ 4 \frac{ 9 }{ \left( 2 \sigma^a_\text{fail} h_\text{min} \right)^2 } h_\text{min} h_\text{f} \sigma^b_\text{fail} } &\le \sigma^a_\text{fail}	\\
+	%\frac{ 3 \left( 2 \sigma^a_\text{fail} h_\text{min} \right)^2 }{ 4 * 9 h_\text{min} h_\text{f} \sigma^b_\text{fail} } &\le \sigma^a_\text{fail}	\\
+	%\frac{ \left( \sigma^a_\text{fail} h_\text{min} \right)^2 }{ 3 h_\text{min} h_\text{f} \sigma^b_\text{fail} } &\le \sigma^a_\text{fail}	\\
+	%\frac{ \left( \sigma^a_\text{fail} \right)^2 h_\text{min}  }{  3  h_\text{f} \sigma^b_\text{fail} } &\le \sigma^a_\text{fail}	\\
+	%\frac{ \left( \sigma^a_\text{fail} \right)^2 h_\text{min}  }{  3  h_\text{f} \sigma^b_\text{fail} } &\le \sigma^a_\text{fail}	\\
+	%\frac{  \sigma^a_\text{fail}  h_\text{min}  }{  3  h_\text{f} \sigma^b_\text{fail} } &\le 1	\\
+	%\frac{  \sigma^a_\text{fail}  h_\text{min}  }{  3   \sigma^b_\text{fail} } &\le h_\text{f}	\\
+	h_\text{f} &\ge  \frac{  \sigma^a_\text{fail}  h_\text{min}  }{  3   \sigma^b_\text{fail} }
+	%\frac{ 3 \nicefrac{1}{3} l_\text{max} h_\text{min} \sigma^b_\text{fail} 2 w^a_\text{min} }{ 4 \left( l_\text{max} \left(1 - \frac{ \sigma^b_\text{fail} }{ 2 \sigma^a_\text{fail} }\right) \right)^2 h_\text{min} } &\le \sigma^b_\text{fail} \\
+	%\frac{ l_\text{max} h_\text{min} \sigma^b_\text{fail} 2 w^a_\text{min} }{ 4 \left( l_\text{max} \left(1 - \frac{ \sigma^b_\text{fail} }{ 2 \sigma^a_\text{fail} }\right) \right)^2 h_\text{min} } &\le \sigma^b_\text{fail} \\
+	%\frac{ l_\text{max} h_\text{min} \sigma^b_\text{fail} 2 w^a_\text{min} }{ 4 \left( l_\text{max} \left(1 - \frac{ \sigma^b_\text{fail} }{ 2 \sigma^a_\text{fail} }\right) \right)^2 h_\text{min} } &\le \sigma^b_\text{fail} \\
+	%\frac{ l_\text{max} \sigma^b_\text{fail} 2 w^a_\text{min} }{ 4 \left( l_\text{max} \left(1 - \frac{ \sigma^b_\text{fail} }{ 2 \sigma^a_\text{fail} }\right) \right)^2 } &\le \sigma^b_\text{fail} \\
+	%\frac{ l_\text{max} \sigma^b_\text{fail} 2 w^a_\text{min} }{ 4  l_\text{max}^2  \left(1 - \frac{ \sigma^b_\text{fail} }{ 2 \sigma^a_\text{fail} } \right)^2 } &\le \sigma^b_\text{fail} \\
+	%\frac{ \sigma^b_\text{fail} 2 w^a_\text{min} }{ 4  l_\text{max}  \left(1 - \frac{ \sigma^b_\text{fail} }{ 2 \sigma^a_\text{fail} } \right)^2 } &\le \sigma^b_\text{fail} \\
+	%\frac{ 2 w^a_\text{min} }{ 4  l_\text{max}  \left(1 - \frac{ \sigma^b_\text{fail} }{ 2 \sigma^a_\text{fail} } \right)^2 } &\le 1 \\
+	%\frac{ w^a_\text{min} }{ 2  l_\text{max}  \left(1 - \frac{ \sigma^b_\text{fail} }{ 2 \sigma^a_\text{fail} } \right)^2 } &\le 1 \\
+	% ^contains to free variables
+\end{align}
+
