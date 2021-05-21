@@ -82,17 +82,17 @@ In such a case the Z shearing failure constraint \cref{eq:c_shear_z} will be act
 	\max{ \frac{F}{\left( w^a + w^b \right) \left( h_\text{f} + h_\text{c} \right) } }
 																		&& F^+, w^{a-}, w^{b-},  h_\text{f}^-, h_\text{c}^-\\
 \omit\rlap{subject to} \nonumber \\
-	1 - \nicefrac{w^m }{2 w_\text{min}^m} &\le 0    							&& w^{m-} \\
-	1 - \nicefrac{v^m }{w_\text{min}^m} &\le 0    							&& v^{m-} \\
-	1 - \nicefrac{h_\text{f}}{h_\text{min}} &\le 0 							&& h_\text{f}^- \\
-	1 - \nicefrac{h_\text{c}}{h_\text{min}} &\le 0 							&& h_\text{c}^- \\
-	\frac{v^a + v^b}{ l_\text{max} }  - 1&\le 0 						&& v^{a+}, v^{b+} \\
-	\frac{ F }{ w^m h_\text{f} \sigma^m_\text{fail} } - 1&\le 0 		&& F^+, w^{m-}, h_\text{f}^- \\
-	\frac{ 3 F }{ 4 v^m h_\text{c} \tau^m } - 1 &\le 0 					&& F^+, v^{m-}, h_\text{c}^- \\
-	\frac{ 3 F }{ 4 v^m w^m \tau^m_\text{Z} } - 1 &\le 0 				&& F^+, v^{m-}, w^{m-} \\
-	\frac{ 3 F w^b }{ 4 \left( v^a \right)^2 h_\text{c} \sigma^a_\text{fail} } - 1 &\le 0			&& F^+, w^{b+}, v^{a-}, h_\text{c}^-\\
-	\frac{ 3 F w^a }{ 4 \left( v^b \right)^2 h_\text{c} \sigma^b_\text{fail} } - 1 &\le 0			&& F^+, w^{a+}, v^{b-}, h_\text{c}^-\\
-	& \text{for both materials } && m \in \{a, b\}
+	1 - \nicefrac{w^m }{2 w_\text{min}^m} &\le 0    					& w^{m-} \\
+	1 - \nicefrac{v^m }{w_\text{min}^m} &\le 0    						& v^{m-} \\
+	1 - \nicefrac{h_\text{f}}{h_\text{min}} &\le 0 						& h_\text{f}^- \\
+	1 - \nicefrac{h_\text{c}}{h_\text{min}} &\le 0 						& h_\text{c}^- \\
+	\frac{v^a + v^b}{ l_\text{max} }  - 1&\le 0 						& v^{a+}, v^{b+} \\
+	\frac{ F }{ w^m h_\text{f} \sigma^m_\text{fail} } - 1&\le 0 		& F^+, w^{m-}, h_\text{f}^- \\
+	\frac{ 3 F }{ 4 v^m h_\text{c} \tau^m } - 1 &\le 0 					& F^+, v^{m-}, h_\text{c}^- \\
+	\frac{ 3 F }{ 4 v^m w^m \tau^m_\text{Z} } - 1 &\le 0 				& F^+, v^{m-}, w^{m-} \\
+	\frac{ 3 F w^b }{ 4 \left( v^a \right)^2 h_\text{c} \sigma^a_\text{fail} } - 1 &\le 0			& F^+, w^{b+}, v^{a-}, h_\text{c}^-\\
+	\frac{ 3 F w^a }{ 4 \left( v^b \right)^2 h_\text{c} \sigma^b_\text{fail} } - 1 &\le 0			& F^+, w^{a+}, v^{b-}, h_\text{c}^-\\
+	\text{for both materials } && m \in \{a, b\}
 \end{align*}
 
 If we would scale all design variables linearly with some factor $R$ and $F$ by $R^2$ then the objective function and all mechanical constraints \crefrange{eq:c_tensile}{eq:c_bending_b} remain at the same value.
