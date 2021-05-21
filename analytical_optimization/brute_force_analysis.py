@@ -23,28 +23,35 @@ l_max = 6 * 2 * wa_min
 h_min = 2 * layer_thickness
 h_max = 6 * h_min
 
-Nrz = 50
-Nrw = 40
-Nrx = 90
-Nry = 90
-shape = (Nrz, Nrw, Nrx, Nry)
-# rzs = np.linspace(1.81, 1.82, Nrz)
-# rws = np.linspace(1.09, 1.10, Nrw)
-# rxs = np.linspace(1.80, 1.81, Nrx)
-# rys = np.linspace(4.45, 4.50, Nry)
-rzs = np.linspace(1, 5, Nrz)
-rws = np.linspace(.5, 2, Nrw)
-rxs = np.linspace(1, 5, Nrx)
-rys = np.linspace(1, 5, Nry)
+N = 100
+Nwb = N
+Nva = N
+Nhf = N
+shape = (Nwb, Nva, Nhf)
+wbs = np.linspace(2 * wb_min, w_max - 2 * wa_min, Nwb)
+vas = np.linspace(wa_min, l_max - wb_min, Nva)
+hfs = np.linspace(h_min, h_max - h_min, Nhf)
 
-rz, rw, rx, ry = np.meshgrid(rzs, rws, rxs, rys, indexing='ij')
+if True:
+    wb_opt = 1.8848
+    va_opt = 1.9667
+    hf_opt = 0.6202
+    d = .1
+    wbs = np.linspace(wb_opt - d, wb_opt + d, Nwb)
+    vas = np.linspace(va_opt - d, va_opt + d, Nva)
+    hfs = np.linspace(hf_opt - d, hf_opt + d, Nhf)
 
+wb, va, hf = np.meshgrid(wbs, vas, hfs, indexing='ij')
+
+l = np.full(shape, l_max)
 wa = np.full(shape, 2 * wa_min)
 hc = np.full(shape, h_min)
-wb = wa * rx
-va = wa * rw
-hf = hc * rz
-vb = va * ry
+vb = l - va
+
+rz = hf / hc
+rw = va / wa
+rx = wb / wa
+ry = vb / va
 
 gFs = []
 gFs.append(sa * wa * hf)
