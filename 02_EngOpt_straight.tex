@@ -257,4 +257,97 @@ Formula is given by this? :
 \end{align*}
 \fi
 
+\subsection{Assuming FEM violated constraints}
 
+The FEM analyses show three types of failure: the tensile constraints and the shear constraint for material $a$.
+Let's assume those are all active at the global optimum and derive it.
+
+\iffalse
+\paragraph{Remapping}
+\begin{align*}
+	w^a &\to x \\
+	w^b &\to X \\
+	v^a &\to v \\
+	v^b &\to V \\
+	h_f &\to f \\
+	h_c &\to c \\
+	F &\to F \\
+	w^a_\text{min} &\to w \\
+	w^b_\text{min} &\to W \\
+	h_\text{min} &\to h \\
+	l_\text{max} &\to l \\
+	\sigma^a_\text{fail} &\to s\\
+	\sigma^b_\text{fail} &\to S\\
+	\tau^a_\text{fail} &\to t\\
+	\tau^b_\text{fail} &\to T\\
+	\tau^a_\text{Z, fail} &\to z\\
+	\tau^b_\text{Z, fail} &\to Z
+\end{align*}
+
+\begin{align*}
+	\min{  \frac{(2w + X)(f+h)}{F}  }
+	\\
+	%\frac{F}{2 w f s} - 1 &= 0 \\
+	%f &= \frac{F}{2 w s} \\
+	%\\
+	%\frac{F}{X f S} - 1 &= 0 \\
+	%\frac{F}{X \frac{F}{2 w s} S} - 1 &= 0 \\
+	%\frac{2 w s}{X S} - 1 &= 0 \\
+	X &= \frac{2 w s}{ S} \\
+	%\\
+	%\frac{3F\sqrt{3}}{4 v h s} - 1 &= 0 \\
+	F &= \frac{4 v h s}{3\sqrt{3}} \\
+	%\\
+	%f &= \frac{\frac{4 v h s}{3\sqrt{3}}}{2 w s} \\
+	%f &= \frac{4 v h s}{2 w s 3\sqrt{3}} \\
+	%f &= \frac{4 v h }{6\sqrt{3} w} \\
+	f &= \frac{2 v h }{3\sqrt{3} w} \\
+	\\
+	%\min{  \frac{  (2w + \frac{2 w s}{S}) (\frac{2 v h }{3\sqrt{3} w} + h)  }{  \frac{4 v h s}{3\sqrt{3}}  }  } \\
+	%\min{  \frac{  2w (1 + \frac{s}{S}) (\frac{2 v h }{3\sqrt{3} w} + h)  }{  \frac{4 v h s}{3\sqrt{3}}  }  } \\
+	%\min{  \frac{  2wh (1 + \frac{s}{S}) (\frac{2 v }{3\sqrt{3} w} + 1)  }{  \frac{4 v h s}{3\sqrt{3}}  }  } \\
+	%\min{  \frac{  2w (1 + \frac{s}{S}) (\frac{2 v }{3\sqrt{3} w} + 1)  }{  \frac{4 v  s}{3\sqrt{3}}  }  } \\
+	%\min{  \frac{ 2 w (1 + \frac{s}{S}) (\frac{2 v }{w} + 3\sqrt{3})  }{  4 v s }  } \\
+	%\min{  \frac{ w (1 + \frac{s}{S}) (\frac{2 v }{w} + 3\sqrt{3})  }{  2 v s }  } \\
+	%\min{  \frac{ (1 + \frac{s}{S}) (2 v + \frac{3\sqrt{3}}{w})  }{  2 v s }  } \\
+	%\min{  \frac{ (1 + \frac{s}{S}) (2 v + 3\sqrt{3} w )  }{  2 v s }  } \\
+	%\min{  \frac{ (\frac{1}{s} + \frac{1}{S}) (2 v + 3\sqrt{3} w )  }{  2 v }  } \\
+	\min{  (\frac{1}{s} + \frac{1}{S}) (1 + \frac{3\sqrt{3} w}{  2 v } )  } \\
+\end{align*}
+\fi
+
+
+\begin{align*}
+	\min{  \left(\frac{1}{\sigma^a_\text{fail}} + \frac{1}{\sigma^b_\text{fail}} \right) \left(1 + \frac{3\sqrt{3} w^a_\text{min} }{  2 v^a } \right)  }
+	%\\ \min{  \left( \frac{ 1 }{  v^a } \right)  } 
+\end{align*}
+
+In this new problem definition we see that the function is monotonic in $v^a$.
+The objective will be minimized for a maximal $v^a$.
+However, that means the design constraint kicks in: $v^a = l_\text{max} - v^b$ and $v^b = v^b_\text{min}$.
+This means the global optimum is at:
+\begin{align*}
+	w^a &= 2 w^a_\text{min} \approx 0.6 \\
+	w^b &= 2 w^a_\text{min} \frac{ \sigma^a_\text{fail}}{ \sigma^b_\text{fail}} \approx 2.15\\
+	v^a &= l_\text{max} - w^a_\text{min} \approx 3.3 \\
+	v^b &= w^a_\text{min} \approx 0.3 \\
+	h_\text{f} &= \frac{2 \left(l_\text{max} - w^a_\text{min}\right) h_\text{min} }{3\sqrt{3} w^a_\text{min}} \approx 0.85 \\
+	h_\text{c} &= h_\text{min} \approx 0.2 \\
+	F &= \frac{4 \left(l_\text{max} - w^a_\text{min}\right) h_\text{min} \sigma^a_\text{fail}}{3\sqrt{3}} \approx 24.7 \\
+	f &= \frac{F}{\left( w^a + w^b \right) \left( h_\text{f} + h_\text{c} \right) } \approx 8.56
+\end{align*}
+
+
+\subsection{Redefining shear}
+
+According to the von Mises yield criterion we can rewrite the ultimate shear strength in terms of the ultimate tensile yield strength:
+\begin{align*}
+	\tau^a_\text{yield} &= \frac{ \sigma^a_\text{yield} }{\sqrt{3}} 
+\end{align*}
+
+We have to compute the true ultimate yield strength values from the engineering stress values - I think.
+\begin{align*}
+	\sigma_\text{true} % &= \sigma_\text{engineering} e^{\epsilon_\text{true}} \\
+	&= \sigma_\text{engineering} (1 + \epsilon_\text{engineering})
+	%True stress = (engineering stress) * exp(true strain) = (engineering stress) * (1 + engineering strain)
+\end{align*}
