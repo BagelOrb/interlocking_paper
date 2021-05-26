@@ -169,6 +169,69 @@ Since none of the constraints are solely responsible for limiting a variable we 
 \end{align*}
 
 
+\subsection{Optimization}
+
+TODO.
+
+We performed a quick brute search algorithm to find the optimum.
+We assume the design constraint to be active.
+That leaves us with three degrees of freedom in the design space.
+For each combination we check the failure force according to each mechanical constraint 
+and use the minimum failure force to compute the objective function for that design.
+This gives us the following:
+\begin{align*}
+	w^a	&=0.6000 \\
+	w^b	&=1.8818 \\
+	v^a	&=1.9718 \\
+	v^b	&=1.6282 \\
+	h_\text{f}	&=0.6253 \\
+	h_\text{c}	&=0.2000 \\
+	F	&=12.3541 
+\end{align*}
+
+When we evaluate the constraints we can see that $g_\text{d}$, $g_\text{tb}$ and $g_\text{c}$ are approximately zero.
+One of these constraints is the combined cross beam constraint.
+If we evaluate the original constraints (in negative null form) with the above values we can see that only the shear failure $M_y^m$ is near-active.
+
+\subsection{Analytical derivation}
+Let's assume the near-active constraints at the found optimum and derive our solution analytically.
+\begin{align*}
+	v^b &= l_\text{max} - v^a \\
+	\\
+	\frac{ 3 F }{ 4 v^a h_\text{min}} &= \frac12 \sigma^a_\text{fail}	\\
+	F &= \frac23 \sigma^a_\text{fail}v^a h_\text{min} \\
+	\\
+	\frac{ F }{ w^b h_\text{f} } &= \sigma^b_\text{fail} \\
+	%F &= \sigma^b_\text{fail}  w^b h_\text{f} \\
+	w^b  &= \frac{F}{\sigma^b_\text{fail}  h_\text{f}} \\
+	w^b  &= \frac{\frac23 \sigma^a_\text{fail}v^a h_\text{min}}{\sigma^b_\text{fail}  h_\text{f}} \\
+\end{align*}
+
+\newpage
+Then our objective becomes:
+\begin{align*}
+%	\min{ \frac{\left( 2 w_\text{min}^a + w^b \right) \left( h_\text{f} + h_\text{min} \right) }{F} }\\
+	\min{ \frac{\left( 2 w_\text{min}^a + \frac{\frac23 \sigma^a_\text{fail}v^a h_\text{min}}{\sigma^b_\text{fail}  h_\text{f}} \right) \left( h_\text{f} + h_\text{min} \right) }{ \frac23 \sigma^a_\text{fail}v^a h_\text{min} } }
+\end{align*}
+
+\begin{align*}
+	\frac{\partial f}{\partial h_\text{f}} &= \frac{3 w_\text{min}^a}{h_\text{min} \sigma_\text{fail}^a v^a} - \frac{h_\text{min}}{\left(h_\text{f}\right)^2 \sigma_\text{fail}^b} = 0 \\
+	%\frac{3 w_\text{min}^a}{h_\text{min} \sigma_\text{fail}^a v^a} &= \frac{h_\text{min}}{\left(h_\text{f}\right)^2 \sigma_\text{fail}^b} \\
+	%\frac{h_\text{min} \sigma_\text{fail}^a v^a}{3 w_\text{min}^a} &= \frac{\left(h_\text{f}\right)^2 \sigma_\text{fail}^b}{h_\text{min}} \\
+	%h_\text{min} \sigma_\text{fail}^a v^a &= \frac{\left(h_\text{f}\right)^2 \sigma_\text{fail}^b  3 w_\text{min}^a  }{  h_\text{min}} \\
+	%v^a &= \frac{h_\text{min} \sigma_\text{fail}^a \left(h_\text{f}\right)^2 \sigma_\text{fail}^b  3 w_\text{min}^a  }{  h_\text{min}} \\
+	%v^a &= \sigma_\text{fail}^a \left(h_\text{f}\right)^2 \sigma_\text{fail}^b  3 w_\text{min}^a  \\
+	v^a &= 3 \left(h_\text{f}\right)^2 \sigma_\text{fail}^a \sigma_\text{fail}^b  w_\text{min}^a  \\
+	\\
+	\frac{\partial f}{\partial v^a} &= - \frac{3 \left(h_\text{f} + h_\text{min}\right) w_\text{min}^a}{h_\text{min} \sigma^a_\text{fail} \left(v^a\right)^2} = 0\\
+	0 &= - \frac{3 \left(h_\text{f} + h_\text{min}\right) w_\text{min}^a}{h_\text{min} \sigma^a_\text{fail} \left(  3 \left(h_\text{f}\right)^2 \sigma_\text{fail}^a \sigma_\text{fail}^b  w_\text{min}^a  \right)^2} \\
+	\\
+	\text{wolfram alpha gives} \\
+	h_\text{f} = - h_\text{min} \\
+	\text{WTF}
+\end{align*}
+
+
 \subsection{Future work}
 Possible extensions:
 \begin{itemize}
