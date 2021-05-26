@@ -31,7 +31,8 @@ The optimization then consists of the following:
 
 \begin{align}
 	& \omit\rlap{$\displaystyle \max{ \frac{F}{\left( w^a + w^b \right) \left( h_\text{f} + h_\text{c} \right) }}$} \label{eq:obj} \\
-%	& \min{ h_\text{f} + h_\text{c}}
+	& \min{ h_\text{f} + h_\text{c}} \nonumber \\
+	& \min{ w^a + w^b} \nonumber \\
 	\omit\rlap{subject to} \nonumber \\
 	w^m &\ge 2 w_\text{min}^m			&&\text{ Nozzle size} \label{eq:c1} \\
 	v^m &\ge w_\text{min}^m				&&\text{ Nozzle size}  \label{eq:c2} \\
@@ -46,6 +47,11 @@ The optimization then consists of the following:
 	& \text{for both materials } && m \in \{a, b\} \nonumber
 \end{align}
 
+The first objective function is the main objective; 
+the other two objective functions are secondary.
+They are only introduced to disambiguate designs which have the same value for the objective function --
+that is: pareto optimality is introduced to disambiguate otherwise equivalent designs.
+
 The $v^m$ variables don't figure in the objective, but they do appear in the constraints and therefore are also subject to the optimization.
 
 \subsection{Constraint values}
@@ -55,7 +61,7 @@ Because of manufacturing constraints we know that the layer thickness has to be 
 $h_\text{min} < \nicefrac{1}{2} w^m_\text{min}$.
 
 Materials properties of 3D printed materials are always such that $\tau_Z^m < \tau^m$.
-Maximum shear stress theory further gives us that $\tau^m_\text{fail} = \nicefrac12 \sigma^m_\text{fail}$.
+Maximum shear stress theory further gives us that $\tau^m_\text{fail} = \sigma^m_\text{fail} / \sqrt{3} $.
 
 Depending on the types of material used the tensile and shear strength in the Z direction can be an order of magnitude lower than in the horizontal directions.
 In such a case the Z shearing failure constraints \cref{eq:c_shear_z} will be active for that material.
@@ -66,18 +72,17 @@ but it is required that $l_\text{max} \ge v_\text{min}^a + v_\text{min}^b$.
 \subsection{Boundedness}
 If we would scale all design variables linearly with some factor $R$ and $F$ by $R^2$ then the objective function and all mechanical constraints \crefrange{eq:c_tensile}{eq:c_bending_b} remain at the same value.
 If only those constraints were to be considered the problem would have been under-constrained.
-Therefore some of the constraints \crefrange{eq:c1}{eq:c_total_length} will have to be active.
-%incorrect! : Since only \cref{eq:c_total_length} provides an upper bound it must be active.
+Since one of our objective functions is to minimize the total width $(w^a + w^B)$ we know that some of the constraints \crefrange{eq:c1}{eq:c4} will have to be active.
 If we set \cref{eq:c1} active for material $a$ \todo{we will show} that none of the other constraints will be violated, so this constraint has to be active.
 
 The same holds for the heights.
 We can scale $h_\text{c}$, $h_\text{f}$ and $F$ up with a factor $R$ without changing the value of the objective function nor the mechanical constraints.
 The manufacturing constraints do change, but as long as we scale up they remain satisfied.
 This means the problem definition is not well-bounded.
-In order to solve this we set \cref{eq:c4} active and \todo{we will show} that \cref{eq:c3} (or the others) are not violated.
+In order to solve this we use the height objective function $(h_\text{f} + h_\text{c})$ to set \cref{eq:c4} active and \todo{we will show} that \cref{eq:c3} is not violated.
 
 \paragraph{Constraint redundancy}
-If $\nicefrac{w^b}{v^a} > \nicefrac{ \sigma^a_\text{fail} }{ \tau^a_\text{fail} } = 2$ 
+If $\nicefrac{w^b}{v^a} > \nicefrac{ \sigma^a_\text{fail} }{ \tau^a_\text{fail} } = \sqrt{3}$ 
 then the shear failure constraints \cref{eq:c_shear} for material $a$ is dominated by the bending failure constraint \cref{eq:c_bending_a},
 since then 
 $
@@ -91,12 +96,12 @@ Therefore two of \cref{eq:c_shear,eq:c_bending_a,eq:c_bending_b} will be redunda
 We can combine both constraints into a single one:
 \begin{align*}
 	%\frac{ 3 F }{ 4 v^m h_\text{c}} &\le \tau^m_\text{fail} \\
-	%\frac{ 3 F }{ 4 v^m h_\text{c}} &\le \nicefrac12 \sigma^m_\text{fail} \\
-	%\frac{ 3 F }{ 4 \cdot 2 v^m h_\text{c}} &\le \sigma^m_\text{fail} \\
+	%\frac{ 3 F }{ 4 v^m h_\text{c}} &\le \nicefrac1{\sqrt{3}} \sigma^m_\text{fail} \\
+	%\frac{ 3 F }{ 4 \cdot \sqrt{3} v^m h_\text{c}} &\le \sigma^m_\text{fail} \\
 	%\frac{ 3 F w^b }{ 4 \left( v^a \right)^2 h_\text{c} } &\le \sigma^a_\text{fail} \\
 	%\\
-	\frac{ 3 F }{ 4 v^a h_\text{c} }  \max{\left( 2, \frac{w^b}{v^a} \right)} &\le \sigma^a_\text{fail}  \\
-	\frac{ 3 F }{ 4 v^b h_\text{c} }  \max{\left( 2, \frac{w^a}{v^b} \right)} &\le \sigma^b_\text{fail}  
+	\frac{ 3 F }{ 4 v^a h_\text{c} }  \max{\left( \sqrt{3}, \frac{w^b}{v^a} \right)} &\le \sigma^a_\text{fail}  \\
+	\frac{ 3 F }{ 4 v^b h_\text{c} }  \max{\left( \sqrt{3}, \frac{w^a}{v^b} \right)} &\le \sigma^b_\text{fail}  
 \end{align*}
 
 
@@ -108,8 +113,8 @@ Once one of those failure modes has occurred still any other failure mode has to
 The only constraint added by the shearing failure modes should therefore be that both those failure modes occur together.
 The constraint is violated only when both occur, so it is satisfied when either failure mode is prevented.
 \begin{align*}
-	\frac{ 3 F }{ 4 v^a h_\text{c} }  \max{\left( 2, \frac{w^b}{v^a} \right)} \le \sigma^a_\text{fail}  &\bigvee
-	\frac{ 3 F }{ 4 v^b h_\text{c} }  \max{\left( 2, \frac{w^a}{v^b} \right)} \le \sigma^b_\text{fail}  
+	\frac{ 3 F }{ 4 v^a h_\text{c} }  \max{\left( \sqrt{3}, \frac{w^b}{v^a} \right)} \le \sigma^a_\text{fail}  &\bigvee
+	\frac{ 3 F }{ 4 v^b h_\text{c} }  \max{\left( \sqrt{3}, \frac{w^a}{v^b} \right)} \le \sigma^b_\text{fail}  
 \end{align*}
 
 The logical disjunction can be rewritten into a minimum when both constraints are transformed into negative null form:
@@ -122,8 +127,8 @@ The logical disjunction can be rewritten into a minimum when both constraints ar
 	%, \frac{ 1 }{ v^b \sigma^b_\text{fail} }  \max{\left( 2, \frac{w^a}{v^b} \right)} \right)} \le 1  \\
 	%\frac{3 F}{4 h_\text{c}}  \min{\left( \frac{ \max{\left( 2, \frac{w^b}{v^a} \right)} }{ v^a \sigma^a_\text{fail} }  
 	%, \frac{ \max{\left( 2, \frac{w^a}{v^b} \right)} }{ v^b \sigma^b_\text{fail} }   \right)} \le 1  \\
-	\frac{3 F}{4 h_\text{c}}  \min{\left( \frac{ \max{\left( 2, \frac{w^b}{v^a} \right)} }{ v^a \sigma^a_\text{fail} }  
-	, \frac{ \max{\left( 2, \frac{w^a}{v^b} \right)} }{ v^b \sigma^b_\text{fail} }   \right)} - 1 \le 0  
+	\frac{3 F}{4 h_\text{c}}  \min{\left( \frac{ \max{\left( \sqrt{3}, \frac{w^b}{v^a} \right)} }{ v^a \sigma^a_\text{fail} }  
+		, \frac{ \max{\left( \sqrt{3}, \frac{w^a}{v^b} \right)} }{ v^b \sigma^b_\text{fail} }   \right)} - 1 \le 0  
 \end{align*}
 
 \subsection{Problem reformulation}
@@ -142,8 +147,8 @@ The variables set by the presumed to be active constraints are substituted.
 	g_\text{ta}: & \frac{ F }{ 2 w_\text{min}^a h_\text{f} \sigma^a_\text{fail} } - 1 \le 0 \\
 	g_\text{tb}: & \frac{ F }{ w^b h_\text{f} \sigma^b_\text{fail} } - 1 \le 0 \\
 	%	\min{\left( \frac{ 3 F }{ 4 v^a h_\text{c} \tau^a } , \frac{ 3 F }{ 4 v^b h_\text{c} \tau^b }  \right)} - 1 &\le 0 \\
-	g_\text{c}: & \frac{3 F}{4 h_\text{c}}  \min{\left( \frac{ \max{\left( 2, \frac{w^b}{v^a} \right)} }{ v^a \sigma^a_\text{fail} }  
-		, \frac{ \max{\left( 2, \frac{w^a}{v^b} \right)} }{ v^b \sigma^b_\text{fail} }   \right)} - 1 \le 0 \\
+	g_\text{c}: & \frac{3 F}{4 h_\text{min}}  \min{\left( \frac{ \max{\left( \sqrt{3}, \frac{w^b}{v^a} \right)} }{ v^a \sigma^a_\text{fail} }  
+		, \frac{ \max{\left( \sqrt{3}, \frac{w^a}{v^b} \right)} }{ v^b \sigma^b_\text{fail} }   \right)} - 1 \le 0 \\
 	g_\text{za}: & \frac{ 3 F }{ 4 v^a w_\text{min}^a \tau^a_\text{Z} } - 1 \le 0 \\
 	g_\text{zb}: & \frac{ 3 F }{ 4 v^b w^b \tau^b_\text{Z} } - 1 \le 0
 \end{align*}
