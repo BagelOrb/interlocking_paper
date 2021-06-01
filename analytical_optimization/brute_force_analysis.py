@@ -87,6 +87,12 @@ gs.append(
 gs.append(3 * F / (4 * va * wa * taz) - 1)  # z shear
 gs.append(3 * F / (4 * vb * wb * tbz) - 1)
 
+cross_gs = [
+    3 * F / (4 * va * hc * ta) - 1  # shear
+    , 3 * F / (4 * vb * hc * tb) - 1
+    , 3 * F * wb / (4 * va * va * hc * sa) - 1  # bending
+    , 3 * F * wa / (4 * vb * vb * hc * sb) - 1]
+
 names = ['wa', 'wb', 'va', 'vb', 'hf', 'hc', 'design', 'tension a', 'tension b', 'cross', 'shear Z a', 'shear Z b']
 
 constraints = np.maximum.reduce(gs)
@@ -94,6 +100,9 @@ assert (constraints.max() <= 0.00000001)
 
 for i, g in enumerate(gs):
     print(names[i], f"{g[best_idx]:.4f}")
+
+for g in cross_gs:
+    print(f"{g[best_idx]:.4f}")
 #
 
 # fig, axs = plt.subplots(2, 2, figsize=(10, 6))
