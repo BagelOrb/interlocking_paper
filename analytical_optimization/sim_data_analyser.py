@@ -2,6 +2,9 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 from matplotlib import pyplot
+from mpl_toolkits import mplot3d
+from mpl_toolkits.mplot3d import Axes3D
+
 
 data_file = np.genfromtxt('../../../simulation/IS90-data.csv', delimiter=',')
 
@@ -126,6 +129,20 @@ for ax in axs.flat:
 for ax in axs.flat:
     ax.label_outer()
 
-#plt.show()
+# plt.show()
+
+#
+
+idx = best_idx # (2, 2, 2, 2)
+
+fig, axs = plt.subplots(2, 3, figsize=(10, 6), subplot_kw={'projection': '3d'})
+axs[0, 0].plot_trisurf(rz[:, :, idx[2], idx[3]].reshape(-1), rx[:, :, idx[2], idx[3]].reshape(-1), FEM_stress[:, :, idx[2], idx[3]].reshape(-1), edgecolor= 'none')
+axs[0, 1].plot_surface(rz[:, idx[1], :, idx[3]], rx[:, idx[1], :, idx[3]], FEM_stress[:, idx[1], :, idx[3]], edgecolor='none')
+axs[0, 2].plot_surface(rz[:, idx[1], idx[2], :], rx[:, idx[1], idx[2], :], FEM_stress[:, idx[1], idx[2], :], edgecolor='none')
+axs[1, 0].plot_surface(rz[idx[0], :, :, idx[3]], rx[idx[0], :, :, idx[3]], FEM_stress[idx[0], :, :, idx[3]], edgecolor='none')
+axs[1, 1].plot_surface(rz[idx[0], :, idx[2], :], rx[idx[0], :, idx[2], :], FEM_stress[idx[0], :, idx[2], :], edgecolor='none')
+axs[1, 2].plot_surface(rz[idx[0], idx[1], :, :], rx[idx[0], idx[1], :, :], FEM_stress[idx[0], idx[1], :, :], edgecolor='none')
+
+plt.show()
 
 # print(np.maximum.reduce(gs))
