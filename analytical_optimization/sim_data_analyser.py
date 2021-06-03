@@ -72,16 +72,7 @@ hc = np.full(shape, h_min)
 vb = lmax - va
 l = va + vb
 
-F = FEM_stress * (wa + wb) * (hf + hc)
-
-best_idx = np.unravel_index(np.argmax(FEM_stress), FEM_stress.shape)
-print(f"best FEM: stess: {FEM_stress[best_idx]}")
-print(f" wb={wb[best_idx]:.2f}; va={va[best_idx]:.2f}; lmax={lmax[best_idx]:.2f}; hf={hf[best_idx]:.2f}; ")
-print(f" wa={wa[best_idx]:.2f}; vb={vb[best_idx]:.2f}; hc={hc[best_idx]:.2f}; F={F[best_idx]:.2f}")
-
-
-bending = 0
-
+F_FEM = FEM_stress * (wa + wb) * (hf + hc)
 
 gFs = []
 gFs.append(sa * wa * hf)
@@ -100,32 +91,7 @@ gFs.append(tbz * 4 / 3 * vb * wb)
 
 minF = np.minimum.reduce(gFs)
 stress = minF / ((wa + wb) * (hf + hc))
-best_idx = np.unravel_index(np.argmax(stress), stress.shape)
-
 F = stress * (wa + wb) * (hf + hc)
-print(f"best ana: stress: {stress[best_idx]}")
-print(f" wb={wb[best_idx]:.2f}; va={va[best_idx]:.2f}; lmax={l_max:.2f}; hf={hf[best_idx]:.2f}; ")
-print(f" wa={wa[best_idx]:.2f}; vb={vb[best_idx]:.2f}; hc={hc[best_idx]:.2f}; F={F[best_idx]:.2f}")
-
-names = ['wa', 'wb', 'va', 'vb', 'hf', 'hc', 'design', 'tension a', 'tension b', 'cross', 'shear Z a', 'shear Z b']
-cross_gs_names = ['shear a', 'shear b', 'bend a', 'bend b']
-
-print("\n== prediction ratio per failure mode ==")
-prediction_ratio = stress / FEM_stress
-for i, gF in enumerate(gFs):
-    ratios = prediction_ratio[minF == gF]
-    if ratios.size > 0:
-        print(f"g{i} {names[i+7]}:  {np.average(ratios):.3f}, stdev: {np.std(ratios):.3f}")
-    else:
-        print(f"g{i} {names[i+7]}")
-
-print("- cross beam sub failure modes -")
-print(f"{np.average(prediction_ratio[minF == gF_shear_a]):.3f}, stdev: {np.std(prediction_ratio[minF == gF_shear_a]):.3f}")
-print(f"{np.average(prediction_ratio[minF == gF_shear_b]):.3f}, stdev: {np.std(prediction_ratio[minF == gF_shear_b]):.3f}")
-print(f"{np.average(prediction_ratio[minF == gF_bend_a]) :.3f}, stdev: {np.std(prediction_ratio[minF == gF_bend_a]):.3f}")
-print(f"{np.average(prediction_ratio[minF == gF_bend_b]) :.3f}, stdev: {np.std(prediction_ratio[minF == gF_bend_b]):.3f}")
-
-
 
 
 gs = []
@@ -139,7 +105,7 @@ gs.append((va + vb) / l_max - 1)
 gs.append(F / (wa * hf * sa) - 1)  # tensile
 gs.append(F / (wb * hf * sb) - 1)
 gs.append(
-    F / hc * np.minimum(np.maximum(3/4 * sqrt(3), wb / ( 2 * va)) / (va * sa), np.maximum(3/4 * sqrt(3), wa / ( 2 * vb)) / (vb * sb)) - 1)  # cross
+    F / hc * np.minimum(np.maximum(3/4 / ta, wb / ( 2 * va) / sa) / va, np.maximum(3/4 / tb, wa / ( 2 * vb) / sb) / vb) - 1)  # cross
 gs.append(1 * F / (4 * va * wa * taz) - 1)  # z shear
 gs.append(1 * F / (4 * vb * wb * tbz) - 1)
 
@@ -149,25 +115,63 @@ cross_gs = [
     , F * wb / (2 * va * va * hc * sa) - 1  # bending
     , F * wa / (2 * vb * vb * hc * sb) - 1]
 
+names = ['wa', 'wb', 'va', 'vb', 'hf', 'hc', 'design', 'tension a', 'tension b', 'cross', 'shear Z a', 'shear Z b']
+cross_gs_names = ['shear a', 'shear b', 'bend a', 'bend b']
 
-print("\n== Active constraints: ", end="")
-for i, g in enumerate(gs):
-    if abs(g[best_idx]) < .00001:
-        print(names[i], end=",")
-print("")
+for l in range(Nlmax):
+    print(f"\n\n\n===  L_max: {lmax[0,l,0,0]}\n\n")
 
-print("-- cross beam constraints: ", end="")
-for i, g in enumerate(cross_gs):
-    if abs(g[best_idx]) < .00001:
-        print(cross_gs_names[i], end=",")
-print("\n")
-
-constraints = np.maximum.reduce(gs)
-for i, g in enumerate(gs):
-    if g.max() > .001:
-        print(f"constraint g{i} is violated! : {g.max():.4f}")
+    best_FEM_idx = np.unravel_index(np.argmax(FEM_stress[:,l,:,:]), FEM_stress[:,l,:,:].shape)
+    best_FEM_idx = (best_FEM_idx[0], l, best_FEM_idx[1], best_FEM_idx[2])
+    print(f"best FEM: stess: {FEM_stress[best_FEM_idx]}")
+    print(f" wb={wb[best_FEM_idx]:.2f}; va={va[best_FEM_idx]:.2f}; lmax={lmax[best_FEM_idx]:.2f}; hf={hf[best_FEM_idx]:.2f}; ")
+    print(f" wa={wa[best_FEM_idx]:.2f}; vb={vb[best_FEM_idx]:.2f}; hc={hc[best_FEM_idx]:.2f}; F={F[best_FEM_idx]:.2f}")
+    print("")
 
 
+    best_idx = np.unravel_index(np.argmax(stress[:,l,:,:]), stress[:,l,:,:].shape)
+    best_idx = (best_idx[0], l, best_idx[1], best_idx[2])
+    print(f"best ana: stress: {stress[best_idx]}")
+    print(f" wb={wb[best_idx]:.2f}; va={va[best_idx]:.2f}; lmax={lmax[best_idx]:.2f}; hf={hf[best_idx]:.2f}; ")
+    print(f" wa={wa[best_idx]:.2f}; vb={vb[best_idx]:.2f}; hc={hc[best_idx]:.2f}; F={F[best_idx]:.2f}")
+
+
+    print("\n== prediction ratio per failure mode ==")
+    prediction_ratio = stress / FEM_stress
+    for i, gF in enumerate(gFs):
+        ratios = prediction_ratio[minF == gF]
+        if ratios.size > 0:
+            print(f"g{i} {names[i+7]}:  {np.average(ratios):.3f}, stdev: {np.std(ratios):.3f}")
+        else:
+            print(f"g{i} {names[i+7]}")
+
+    print("- cross beam sub failure modes -")
+    print(f"{np.average(prediction_ratio[minF == gF_shear_a]):.3f}, stdev: {np.std(prediction_ratio[minF == gF_shear_a]):.3f}")
+    print(f"{np.average(prediction_ratio[minF == gF_shear_b]):.3f}, stdev: {np.std(prediction_ratio[minF == gF_shear_b]):.3f}")
+    print(f"{np.average(prediction_ratio[minF == gF_bend_a]) :.3f}, stdev: {np.std(prediction_ratio[minF == gF_bend_a]):.3f}")
+    print(f"{np.average(prediction_ratio[minF == gF_bend_b]) :.3f}, stdev: {np.std(prediction_ratio[minF == gF_bend_b]):.3f}")
+
+
+
+
+    print("\n== Active constraints: ", end="")
+    for i, g in enumerate(gs):
+        if abs(g[best_idx]) < .00001:
+            print(names[i], end=",")
+    print("")
+
+    print("-- cross beam constraints: ", end="")
+    for i, g in enumerate(cross_gs):
+        if abs(g[best_idx]) < .00001:
+            print(cross_gs_names[i], end=",")
+    print("\n")
+
+    constraints = np.maximum.reduce(gs)
+    for i, g in enumerate(gs):
+        if g.max() > .001:
+            print(f"constraint g{i} is violated! : {g.max():.4f}")
+
+quit()
 
 colors = np.zeros((Nhf * Nlmax * Nva * Nwb, 3))
 colors[:, 0] = lmax.reshape(-1) / lmax.max()
