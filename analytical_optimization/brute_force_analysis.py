@@ -1,16 +1,17 @@
 import numpy as np
 
 import matplotlib.pyplot as plt
+from math import sqrt
 
 sa = 47
 sb = 10.5
 saz = 33
 sbz = 9.0
 
-ta = .5 * sa
-tb = .5 * sb
-taz = .5 * saz
-tbz = .5 * sbz
+ta = sa / sqrt(3)
+tb = sb / sqrt(3)
+taz = saz / sqrt(3)
+tbz = sbz / sqrt(3)
 
 line_w = .3
 layer_thickness = .1
@@ -48,29 +49,30 @@ wa = np.full(shape, 2 * wa_min)
 hc = np.full(shape, h_min)
 vb = l - va
 
-rz = hf / hc
-rw = va / wa
-rx = wb / wa
-ry = vb / va
 
 gFs = []
 gFs.append(sa * wa * hf)
 gFs.append(sb * wb * hf)
-gFs.append(4 / 3 * hc / np.minimum(np.maximum(2, wb / va) / (va * sa), np.maximum(2, wa / vb) / (vb * sb)))
+gF_shear_a = 4 / 3 * hc / sqrt(3) * va * sa
+gF_shear_b = 4 / 3 * hc / sqrt(3) * vb * sb
+gF_bend_a = 2 * hc / wb * va * va * sa
+gF_bend_b = 2 * hc / wa * vb * vb * sb
+gF_cross_a = np.minimum(gF_shear_a, gF_bend_a)
+gF_cross_b = np.minimum(gF_shear_b, gF_bend_b)
+gFs.append(np.maximum(gF_cross_a, gF_cross_b))
+# gFs.append(gF_cross_a)
 gFs.append(taz * 4 / 3 * va * wa)
 gFs.append(tbz * 4 / 3 * vb * wb)
-gFs.append(sa * 4 / 3 * va * va * hc / wb)
-gFs.append(sb * 4 / 3 * vb * vb * hc / wa)
 
 minF = np.minimum.reduce(gFs)
 stress = minF / ((wa + wb) * (hf + hc))
 best_idx = np.unravel_index(np.argmax(stress), stress.shape)
 
 F = stress * (wa + wb) * (hf + hc)
-print(
-    f"best: stress: {stress[best_idx]}\n"
-    f"rz={rz[best_idx]:.4f}; rw={rw[best_idx]:.4f}; rx={rx[best_idx]:.4f}; ry={ry[best_idx]:.4f}; FF={F[best_idx]:.4f};\n"
-    f"wa={wa[best_idx]:.4f}; wb={wb[best_idx]:.4f}; va={va[best_idx]:.4f}; vb={vb[best_idx]:.4f}; hf={hf[best_idx]:.4f}; hc={hc[best_idx]:.4f};")
+print(f"best: stress: {stress[best_idx]}")
+print(f" wb={wb[best_idx]:.2f}; va={va[best_idx]:.2f}; lmax={l_max:.2f}; hf={hf[best_idx]:.2f}; ")
+print(f" wa={wa[best_idx]:.2f}; vb={vb[best_idx]:.2f}; hc={hc[best_idx]:.2f}; F={F[best_idx]:.2f}")
+
 
 gs = []
 gs.append(1 - wa / 2 / wa_min)
@@ -83,27 +85,34 @@ gs.append((va + vb) / l_max - 1)
 gs.append(F / (wa * hf * sa) - 1)  # tensile
 gs.append(F / (wb * hf * sb) - 1)
 gs.append(
-    3 * F / (4 * hc) * np.minimum(np.maximum(2, wb / va) / (va * sa), np.maximum(2, wa / vb) / (vb * sb)) - 1)  # cross
-gs.append(3 * F / (4 * va * wa * taz) - 1)  # z shear
-gs.append(3 * F / (4 * vb * wb * tbz) - 1)
+    F / hc * np.minimum(np.maximum(3/4 * sqrt(3), wb / ( 2 * va)) / (va * sa), np.maximum(3/4 * sqrt(3), wa / ( 2 * vb)) / (vb * sb)) - 1)  # cross
+gs.append(1 * F / (4 * va * wa * taz) - 1)  # z shear
+gs.append(1 * F / (4 * vb * wb * tbz) - 1)
 
 cross_gs = [
     3 * F / (4 * va * hc * ta) - 1  # shear
     , 3 * F / (4 * vb * hc * tb) - 1
-    , 3 * F * wb / (4 * va * va * hc * sa) - 1  # bending
-    , 3 * F * wa / (4 * vb * vb * hc * sb) - 1]
+    , F * wb / (2 * va * va * hc * sa) - 1  # bending
+    , F * wa / (2 * vb * vb * hc * sb) - 1]
+
 
 names = ['wa', 'wb', 'va', 'vb', 'hf', 'hc', 'design', 'tension a', 'tension b', 'cross', 'shear Z a', 'shear Z b']
+cross_gs_names = ['shear a', 'shear b', 'bend a', 'bend b']
 
 constraints = np.maximum.reduce(gs)
 assert (constraints.max() <= 0.00000001)
 
+print("\n== Active constraints: ", end="")
 for i, g in enumerate(gs):
-    print(names[i], f"{g[best_idx]:.4f}")
+    if abs(g[best_idx]) < .01:
+        print(names[i], end=", ")
+print("")
 
-for g in cross_gs:
-    print(f"{g[best_idx]:.4f}")
-#
+print("-- cross beam constraints: ", end="")
+for i, g in enumerate(cross_gs):
+    if abs(g[best_idx]) < .01:
+        print(cross_gs_names[i], end=", ")
+print("\n")
 
 # fig, axs = plt.subplots(2, 2, figsize=(10, 6))
 # axs[0, 0].scatter(l.reshape(-1), FEM_stress.reshape(-1), c=colors)
