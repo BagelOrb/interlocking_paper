@@ -9,6 +9,10 @@
 \end{figure}
 
 
+\newcommand{\hmin}{\underline{h}}
+\newcommand{\wmin}{\underline{w}}
+\newcommand{\lmax}{\overline{l}}
+
 \section{Straight design}
 
 \iffalse
@@ -24,7 +28,12 @@ The bending constraint is given by:
 	\sigma_\text{max} &= \frac{F L}{b h^3} \nicefrac12 h \\
 	\sigma_\text{max} &= \frac{F L}{2 b h^2} \\
 \end{align*}
+
+\begin{align*}
+	\frac{ 3 F }{ 4 A } &\le \tau_\text{fail}	 = \frac{1}{\sqrt{3}} \sigma_\text{fail}
+\end{align*}
 \fi
+
 
 \Cref{fig:failure_modes} shows one cell of the straight structure, along with the design variables and the failure modes.
 The optimization then consists of the following:
@@ -34,12 +43,12 @@ The optimization then consists of the following:
 	& \min{ h_\text{f} + h_\text{c}} \nonumber \\
 	& \min{ w^a + w^b} \nonumber \\
 	\omit\rlap{subject to} \nonumber \\
-	w^m &\ge 2 w_\text{min}^m			&&\text{ Nozzle size} \label{eq:c1} \\
-	v^m &\ge w_\text{min}^m				&&\text{ Nozzle size}  \label{eq:c2} \\
-	h_\text{f} &\ge h_\text{min}		&&\text{ Layer thickness}  \label{eq:c3} \\
-	h_\text{c} &\ge h_\text{min}		&&\text{ Layer thickness}  \label{eq:c4} \\
-	v^a + v^b &\le l_\text{max}         &&\text{ Design constraint}   \label{eq:c_total_length} \\
-	\frac{ F }{ w^m h_\text{f} } &\le \sigma^m_\text{fail} 					&&\text{ Tension failure } M_x^m  \label{eq:c_tensile} \\
+	w^m &\ge 2 \wmin^m			&&\text{ Nozzle size} \label{eq:c1} \\
+	v^m &\ge \wmin^m				&&\text{ Nozzle size}  \label{eq:c2} \\
+	h_\text{f} &\ge \hmin		&&\text{ Layer thickness}  \label{eq:c3} \\
+	h_\text{c} &\ge \hmin		&&\text{ Layer thickness}  \label{eq:c4} \\
+	v^a + v^b &\le \lmax         &&\text{ Design constraint}   \label{eq:c_total_length} \\
+	\frac{ F }{ w^m h_\text{f} } &\le \sigma^m_\text{fail}					&&\text{ Tension failure } M_x^m  \label{eq:c_tensile} \\
 	\frac{ 3 F }{ 4 v^m h_\text{c}} &\le \tau^m_\text{fail}					&&\text{ Shear failure } M_y^m  \label{eq:c_shear} \\
 	\frac{ F w^b }{ 2 \left( v^a \right)^2 h_\text{c} } &\le \sigma^a_\text{fail}                 &&\text{ Bending failure } M_y^a  \label{eq:c_bending_a} \\
 	\frac{ F w^a }{ 2 \left( v^b \right)^2 h_\text{c} } &\le \sigma^b_\text{fail}                 &&\text{ Bending failure } M_y^b  \label{eq:c_bending_b} \\
@@ -58,7 +67,7 @@ The $v^m$ variables don't figure in the objective, but they do appear in the con
 Under different circumstances the values of the constraints will be different.
 Different nozzles and different layer thickness settings require different constraint values.
 Because of manufacturing constraints we know that the layer thickness has to be smaller than half the smallest nozzle size:
-$h_\text{min} < \nicefrac{1}{2} w^m_\text{min}$.
+$\hmin < \nicefrac{1}{2} w^m_\text{min}$.
 
 Materials properties of 3D printed materials are always such that $\tau_Z^m < \tau^m$.
 According to the von Mises yield criterion we have that $\tau^m_\text{fail} = \sigma^m_\text{fail} / \sqrt{3} $.
@@ -66,20 +75,21 @@ According to the von Mises yield criterion we have that $\tau^m_\text{fail} = \s
 Depending on the types of material used the tensile and shear strength in the Z direction can be an order of magnitude lower than in the horizontal directions.
 In such a case the Z shearing failure constraints \cref{eq:c_shear_z} will be active for that material.
 
-Depending on the design we might apply a different $l_\text{max}$, 
-but it is required that $l_\text{max} \ge v_\text{min}^a + v_\text{min}^b$.
+Depending on the design we might apply a different $\lmax$, 
+but it is required that $\lmax \ge v_\text{min}^a + v_\text{min}^b$.
 
 \subsection{Boundedness}
+\label{sec:domain_assumptions}
 If we would scale all design variables linearly with some factor $R$ and $F$ by $R^2$ then the objective function and all mechanical constraints \crefrange{eq:c_tensile}{eq:c_bending_b} remain at the same value.
 If only those constraints were to be considered the problem would have been under-constrained.
 Since one of our objective functions is to minimize the total width $(w^a + w^B)$ we know that some of the constraints \crefrange{eq:c1}{eq:c4} will have to be active.
-If we set \cref{eq:c1} active for material $a$ \todo{we will show} that none of the other constraints will be violated, so this constraint has to be active.
+If we set \cref{eq:c1} active for material $a$ we will show that none of the other constraints will be violated, so this constraint has to be active.
 
 The same holds for the heights.
 We can scale $h_\text{c}$, $h_\text{f}$ and $F$ up with a factor $R$ without changing the value of the objective function nor the mechanical constraints.
 The manufacturing constraints do change, but as long as we scale up they remain satisfied.
 This means the problem definition is not well-bounded.
-In order to solve this we use the height objective function $(h_\text{f} + h_\text{c})$ to set \cref{eq:c4} active and \todo{we will show} that \cref{eq:c3} is not violated.
+In order to solve this we use the height objective function $(h_\text{f} + h_\text{c})$ to set \cref{eq:c4} active and we will show that \cref{eq:c3} is not violated.
 
 \paragraph{Constraint redundancy}
 If $\nicefrac34 \nicefrac{w^b}{v^a} > \nicefrac12 \nicefrac{ \sigma^a_\text{fail} }{ \tau^a_\text{fail} } = \nicefrac12 \sqrt{3}$ 
@@ -131,6 +141,9 @@ The logical disjunction can be rewritten into a minimum when both constraints ar
 		, \frac{ \max{\left( \frac34 \sqrt{3}, \frac{w^a}{2v^b} \right)} }{ v^b \sigma^b_\text{fail} }   \right)} - 1 \le 0  
 \end{align*}
 
+
+\todo{TODO: rescale all so that they are approximately in the range 0-1.}
+
 \subsection{Problem reformulation}
 Taking the above into account we reformulate the problem.
 The shear constraints are combined into one.
@@ -138,17 +151,17 @@ The constraints which hold for both materials are expanded.
 The variables set by the presumed to be active constraints are substituted.
 
 \begin{align*}
-	f: & \min{ \frac{\left( 2 w_\text{min}^a + w^b \right) \left( h_\text{f} + h_\text{min} \right) }{F} }\\
-	g_\text{wb}: & 1 - \nicefrac{w^b }{2 w_\text{min}^b} \le 0 \\
-	g_\text{va}: & 1 - \nicefrac{v^a }{w_\text{min}^a} \le 0 \\
-	g_\text{vb}: & 1 - \nicefrac{v^b }{w_\text{min}^b} \le 0 \\
-	g_\text{hf}: & 1 - \nicefrac{h_\text{f}}{h_\text{min}} \le 0 \\
-	g_\text{d}: & \frac{v^a + v^b}{ l_\text{max} }  - 1 \le 0 \\
-	g_\text{ta}: & \frac{ F }{ 2 w_\text{min}^a h_\text{f} \sigma^a_\text{fail} } - 1 \le 0 \\
+	f: & \min{ \frac{\left( 2 \wmin^a + w^b \right) \left( h_\text{f} + \hmin \right) }{F} }\\
+	g_\text{wb}: & 1 - \nicefrac{w^b }{2 \wmin^b} \le 0 \\
+	g_\text{va}: & 1 - \nicefrac{v^a }{\wmin^a} \le 0 \\
+	g_\text{vb}: & 1 - \nicefrac{v^b }{\wmin^b} \le 0 \\
+	g_\text{hf}: & 1 - \nicefrac{h_\text{f}}{\hmin} \le 0 \\
+	g_\text{d}: & \frac{v^a + v^b}{ \lmax }  - 1 \le 0 \\
+	g_\text{ta}: & \frac{ F }{ 2 \wmin^a h_\text{f} \sigma^a_\text{fail} } - 1 \le 0 \\
 	g_\text{tb}: & \frac{ F }{ w^b h_\text{f} \sigma^b_\text{fail} } - 1 \le 0 \\
-	g_\text{c}: & \frac{F}{h_\text{min}}  \min{\left( \frac{ \max{\left( \frac34 \sqrt{3}, \frac{w^b}{2v^a} \right)} }{ v^a \sigma^a_\text{fail} }  
-		, \frac{ \max{\left( \frac34 \sqrt{3}, \frac{2w^a_\text{min}}{2v^b} \right)} }{ v^b \sigma^b_\text{fail} }   \right)} - 1 \le 0 \\
-	g_\text{za}: & \frac{ 3 F }{ 4 v^a 2 w_\text{min}^a \tau^a_\text{Z} } - 1 \le 0 \\
+	g_\text{c}: & \frac{F}{\hmin}  \min{\left( \frac{ \max{\left( \frac34 \sqrt{3}, \frac{w^b}{2v^a} \right)} }{ v^a \sigma^a_\text{fail} }  
+		, \frac{ \max{\left( \frac34 \sqrt{3}, \frac{2\wmin^a}{2v^b} \right)} }{ v^b \sigma^b_\text{fail} }   \right)} - 1 \le 0 \\
+	g_\text{za}: & \frac{ 3 F }{ 4 v^a 2 \wmin^a \tau^a_\text{Z} } - 1 \le 0 \\
 	g_\text{zb}: & \frac{ 3 F }{ 4 v^b w^b \tau^b_\text{Z} } - 1 \le 0
 \end{align*}
 
@@ -184,55 +197,57 @@ For each combination we check the failure force according to each mechanical con
 and use the minimum failure force to compute the objective function for that design.
 This gives us the following:
 \begin{align*}
-	w^a	&=0.6000 \\
-	w^b	&=1.8818 \\
-	v^a	&=1.9718 \\
-	v^b	&=1.6282 \\
-	h_\text{f}	&=0.6253 \\
-	h_\text{c}	&=0.2000 \\
-	F	&=12.3541 
+	w^a	&=0.6 \\
+	w^b	&=1.98 \\
+	v^a	&=2.07 \\
+	v^b	&=1.53 \\
+	h_\text{f}	&=0.72 \\
+	h_\text{c}	&=0.2 \\
+	F	&=14.95 
 \end{align*}
 
+We can easily verify that all domain constraints are met, so we were justified in assuming the value for $w^a$ and $h_\text{c}$ in \cref{sec:domain_assumptions}.
+
 When we evaluate the constraints we can see that $g_\text{d}$, $g_\text{tb}$ and $g_\text{c}$ are approximately zero.
-One of these constraints is the combined cross beam constraint.
-If we evaluate the original constraints (in negative null form) with the above values we can see that only the shear failure $M_y^m$ is near-active.
+This includes the combined cross beam constraint.
+If we evaluate the original constraints (in negative null form) with the above values we can see that only the shear failure $M_y^a$ is active.
 
 \subsection{Analytical derivation}
 \todo{Redo this section. It still uses the outdated formula for bending.}
 Let's assume the near-active constraints at the found optimum and derive our solution analytically.
 \begin{align*}
-	v^b &= l_\text{max} - v^a \\
+	v^b &= \lmax - v^a \\
 	\\
-	\frac{ 3 F }{ 4 v^a h_\text{min}} &= \frac12 \sigma^a_\text{fail}	\\
-	F &= \frac23 \sigma^a_\text{fail}v^a h_\text{min} \\
+	\frac{ 3 F }{ 4 v^a \hmin} &= \frac12 \sigma^a_\text{fail}	\\
+	F &= \frac23 \sigma^a_\text{fail}v^a \hmin \\
 	\\
 	\frac{ F }{ w^b h_\text{f} } &= \sigma^b_\text{fail} \\
 	%F &= \sigma^b_\text{fail}  w^b h_\text{f} \\
 	w^b  &= \frac{F}{\sigma^b_\text{fail}  h_\text{f}} \\
-	w^b  &= \frac{\frac23 \sigma^a_\text{fail}v^a h_\text{min}}{\sigma^b_\text{fail}  h_\text{f}} \\
+	w^b  &= \frac{\frac23 \sigma^a_\text{fail}v^a \hmin}{\sigma^b_\text{fail}  h_\text{f}} \\
 \end{align*}
 
 \newpage
 Then our objective becomes:
 \begin{align*}
-%	\min{ \frac{\left( 2 w_\text{min}^a + w^b \right) \left( h_\text{f} + h_\text{min} \right) }{F} }\\
-	\min{ \frac{\left( 2 w_\text{min}^a + \frac{\frac23 \sigma^a_\text{fail}v^a h_\text{min}}{\sigma^b_\text{fail}  h_\text{f}} \right) \left( h_\text{f} + h_\text{min} \right) }{ \frac23 \sigma^a_\text{fail}v^a h_\text{min} } }
+	%	\min{ \frac{\left( 2 \wmin^a + w^b \right) \left( h_\text{f} + \hmin \right) }{F} }\\
+	\min{ \frac{\left( 2 \wmin^a + \frac{\frac23 \sigma^a_\text{fail}v^a \hmin}{\sigma^b_\text{fail}  h_\text{f}} \right) \left( h_\text{f} + \hmin \right) }{ \frac23 \sigma^a_\text{fail}v^a \hmin } }
 \end{align*}
 
 \begin{align*}
-	\frac{\partial f}{\partial h_\text{f}} &= \frac{3 w_\text{min}^a}{h_\text{min} \sigma_\text{fail}^a v^a} - \frac{h_\text{min}}{\left(h_\text{f}\right)^2 \sigma_\text{fail}^b} = 0 \\
-	%\frac{3 w_\text{min}^a}{h_\text{min} \sigma_\text{fail}^a v^a} &= \frac{h_\text{min}}{\left(h_\text{f}\right)^2 \sigma_\text{fail}^b} \\
-	%\frac{h_\text{min} \sigma_\text{fail}^a v^a}{3 w_\text{min}^a} &= \frac{\left(h_\text{f}\right)^2 \sigma_\text{fail}^b}{h_\text{min}} \\
-	%h_\text{min} \sigma_\text{fail}^a v^a &= \frac{\left(h_\text{f}\right)^2 \sigma_\text{fail}^b  3 w_\text{min}^a  }{  h_\text{min}} \\
-	%v^a &= \frac{h_\text{min} \sigma_\text{fail}^a \left(h_\text{f}\right)^2 \sigma_\text{fail}^b  3 w_\text{min}^a  }{  h_\text{min}} \\
-	%v^a &= \sigma_\text{fail}^a \left(h_\text{f}\right)^2 \sigma_\text{fail}^b  3 w_\text{min}^a  \\
-	v^a &= 3 \left(h_\text{f}\right)^2 \sigma_\text{fail}^a \sigma_\text{fail}^b  w_\text{min}^a  \\
+	\frac{\partial f}{\partial h_\text{f}} &= \frac{3 \wmin^a}{\hmin \sigma_\text{fail}^a v^a} - \frac{\hmin}{\left(h_\text{f}\right)^2 \sigma_\text{fail}^b} = 0 \\
+	%\frac{3 \wmin^a}{\hmin \sigma_\text{fail}^a v^a} &= \frac{\hmin}{\left(h_\text{f}\right)^2 \sigma_\text{fail}^b} \\
+	%\frac{\hmin \sigma_\text{fail}^a v^a}{3 \wmin^a} &= \frac{\left(h_\text{f}\right)^2 \sigma_\text{fail}^b}{\hmin} \\
+	%\hmin \sigma_\text{fail}^a v^a &= \frac{\left(h_\text{f}\right)^2 \sigma_\text{fail}^b  3 \wmin^a  }{  \hmin} \\
+	%v^a &= \frac{\hmin \sigma_\text{fail}^a \left(h_\text{f}\right)^2 \sigma_\text{fail}^b  3 \wmin^a  }{  \hmin} \\
+	%v^a &= \sigma_\text{fail}^a \left(h_\text{f}\right)^2 \sigma_\text{fail}^b  3 \wmin^a  \\
+	v^a &= 3 \left(h_\text{f}\right)^2 \sigma_\text{fail}^a \sigma_\text{fail}^b  \wmin^a  \\
 	\\
-	\frac{\partial f}{\partial v^a} &= - \frac{3 \left(h_\text{f} + h_\text{min}\right) w_\text{min}^a}{h_\text{min} \sigma^a_\text{fail} \left(v^a\right)^2} = 0\\
-	0 &= - \frac{3 \left(h_\text{f} + h_\text{min}\right) w_\text{min}^a}{h_\text{min} \sigma^a_\text{fail} \left(  3 \left(h_\text{f}\right)^2 \sigma_\text{fail}^a \sigma_\text{fail}^b  w_\text{min}^a  \right)^2} \\
+	\frac{\partial f}{\partial v^a} &= - \frac{3 \left(h_\text{f} + \hmin\right) \wmin^a}{\hmin \sigma^a_\text{fail} \left(v^a\right)^2} = 0\\
+	0 &= - \frac{3 \left(h_\text{f} + \hmin\right) \wmin^a}{\hmin \sigma^a_\text{fail} \left(  3 \left(h_\text{f}\right)^2 \sigma_\text{fail}^a \sigma_\text{fail}^b  \wmin^a  \right)^2} \\
 	\\
 	\text{wolfram alpha gives} \\
-	h_\text{f} = - h_\text{min} \\
+	h_\text{f} = - \hmin \\
 	\text{WTF}
 \end{align*}
 
@@ -272,10 +287,10 @@ Let's assume those are all active at the global optimum and derive it.
 	h_f &\to f \\
 	h_c &\to c \\
 	F &\to F \\
-	w^a_\text{min} &\to w \\
-	w^b_\text{min} &\to W \\
-	h_\text{min} &\to h \\
-	l_\text{max} &\to l \\
+	\wmin^a &\to w \\
+	\wmin^b &\to W \\
+	\hmin &\to h \\
+	\lmax &\to l \\
 	\sigma^a_\text{fail} &\to s\\
 	\sigma^b_\text{fail} &\to S\\
 	\tau^a_\text{fail} &\to t\\
@@ -318,22 +333,22 @@ Let's assume those are all active at the global optimum and derive it.
 
 
 \begin{align*}
-	\min{  \left(\frac{1}{\sigma^a_\text{fail}} + \frac{1}{\sigma^b_\text{fail}} \right) \left(1 + \frac{3\sqrt{3} w^a_\text{min} }{  2 v^a } \right)  }
+	\min{  \left(\frac{1}{\sigma^a_\text{fail}} + \frac{1}{\sigma^b_\text{fail}} \right) \left(1 + \frac{3\sqrt{3} \wmin^a }{  2 v^a } \right)  }
 	%\\ \min{  \left( \frac{ 1 }{  v^a } \right)  } 
 \end{align*}
 
 In this new problem definition we see that the function is monotonic in $v^a$.
 The objective will be minimized for a maximal $v^a$.
-However, that means the design constraint kicks in: $v^a = l_\text{max} - v^b$ and $v^b = v^b_\text{min}$.
+However, that means the design constraint kicks in: $v^a = \lmax - v^b$ and $v^b = v^b_\text{min}$.
 This means the global optimum is at:
 \begin{align*}
-	w^a &= 2 w^a_\text{min} \approx 0.6 \\
-	w^b &= 2 w^a_\text{min} \frac{ \sigma^a_\text{fail}}{ \sigma^b_\text{fail}} \approx 2.15\\
-	v^a &= l_\text{max} - w^a_\text{min} \approx 3.3 \\
-	v^b &= w^a_\text{min} \approx 0.3 \\
-	h_\text{f} &= \frac{2 \left(l_\text{max} - w^a_\text{min}\right) h_\text{min} }{3\sqrt{3} w^a_\text{min}} \approx 0.85 \\
-	h_\text{c} &= h_\text{min} \approx 0.2 \\
-	F &= \frac{4 \left(l_\text{max} - w^a_\text{min}\right) h_\text{min} \sigma^a_\text{fail}}{3\sqrt{3}} \approx 24.7 \\
+	w^a &= 2 \wmin^a \approx 0.6 \\
+	w^b &= 2 \wmin^a \frac{ \sigma^a_\text{fail}}{ \sigma^b_\text{fail}} \approx 2.15\\
+	v^a &= \lmax - \wmin^a \approx 3.3 \\
+	v^b &= \wmin^a \approx 0.3 \\
+	h_\text{f} &= \frac{2 \left(\lmax - \wmin^a\right) \hmin }{3\sqrt{3} \wmin^a} \approx 0.85 \\
+	h_\text{c} &= \hmin \approx 0.2 \\
+	F &= \frac{4 \left(\lmax - \wmin^a\right) \hmin \sigma^a_\text{fail}}{3\sqrt{3}} \approx 24.7 \\
 	f &= \frac{F}{\left( w^a + w^b \right) \left( h_\text{f} + h_\text{c} \right) } \approx 8.56
 \end{align*}
 
