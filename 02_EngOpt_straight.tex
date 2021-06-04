@@ -272,17 +272,3 @@ Formula is given by this? :
 \end{align*}
 \fi
 
-
-\subsection{Redefining shear}
-
-According to the von Mises yield criterion we can rewrite the ultimate shear strength in terms of the ultimate tensile yield strength:
-\begin{align*}
-	\tau^a_\text{yield} &= \frac{ \sigma^a_\text{yield} }{\sqrt{3}} 
-\end{align*}
-
-We have to compute the true ultimate yield strength values from the engineering stress values - I think.
-\begin{align*}
-	\sigma_\text{true} % &= \sigma_\text{engineering} e^{\epsilon_\text{true}} \\
-	&= \sigma_\text{engineering} (1 + \epsilon_\text{engineering})
-	%True stress = (engineering stress) * exp(true strain) = (engineering stress) * (1 + engineering strain)
-\end{align*}
