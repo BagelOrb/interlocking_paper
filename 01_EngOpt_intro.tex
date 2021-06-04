@@ -5,7 +5,7 @@ Our project is centered around the PhD research of Tim Kuipers, so you might wan
 
 If one wishes to print one part consisting of two incompatible materials then some interlocking geometry will need to be introduced at the interface between these two materials in order to make these two materials adhere to each other mechanically.
 We consider two materials, a hard one (shown in green) and a soft one (in cyan), which are placed next to each other such that the interface is horizontal
-and we will consider a tensile for is applied orthogonal to the interface.
+and we will consider a tensile force applied orthogonal to the interface.
 
 The structure consists of parallel beams of alternating materials in some layers, and in other layers the beams of both materials are rotated, so that they connect the various beams of the former, thusly interlocking the materials.
 We want to optimize the structure such that it can withstand the highest tensile force, for an arbitrarily large interface;
@@ -13,15 +13,33 @@ that is, we want to optimize the effective ultimate tensile strength of the inte
 We want to optimize our structure such that none of the components of breaks or yields at the highest applied force.
 On the other hand we would like our structure to be as small as possible, which is captured in both constraints and objective functions.
 
+\newcommand{\hmin}{\underline{h}}
+\newcommand{\wmin}{\underline{w}}
+\newcommand{\lmax}{\overline{l}}
+
 We consider two closely related interlocking geometries consisting of beams of material $a$ and material $b$.
 Without loss of generality let us assume that material $a$ is the stronger one: $\sigma^a_\text{yield} > \sigma^b_\text{yield} $
 Both of these geometries are limited by manufacturing constraints:
 \begin{itemize}
-	\item heights are a discrete multiple of the layer thickness $h_\text{min}$
-	\item widths are continuous, but at least twice the nozzle size $w_\text{min}$
-	\item the width of a very long beam may be smaller: at least once the nozzle size $w_\text{min}$
+	\item heights are a discrete multiple of the layer thickness $\hmin$
+	\item any geometry is at least $2\hmin$ high to prevent oscillation in manufacturing accuracy
+	\item any geometry is at least as wide as the minimum manufacturable thread width $\wmin$, which depends on the nozzle size
+	\item short beams are at least $2\wmin$ in order to prevent frequent retractions
 \end{itemize}
 
+The optimal structure can withstand the highest tensile stress, while remaining relatively small, so as to not affect the design by much.
+We therefore set sensible constraints on the total size.
+Suppose the interface between the two materials is along the XZ plane, so the force is applied in the Y direction.
+We constrain the total length in Y to be $\lmax$.
+Depending on the design we might require different constraint values for $\lmax$.
+We consider the default setting to be $\lmax = 12 \wmin$, but may choose to consider also $\lmax \in \{ 6, 8, 10, 12 \} \wmin$
+
+The total height of the micro-structure should reasonably be below $\overline{h}=12\hmin$.
+The total width should reasonably be below $12\wmin$.
+These are not hard constraints, just expected upper bounds of the ranges within which to check.
+
+We will consider the situation where the nozzle size is \SI{0.4}{\milli\meter} and so we estimate $\wmin=\SI{0.3}{\milli\meter}$.
+The chosen layer height is $\hmin=\SI{0.1}{\milli\meter}$.
 
 We consider two orientations of the interlocking pattern:
 \begin{description}
@@ -35,7 +53,6 @@ YZ specimens have been reported in favor of the XY samples, because their behavi
 Our current model only involves $\sigma_\text{yield}$ and $\sigma_\text{z,yield}$, except that for TPU we will use the break values instead, since it doesn't yield.
 
 \input{04_1_mat_prop}
-
 
 
 
