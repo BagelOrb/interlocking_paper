@@ -63,7 +63,7 @@ The $v^m$ variables don't figure in the objective, but they do appear in the con
 Under different circumstances the values of the constraints will be different.
 Different nozzles and different layer thickness settings require different constraint values.
 Because of manufacturing constraints we know that the layer thickness has to be smaller than half the smallest nozzle size:
-$\hmin < \nicefrac{1}{2} w^m_\text{min}$.
+$\hmin < \nicefrac{1}{2} \wmin^m$.
 
 Materials properties of 3D printed materials are always such that $\tau_Z^m < \tau^m$.
 According to the von Mises yield criterion we have that $\tau^m_\text{fail} = \sigma^m_\text{fail} / \sqrt{3} $.
@@ -72,7 +72,7 @@ Depending on the types of material used the tensile and shear strength in the Z 
 In such a case the Z shearing failure constraints \cref{eq:c_shear_z} will be active for that material.
 
 Depending on the design we might apply a different $\lmax$, 
-but it is required that $\lmax \ge v_\text{min}^a + v_\text{min}^b$.
+but it is required that $\lmax \ge \wmin^a + \wmin^b$.
 
 \subsection{Boundedness}
 \label{sec:domain_assumptions}
@@ -225,7 +225,6 @@ $g_\text{d}, g_\text{tb}, g_\text{c}$, where the active constituent constraint o
 	w^b  &= \frac{\frac23 \sigma^a_\text{fail}v^a \hmin}{\sigma^b_\text{fail}  h_\text{f}} \\
 \end{align*}
 
-\newpage
 Then our objective becomes:
 \begin{align*}
 	%	\min{ \frac{\left( 2 \wmin^a + w^b \right) \left( h_\text{f} + \hmin \right) }{F} }\\
