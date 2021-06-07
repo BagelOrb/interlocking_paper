@@ -727,9 +727,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70000001"
-     inkscape:cx="387.73973"
-     inkscape:cy="227.72818"
+     inkscape:zoom="1.4"
+     inkscape:cx="159.45384"
+     inkscape:cy="246.77492"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -757,7 +757,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -893,24 +893,24 @@
     <text
        xml:space="preserve"
        style="font-size:4.23333px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';display:inline;stroke-width:0.264583"
-       x="46.493484"
-       y="152.98309"
+       x="46.025764"
+       y="161.26845"
        id="text2271-4"><tspan
          sodipodi:role="line"
          id="tspan2269-9"
-         x="46.493484"
-         y="152.98309"
+         x="46.025764"
+         y="161.26845"
          style="stroke-width:0.264583">x</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:4.23333px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';display:inline;stroke-width:0.264583"
-       x="46.171291"
-       y="161.27361"
+       x="45.837204"
+       y="153.65643"
        id="text2275-1"><tspan
          sodipodi:role="line"
          id="tspan2273-5"
-         x="46.171291"
-         y="161.27361"
+         x="45.837204"
+         y="153.65643"
          style="stroke-width:0.264583">y</tspan></text>
     <text
        xml:space="preserve"
@@ -1738,24 +1738,24 @@
     <text
        xml:space="preserve"
        style="font-size:4.23333px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';stroke-width:0.264583"
-       x="8.5434818"
-       y="47.311718"
+       x="8.0757599"
+       y="55.597073"
        id="text2271"><tspan
          sodipodi:role="line"
          id="tspan2269"
-         x="8.5434818"
-         y="47.311718"
+         x="8.0757599"
+         y="55.597073"
          style="stroke-width:0.264583">x</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:4.23333px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';stroke-width:0.264583"
-       x="8.2212887"
-       y="54.543915"
+       x="7.8872018"
+       y="47.795361"
        id="text2275"><tspan
          sodipodi:role="line"
          id="tspan2273"
-         x="8.2212887"
-         y="54.543915"
+         x="7.8872018"
+         y="47.795361"
          style="stroke-width:0.264583">y</tspan></text>
     <text
        xml:space="preserve"
