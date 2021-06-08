@@ -131,7 +131,7 @@ Once one of those failure modes has occurred still any other failure mode has to
 The only constraint added by the shearing failure modes should therefore be that both those failure modes occur together.
 The constraint is violated only when both occur, so it is satisfied when either failure mode is prevented.
 \begin{align*}
-	\frac{ F }{ v^a \hc }  \max{\left( \frac34 \sqrt{3}, \frac{w^b}{2v^a} \right)} \le \sigmafail^a  &\bigvee \\
+	\frac{ F }{ v^a \hc }  \max{\left( \frac34 \sqrt{3}, \frac{w^b}{2v^a} \right)} \le \sigmafail^a  &\bigvee
 	\frac{ F }{ v^b \hc }  \max{\left( \frac34 \sqrt{3}, \frac{w^a}{2v^b} \right)} \le \sigmafail^b  
 \end{align*}
 
@@ -236,9 +236,26 @@ Since the feasible space is non-convex, we cannot preclude local optima.
 
 
 \subsection{Sensitivity analysis}
+The sensitivities are as follows:
+\begin{align*}
+	\diff{f}{v^a} &= \diff{f}{v^b} = 0 \\
+	\diff{f}{w^b} &= \frac{\hf + \hmin}{F} \\
+	\diff{f}{\hf} &= \frac{2 \wmin^a + w^b}{F} \\
+	\diff{f}{F} &= - \frac{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)}{F^2} \\
+	\diff{\log f}{\log w^b} % &= \frac{\hf + \hmin}{F}  w^b \frac{F}{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
+	% &= \frac{\left( \hf + \hmin \right) w^b}{F} \frac{F}{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
+	% &= \frac{\left( \hf + \hmin \right) w^b}{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
+	&= \frac{ w^b }{ 2 \wmin^a + w^b} \\
+	\diff{\log f}{\log \hf} % &= \frac{2 \wmin^a + w^b}{F} \hf \frac{F}{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
+	% &= \frac{\left(2 \wmin^a + w^b\right) \hf }{F} \frac{F}{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
+	% &= \frac{\left(2 \wmin^a + w^b\right) \hf }{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
+	 &= \frac{ \hf }{ \hf + \hmin } \\
+	\diff{\log{f}}{\log{F}} &= - 1 \\
+\end{align*}
 
-
-
+The fact that the logarithmic sensitivity of the objective w.r.t. the force equals $-1$ reflects that for any given design the test force is maximized until the first failure mode will happen.
+The sensitivities of the other design variables are in the same ballpark, given that the constraint values $\wmin$ and $\hmin$ are in the same order of magnitude.
+\todo{We will show the sensitivities at the global optimum further down in this paper.}
 
 
 
