@@ -75,8 +75,13 @@ Depending on the design we might apply a different $\lmax$,
 but it is required that $\lmax \ge \wmin^a + \wmin^b$.
 
 \subsection{Boundedness}
+The manufacturing constraints provide sufficient lower bounds, but the upper bounds are problematic in the current formulation.
+The design constraint effectively places an upper bound on the $v^m$ widths.
+One might think that this constraint drives the other design variables to some finite value as well.
+However, in this section we show how the current formulation will be amended to make the problem well-behaved.
+
 \label{sec:domain_assumptions}
-If we would scale all design variables linearly with some factor $R$ and $F$ by $R^2$ then the objective function and all mechanical constraints \crefrange{eq:c_tensile}{eq:c_bending_b} remain at the same value.
+If we would scale all design variables linearly with some factor $R$ and $F$ by $R^2$ then the objective function and all mechanical constraints \crefrange{eq:c_tensile}{eq:c_shear_z} remain at the same value.
 If only those constraints were to be considered the problem would have been under-constrained.
 Since one of our objective functions is to minimize the total width $(w^a + w^B)$ we know that some of the constraints \crefrange{eq:c1}{eq:c4} will have to be active.
 If we set \cref{eq:c1} active for material $a$ we will show that none of the other constraints will be violated, so this constraint has to be active.
