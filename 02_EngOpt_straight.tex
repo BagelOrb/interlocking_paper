@@ -99,6 +99,7 @@ The manufacturing constraints do change, but as long as we scale up they remain 
 This means the problem definition is not well-bounded.
 In order to solve this we use the height objective function $(\hf + \hc)$ to set \cref{eq:c4} active and we will show that \cref{eq:c3} is not violated.
 
+
 \paragraph{Constraint redundancy}
 If $\nicefrac{w^b}{v^a} > \nicefrac{ \sigmafail^a }{ \taufail^a } = \sqrt{3}$ 
 then the shear failure constraints \cref{eq:c_shear} for material $a$ is dominated by the bending failure constraint \cref{eq:c_bending_a},
@@ -110,17 +111,47 @@ $.
 Otherwise the latter is dominated by the former.
 The same holds conversely with the materials $a$ and $b$ swapped.
 Therefore two of \cref{eq:c_shear,eq:c_bending_a,eq:c_bending_b} will be redundant.
-
-We can combine both constraints into a single one:
-\begin{align*}
+We could combine those four constraints into two single ones:
+\begin{align}
 	%\frac{ F }{ 2 v^m \hc} &\le \taufail^m \\
 	%\frac{ F }{ 2 v^m \hc} &\le \nicefrac1{\sqrt{3}} \sigmafail^m \\
 	%\frac{ F }{ 2 \cdot \sqrt{3} v^m \hc} &\le \sigmafail^m \\
 	%???\frac{ F w^b }{ 2 \left( v^a \right)^2 \hc } &\le \sigmafail^a \\
 	%\\
-	\frac{ F }{ 2 v^a \hc }  \max{\left( \sqrt{3}, \frac{w^b}{ v^a} \right)} &\le \sigmafail^a  \\
-	\frac{ F }{ 2 v^b \hc }  \max{\left( \sqrt{3}, \frac{w^a}{ v^b} \right)} &\le \sigmafail^b  
+	\frac{ F }{ 2 v^a \hc }  \max{\left( \sqrt{3}, \frac{w^b}{ v^a} \right)} &\le \sigmafail^a  \nonumber \\
+	\frac{ F }{ 2 v^b \hc }  \max{\left( \sqrt{3}, \frac{w^a}{ v^b} \right)} &\le \sigmafail^b  \label{eq:shear_bend_combined}
+\end{align}
+
+
+\paragraph{Von Mises criterion}
+However, when these criteria are near-active then there could be an interaction between the two.
+The shear and bending interact and thereby lower the force at which failure happens.
+In order to estimate the combined failure criterion we consider the von Mises yield criterion.
+When only considering one tensile stress and one shear stress, the criterion reduces to:
+
+\begin{align*}
+	% \sqrt{\frac12 \left(  \left(\sigma_{11} - \sigma_{22}\right)^2  +  \left(\sigma_{22} - \sigma_{33}\right)^2  +  \left(\sigma_{33} - \sigma_{11}\right)^2   +   6\left(\sigma_{23}^2 + \sigma_{31}^2 + \sigma_{12}^2\right)\right)}&< \sigmafail \\
+	%\sqrt{\frac12 \left(  \left(\sigma_{11} \right)^2  +  \left( - \sigma_{11}\right)^2   +   6\left(\sigma_{23}^2 \right)\right)}&< \sigmafail \\
+	%\sqrt{\frac12 \left(  2 \left(\sigma_{11} \right)^2  +   6\left(\sigma_{23} \right)^2  \right)}&< \sigmafail \\
+	%\sqrt{\frac12 \left(  2 \sigma ^2  +   6 \tau^2  \right)}&< \sigmafail \\
+	\sqrt{ \sigma ^2  +   3 \tau^2 }&< \sigmafail
 \end{align*}
+
+Applied to our shear and bending, we get:
+
+\begin{align}
+	% \sqrt{ \left(  \frac{ F w^b }{ 2 \left( v^a \right)^2 \hc }  \right)^2   +   3 \left(  \frac{ F }{ 2 v^a \hc}  \right)^2 } &< \sigmafail^a \\
+	% \sqrt{ \left(  \frac{ F }{ 2 v^a \hc} \frac{w^b}{v^a}  \right)^2   +   3 \left(  \frac{ F }{ 2 v^a \hc}  \right)^2 } &< \sigmafail^a \\
+	% \sqrt{ \left(  \frac{ F }{ 2 v^a \hc}\right)^2  \left( \frac{w^b}{v^a}  \right)^2   +   3 \left(  \frac{ F }{ 2 v^a \hc}  \right)^2 } &< \sigmafail^a \\
+	% \sqrt{ \left(  \frac{ F }{ 2 v^a \hc}\right)^2  \left( \left( \frac{w^b}{v^a}  \right)^2   +   3  \right) } &< \sigmafail^a \\
+	\frac{ F }{ 2 v^a \hc} \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 } &< \sigmafail^a \nonumber \\
+	\frac{ F }{ 2 v^b \hc} \sqrt{   \left( \frac{w^a}{v^b}  \right)^2 + 3 } &< \sigmafail^b \label{eq:shear_bend_von_mises}
+\end{align}
+
+Note that the von Mises yield criterion \cref{eq:shear_bend_von_mises} is de facto equivalent to the application of the P-norm smooth approximation of the maximum function as used in the combined constraint \cref{eq:shear_bend_combined}, for $P=2$.
+What a neat coincidence!
+Where $\nicefrac{w^b}{v^a} \to 0$ and $\nicefrac{w^b}{v^a} \to \infty$ the failure is dominated by shear and bending respectively. 
+This shows that in the limits the von Mises yield criterion and the combined criterion coincide.
 
 
 \paragraph{Constraint validity}
@@ -130,26 +161,15 @@ once part of the cross beams has sheared off, still a column of material $a$ rem
 Once one of those failure modes has occurred still any other failure mode has to occur for the interlock to fail, except $M_x^b$.
 The only constraint added by the shearing failure modes should therefore be that both those failure modes occur together.
 The constraint is violated only when both occur, so it is satisfied when either failure mode is prevented.
-\begin{align*}
-	\frac{ F }{ 2 v^a \hc }  \max{\left( \sqrt{3}, \frac{w^b}{v^a} \right)} \le \sigmafail^a  &\bigvee
-	\frac{ F }{ 2 v^b \hc }  \max{\left( \sqrt{3}, \frac{w^a}{v^b} \right)} \le \sigmafail^b  
-\end{align*}
-
 The logical disjunction can be rewritten into a minimum when both constraints are transformed into negative null form:
 \begin{align*}
-	%\frac{ F }{ v^a \hc \sigmafail^a }  \max{\left( \frac12 \sqrt{3}, \frac{w^b}{2v^a} \right)} \le 1  \bigvee
-	%\frac{ F }{ v^b \hc \sigmafail^b }  \max{\left( \frac12 \sqrt{3}, \frac{w^a}{2v^b} \right)} \le 1  \\
-	%\min{\left( \frac{ F }{ v^a \hc \sigmafail^a }  \max{\left( \frac12 \sqrt{3}, \frac{w^b}{2v^a} \right)}
-	%, \frac{ F }{ v^b \hc \sigmafail^b }  \max{\left( \frac12 \sqrt{3}, \frac{w^a}{2v^b} \right)} \right)} \le 1  \\
-	%\frac{F}{\hc}  \min{\left( \frac{ 1 }{ v^a \sigmafail^a }  \max{\left( \frac12 \sqrt{3}, \frac{w^b}{2v^a} \right)}
-	%, \frac{ 1 }{ v^b \sigmafail^b }  \max{\left( \frac12 \sqrt{3}, \frac{w^a}{2v^b} \right)} \right)} \le 1  \\
-	%\frac{F}{\hc}  \min{\left( \frac{ \max{\left( \frac12 \sqrt{3}, \frac{w^b}{2v^a} \right)} }{ v^a \sigmafail^a }  
-	%, \frac{ \max{\left( \frac12 \sqrt{3}, \frac{w^a}{2v^b} \right)} }{ v^b \sigmafail^b }   \right)} \le 1  \\
-	\frac{F}{2\hc}  \min{\left( \frac{ \max{\left( \sqrt{3}, \frac{w^b}{v^a} \right)} }{ v^a \sigmafail^a }  
-		, \frac{ \max{\left( \sqrt{3}, \frac{w^a}{v^b} \right)} }{ v^b \sigmafail^b }   \right)} - 1 \le 0  
+% \min \left(  \frac{ F }{ 2 v^a \hc \sigmafail^a} \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 }  ,  \frac{ F }{ 2 v^b \hc \sigmafail^b} \sqrt{   \left( \frac{w^a}{v^b}  \right)^2 + 3 }  \right) - 1 &< 0 \\
+% \frac{ F }{ 2 \hc}  \min \left(  \frac{ 1 }{ v^a \sigmafail^a} \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 }  ,  \frac{ 1 }{ v^b \sigmafail^b} \sqrt{   \left( \frac{w^a}{v^b}  \right)^2 + 3 }  \right) - 1 &< 0 \\
+\frac{ F }{ 2 \hc}  \min \left(  \frac{ \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 } }{ v^a \sigmafail^a}   ,  \frac{  \sqrt{   \left( \frac{w^a}{v^b}  \right)^2 + 3 } }{ v^b \sigmafail^b}  \right) - 1 &< 0 \\
+% \frac{ F }{ 2 \hc}  \min \left(  \frac{ \sqrt{   \left(w^b\right)^2 + 3 \left(v^a\right)^2 } }{ \left(v^a\right)^2 \sigmafail^a}   ,  \frac{  \sqrt{   \left(w^a\right)^2 + 3 \left(v^b\right)^2 } }{ \left(v^b\right)^2 \sigmafail^b}  \right) - 1 &< 0 \\
 \end{align*}
 
-Depending on the optimization algorithm used, the min and max operators might need to be replaced by smooth versions.
+Depending on the optimization algorithm used, the min operator might need to be replaced by smooth versions.
 The choice between P-norm, Kreisselmeier-Steinhauser function or any of the other alternatives might be decided by properties of their derivatives.
 The height of the $P$ value will determine the approximation error.
 The approximation error of the max function means that the approximated constraint is more strict than the underlying sub-constraints, 
@@ -190,8 +210,7 @@ That way the formulae of those constraints are more alike and simpler to differe
 	\gd: & \frac{v^a + v^b}{ \lmax }  - 1 \le 0 \\
 	\gta: & 1 - \frac{ 2 \wmin^a \hf \sigmafail^a }{ F } \le 0 \\
 	\gtb: & 1 - \frac{ w^b \hf \sigmafail^b }{ F } \le 0 \\
-	\gc: & 1- \frac{2\hmin}{F}  \max{\left( \frac{ v^a \sigmafail^a }{ \max{\left( \sqrt{3}, \frac{w^b}{v^a} \right)} }  
-		, \frac{ v^b \sigmafail^b }{ \max{\left( \sqrt{3}, \frac{\wmin^a}{2v^b} \right)} }   \right)} \le 0 \\
+	\gc: & 1 - \frac{ 2 \hmin}{ F }  \max \left(  \frac{ v^a \sigmafail^a}{ \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 } }   ,  \frac{ v^b \sigmafail^b}{  \sqrt{   \left( \frac{2\wmin^a}{v^b}  \right)^2 + 3 } }  \right) &< 0 \\
 	\gza: & 1 - \frac{ 2 v^a 2 \wmin^a \tauz^a }{ F } \le 0 \\
 	\gzb: & 1 - \frac{ 2 v^b w^b \tauz^b }{ F } \le 0
 \end{align*}
