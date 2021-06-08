@@ -164,6 +164,9 @@ The shear constraints are combined into one.
 The constraints which hold for both materials are expanded.
 The variables set by the presumed to be active constraints are substituted.
 
+We divide by the constraint values and invert the division of the mechanical constraints.
+That way the formulae of those constraints are more alike and simpler to differentiate.
+
 \newcommand{\gwb}{g_\text{wb}}
 \newcommand{\gva}{g_\text{va}}
 \newcommand{\gvb}{g_\text{vb}}
@@ -182,12 +185,12 @@ The variables set by the presumed to be active constraints are substituted.
 	\gvb: & 1 - \nicefrac{v^b }{\wmin^b} \le 0 \\
 	\ghf: & 1 - \nicefrac{\hf}{\hmin} \le 0 \\
 	\gd: & \frac{v^a + v^b}{ \lmax }  - 1 \le 0 \\
-	\gta: & \frac{ F }{ 2 \wmin^a h_\text{f} \sigma^a_\text{fail} } - 1 \le 0 \\
-	\gtb: & \frac{ F }{ w^b h_\text{f} \sigma^b_\text{fail} } - 1 \le 0 \\
-	\gc: & \frac{F}{\hmin}  \min{\left( \frac{ \max{\left( \frac34 \sqrt{3}, \frac{w^b}{2v^a} \right)} }{ v^a \sigma^a_\text{fail} }  
-		, \frac{ \max{\left( \frac34 \sqrt{3}, \frac{2\wmin^a}{2v^b} \right)} }{ v^b \sigma^b_\text{fail} }   \right)} - 1 \le 0 \\
-	\gza: & \frac{ 3 F }{ 4 v^a 2 \wmin^a \tau^a_\text{Z} } - 1 \le 0 \\
-	\gzb: & \frac{ 3 F }{ 4 v^b w^b \tau^b_\text{Z} } - 1 \le 0
+	\gta: & 1 - \frac{ 2 \wmin^a \hf \sigma^a_\text{fail} }{ F } \le 0 \\
+	\gtb: & 1 - \frac{ w^b \hf \sigma^b_\text{fail} }{ F } \le 0 \\
+	\gc: & 1- \frac{\hmin}{F}  \max{\left( \frac{ v^a \sigma^a_\text{fail} }{ \max{\left( \frac34 \sqrt{3}, \frac{w^b}{2v^a} \right)} }  
+		, \frac{ v^b \sigma^b_\text{fail} }{ \max{\left( \frac34 \sqrt{3}, \frac{2\wmin^a}{2v^b} \right)} }   \right)} \le 0 \\
+	\gza: & 1 - \frac{ 4 v^a 2 \wmin^a \tau^a_\text{Z} }{ 3 F } \le 0 \\
+	\gzb: & 1 - \frac{ 4 v^b w^b \tau^b_\text{Z} }{ 3 F } \le 0
 \end{align*}
 
 \subsection{Monotonicity Analysis}
