@@ -142,8 +142,17 @@ The logical disjunction can be rewritten into a minimum when both constraints ar
 		, \frac{ \max{\left( \frac34 \sqrt{3}, \frac{w^a}{2v^b} \right)} }{ v^b \sigma^b_\text{fail} }   \right)} - 1 \le 0  
 \end{align*}
 
+Depending on the optimization algorithm used, the min and max operators might need to be replaced by smooth versions.
+The choice between P-norm, Kreisselmeier-Steinhauser function or any of the other alternatives might be decided by properties of their derivatives.
+The height of the $P$ value will determine the approximation error.
+The approximation error of the max function means that the approximated constraint is more strict than the underlying sub-constraints, 
+while the smooth approximation of the min function is more lenient.
+This means that using a smooth approximation of this constraint could result in infeasible designs according to the analytical constraint.
 
-\todo{TODO: rescale all so that they are approximately in the range 0-1.}
+
+\todo{TODO: rescale objective function so that they are approximately in the range 0-1.}
+
+\todo{TODO: should we invert the mechanical constriants, so that the F is below the division line?}
 
 \subsection{Problem reformulation}
 Taking the above into account we reformulate the problem.
