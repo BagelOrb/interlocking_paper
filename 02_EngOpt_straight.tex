@@ -160,39 +160,55 @@ The shear constraints are combined into one.
 The constraints which hold for both materials are expanded.
 The variables set by the presumed to be active constraints are substituted.
 
+\newcommand{\gwb}{g_\text{wb}}
+\newcommand{\gva}{g_\text{va}}
+\newcommand{\gvb}{g_\text{vb}}
+\newcommand{\ghf}{g_\text{hf}}
+\newcommand{\gd}{g_\text{d}}
+\newcommand{\gta}{g_\text{ta}}
+\newcommand{\gtb}{g_\text{tb}}
+\newcommand{\gc}{g_\text{c}}
+\newcommand{\gza}{g_\text{za}}
+\newcommand{\gzb}{g_\text{zb}}
+
 \begin{align*}
 	f: & \min{ \frac{\left( 2 \wmin^a + w^b \right) \left( h_\text{f} + \hmin \right) }{F} }\\
-	g_\text{wb}: & 1 - \nicefrac{w^b }{2 \wmin^b} \le 0 \\
-	g_\text{va}: & 1 - \nicefrac{v^a }{\wmin^a} \le 0 \\
-	g_\text{vb}: & 1 - \nicefrac{v^b }{\wmin^b} \le 0 \\
-	g_\text{hf}: & 1 - \nicefrac{h_\text{f}}{\hmin} \le 0 \\
-	g_\text{d}: & \frac{v^a + v^b}{ \lmax }  - 1 \le 0 \\
-	g_\text{ta}: & \frac{ F }{ 2 \wmin^a h_\text{f} \sigma^a_\text{fail} } - 1 \le 0 \\
-	g_\text{tb}: & \frac{ F }{ w^b h_\text{f} \sigma^b_\text{fail} } - 1 \le 0 \\
-	g_\text{c}: & \frac{F}{\hmin}  \min{\left( \frac{ \max{\left( \frac34 \sqrt{3}, \frac{w^b}{2v^a} \right)} }{ v^a \sigma^a_\text{fail} }  
+	\gwb: & 1 - \nicefrac{w^b }{2 \wmin^b} \le 0 \\
+	\gva: & 1 - \nicefrac{v^a }{\wmin^a} \le 0 \\
+	\gvb: & 1 - \nicefrac{v^b }{\wmin^b} \le 0 \\
+	\ghf: & 1 - \nicefrac{h_\text{f}}{\hmin} \le 0 \\
+	\gd: & \frac{v^a + v^b}{ \lmax }  - 1 \le 0 \\
+	\gta: & \frac{ F }{ 2 \wmin^a h_\text{f} \sigma^a_\text{fail} } - 1 \le 0 \\
+	\gtb: & \frac{ F }{ w^b h_\text{f} \sigma^b_\text{fail} } - 1 \le 0 \\
+	\gc: & \frac{F}{\hmin}  \min{\left( \frac{ \max{\left( \frac34 \sqrt{3}, \frac{w^b}{2v^a} \right)} }{ v^a \sigma^a_\text{fail} }  
 		, \frac{ \max{\left( \frac34 \sqrt{3}, \frac{2\wmin^a}{2v^b} \right)} }{ v^b \sigma^b_\text{fail} }   \right)} - 1 \le 0 \\
-	g_\text{za}: & \frac{ 3 F }{ 4 v^a 2 \wmin^a \tau^a_\text{Z} } - 1 \le 0 \\
-	g_\text{zb}: & \frac{ 3 F }{ 4 v^b w^b \tau^b_\text{Z} } - 1 \le 0
+	\gza: & \frac{ 3 F }{ 4 v^a 2 \wmin^a \tau^a_\text{Z} } - 1 \le 0 \\
+	\gzb: & \frac{ 3 F }{ 4 v^b w^b \tau^b_\text{Z} } - 1 \le 0
 \end{align*}
 
 \subsection{Monotonicity Analysis}
-In the right column we show a monotonicity analysis.
-Since none of the constraints are solely responsible for limiting a variable we are not able to reduce the problem definition further.
+Below we show a monotonicity analysis.
+The objective function is monotonically increasing in the width $w^b$ and height $h_\text{f}$, and monotonically decreasing in the force $F$.
+Since none of the constraints are solely responsible for limiting a variable we are not able to reduce the problem definition further;
+there are no critical constraints.
+
+All mechanical constraints are conditionally critical for the design variables.
+
+The non-objective variables $v^a$ and $v^b$ are bound by $\gva$, $\gvb$ and $\gd$.
 
 \begin{align*}
 	f: & F^-, w^{b+},  h_\text{f}^+\\
 	%\omit\rlap{subject to} \nonumber \\
-	g_\text{wb}: & w^{b-} \\
-	g_\text{va}: & v^{a-} \\
-	g_\text{vb}: & v^{b-} \\
-	g_\text{hf}: & h_\text{f}^- \\
-	g_\text{d}: & v^{a+}, v^{b+} \\
-	g_\text{ta}: & F^+, h_\text{f}^- \\
-	g_\text{tb}: & F^+, w^{b-}, h_\text{f}^- \\
-	%	\min{\left( \frac{ 3 F }{ 4 v^a h_\text{c} \tau^a } , \frac{ 3 F }{ 4 v^b h_\text{c} \tau^b }  \right)} - 1 & F^+, v^{a-}, v^{b-}, h_\text{c}^- \\
-	g_\text{c}: & F^+, v^{a-}, v^{b-}, w^{b+} \\
-	g_\text{za}: & F^+, v^{a-} \\
-	g_\text{zb}: & F^+, v^{b-}, w^{b-}
+	\gwb: & w^{b-} \\
+	\gva: & v^{a-} \\
+	\gvb: & v^{b-} \\
+	\ghf: & h_\text{f}^- \\
+	\gd: & v^{a+}, v^{b+} \\
+	\gta: & F^+, h_\text{f}^- \\
+	\gtb: & F^+, w^{b-}, h_\text{f}^- \\
+	\gc: & F^+, v^{a-}, v^{b-}, w^{b+} \\
+	\gza: & F^+, v^{a-} \\
+	\gzb: & F^+, v^{b-}, w^{b-}
 \end{align*}
 
 
