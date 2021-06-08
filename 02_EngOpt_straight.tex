@@ -52,10 +52,10 @@ The optimization then consists of the following:
 	\hc &\ge \hmin		&&\text{ Layer thickness}  \label{eq:c4} \\
 	v^a + v^b &\le \lmax         &&\text{ Design constraint}   \label{eq:c_total_length} \\
 	\frac{ F }{ w^m \hf } &\le \sigmafail^m					&&\text{ Tension failure } M_x^m  \label{eq:c_tensile} \\
-	\frac{ 3 F }{ 4 v^m \hc} &\le \taufail^m					&&\text{ Shear failure } M_y^m  \label{eq:c_shear} \\
+	\frac{ F }{ 2 v^m \hc} &\le \taufail^m					&&\text{ Shear failure } M_y^m  \label{eq:c_shear} \\
 	\frac{ F w^b }{ 2 \left( v^a \right)^2 \hc } &\le \sigmafail^a                 &&\text{ Bending failure } M_y^a  \label{eq:c_bending_a} \\
 	\frac{ F w^a }{ 2 \left( v^b \right)^2 \hc } &\le \sigmafail^b                 &&\text{ Bending failure } M_y^b  \label{eq:c_bending_b} \\
-	\frac{ 3 F }{ 4 v^m w^m } &\le \tauz^m							&&\text{ Shear failure } M_z^m  \label{eq:c_shear_z} \\
+	\frac{ F }{ 2 v^m w^m } &\le \tauz^m							&&\text{ Shear failure } M_z^m  \label{eq:c_shear_z} \\
 	& \text{for both materials } && m \in \{a, b\} \nonumber
 \end{align}
 
@@ -100,12 +100,12 @@ This means the problem definition is not well-bounded.
 In order to solve this we use the height objective function $(\hf + \hc)$ to set \cref{eq:c4} active and we will show that \cref{eq:c3} is not violated.
 
 \paragraph{Constraint redundancy}
-If $\nicefrac34 \nicefrac{w^b}{v^a} > \nicefrac12 \nicefrac{ \sigmafail^a }{ \taufail^a } = \nicefrac12 \sqrt{3}$ 
+If $\nicefrac{w^b}{v^a} > \nicefrac{ \sigmafail^a }{ \taufail^a } = \sqrt{3}$ 
 then the shear failure constraints \cref{eq:c_shear} for material $a$ is dominated by the bending failure constraint \cref{eq:c_bending_a},
 since then 
 $
 \frac{ F w^b }{ 2 \left( v^a \right)^2 \hc \sigmafail^a}
-> \frac{ 3 F }{ 4 v^a \hc \taufail^a} 
+> \frac{ F }{ 2 v^a \hc \taufail^a} 
 $.
 Otherwise the latter is dominated by the former.
 The same holds conversely with the materials $a$ and $b$ swapped.
@@ -113,13 +113,13 @@ Therefore two of \cref{eq:c_shear,eq:c_bending_a,eq:c_bending_b} will be redunda
 
 We can combine both constraints into a single one:
 \begin{align*}
-	%\frac{ 3 F }{ 4 v^m \hc} &\le \taufail^m \\
-	%\frac{ 3 F }{ 4 v^m \hc} &\le \nicefrac1{\sqrt{3}} \sigmafail^m \\
-	%\frac{ 3 F }{ 4 \cdot \sqrt{3} v^m \hc} &\le \sigmafail^m \\
-	%\frac{ F w^b }{ 2 \left( v^a \right)^2 \hc } &\le \sigmafail^a \\
+	%\frac{ F }{ 2 v^m \hc} &\le \taufail^m \\
+	%\frac{ F }{ 2 v^m \hc} &\le \nicefrac1{\sqrt{3}} \sigmafail^m \\
+	%\frac{ F }{ 2 \cdot \sqrt{3} v^m \hc} &\le \sigmafail^m \\
+	%???\frac{ F w^b }{ 2 \left( v^a \right)^2 \hc } &\le \sigmafail^a \\
 	%\\
-	\frac{ F }{ v^a \hc }  \max{\left( \frac34 \sqrt{3}, \frac{w^b}{2v^a} \right)} &\le \sigmafail^a  \\
-	\frac{ F }{ v^b \hc }  \max{\left( \frac34 \sqrt{3}, \frac{w^a}{2 v^b} \right)} &\le \sigmafail^b  
+	\frac{ F }{ 2 v^a \hc }  \max{\left( \sqrt{3}, \frac{w^b}{ v^a} \right)} &\le \sigmafail^a  \\
+	\frac{ F }{ 2 v^b \hc }  \max{\left( \sqrt{3}, \frac{w^a}{ v^b} \right)} &\le \sigmafail^b  
 \end{align*}
 
 
@@ -131,22 +131,22 @@ Once one of those failure modes has occurred still any other failure mode has to
 The only constraint added by the shearing failure modes should therefore be that both those failure modes occur together.
 The constraint is violated only when both occur, so it is satisfied when either failure mode is prevented.
 \begin{align*}
-	\frac{ F }{ v^a \hc }  \max{\left( \frac34 \sqrt{3}, \frac{w^b}{2v^a} \right)} \le \sigmafail^a  &\bigvee
-	\frac{ F }{ v^b \hc }  \max{\left( \frac34 \sqrt{3}, \frac{w^a}{2v^b} \right)} \le \sigmafail^b  
+	\frac{ F }{ 2 v^a \hc }  \max{\left( \sqrt{3}, \frac{w^b}{v^a} \right)} \le \sigmafail^a  &\bigvee
+	\frac{ F }{ 2 v^b \hc }  \max{\left( \sqrt{3}, \frac{w^a}{v^b} \right)} \le \sigmafail^b  
 \end{align*}
 
 The logical disjunction can be rewritten into a minimum when both constraints are transformed into negative null form:
 \begin{align*}
-	%\frac{ F }{ v^a \hc \sigmafail^a }  \max{\left( \frac34 \sqrt{3}, \frac{w^b}{2v^a} \right)} \le 1  \bigvee
-	%\frac{ F }{ v^b \hc \sigmafail^b }  \max{\left( \frac34 \sqrt{3}, \frac{w^a}{2v^b} \right)} \le 1  \\
-	%\min{\left( \frac{ F }{ v^a \hc \sigmafail^a }  \max{\left( \frac34 \sqrt{3}, \frac{w^b}{2v^a} \right)}
-	%, \frac{ F }{ v^b \hc \sigmafail^b }  \max{\left( \frac34 \sqrt{3}, \frac{w^a}{2v^b} \right)} \right)} \le 1  \\
-	%\frac{F}{\hc}  \min{\left( \frac{ 1 }{ v^a \sigmafail^a }  \max{\left( \frac34 \sqrt{3}, \frac{w^b}{2v^a} \right)}
-	%, \frac{ 1 }{ v^b \sigmafail^b }  \max{\left( \frac34 \sqrt{3}, \frac{w^a}{2v^b} \right)} \right)} \le 1  \\
-	%\frac{F}{\hc}  \min{\left( \frac{ \max{\left( \frac34 \sqrt{3}, \frac{w^b}{2v^a} \right)} }{ v^a \sigmafail^a }  
-	%, \frac{ \max{\left( \frac34 \sqrt{3}, \frac{w^a}{2v^b} \right)} }{ v^b \sigmafail^b }   \right)} \le 1  \\
-	\frac{F}{\hc}  \min{\left( \frac{ \max{\left( \frac34 \sqrt{3}, \frac{w^b}{2v^a} \right)} }{ v^a \sigmafail^a }  
-		, \frac{ \max{\left( \frac34 \sqrt{3}, \frac{w^a}{2v^b} \right)} }{ v^b \sigmafail^b }   \right)} - 1 \le 0  
+	%\frac{ F }{ v^a \hc \sigmafail^a }  \max{\left( \frac12 \sqrt{3}, \frac{w^b}{2v^a} \right)} \le 1  \bigvee
+	%\frac{ F }{ v^b \hc \sigmafail^b }  \max{\left( \frac12 \sqrt{3}, \frac{w^a}{2v^b} \right)} \le 1  \\
+	%\min{\left( \frac{ F }{ v^a \hc \sigmafail^a }  \max{\left( \frac12 \sqrt{3}, \frac{w^b}{2v^a} \right)}
+	%, \frac{ F }{ v^b \hc \sigmafail^b }  \max{\left( \frac12 \sqrt{3}, \frac{w^a}{2v^b} \right)} \right)} \le 1  \\
+	%\frac{F}{\hc}  \min{\left( \frac{ 1 }{ v^a \sigmafail^a }  \max{\left( \frac12 \sqrt{3}, \frac{w^b}{2v^a} \right)}
+	%, \frac{ 1 }{ v^b \sigmafail^b }  \max{\left( \frac12 \sqrt{3}, \frac{w^a}{2v^b} \right)} \right)} \le 1  \\
+	%\frac{F}{\hc}  \min{\left( \frac{ \max{\left( \frac12 \sqrt{3}, \frac{w^b}{2v^a} \right)} }{ v^a \sigmafail^a }  
+	%, \frac{ \max{\left( \frac12 \sqrt{3}, \frac{w^a}{2v^b} \right)} }{ v^b \sigmafail^b }   \right)} \le 1  \\
+	\frac{F}{2\hc}  \min{\left( \frac{ \max{\left( \sqrt{3}, \frac{w^b}{v^a} \right)} }{ v^a \sigmafail^a }  
+		, \frac{ \max{\left( \sqrt{3}, \frac{w^a}{v^b} \right)} }{ v^b \sigmafail^b }   \right)} - 1 \le 0  
 \end{align*}
 
 Depending on the optimization algorithm used, the min and max operators might need to be replaced by smooth versions.
@@ -190,10 +190,10 @@ That way the formulae of those constraints are more alike and simpler to differe
 	\gd: & \frac{v^a + v^b}{ \lmax }  - 1 \le 0 \\
 	\gta: & 1 - \frac{ 2 \wmin^a \hf \sigmafail^a }{ F } \le 0 \\
 	\gtb: & 1 - \frac{ w^b \hf \sigmafail^b }{ F } \le 0 \\
-	\gc: & 1- \frac{\hmin}{F}  \max{\left( \frac{ v^a \sigmafail^a }{ \max{\left( \frac34 \sqrt{3}, \frac{w^b}{2v^a} \right)} }  
-		, \frac{ v^b \sigmafail^b }{ \max{\left( \frac34 \sqrt{3}, \frac{2\wmin^a}{2v^b} \right)} }   \right)} \le 0 \\
-	\gza: & 1 - \frac{ 4 v^a 2 \wmin^a \tauz^a }{ 3 F } \le 0 \\
-	\gzb: & 1 - \frac{ 4 v^b w^b \tauz^b }{ 3 F } \le 0
+	\gc: & 1- \frac{2\hmin}{F}  \max{\left( \frac{ v^a \sigmafail^a }{ \max{\left( \sqrt{3}, \frac{w^b}{v^a} \right)} }  
+		, \frac{ v^b \sigmafail^b }{ \max{\left( \sqrt{3}, \frac{\wmin^a}{2v^b} \right)} }   \right)} \le 0 \\
+	\gza: & 1 - \frac{ 2 v^a 2 \wmin^a \tauz^a }{ F } \le 0 \\
+	\gzb: & 1 - \frac{ 2 v^b w^b \tauz^b }{ F } \le 0
 \end{align*}
 
 \subsection{Monotonicity Analysis}
