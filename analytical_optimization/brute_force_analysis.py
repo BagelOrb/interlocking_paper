@@ -122,9 +122,14 @@ print("\n")
 
 
 idx = best_idx # (2, 2, 2, 2)
+# wb, va, hf
+fig, ax = plt.subplots(1, 3, figsize=(10, 6), subplot_kw={'projection': '3d'})
+ax[0].plot_surface(va[idx[0], :, :], hf[idx[0], :, :], stress[idx[0], :, :], edgecolor='none')
+ax[0].set(xlabel='va', ylabel='hf')
+ax[1].plot_surface(wb[:, idx[1], :], hf[:, idx[1], :], stress[:, idx[1], :], edgecolor='none')
+ax[1].set(xlabel='wb', ylabel='hf')
+ax[2].plot_surface(wb[:, :, idx[2]], va[:, :, idx[2]], stress[:, :, idx[2]], edgecolor='none')
+ax[2].set(xlabel='wb', ylabel='va')
 
-fig, ax = plt.subplots(1, 1, figsize=(10, 6), subplot_kw={'projection': '3d'})
-ax.plot_surface(hf[:, idx[1], :], wb[:, idx[1], :], stress[:, idx[1], :], edgecolor='none')
-# ax.plot_surface(hf[idx[0], :, :], wb[idx[0], :, :], stress[idx[0], :, :], edgecolor='none')
 
 plt.show()

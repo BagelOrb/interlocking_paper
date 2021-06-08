@@ -75,7 +75,8 @@ l = va + vb
 
 F_FEM = FEM_stress * (wa + wb) * (hf + hc)
 
-cross_multiplier = 1
+shear_multiplier = 1
+cross_multiplier = 1 * shear_multiplier
 
 gFs = []
 gFs.append(sa * wa * hf)
@@ -86,8 +87,8 @@ cross_gFs = [gF_cross_von_mises_a, gF_cross_von_mises_b]
 gFs.append(np.maximum(gF_cross_von_mises_a, gF_cross_von_mises_b))
 # gFs.append(gF_cross_von_mises_a)
 # gFs.append(gF_cross_von_mises_b)
-gFs.append(taz * 2 * va * wa)
-gFs.append(tbz * 2 * vb * wb)
+gFs.append(taz * 2 * va * wa * shear_multiplier)
+gFs.append(tbz * 2 * vb * wb * shear_multiplier)
 
 minF = np.minimum.reduce(gFs)
 stress = minF / ((wa + wb) * (hf + hc))
@@ -107,8 +108,8 @@ cross_gs = [
     1 - 2 * hc / F * va * sa / np.sqrt(wb * wb / va / va + 3) * cross_multiplier,
     1 - 2 * hc / F * vb * sb / np.sqrt(wa * wa / vb / vb + 3) * cross_multiplier]
 gs.append(np.minimum(cross_gs[0], cross_gs[1]))  # cross
-gs.append(1 - 2 * va * wa * taz / F)  # z shear
-gs.append(1 - 2 * vb * wb * tbz / F)
+gs.append(1 - 2 * va * wa * taz / F * shear_multiplier)  # z shear
+gs.append(1 - 2 * vb * wb * tbz / F * shear_multiplier)
 
 names = ['wa', 'wb', 'va', 'vb', 'hf', 'hc', 'design', 'tension a', 'tension b', 'cross', 'shear Z a', 'shear Z b']
 cross_gs_names = ['shear/bend a', 'shear/bend b']
@@ -132,7 +133,7 @@ for l in range(Nlmax):
     print("\n== prediction ratio per failure mode ==")
     prediction_ratio = stress / FEM_stress
     for i, gF in enumerate(gFs):
-        ratios = prediction_ratio[minF == gF]
+        ratios = prediction_ratio[:, l, :, :][minF[:, l, :, :] == gF[:, l, :, :]]
         if ratios.size > 0:
             print(f"g{i} {names[i + 7]}:  {np.average(ratios):.3f}, stdev: {np.std(ratios):.3f}")
         else:
@@ -140,7 +141,7 @@ for l in range(Nlmax):
 
     print("- cross beam sub failure modes -")
     for i, gF in enumerate(cross_gFs):
-        ratios = prediction_ratio[minF == gF]
+        ratios = prediction_ratio[:, l, :, :][minF[:, l, :, :] == gF[:, l, :, :]]
         if ratios.size > 0:
             print(f"g{i} {cross_gs_names[i]}:  {np.average(ratios):.3f}, stdev: {np.std(ratios):.3f}")
         else:
@@ -192,28 +193,41 @@ if False:
 
 #
 
+def plotTwo(ax, X, Y, Z1, Z2):
+    col1 = np.full(Z1.shape, 'r', dtype='U50')
+    col2 = np.full(Z2.shape, 'b', dtype='U50')
+    ax.plot_surface(np.append(X, X, axis=0),
+                    np.append(Y, Y, axis=0),
+                    np.append(Z1, Z2, axis=0),
+                    facecolors= np.append(col1, col2, axis=0),
+                    edgecolor='none', alpha=.75)
+
+
 idx = best_FEM_idx  # (2, 2, 2, 2)
+# hf, lmax, wb, va
+
+fig, ax = plt.subplots(1, 3, figsize=(10, 6), subplot_kw={'projection': '3d'})
+plotTwo(ax[0], wb[idx[0], 0, :, :], va[idx[0], 0, :, :], stress[idx[0], 0, :, :], FEM_stress[idx[0], 0, :, :])
+ax[0].set(xlabel='wb', ylabel='va')
+plotTwo(ax[1], hf[:, 0, idx[2], :], va[:, 0, idx[2], :], stress[:, 0, idx[2], :], FEM_stress[:, 0, idx[2], :])
+ax[1].set(xlabel='hf', ylabel='va')
+plotTwo(ax[2], hf[:, 0, :, idx[3]], wb[:, 0, :, idx[3]], stress[:, 0, :, idx[3]], FEM_stress[:, 0, :, idx[3]])
+ax[2].set(xlabel='hf', ylabel='wb')
+
+
 
 if False:
-    fig, axs = plt.subplots(2, 3, figsize=(10, 6), subplot_kw={'projection': '3d'})
-    # axs[0, 0].plot_trisurf(hf[:, :, idx[2], idx[3]].reshape(-1), wb[:, :, idx[2], idx[3]].reshape(-1), FEM_stress[:, :, idx[2], idx[3]].reshape(-1), edgecolor= 'none')
-    axs[0, 1].plot_surface(hf[:, idx[1], :, idx[3]], wb[:, idx[1], :, idx[3]], FEM_stress[:, idx[1], :, idx[3]], edgecolor='none')
-    axs[0, 1].plot_surface(hf[:, idx[1], :, idx[3]], wb[:, idx[1], :, idx[3]], stress[:, idx[1], :, idx[3]], edgecolor='none')
-    axs[0, 2].plot_surface(hf[:, idx[1], :, idx[3]], wb[:, idx[1], :, idx[3]], FEM_stress[:, idx[1], :, idx[3]] - stress[:, idx[1], :, idx[3]], edgecolor='none')
+    fig, axs = plt.subplots(1, 3, figsize=(10, 6), subplot_kw={'projection': '3d'})
+    axs[0].plot_surface(hf[:, idx[1], :, idx[3]], wb[:, idx[1], :, idx[3]], FEM_stress[:, idx[1], :, idx[3]], edgecolor='none')
+    axs[0].set_title('FEM')
+    axs[1].plot_surface(hf[:, idx[1], :, idx[3]], wb[:, idx[1], :, idx[3]], FEM_stress[:, idx[1], :, idx[3]], edgecolor='none', alpha=.75)
+    axs[1].plot_surface(hf[:, idx[1], :, idx[3]], wb[:, idx[1], :, idx[3]], stress[:, idx[1], :, idx[3]], edgecolor='none', alpha=.75)
+    axs[1].set_title('combined')
+    axs[2].plot_surface(hf[:, idx[1], :, idx[3]], wb[:, idx[1], :, idx[3]], stress[:, idx[1], :, idx[3]], edgecolor='none')
+    axs[2].set_title('analytical')
 
-    # axs[0, 2].plot_surface(hf[:, idx[1], idx[2], :], wb[:, idx[1], idx[2], :], FEM_stress[:, idx[1], idx[2], :], edgecolor='none')
-    axs[1, 0].plot_surface(hf[idx[0], :, :, idx[3]], wb[idx[0], :, :, idx[3]], FEM_stress[idx[0], :, :, idx[3]], edgecolor='none')
-    axs[1, 1].plot_surface(hf[idx[0], :, idx[2], :], wb[idx[0], :, idx[2], :], FEM_stress[idx[0], :, idx[2], :], edgecolor='none')
-    # axs[1, 2].plot_surface(hf[idx[0], idx[1], :, :], wb[idx[0], idx[1], :, :], FEM_stress[idx[0], idx[1], :, :], edgecolor='none')
-
-fig, axs = plt.subplots(1, 3, figsize=(10, 6), subplot_kw={'projection': '3d'})
-axs[0].plot_surface(hf[:, idx[1], :, idx[3]], wb[:, idx[1], :, idx[3]], FEM_stress[:, idx[1], :, idx[3]], edgecolor='none')
-axs[0].set_title('FEM')
-axs[1].plot_surface(hf[:, idx[1], :, idx[3]], wb[:, idx[1], :, idx[3]], FEM_stress[:, idx[1], :, idx[3]], edgecolor='none', alpha=.75)
-axs[1].plot_surface(hf[:, idx[1], :, idx[3]], wb[:, idx[1], :, idx[3]], stress[:, idx[1], :, idx[3]], edgecolor='none', alpha=.75)
-axs[1].set_title('combined')
-axs[2].plot_surface(hf[:, idx[1], :, idx[3]], wb[:, idx[1], :, idx[3]], stress[:, idx[1], :, idx[3]], edgecolor='none')
-axs[2].set_title('analytical')
+mng = plt.get_current_fig_manager()
+mng.full_screen_toggle()
 
 plt.show()
 
