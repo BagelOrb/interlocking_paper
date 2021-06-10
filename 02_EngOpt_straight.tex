@@ -277,7 +277,30 @@ The sensitivities of the other design variables are in the same ballpark, given 
 \todo{We will show the sensitivities at the global optimum further down in this paper.}
 
 
+\subsection{Constraint sensitivities}
 
+\begin{align*}
+	\diff{\gwb}{w^b} &= \frac{-1}{2\wmin^b} \\
+	\diff{\gva}{v^a} &= \frac{-1}{\wmin^a} \\
+	\diff{\gvb}{v^b} &= \frac{-1}{\wmin^b} \\
+	\diff{\ghf}{\hf} &= \frac{-1}{\hmin} \\
+	\diff{\gd}{v^a} &= \frac{1}{\lmax} \\
+	\diff{\gd}{v^b} &= \frac{1}{\lmax} \\
+	\diff{\gta}{\hf} &= \frac{-2\wmin^a\sigmafail^a}{F} \\
+	\diff{\gta}{F} &= \frac{2\wmin^a \hf \sigmafail^a}{F^2} \\
+	\diff{\gtb}{\hf} &= \frac{-w^b\sigmafail^a}{F} \\
+	\diff{\gtb}{w^b} &= \frac{-\hf\sigmafail^a}{F} \\
+	\diff{\gtb}{F} &= \frac{w^b \hf \sigmafail^a}{F^2} \\
+	\diff{\gc}{w^b} &= - \frac{ 2 \hmin}{ F }  \frac{ w^b \sigmafail^a}{ v^a \left(   \left( \frac{w^b}{v^a}  \right)^2 + 3 \right)^{\nicefrac32} } \\
+	\diff{\gc}{v^a} &= - \frac{ 2 \hmin}{ F }  \frac{ v^a \sigmafail^a \left( 3 \left(v^a\right)^2 + 2 \left(w^b\right)^2 \right) }{ \left( 3 \left(v^a\right)^2 + \left(w^b\right)^2 \right)^{\nicefrac32} }  \\
+	\diff{\gc}{v^b} &= - \frac{ 2 \hmin}{ F }  \frac{ v^b \sigmafail^b \left( 3 \left(v^b\right)^2 + 8 \left(\wmin^a\right)^2 \right) }{ \left( 3 \left(v^b\right)^2 + 4 \left(\wmin^a\right)^2 \right)^{\nicefrac32} }  \\
+	\diff{\gc}{F} &= \frac{ 2 \hmin}{ F^2 }  \max \left(  \frac{ v^a \sigmafail^a}{ \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 } }   ,  \frac{ v^b \sigmafail^b}{  \sqrt{   \left( \frac{2\wmin^a}{v^b}  \right)^2 + 3 } }  \right) \\
+	\diff{\gza}{v^a} &= \frac{-4\wmin^a\tauz^a}{F} \\
+	\diff{\gza}{F} &= \frac{4v^a \wmin^a\tauz^a}{F^2} \\
+	\diff{\gzb}{w^b} &= \frac{-2v^b\tauz^a}{F} \\
+	\diff{\gzb}{v^b} &= \frac{-2w^b\tauz^a}{F} \\
+	\diff{\gzb}{F} &= \frac{4v^a w^b\tauz^a}{F^2}
+\end{align*}
 
 
 \subsection{Optimization}
