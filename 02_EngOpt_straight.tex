@@ -340,55 +340,16 @@ If we evaluate the original constraints (in negative null form) with the above v
 
 
 \subsection{Analytical derivation}
-\todo{Redo this section. It still uses the outdated formula for bending.}
-Let's assume the near-active constraints at the found optimum and derive our solution analytically:
-$g_\text{d}, g_\text{tb}, g_\text{c}$, where the active constituent constraint of all the cross constraints is the shear constraint for material $a$.
-
-\begin{align*}
-	v^b &= \lmax - v^a \\
-	\\
-	\frac{ 3 F }{ 4 v^a \hmin} &= \frac12 \sigmafail^a	\\
-	F &= \frac23 \sigmafail^av^a \hmin \\
-	\\
-	\frac{ F }{ w^b \hf } &= \sigmafail^b \\
-	%F &= \sigmafail^b  w^b \hf \\
-	w^b  &= \frac{F}{\sigmafail^b  \hf} \\
-	w^b  &= \frac{\frac23 \sigmafail^av^a \hmin}{\sigmafail^b  \hf} \\
-\end{align*}
-
-Then our objective becomes:
-\begin{align*}
-	%	\min{ \frac{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right) }{F} }\\
-	\min{ \frac{\left( 2 \wmin^a + \frac{\frac23 \sigmafail^av^a \hmin}{\sigmafail^b  \hf} \right) \left( \hf + \hmin \right) }{ \frac23 \sigmafail^av^a \hmin } }
-\end{align*}
-
-\begin{align*}
-	\frac{\partial f}{\partial \hf} &= \frac{3 \wmin^a}{\hmin \sigmafail^a v^a} - \frac{\hmin}{\left(\hf\right)^2 \sigmafail^b} = 0 \\
-	%\frac{3 \wmin^a}{\hmin \sigmafail^a v^a} &= \frac{\hmin}{\left(\hf\right)^2 \sigmafail^b} \\
-	%\frac{\hmin \sigmafail^a v^a}{3 \wmin^a} &= \frac{\left(\hf\right)^2 \sigmafail^b}{\hmin} \\
-	%\hmin \sigmafail^a v^a &= \frac{\left(\hf\right)^2 \sigmafail^b  3 \wmin^a  }{  \hmin} \\
-	%v^a &= \frac{\hmin \sigmafail^a \left(\hf\right)^2 \sigmafail^b  3 \wmin^a  }{  \hmin} \\
-	%v^a &= \sigmafail^a \left(\hf\right)^2 \sigmafail^b  3 \wmin^a  \\
-	v^a &= 3 \left(\hf\right)^2 \sigmafail^a \sigmafail^b  \wmin^a  \\
-	\\
-	\frac{\partial f}{\partial v^a} &= - \frac{3 \left(\hf + \hmin\right) \wmin^a}{\hmin \sigmafail^a \left(v^a\right)^2} = 0\\
-	0 &= - \frac{3 \left(\hf + \hmin\right) \wmin^a}{\hmin \sigmafail^a \left(  3 \left(\hf\right)^2 \sigmafail^a \sigmafail^b  \wmin^a  \right)^2} \\
-	\\
-	\text{wolfram alpha gives} \\
-	\hf = - \hmin \\
-	\text{WTF}
-\end{align*}
-
-
+\todo{Derive optimum using near-active constraints.}
 
 
 \subsection{Optimization Approach}
 
 
+Rosen's gradient projection method (or Zoutendijks method of feasible directions?)
+
 Second Order optimality check: Karush-Kuhn-Tucker condition, use Bordered Hessian approach
 (L9)
-
-Rosen's gradient projection method (or Zoutendijks method of feasible directions?)
 
 
 
