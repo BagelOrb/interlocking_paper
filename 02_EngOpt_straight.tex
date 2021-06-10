@@ -303,15 +303,17 @@ The sensitivities of the other design variables are in the same ballpark, given 
 \end{align*}
 
 
-\subsection{Optimization}
 
-TODO.
+\subsection{Problem investigation}
 
 We performed a quick brute search algorithm to find the optimum.
 We assume the design constraint to be active.
 That leaves us with three degrees of freedom in the design space.
 For each combination we check the failure force according to each mechanical constraint 
 and use the minimum failure force to compute the objective function for that design.
+
+\todo{TODO: update the following according to the latest model!}
+
 This gives us the following:
 \begin{align*}
 	w^a	&=0.6 \\
@@ -325,9 +327,17 @@ This gives us the following:
 
 We can easily verify that all domain constraints are met, so we were justified in assuming the value for $w^a$ and $\hc$ in \cref{sec:domain_assumptions}.
 
-When we evaluate the constraints we can see that $g_\text{d}$, $g_\text{tb}$ and $g_\text{c}$ are approximately zero.
+When we evaluate the constraints we can see that $\gd$, $\gtb$ and $\gc$ are approximately zero.
 This includes the combined cross beam constraint.
 If we evaluate the original constraints (in negative null form) with the above values we can see that only the shear failure $M_y^a$ is active.
+
+
+\subsection{2D plots}
+\todo{TODO}
+
+
+
+
 
 \subsection{Analytical derivation}
 \todo{Redo this section. It still uses the outdated formula for bending.}
@@ -368,6 +378,18 @@ Then our objective becomes:
 	\hf = - \hmin \\
 	\text{WTF}
 \end{align*}
+
+
+
+
+\subsection{Optimization Approach}
+
+
+Second Order optimality check: Karush-Kuhn-Tucker condition, use Bordered Hessian approach
+(L9)
+
+Rosen's gradient projection method (or Zoutendijks method of feasible directions?)
+
 
 
 \subsection{Future work}
