@@ -75,24 +75,60 @@ l = va + vb
 
 F_FEM = FEM_stress * (wa + wb) * (hf + hc)
 
+w = wa + wb
+
 shear_multiplier = 1
 cross_multiplier = 1 * shear_multiplier
+bending = 0
+z_shear_stress_cross_beam_inclusion = 1
+apply_cross_b = False
+tensile_in_von_mises = 0
+use_combined_von_mises = False
+
+
+def sq(x):
+    return x * x
+
+
+s12_a = 1 / (2 * va * w)  # Z shear
+s31_a = s12_a * wb / hc  # cross shear
+s22_a = bending * s31_a * wb / va  # bending
+s11_a = tensile_in_von_mises * 1 / (wa * hf)  # tensile
+
+s12_b = 1 / (2 * vb * w)
+s31_b = s12_b * wa / hc
+s11_b = tensile_in_von_mises * 1 / (wb * hf)
+s22_b = bending * s31_b * wa / vb
+
+term_a = sq(s11_a) +                        sq(s22_a) - s11_a * s22_a + 3 * (                       sq(s31_a) + sq(s12_a))
+term_b = sq(s11_b) + float(apply_cross_b) * sq(s22_b) - s11_b * s22_b + 3 * (float(apply_cross_b) * sq(s31_b) + sq(s12_b))
+
+gF_cross_von_mises_a = 1 / (wb / w) * cross_multiplier * sa * 2 * va * hc / np.sqrt(bending * wb * wb / va * va + 3)
+gF_cross_von_mises_b = 1 / (wa / w) * cross_multiplier * sb * 2 * vb * hc / np.sqrt(bending * wa * wa / vb * vb + 3)
+cross_gFs = [gF_cross_von_mises_a, gF_cross_von_mises_b]
 
 gFs = []
-gFs.append(sa * wa * hf)
-gFs.append(sb * wb * hf)
-gF_cross_von_mises_a = cross_multiplier * sa * 2 * va * hc / np.sqrt(wb * wb / va * va + 3)
-gF_cross_von_mises_b = cross_multiplier * sb * 2 * vb * hc / np.sqrt(wa * wa / vb * vb + 3)
-cross_gFs = [gF_cross_von_mises_a, gF_cross_von_mises_b]
-gFs.append(np.maximum(gF_cross_von_mises_a, gF_cross_von_mises_b))
-# gFs.append(gF_cross_von_mises_a)
-# gFs.append(gF_cross_von_mises_b)
-gFs.append(taz * 2 * va * wa * shear_multiplier)
-gFs.append(tbz * 2 * vb * wb * shear_multiplier)
+if not use_combined_von_mises or tensile_in_von_mises == 0:
+    gFs.append(sa * wa * hf)
+    gFs.append(sb * wb * hf)
+if use_combined_von_mises:
+    gFs.append(np.sqrt(sa * sa / term_a))
+    gFs.append(np.sqrt(sb * sa / term_b))
+else:
+    if apply_cross_b:
+        gFs.append(np.maximum(gF_cross_von_mises_a, gF_cross_von_mises_b))
+    else:
+        gFs.append(gF_cross_von_mises_a)
+    gFs.append(1 / ((wa + z_shear_stress_cross_beam_inclusion * wb) / w) * taz * 2 * va * wa * shear_multiplier)
+    gFs.append(1 / ((wb + z_shear_stress_cross_beam_inclusion * wa) / w) * tbz * 2 * vb * wb * shear_multiplier)
 
 minF = np.minimum.reduce(gFs)
 stress = minF / ((wa + wb) * (hf + hc))
 F = stress * (wa + wb) * (hf + hc)
+
+cross_gs = [
+    1 - 2 * hc / (F * wb / (wa + wb)) * va * sa / np.sqrt(bending * wb * wb / va / va + 3) * cross_multiplier,
+    1 - 2 * hc / (F * wa / (wa + wb)) * vb * sb / np.sqrt(bending * wa * wa / vb / vb + 3) * cross_multiplier]
 
 gs = []
 gs.append(1 - wa / 2 / wa_min)
@@ -102,16 +138,22 @@ gs.append(1 - vb / wb_min)
 gs.append(1 - hf / h_min)
 gs.append(1 - hc / h_min)
 gs.append((va + vb) / l_max - 1)
-gs.append(1 - wa * hf * sa / F)  # tensile
-gs.append(1 - wb * hf * sb / F)
-cross_gs = [
-    1 - 2 * hc / F * va * sa / np.sqrt(wb * wb / va / va + 3) * cross_multiplier,
-    1 - 2 * hc / F * vb * sb / np.sqrt(wa * wa / vb / vb + 3) * cross_multiplier]
-gs.append(np.minimum(cross_gs[0], cross_gs[1]))  # cross
-gs.append(1 - 2 * va * wa * taz / F * shear_multiplier)  # z shear
-gs.append(1 - 2 * vb * wb * tbz / F * shear_multiplier)
+if not use_combined_von_mises or tensile_in_von_mises == 0:
+    gs.append(1 - wa * hf * sa / F)  # tensile
+    gs.append(1 - wb * hf * sb / F)
+if use_combined_von_mises:
+    gs.append(F * F * term_a / sq(sa) - 1)
+    gs.append(F * F * term_b / sq(sb) - 1)
+else:
+    if apply_cross_b:
+        gs.append(np.minimum(cross_gs[0], cross_gs[1]))  # cross
+    else:
+        gs.append(cross_gs[0])
+    gs.append(1 - 2 * va * wa * taz / (F * (wa + z_shear_stress_cross_beam_inclusion * wb) / w) * shear_multiplier)  # z shear
+    gs.append(1 - 2 * vb * wb * tbz / (F * (wa + z_shear_stress_cross_beam_inclusion * wb) / w) * shear_multiplier)
 
-names = ['wa', 'wb', 'va', 'vb', 'hf', 'hc', 'design', 'tension a', 'tension b', 'cross', 'shear Z a', 'shear Z b']
+
+names = ['wa', 'wb', 'va', 'vb', 'hf', 'hc', 'design', 'tension a', 'tension b', 'cross', 'shear Z a', 'shear Z b', 'combined a', 'combined b']
 cross_gs_names = ['shear/bend a', 'shear/bend b']
 
 for l in range(Nlmax):
