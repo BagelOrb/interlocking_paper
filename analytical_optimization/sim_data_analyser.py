@@ -172,39 +172,41 @@ for l in range(Nlmax):
     print(f" wb={wb[best_idx]:.2f}; va={va[best_idx]:.2f}; lmax={lmax[best_idx]:.2f}; hf={hf[best_idx]:.2f}; ")
     print(f" wa={wa[best_idx]:.2f}; vb={vb[best_idx]:.2f}; hc={hc[best_idx]:.2f}; F={F[best_idx]:.2f}")
 
-    print("\n== prediction ratio per failure mode ==")
-    prediction_ratio = stress / FEM_stress
-    for i, gF in enumerate(gFs):
-        ratios = prediction_ratio[:, l, :, :][minF[:, l, :, :] == gF[:, l, :, :]]
-        if ratios.size > 0:
-            print(f"g{i} {names[i + 7]}:  {np.average(ratios):.3f}, stdev: {np.std(ratios):.3f}")
-        else:
-            print(f"g{i} {names[i + 7]}")
-
-    print("- cross beam sub failure modes -")
-    for i, gF in enumerate(cross_gFs):
-        ratios = prediction_ratio[:, l, :, :][minF[:, l, :, :] == gF[:, l, :, :]]
-        if ratios.size > 0:
-            print(f"g{i} {cross_gs_names[i]}:  {np.average(ratios):.3f}, stdev: {np.std(ratios):.3f}")
-        else:
-            print(f"g{i} {cross_gs_names[i]}")
-
     print("\n== Active constraints: ", end="")
     for i, g in enumerate(gs):
-        if abs(g[best_idx]) < .00001:
+        if abs(g[best_idx]) < .001:
             print(names[i], end=",")
     print("")
+    print("design constriant: ", gs[6][best_idx])
 
     print("-- cross beam constraints: ", end="")
     for i, g in enumerate(cross_gs):
-        if abs(g[best_idx]) < .00001:
+        if abs(g[best_idx]) < .001:
             print(cross_gs_names[i], end=",")
     print("\n")
 
-    constraints = np.maximum.reduce(gs)
-    for i, g in enumerate(gs):
-        if g.max() > .001:
-            print(f"constraint g{i} is violated! : {g.max():.4f}")
+print("\n== prediction ratio per failure mode ==")
+prediction_ratio = stress / FEM_stress
+for i, gF in enumerate(gFs):
+    ratios = prediction_ratio[minF == gF]
+    if ratios.size > 0:
+        print(f"g{i} {names[i + 7]}:  {np.average(ratios):.3f}, stdev: {np.std(ratios):.3f}")
+    else:
+        print(f"g{i} {names[i + 7]}")
+
+print("- cross beam sub failure modes -")
+for i, gF in enumerate(cross_gFs):
+    ratios = prediction_ratio[minF == gF]
+    if ratios.size > 0:
+        print(f"g{i} {cross_gs_names[i]}:  {np.average(ratios):.3f}, stdev: {np.std(ratios):.3f}")
+    else:
+        print(f"g{i} {cross_gs_names[i]}")
+
+constraints = np.maximum.reduce(gs)
+for i, g in enumerate(gs):
+    if g.max() > .001:
+        print(f"constraint g{i} is violated! : {g.max():.4f}")
+
 
 colors = np.zeros((Nhf * Nlmax * Nwb * Nva, 3))
 colors[:, 0] = wb.reshape(-1) / wb.max()
