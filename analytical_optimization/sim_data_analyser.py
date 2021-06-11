@@ -238,24 +238,28 @@ if False:
 #
 
 def plotTwo(ax, X, Y, Z1, Z2):
-    col1 = np.full(Z1.shape, 'r', dtype='U50')
-    col2 = np.full(Z2.shape, 'b', dtype='U50')
+    col1 = np.full(Z1.shape, "#00ff00d0", dtype=object)
+    col2 = np.full(Z2.shape, "#ff0000d0", dtype=object)
+    col1[-1, :] = "#ffffff00"
     ax.plot_surface(np.append(X, X, axis=0),
                     np.append(Y, Y, axis=0),
                     np.append(Z1, Z2, axis=0),
                     facecolors= np.append(col1, col2, axis=0),
-                    edgecolor='none', alpha=.75)
+                    edgecolor='none')
 
 
-idx = best_FEM_idx  # (2, 2, 2, 2)
+best_FEM_idx = np.unravel_index(np.argmax(FEM_stress), FEM_stress.shape)
+idx = best_FEM_idx
+
 # hf, lmax, wb, va
+l = 0
 
 fig, ax = plt.subplots(1, 3, figsize=(10, 6), subplot_kw={'projection': '3d'})
-plotTwo(ax[0], wb[idx[0], 0, :, :], va[idx[0], 0, :, :], stress[idx[0], 0, :, :], FEM_stress[idx[0], 0, :, :])
+plotTwo(ax[0], wb[idx[0], l, :, :], va[idx[0], l, :, :], stress[idx[0], l, :, :], FEM_stress[idx[0], l, :, :])
 ax[0].set(xlabel='wb', ylabel='va')
-plotTwo(ax[1], hf[:, 0, idx[2], :], va[:, 0, idx[2], :], stress[:, 0, idx[2], :], FEM_stress[:, 0, idx[2], :])
+plotTwo(ax[1], hf[:, l, idx[2], :], va[:, l, idx[2], :], stress[:, l, idx[2], :], FEM_stress[:, l, idx[2], :])
 ax[1].set(xlabel='hf', ylabel='va')
-plotTwo(ax[2], hf[:, 0, :, idx[3]], wb[:, 0, :, idx[3]], stress[:, 0, :, idx[3]], FEM_stress[:, 0, :, idx[3]])
+plotTwo(ax[2], hf[:, l, :, idx[3]], wb[:, l, :, idx[3]], stress[:, l, :, idx[3]], FEM_stress[:, l, :, idx[3]])
 ax[2].set(xlabel='hf', ylabel='wb')
 
 
@@ -270,8 +274,8 @@ if False:
     axs[2].plot_surface(hf[:, idx[1], :, idx[3]], wb[:, idx[1], :, idx[3]], stress[:, idx[1], :, idx[3]], edgecolor='none')
     axs[2].set_title('analytical')
 
-mng = plt.get_current_fig_manager()
-mng.full_screen_toggle()
+wm = plt.get_current_fig_manager()
+wm.window.state('zoomed')
 
 plt.show()
 
