@@ -154,6 +154,39 @@ Where $\nicefrac{w^b}{v^a} \to 0$ and $\nicefrac{w^b}{v^a} \to \infty$ the failu
 This shows that in the limits the von Mises yield criterion and the combined criterion coincide.
 
 
+Now let's consider the intersection where failure modes $M_x$, $M_y$ and $M_z$ meet.
+At that particular corner all three failure modes act at once, so let's set up the von Mises yield criterion for that.
+
+\begin{align*}
+	\sigma_{12} &= \frac{ F }{ 2 v^m w} \\
+	\sigma_{31} &= \frac{ F w^{\neg m} }{ 2 v^m \hc w }  =  \sigma_{12} \frac{w^{\neg m}}{\hc} \\
+	\sigma_{11} &= \frac{ F }{ w^m \hf } \\
+	\sigma_{22} &= \frac{ F \left(w^{\neg m}\right)^2 }{ 2 \left( v^m \right)^2 \hc w }   =   \sigma_{12} \frac{\left(w^{\neg m}\right)^2}{v^m \hc} = \sigma_{31} \frac{w^{\neg m}}{v^m}
+\end{align*}
+
+\begin{align*}
+	%	\sqrt{\frac12 \left(  \left(\sigma_{11} - \sigma_{22}\right)^2  +  \left(\sigma_{22} - \sigma_{33}\right)^2  +  \left(\sigma_{33} - \sigma_{11}\right)^2   +   6\left(\sigma_{23}^2 + \sigma_{31}^2 + \sigma_{12}^2\right)\right)}&< \sigmafail \\
+	%	\sqrt{\frac12 \left(  \left(\sigma_{11} - \sigma_{22}\right)^2  +  \sigma_{22}^2  +  \sigma_{11}^2   +   6\left(\sigma_{31}^2 + \sigma_{12}^2\right)\right)}&< \sigmafail \\
+	%	\sqrt{\frac12 \left(  \sigma_{11}^2 + \sigma_{22}^2 - 2\sigma_{11}\sigma_{22} +  \sigma_{22}^2  +  \sigma_{11}^2   +   6\left(\sigma_{31}^2 + \sigma_{12}^2\right)\right)}&< \sigmafail \\
+	\sqrt{  \sigma_{11}^2  +  \sigma_{22}^2  - \sigma_{11}\sigma_{22} +   3\left(\sigma_{31}^2 + \sigma_{12}^2\right)}&< \sigmafail \\
+	%\sqrt{  \sigma_{11}^2  +  \sigma_{22}^2  - \sigma_{11}\sigma_{22} +   3\left( \left( \sigma_{12} \frac{w^{\neg m}}{\hc} \right)^2 + \sigma_{12}^2\right)}&< \sigmafail \\
+	%\sqrt{  \sigma_{11}^2  +  \sigma_{22}^2  - \sigma_{11}\sigma_{22} +   3\sigma_{12}^2 \left( \left( \frac{w^{\neg m}}{\hc} \right)^2 + 1\right)}&< \sigmafail \\
+	%\sigma_{11}^2  +  \sigma_{22}^2  - \sigma_{11}\sigma_{22} +   3\sigma_{12}^2 \left( \left( \frac{w^{\neg m}}{\hc} \right)^2 + 1\right) &< \sigmafail^2 \\
+	%\sigma_{11}^2  +  \left(\sigma_{12} \frac{\left(w^{\neg m}\right)^2}{v^m \hc}\right)^2  - \sigma_{11}\sigma_{22} +   3\sigma_{12}^2 \left( \left( \frac{w^{\neg m}}{\hc} \right)^2 + 1\right) &< \sigmafail^2 \\
+	%\sigma_{11}^2  +  \sigma_{12}^2 \left(\frac{\left(w^{\neg m}\right)^2}{v^m \hc}\right)^2  - \sigma_{11}\sigma_{22} +   3\sigma_{12}^2 \left( \left( \frac{w^{\neg m}}{\hc} \right)^2 + 1\right) &< \sigmafail^2 \\
+	%\sigma_{11}^2  +  \sigma_{12}^2 \left(\frac{\left(w^{\neg m}\right)^2}{v^m \hc}\right)^2  - \sigma_{11}\sigma_{22} +   \sigma_{12}^2 \left( 3\left( \frac{w^{\neg m}}{\hc} \right)^2 + 3\right) &< \sigmafail^2 \\
+	%\sigma_{11}^2  - \sigma_{11}\sigma_{22} +   \sigma_{12}^2 \left(  \left(\frac{\left(w^{\neg m}\right)^2}{v^m \hc}\right)^2  +   3\left( \frac{w^{\neg m}}{\hc} \right)^2 + 3\right) &< \sigmafail^2 \\
+	%\sigma_{11}^2  - \sigma_{11}\sigma_{22} +   \sigma_{12}^2 \left(  \left(\frac{w^{\neg m}}{v^m}\right)^2  \left(\frac{w^{\neg m}}{\hc}\right)^2  +   3\left( \frac{w^{\neg m}}{\hc} \right)^2 + 3\right) &< \sigmafail^2 \\
+	\sigma_{11}^2  - \sigma_{11}\sigma_{22} +   \sigma_{12}^2 \left(  \left(\frac{w^{\neg m}}{\hc}\right)^2  \left(  \left(\frac{w^{\neg m}}{v^m}\right)^2  +  3 \right) + 3\right) &< \sigmafail^2 \\
+	\sigma_{11}^2  - \sigma_{11}\sigma_{22} +   \sigma_{12}^2 U &< \sigmafail^2 \\
+	\left(\frac{ F }{ w^m \hf }\right)^2  - \frac{ F }{ w^m \hf } \frac{ F \left(w^{\neg m}\right)^2 }{ 2 \left( v^m \right)^2 \hc w }   +   \left(\frac{ F }{ 2 v^m w}\right)^2 U &< \sigmafail^2 \\
+	\left(\frac{ 1 }{ w^m \hf }\right)^2  - \frac{ 1 }{ w^m \hf } \frac{ \left(w^{\neg m}\right)^2 }{ 2 \left( v^m \right)^2 \hc w }   +   \left(\frac{ 1 }{ 2 v^m w}\right)^2 U &< \frac{\sigmafail^2}{F^2} \\
+	\left(\frac{ 1 }{ w^m \hf }\right)^2  - \frac{ \left(w^{\neg m}\right)^2 }{ 2 \left( v^m \right)^2 \hc w w^m \hf}   +   \left(\frac{ 1 }{ 2 v^m w}\right)^2 U &< \frac{\sigmafail^2}{F^2} \\
+\end{align*}
+
+
+
+
 \paragraph{Constraint validity}
 A careful analysis of the geometry will show that once shearing failure mode $M_x^a$ has occurred, 
 there is still interlocking between the two materials;
