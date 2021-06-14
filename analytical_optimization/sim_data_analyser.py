@@ -110,8 +110,8 @@ def sq(x):
 
 assert (apply_cross_a)
 
-s12_a = 1 / (2 * va * w)  # Z shear
-s12_b = 1 / (2 * vb * w)
+s12_a = 1 / (2 * va * w) * sa / saz  # Z shear
+s12_b = 1 / (2 * vb * w) * sb / sbz
 s31_a = s12_a * wb / hc  # cross shear
 s31_b = s12_b * wa / hc
 s22_a = bending * s31_a * wb / va  # bending
