@@ -99,9 +99,9 @@ bending = 0.0
 z_shear_stress_cross_beam_inclusion = 1
 cross_shear_force_ratio_shift = 1
 apply_cross_a = True
-apply_cross_b = False  # TODO: fix applying OR for breakage of both beams
+apply_cross_b = True
 combine_tensile_and_z_shear = False
-combine_z_shear_and_cross_shear = True
+combine_z_shear_and_cross_shear = False
 
 
 def sq(x):
@@ -149,8 +149,13 @@ if combine_tensile_and_z_shear:
     gFs['tensile and z shear a'] = sa / np.sqrt(combined_von_mises_tensile_z_shear_a)
     gFs['tensile and z shear b'] = sb / np.sqrt(combined_von_mises_tensile_z_shear_b)
 if combine_z_shear_and_cross_shear:
-    gFs['z shear and cross a'] = sa / np.sqrt(combined_von_mises_z_shear_cross_a)
-    gFs['z shear and cross b'] = sb / np.sqrt(combined_von_mises_z_shear_cross_b)
+    z_shear_and_cross_a = sa / np.sqrt(combined_von_mises_z_shear_cross_a)
+    z_shear_and_cross_b = sb / np.sqrt(combined_von_mises_z_shear_cross_b)
+    if apply_cross_a and apply_cross_b:
+        gFs['z shear and cross a+b'] = np.maximum(z_shear_and_cross_a, z_shear_and_cross_b)
+    else:
+        gFs['z shear and cross a'] = z_shear_and_cross_a
+        gFs['z shear and cross b'] = z_shear_and_cross_b
 if apply_cross_a and apply_cross_b:
     if bending == 0:
         cross_shear_a = sa / s31_a / sqrt(3)
@@ -195,8 +200,13 @@ if combine_tensile_and_z_shear:
     gs['tensile and z shear a'] = F * F * combined_von_mises_tensile_z_shear_a / sq(sa) - 1
     gs['tensile and z shear b'] = F * F * combined_von_mises_tensile_z_shear_b / sq(sb) - 1
 if combine_z_shear_and_cross_shear:
-    gs['z shear and cross a'] = F * F * combined_von_mises_z_shear_cross_a / sq(sa) - 1
-    gs['z shear and cross b'] = F * F * combined_von_mises_z_shear_cross_b / sq(sb) - 1
+    z_shear_and_cross_a = F * F * combined_von_mises_z_shear_cross_a / sq(sa) - 1
+    z_shear_and_cross_b = F * F * combined_von_mises_z_shear_cross_b / sq(sb) - 1
+    if apply_cross_a and apply_cross_b:
+        gs['z shear and cross a+b'] = np.minimum(z_shear_and_cross_a, z_shear_and_cross_b)
+    else:
+        gs['z shear and cross a'] = z_shear_and_cross_a
+        gs['z shear and cross b'] = z_shear_and_cross_b
 
 if apply_cross_a and apply_cross_b:
     gs['cross a+b'] = np.minimum(cross_gs[0], cross_gs[1])  # cross
