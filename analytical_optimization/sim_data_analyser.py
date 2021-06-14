@@ -31,9 +31,9 @@ l_max = 6 * 2 * wa_min
 h_min = 2 * layer_thickness
 h_max = 10 * h_min
 
-compare_to_FEM = True
+compare_to_FEM = False
 
-Nhf = 9
+Nhf = 90
 Nlmax = 1
 Nwb = Nva = 45
 
@@ -252,6 +252,13 @@ for name, g in gs.items():
     if g.max() > .001:
         print(f"{name} constraint is violated! : {g.max():.4f}")
 
+
+#
+
+
+#
+
+
 colors = np.zeros((Nhf * Nlmax * Nwb * Nva, 3))
 colors[:, 0] = wb.reshape(-1) / wb.max()
 colors[:, 1] = va.reshape(-1) / va.max()
@@ -284,14 +291,18 @@ if False:
 
 
 def plotTwo(ax, X, Y, Z1, Z2):
-    col1 = np.full(Z1.shape, "#00ff00d0", dtype=object)
-    col2 = np.full(Z2.shape, "#ff0000d0", dtype=object)
-    col1[-1, :] = "#ffffff00"
-    ax.plot_surface(np.append(X, X, axis=0),
-                    np.append(Y, Y, axis=0),
-                    np.append(Z1, Z2, axis=0),
-                    facecolors=np.append(col1, col2, axis=0),
-                    edgecolor='none')
+    if compare_to_FEM:
+        col1 = np.full(Z1.shape, "#00ff00d0", dtype=object)
+        col2 = np.full(Z2.shape, "#ff0000d0", dtype=object)
+        col1[-1, :] = "#ffffff00"
+        ax.plot_surface(np.append(X, X, axis=0),
+                        np.append(Y, Y, axis=0),
+                        np.append(Z1, Z2, axis=0),
+                        facecolors=np.append(col1, col2, axis=0),
+                        edgecolor='none')
+    else:
+        ax.plot_surface(X, Y, Z1, color='g', edgecolor='none')
+
 
 
 if not compare_to_FEM:
