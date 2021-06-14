@@ -95,8 +95,6 @@ w = wa + wb
 if compare_to_FEM:
     F_FEM = FEM_stress * (wa + wb) * (hf + hc)
 
-shear_multiplier = 1
-cross_multiplier = 1 * shear_multiplier
 bending = 0.0
 z_shear_stress_cross_beam_inclusion = 1
 apply_cross_a = True
@@ -132,8 +130,8 @@ combined_von_mises_tensile_z_shear_b = sq(s11_b) + 3 * sq(s12_b)
 combined_von_mises_cross_a = sq(s22_a) + 3 * sq(s31_a)
 combined_von_mises_cross_b = sq(s22_b) + 3 * sq(s31_b)
 
-gF_cross_von_mises_a = 1 / (wb / w) * cross_multiplier * sa * 2 * va * hc / np.sqrt(sq(bending * wb / va) + 3)
-gF_cross_von_mises_b = 1 / (wa / w) * cross_multiplier * sb * 2 * vb * hc / np.sqrt(sq(bending * wa / vb) + 3)
+gF_cross_von_mises_a = 1 / (wb / w) * sa * 2 * va * hc / np.sqrt(sq(bending * wb / va) + 3)
+gF_cross_von_mises_b = 1 / (wa / w) * sb * 2 * vb * hc / np.sqrt(sq(bending * wa / vb) + 3)
 cross_gFs = [gF_cross_von_mises_a, gF_cross_von_mises_b]
 
 gFs = {}
@@ -165,16 +163,14 @@ elif apply_cross_b:
     if bending > 0:
         gFs['cross shear and cross bending b'] = sb / np.sqrt(combined_von_mises_cross_b)
 
-# gFs.append(1 / ((wa + z_shear_stress_cross_beam_inclusion * wb) / w) * taz * 2 * va * wa * shear_multiplier)
-# gFs.append(1 / ((wb + z_shear_stress_cross_beam_inclusion * wa) / w) * tbz * 2 * vb * wb * shear_multiplier)
 
 minF = np.minimum.reduce(list(gFs.values()))
 stress = minF / ((wa + wb) * (hf + hc))
 F = stress * (wa + wb) * (hf + hc)
 
 cross_gs = [
-    1 - 2 * hc / (F * wb / (wa + wb)) * va * sa / np.sqrt(bending * wb * wb / va / va + 3) * cross_multiplier,
-    1 - 2 * hc / (F * wa / (wa + wb)) * vb * sb / np.sqrt(bending * wa * wa / vb / vb + 3) * cross_multiplier]
+    1 - 2 * hc / (F * wb / (wa + wb)) * va * sa / np.sqrt(bending * wb * wb / va / va + 3),
+    1 - 2 * hc / (F * wa / (wa + wb)) * vb * sb / np.sqrt(bending * wa * wa / vb / vb + 3)]
 cross_gs_names = ['shear/bend a', 'shear/bend b']
 
 gs = {}
@@ -187,8 +183,8 @@ gs['hc'] = 1 - hc / h_min
 gs['design'] = (va + vb) / l_max - 1
 gs['tensile a'] = 1 - wa * hf * sa / F
 gs['tensile b'] = 1 - wb * hf * sb / F
-gs['z shear a'] = 1 - 2 * va * wa * taz / (F * (wa + z_shear_stress_cross_beam_inclusion * wb) / w) * shear_multiplier
-gs['z shear b'] = 1 - 2 * vb * wb * tbz / (F * (wa + z_shear_stress_cross_beam_inclusion * wb) / w) * shear_multiplier
+gs['z shear a'] = 1 - 2 * va * wa * taz / (F * (wa + z_shear_stress_cross_beam_inclusion * wb) / w)
+gs['z shear b'] = 1 - 2 * vb * wb * tbz / (F * (wa + z_shear_stress_cross_beam_inclusion * wb) / w)
 if combine_tensile_and_z_shear:
     gs['tensile and z shear a'] = F * F * combined_von_mises_tensile_z_shear_a / sq(sa) - 1
     gs['tensile and z shear b'] = F * F * combined_von_mises_tensile_z_shear_b / sq(sb) - 1
