@@ -97,6 +97,7 @@ if compare_to_FEM:
 
 bending = 0.0
 z_shear_stress_cross_beam_inclusion = 1
+cross_shear_force_ratio_shift = 1
 apply_cross_a = True
 apply_cross_b = False  # TODO: fix applying OR for breakage of both beams
 combine_tensile_and_z_shear = False
@@ -121,6 +122,11 @@ s11_b = 1 / (wb * hf)
 if z_shear_stress_cross_beam_inclusion > 0:
     s12_a = s12_a * (wa + z_shear_stress_cross_beam_inclusion * wb) / wa
     s12_b = s12_b * (wb + z_shear_stress_cross_beam_inclusion * wa) / wb
+
+if cross_shear_force_ratio_shift != 1:
+    new_ratio = np.power(wa / w, cross_shear_force_ratio_shift)
+    s31_a = s31_a / (wa / w) * new_ratio
+    s31_b = s31_b / (wb / w) * (1 - new_ratio)
 
 combined_von_mises_z_shear_cross_a = float(apply_cross_a) * sq(s22_a) + 3 * (float(apply_cross_a) * sq(s31_a) + sq(s12_a))
 combined_von_mises_z_shear_cross_b = float(apply_cross_b) * sq(s22_b) + 3 * (float(apply_cross_b) * sq(s31_b) + sq(s12_b))
