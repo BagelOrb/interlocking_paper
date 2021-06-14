@@ -29,16 +29,23 @@ w_max = 6 * 2 * wa_min
 l_max = 6 * 2 * wa_min
 
 h_min = 2 * layer_thickness
-h_max = 6 * h_min
+h_max = 10 * h_min
 
-# reading file
+compare_to_FEM = True
 
-data_file = np.genfromtxt('IS-data-0527.csv', delimiter=',')
-data_file[0, 0] = 0.2  # why doesn't it read that cell?!?!
+Nhf = 9
+Nlmax = 1
+Nwb = Nva = 45
 
-Nhf = 5
-Nlmax = 4
-Nwb = Nva = 9
+if compare_to_FEM:
+    # reading file
+    data_file = np.genfromtxt('IS-data-0527.csv', delimiter=',')
+    data_file[0, 0] = 0.2  # why doesn't it read that cell?!?!
+
+    Nhf = 5
+    Nlmax = 4
+    Nwb = Nva = 9
+
 shape = (Nhf, Nlmax, Nwb, Nva)
 
 FEM_stress = np.ndarray(shape=shape)
@@ -47,23 +54,34 @@ lmax = np.ndarray(shape=shape)
 wb = np.ndarray(shape=shape)
 va = np.ndarray(shape=shape)
 
-for hf_ in range(0, Nhf):
-    hf[hf_, :, :, :] = data_file[(Nwb + 1) * hf_, 0]
+if compare_to_FEM:
+    for hf_ in range(0, Nhf):
+        hf[hf_, :, :, :] = data_file[(Nwb + 1) * hf_, 0]
 
-for lmax_ in range(0, Nlmax):
-    lmax[:, lmax_, :, :] = data_file[0, 1 + (Nva + 1) * lmax_]
-
-for wb_ in range(0, Nwb):
-    wb[:, :, wb_, :] = data_file[1 + wb_, 1]
-
-for va_ in range(0, Nva):
     for lmax_ in range(0, Nlmax):
-        va[:, lmax_:, :, va_] = data_file[0, 2 + lmax_ * (Nva + 1) + va_]
+        lmax[:, lmax_, :, :] = data_file[0, 1 + (Nva + 1) * lmax_]
 
-for hf_ in range(0, Nhf):
-    for lmax_ in range(0, Nlmax):
-        FEM_stress[hf_, lmax_, :, :] = data_file[1 + (Nwb + 1) * hf_:1 + (Nwb + 1) * hf_ + Nwb,
-                                       2 + (Nva + 1) * lmax_:2 + (Nva + 1) * lmax_ + Nva]
+    for wb_ in range(0, Nwb):
+        wb[:, :, wb_, :] = data_file[1 + wb_, 1]
+
+    for va_ in range(0, Nva):
+        for lmax_ in range(0, Nlmax):
+            va[:, lmax_:, :, va_] = data_file[0, 2 + lmax_ * (Nva + 1) + va_]
+
+    for hf_ in range(0, Nhf):
+        for lmax_ in range(0, Nlmax):
+            FEM_stress[hf_, lmax_, :, :] = data_file[1 + (Nwb + 1) * hf_:1 + (Nwb + 1) * hf_ + Nwb,
+                                           2 + (Nva + 1) * lmax_:2 + (Nva + 1) * lmax_ + Nva]
+else:
+    wbs = np.linspace(2 * wb_min, w_max - 2 * wa_min, Nwb)
+    rys = np.linspace(0.1, .9, Nva)
+    hfs = np.linspace(h_min, h_max - h_min, Nhf)
+    lmaxs = np.linspace(3.6, 1.8, Nlmax)
+    hf, lmax, wb, ry = np.meshgrid(hfs, lmaxs, wbs, rys, indexing='ij')
+    va = ry * lmax
+
+    if Nhf < 30:
+        print(f"hfs: {hfs}")
 
 # FEM_stress[np.isnan(FEM_stress)] = 0
 # print( np.any(np.isnan( FEM_stress)))
@@ -72,99 +90,129 @@ wa = np.full(shape, 2 * wa_min)
 hc = np.full(shape, h_min)
 vb = lmax - va
 l = va + vb
-
-F_FEM = FEM_stress * (wa + wb) * (hf + hc)
-
 w = wa + wb
+
+if compare_to_FEM:
+    F_FEM = FEM_stress * (wa + wb) * (hf + hc)
 
 shear_multiplier = 1
 cross_multiplier = 1 * shear_multiplier
-bending = 0
+bending = 0.0
 z_shear_stress_cross_beam_inclusion = 1
-apply_cross_b = False
-tensile_in_von_mises = 0
-use_combined_von_mises = False
+apply_cross_a = True
+apply_cross_b = False  # TODO: fix applying OR for breakage of both beams
+combine_tensile_and_z_shear = False
+combine_z_shear_and_cross_shear = True
 
 
 def sq(x):
     return x * x
 
 
+assert (apply_cross_a)
+
 s12_a = 1 / (2 * va * w)  # Z shear
-s31_a = s12_a * wb / hc  # cross shear
-s22_a = bending * s31_a * wb / va  # bending
-s11_a = tensile_in_von_mises * 1 / (wa * hf)  # tensile
-
 s12_b = 1 / (2 * vb * w)
+s31_a = s12_a * wb / hc  # cross shear
 s31_b = s12_b * wa / hc
-s11_b = tensile_in_von_mises * 1 / (wb * hf)
+s22_a = bending * s31_a * wb / va  # bending
 s22_b = bending * s31_b * wa / vb
+s11_a = 1 / (wa * hf)  # tensile
+s11_b = 1 / (wb * hf)
 
-term_a = sq(s11_a) +                        sq(s22_a) - s11_a * s22_a + 3 * (                       sq(s31_a) + sq(s12_a))
-term_b = sq(s11_b) + float(apply_cross_b) * sq(s22_b) - s11_b * s22_b + 3 * (float(apply_cross_b) * sq(s31_b) + sq(s12_b))
+if z_shear_stress_cross_beam_inclusion > 0:
+    s12_a = s12_a * (wa + z_shear_stress_cross_beam_inclusion * wb) / wa
+    s12_b = s12_b * (wb + z_shear_stress_cross_beam_inclusion * wa) / wb
 
-gF_cross_von_mises_a = 1 / (wb / w) * cross_multiplier * sa * 2 * va * hc / np.sqrt(bending * wb * wb / va * va + 3)
-gF_cross_von_mises_b = 1 / (wa / w) * cross_multiplier * sb * 2 * vb * hc / np.sqrt(bending * wa * wa / vb * vb + 3)
+combined_von_mises_z_shear_cross_a = float(apply_cross_a) * sq(s22_a) + 3 * (float(apply_cross_a) * sq(s31_a) + sq(s12_a))
+combined_von_mises_z_shear_cross_b = float(apply_cross_b) * sq(s22_b) + 3 * (float(apply_cross_b) * sq(s31_b) + sq(s12_b))
+combined_von_mises_tensile_z_shear_a = sq(s11_a) + 3 * sq(s12_a)
+combined_von_mises_tensile_z_shear_b = sq(s11_b) + 3 * sq(s12_b)
+
+combined_von_mises_cross_a = sq(s22_a) + 3 * sq(s31_a)
+combined_von_mises_cross_b = sq(s22_b) + 3 * sq(s31_b)
+
+gF_cross_von_mises_a = 1 / (wb / w) * cross_multiplier * sa * 2 * va * hc / np.sqrt(sq(bending * wb / va) + 3)
+gF_cross_von_mises_b = 1 / (wa / w) * cross_multiplier * sb * 2 * vb * hc / np.sqrt(sq(bending * wa / vb) + 3)
 cross_gFs = [gF_cross_von_mises_a, gF_cross_von_mises_b]
 
-gFs = []
-if not use_combined_von_mises or tensile_in_von_mises == 0:
-    gFs.append(sa * wa * hf)
-    gFs.append(sb * wb * hf)
-if use_combined_von_mises:
-    gFs.append(np.sqrt(sa * sa / term_a))
-    gFs.append(np.sqrt(sb * sa / term_b))
-else:
-    if apply_cross_b:
-        gFs.append(np.maximum(gF_cross_von_mises_a, gF_cross_von_mises_b))
+gFs = {}
+gFs['tensile a'] = sa / s11_a
+gFs['tensile b'] = sb / s11_b
+gFs['Z shear a'] = sa / s12_a / sqrt(3)
+gFs['Z shear b'] = sb / s12_b / sqrt(3)
+if combine_tensile_and_z_shear:
+    gFs['tensile and z shear a'] = sa / np.sqrt(combined_von_mises_tensile_z_shear_a)
+    gFs['tensile and z shear b'] = sb / np.sqrt(combined_von_mises_tensile_z_shear_b)
+if combine_z_shear_and_cross_shear:
+    gFs['z shear and cross a'] = sa / np.sqrt(combined_von_mises_z_shear_cross_a)
+    gFs['z shear and cross b'] = sb / np.sqrt(combined_von_mises_z_shear_cross_b)
+if apply_cross_a and apply_cross_b:
+    if bending == 0:
+        cross_shear_a = sa / s31_a / sqrt(3)
+        cross_shear_b = sb / s31_b / sqrt(3)
+        gFs['cross shear a+b'] = np.maximum(cross_shear_a, cross_shear_b)
     else:
-        gFs.append(gF_cross_von_mises_a)
-    gFs.append(1 / ((wa + z_shear_stress_cross_beam_inclusion * wb) / w) * taz * 2 * va * wa * shear_multiplier)
-    gFs.append(1 / ((wb + z_shear_stress_cross_beam_inclusion * wa) / w) * tbz * 2 * vb * wb * shear_multiplier)
+        cross_shear_and_cross_bending_a = sa / np.sqrt(combined_von_mises_cross_a)
+        cross_shear_and_cross_bending_b = sa / np.sqrt(combined_von_mises_cross_b)
+        gFs['cross shear and cross bending a+b'] = np.maximum(cross_shear_and_cross_bending_a, cross_shear_and_cross_bending_b)
+elif apply_cross_a:
+    gFs['cross shear a'] = sa / s31_a / sqrt(3)
+    if bending > 0:
+        gFs['cross shear and cross bending a'] = sa / np.sqrt(combined_von_mises_cross_a)
+elif apply_cross_b:
+    gFs['cross shear b'] = sb / s31_b / sqrt(3)
+    if bending > 0:
+        gFs['cross shear and cross bending b'] = sb / np.sqrt(combined_von_mises_cross_b)
 
-minF = np.minimum.reduce(gFs)
+# gFs.append(1 / ((wa + z_shear_stress_cross_beam_inclusion * wb) / w) * taz * 2 * va * wa * shear_multiplier)
+# gFs.append(1 / ((wb + z_shear_stress_cross_beam_inclusion * wa) / w) * tbz * 2 * vb * wb * shear_multiplier)
+
+minF = np.minimum.reduce(list(gFs.values()))
 stress = minF / ((wa + wb) * (hf + hc))
 F = stress * (wa + wb) * (hf + hc)
 
 cross_gs = [
     1 - 2 * hc / (F * wb / (wa + wb)) * va * sa / np.sqrt(bending * wb * wb / va / va + 3) * cross_multiplier,
     1 - 2 * hc / (F * wa / (wa + wb)) * vb * sb / np.sqrt(bending * wa * wa / vb / vb + 3) * cross_multiplier]
-
-gs = []
-gs.append(1 - wa / 2 / wa_min)
-gs.append(1 - wb / 2 / wb_min)
-gs.append(1 - va / wa_min)
-gs.append(1 - vb / wb_min)
-gs.append(1 - hf / h_min)
-gs.append(1 - hc / h_min)
-gs.append((va + vb) / l_max - 1)
-if not use_combined_von_mises or tensile_in_von_mises == 0:
-    gs.append(1 - wa * hf * sa / F)  # tensile
-    gs.append(1 - wb * hf * sb / F)
-if use_combined_von_mises:
-    gs.append(F * F * term_a / sq(sa) - 1)
-    gs.append(F * F * term_b / sq(sb) - 1)
-else:
-    if apply_cross_b:
-        gs.append(np.minimum(cross_gs[0], cross_gs[1]))  # cross
-    else:
-        gs.append(cross_gs[0])
-    gs.append(1 - 2 * va * wa * taz / (F * (wa + z_shear_stress_cross_beam_inclusion * wb) / w) * shear_multiplier)  # z shear
-    gs.append(1 - 2 * vb * wb * tbz / (F * (wa + z_shear_stress_cross_beam_inclusion * wb) / w) * shear_multiplier)
-
-
-names = ['wa', 'wb', 'va', 'vb', 'hf', 'hc', 'design', 'tension a', 'tension b', 'cross', 'shear Z a', 'shear Z b', 'combined a', 'combined b']
 cross_gs_names = ['shear/bend a', 'shear/bend b']
+
+gs = {}
+gs['wa'] = 1 - wa / 2 / wa_min
+gs['wb'] = 1 - wb / 2 / wb_min
+gs['va'] = 1 - va / wa_min
+gs['vb'] = 1 - vb / wb_min
+gs['hf'] = 1 - hf / h_min
+gs['hc'] = 1 - hc / h_min
+gs['design'] = (va + vb) / l_max - 1
+gs['tensile a'] = 1 - wa * hf * sa / F
+gs['tensile b'] = 1 - wb * hf * sb / F
+gs['z shear a'] = 1 - 2 * va * wa * taz / (F * (wa + z_shear_stress_cross_beam_inclusion * wb) / w) * shear_multiplier
+gs['z shear b'] = 1 - 2 * vb * wb * tbz / (F * (wa + z_shear_stress_cross_beam_inclusion * wb) / w) * shear_multiplier
+if combine_tensile_and_z_shear:
+    gs['tensile and z shear a'] = F * F * combined_von_mises_tensile_z_shear_a / sq(sa) - 1
+    gs['tensile and z shear b'] = F * F * combined_von_mises_tensile_z_shear_b / sq(sb) - 1
+if combine_z_shear_and_cross_shear:
+    gs['z shear and cross a'] = F * F * combined_von_mises_z_shear_cross_a / sq(sa) - 1
+    gs['z shear and cross b'] = F * F * combined_von_mises_z_shear_cross_b / sq(sb) - 1
+
+if apply_cross_a and apply_cross_b:
+    gs['cross a+b'] = np.minimum(cross_gs[0], cross_gs[1])  # cross
+elif apply_cross_a:
+    gs['cross a'] = cross_gs[0]
+elif apply_cross_b:
+    gs['cross b'] = cross_gs[1]
 
 for l in range(Nlmax):
     print(f"\n\n\n===  L_max: {lmax[0, l, 0, 0]}\n\n")
 
-    best_FEM_idx = np.unravel_index(np.argmax(FEM_stress[:, l, :, :]), FEM_stress[:, l, :, :].shape)
-    best_FEM_idx = (best_FEM_idx[0], l, best_FEM_idx[1], best_FEM_idx[2])
-    print(f"best FEM: stess: {FEM_stress[best_FEM_idx]}")
-    print(f" wb={wb[best_FEM_idx]:.2f}; va={va[best_FEM_idx]:.2f}; lmax={lmax[best_FEM_idx]:.2f}; hf={hf[best_FEM_idx]:.2f}; ")
-    print(f" wa={wa[best_FEM_idx]:.2f}; vb={vb[best_FEM_idx]:.2f}; hc={hc[best_FEM_idx]:.2f}; F={F[best_FEM_idx]:.2f}")
-    print("")
+    if compare_to_FEM:
+        best_FEM_idx = np.unravel_index(np.argmax(FEM_stress[:, l, :, :]), FEM_stress[:, l, :, :].shape)
+        best_FEM_idx = (best_FEM_idx[0], l, best_FEM_idx[1], best_FEM_idx[2])
+        print(f"best FEM: stess: {FEM_stress[best_FEM_idx]}")
+        print(f" wb={wb[best_FEM_idx]:.2f}; va={va[best_FEM_idx]:.2f}; lmax={lmax[best_FEM_idx]:.2f}; hf={hf[best_FEM_idx]:.2f}; ")
+        print(f" wa={wa[best_FEM_idx]:.2f}; vb={vb[best_FEM_idx]:.2f}; hc={hc[best_FEM_idx]:.2f}; F={F[best_FEM_idx]:.2f}")
+        print("")
 
     best_idx = np.unravel_index(np.argmax(stress[:, l, :, :]), stress[:, l, :, :].shape)
     best_idx = (best_idx[0], l, best_idx[1], best_idx[2])
@@ -173,11 +221,10 @@ for l in range(Nlmax):
     print(f" wa={wa[best_idx]:.2f}; vb={vb[best_idx]:.2f}; hc={hc[best_idx]:.2f}; F={F[best_idx]:.2f}")
 
     print("\n== Active constraints: ", end="")
-    for i, g in enumerate(gs):
+    for name, g in gs.items():
         if abs(g[best_idx]) < .001:
-            print(names[i], end=",")
+            print(name, end=",")
     print("")
-    print("design constriant: ", gs[6][best_idx])
 
     print("-- cross beam constraints: ", end="")
     for i, g in enumerate(cross_gs):
@@ -185,28 +232,29 @@ for l in range(Nlmax):
             print(cross_gs_names[i], end=",")
     print("\n")
 
-print("\n== prediction ratio per failure mode ==")
-prediction_ratio = stress / FEM_stress
-for i, gF in enumerate(gFs):
-    ratios = prediction_ratio[minF == gF]
-    if ratios.size > 0:
-        print(f"g{i} {names[i + 7]}:  {np.average(ratios):.3f}, stdev: {np.std(ratios):.3f}")
-    else:
-        print(f"g{i} {names[i + 7]}")
+if compare_to_FEM:
+    prediction_ratio = stress / FEM_stress
+    print(f"\n== prediction ratio : {np.average(prediction_ratio):.1%}, stdev: {np.std(prediction_ratio):.1%}")
+    print("== prediction ratio per failure mode ==")
+    for name, gF in gFs.items():
+        ratios = prediction_ratio[minF == gF]
+        if ratios.size > 0:
+            print(f"g{i} {name}:  {np.average(ratios):.1%}, stdev: {np.std(ratios):.1%}")
+        else:
+            print(f"g{i} {name}")
 
-print("- cross beam sub failure modes -")
-for i, gF in enumerate(cross_gFs):
-    ratios = prediction_ratio[minF == gF]
-    if ratios.size > 0:
-        print(f"g{i} {cross_gs_names[i]}:  {np.average(ratios):.3f}, stdev: {np.std(ratios):.3f}")
-    else:
-        print(f"g{i} {cross_gs_names[i]}")
+    print("- cross beam sub failure modes -")
+    for i, gF in enumerate(cross_gFs):
+        ratios = prediction_ratio[minF == gF]
+        if ratios.size > 0:
+            print(f"g{i} {cross_gs_names[i]}:  {np.average(ratios):.1%}, stdev: {np.std(ratios):.1%}")
+        else:
+            print(f"g{i} {cross_gs_names[i]}")
 
 constraints = np.maximum.reduce(gs)
-for i, g in enumerate(gs):
+for name, g in gs.items():
     if g.max() > .001:
-        print(f"constraint g{i} is violated! : {g.max():.4f}")
-
+        print(f"{name} constraint is violated! : {g.max():.4f}")
 
 colors = np.zeros((Nhf * Nlmax * Nwb * Nva, 3))
 colors[:, 0] = wb.reshape(-1) / wb.max()
@@ -233,9 +281,11 @@ if False:
     for ax in axs.flat:
         ax.label_outer()
 
+
 # plt.show()
 
 #
+
 
 def plotTwo(ax, X, Y, Z1, Z2):
     col1 = np.full(Z1.shape, "#00ff00d0", dtype=object)
@@ -244,9 +294,12 @@ def plotTwo(ax, X, Y, Z1, Z2):
     ax.plot_surface(np.append(X, X, axis=0),
                     np.append(Y, Y, axis=0),
                     np.append(Z1, Z2, axis=0),
-                    facecolors= np.append(col1, col2, axis=0),
+                    facecolors=np.append(col1, col2, axis=0),
                     edgecolor='none')
 
+
+if not compare_to_FEM:
+    FEM_stress = stress
 
 best_FEM_idx = np.unravel_index(np.argmax(FEM_stress), FEM_stress.shape)
 idx = best_FEM_idx
@@ -261,8 +314,6 @@ plotTwo(ax[1], hf[:, l, idx[2], :], va[:, l, idx[2], :], stress[:, l, idx[2], :]
 ax[1].set(xlabel='hf', ylabel='va')
 plotTwo(ax[2], hf[:, l, :, idx[3]], wb[:, l, :, idx[3]], stress[:, l, :, idx[3]], FEM_stress[:, l, :, idx[3]])
 ax[2].set(xlabel='hf', ylabel='wb')
-
-
 
 if False:
     fig, axs = plt.subplots(1, 3, figsize=(10, 6), subplot_kw={'projection': '3d'})
