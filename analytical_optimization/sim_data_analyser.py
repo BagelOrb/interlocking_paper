@@ -5,8 +5,6 @@ from matplotlib.patches import Patch
 
 from math import sqrt
 
-
-
 bending = 0.0
 z_shear_stress_cross_beam_inclusion = 1
 cross_shear_force_ratio_shift = 1
@@ -26,7 +24,7 @@ sb = 10.5  # / (1 + strain_b)
 saz = sa  # 33
 sbz = sb  # 9.0
 
-ta = sa / sqrt(3)  # TODO: reformulate constriants in terms of new gFs variables and remove these variables here
+ta = sa / sqrt(3)  # TODO: reformulate constraints in terms of new gFs variables and remove these variables here
 tb = sb / sqrt(3)
 taz = saz / sqrt(3)
 tbz = sbz / sqrt(3)
@@ -34,6 +32,7 @@ tbz = sbz / sqrt(3)
 line_w = .3
 layer_thickness = .1
 
+plot_legend = False
 
 #
 
@@ -373,11 +372,12 @@ if False:
 wm = plt.get_current_fig_manager()
 wm.window.state('zoomed')
 
-fig, ax = plt.subplots()
-legend_elements = []
-for name, color in colormap.items():
-    legend_elements.append(Patch(facecolor=color, edgecolor='none', label=name))
-ax.legend(handles=legend_elements)
+if plot_legend:
+    fig, ax = plt.subplots()
+    legend_elements = []
+    for name, color in colormap.items():
+        legend_elements.append(Patch(facecolor=color, edgecolor='none', label=name))
+    ax.legend(handles=legend_elements)
 
 plt.show()
 
