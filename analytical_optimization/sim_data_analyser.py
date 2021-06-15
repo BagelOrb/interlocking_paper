@@ -1,11 +1,22 @@
 import numpy as np
 
 import matplotlib.pyplot as plt
-from matplotlib import pyplot
-from mpl_toolkits import mplot3d
-from mpl_toolkits.mplot3d import Axes3D
+from matplotlib.patches import Patch
 
 from math import sqrt
+
+
+
+bending = 0.0
+z_shear_stress_cross_beam_inclusion = 1
+cross_shear_force_ratio_shift = 1
+apply_cross_a = True
+apply_cross_b = False
+combine_tensile_and_z_shear = False
+combine_z_shear_and_cross_shear = False
+
+assert (apply_cross_a)
+
 
 strain_a = 3.5 / 100
 strain_b = 29 / 100
@@ -15,13 +26,17 @@ sb = 10.5  # / (1 + strain_b)
 saz = sa  # 33
 sbz = sb  # 9.0
 
-ta = sa / sqrt(3)
+ta = sa / sqrt(3)  # TODO: reformulate constriants in terms of new gFs variables and remove these variables here
 tb = sb / sqrt(3)
 taz = saz / sqrt(3)
 tbz = sbz / sqrt(3)
 
 line_w = .3
 layer_thickness = .1
+
+
+#
+
 
 wa_min = line_w
 wb_min = line_w
@@ -95,20 +110,9 @@ w = wa + wb
 if compare_to_FEM:
     F_FEM = FEM_stress * (wa + wb) * (hf + hc)
 
-bending = 0.0
-z_shear_stress_cross_beam_inclusion = 1
-cross_shear_force_ratio_shift = 1
-apply_cross_a = True
-apply_cross_b = True
-combine_tensile_and_z_shear = False
-combine_z_shear_and_cross_shear = False
-
-
 def sq(x):
     return x * x
 
-
-assert (apply_cross_a)
 
 s12_a = 1 / (2 * va * w) * sa / saz  # Z shear
 s12_b = 1 / (2 * vb * w) * sb / sbz
@@ -173,7 +177,6 @@ elif apply_cross_b:
     gFs['cross shear b'] = sb / s31_b / sqrt(3)
     if bending > 0:
         gFs['cross shear and cross bending b'] = sb / np.sqrt(combined_von_mises_cross_b)
-
 
 minF = np.minimum.reduce(list(gFs.values()))
 stress = minF / ((wa + wb) * (hf + hc))
@@ -268,12 +271,31 @@ for name, g in gs.items():
     if g.max() > .001:
         print(f"{name} constraint is violated! : {g.max():.4f}")
 
-
 #
 
 
 #
 
+
+colormap = {'tensile a': "green",
+            'tensile b': "red",
+            'Z shear a': "lime",
+            'Z shear b': "tomato",
+            'tensile and z shear a': "lightgreen",
+            'tensile and z shear b': "salmon",
+            'z shear and cross a+b': "magenta",
+            'z shear and cross a': "darkgreen",
+            'z shear and cross b': "maroon",
+            'cross shear a+b': "blue",
+            'cross shear and cross bending a+b': "aquamarine",
+            'cross shear a': "yellowgreen",
+            'cross shear b': "orange",
+            'cross shear and cross bending a': "chartreuse",
+            'cross shear and cross bending b': "pink"}
+
+failure_mode_colors = np.full(shape, "black", dtype=object)
+for name, gF in gFs.items():
+    failure_mode_colors[minF == gF] = colormap[name]
 
 colors = np.zeros((Nhf * Nlmax * Nwb * Nva, 3))
 colors[:, 0] = wb.reshape(-1) / wb.max()
@@ -306,10 +328,12 @@ if False:
 #
 
 
-def plotTwo(ax, X, Y, Z1, Z2):
-    if compare_to_FEM:
+def plotTwo(ax, X, Y, Z1, Z2, col1=None, col2=None):
+    if col1 is None:
         col1 = np.full(Z1.shape, "#00ff00d0", dtype=object)
+    if col2 is None:
         col2 = np.full(Z2.shape, "#ff0000d0", dtype=object)
+    if compare_to_FEM:
         col1[-1, :] = "#ffffff00"
         ax.plot_surface(np.append(X, X, axis=0),
                         np.append(Y, Y, axis=0),
@@ -317,9 +341,7 @@ def plotTwo(ax, X, Y, Z1, Z2):
                         facecolors=np.append(col1, col2, axis=0),
                         edgecolor='none')
     else:
-        ax.plot_surface(X, Y, Z1, color='g', edgecolor='none')
-
-
+        ax.plot_surface(X, Y, Z1, facecolors=col1, edgecolor='none')
 
 if not compare_to_FEM:
     FEM_stress = stress
@@ -330,12 +352,12 @@ idx = best_FEM_idx
 # hf, lmax, wb, va
 l = 0
 
-fig, ax = plt.subplots(1, 3, figsize=(10, 6), subplot_kw={'projection': '3d'})
-plotTwo(ax[0], wb[idx[0], l, :, :], va[idx[0], l, :, :], stress[idx[0], l, :, :], FEM_stress[idx[0], l, :, :])
+fig, ax = plt.subplots(1, 3, subplot_kw={'projection': '3d'})
+plotTwo(ax[0], wb[idx[0], l, :, :], va[idx[0], l, :, :], stress[idx[0], l, :, :], FEM_stress[idx[0], l, :, :], failure_mode_colors[idx[0], l, :, :])
 ax[0].set(xlabel='wb', ylabel='va')
-plotTwo(ax[1], hf[:, l, idx[2], :], va[:, l, idx[2], :], stress[:, l, idx[2], :], FEM_stress[:, l, idx[2], :])
+plotTwo(ax[1], hf[:, l, idx[2], :], va[:, l, idx[2], :], stress[:, l, idx[2], :], FEM_stress[:, l, idx[2], :], failure_mode_colors[:, l, idx[2], :])
 ax[1].set(xlabel='hf', ylabel='va')
-plotTwo(ax[2], hf[:, l, :, idx[3]], wb[:, l, :, idx[3]], stress[:, l, :, idx[3]], FEM_stress[:, l, :, idx[3]])
+plotTwo(ax[2], hf[:, l, :, idx[3]], wb[:, l, :, idx[3]], stress[:, l, :, idx[3]], FEM_stress[:, l, :, idx[3]], failure_mode_colors[:, l, :, idx[3]])
 ax[2].set(xlabel='hf', ylabel='wb')
 
 if False:
@@ -350,6 +372,12 @@ if False:
 
 wm = plt.get_current_fig_manager()
 wm.window.state('zoomed')
+
+fig, ax = plt.subplots()
+legend_elements = []
+for name, color in colormap.items():
+    legend_elements.append(Patch(facecolor=color, edgecolor='none', label=name))
+ax.legend(handles=legend_elements)
 
 plt.show()
 
