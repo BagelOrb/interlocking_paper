@@ -31,32 +31,28 @@ The bending constraint is given by:
 	\sigma_\text{max} &= \frac{F L}{b h^3} \nicefrac12 h \\
 	\sigma_\text{max} &= \frac{F L}{2 b h^2} \\
 \end{align*}
-
-\begin{align*}
-	\frac{ 3 F }{ 4 A } &\le \taufail	 = \frac{1}{\sqrt{3}} \sigmafail
-\end{align*}
 \fi
 
 
 \Cref{fig:failure_modes} shows one cell of the straight structure, along with the design variables and the failure modes.
-The optimization then consists of the following:
+We want to optimize the effective ultimate tensile strength, while keeping the structure minimal.
+The optimization problem can be formulated as follows:
 
 \begin{align}
 	& \omit\rlap{$\displaystyle \max{ \frac{F}{\left( w^a + w^b \right) \left( \hf + \hc \right) }}$} \label{eq:obj} \\
-	& \min{ \hf + \hc} \nonumber \\
-	& \min{ w^a + w^b} \nonumber \\
+	& \omit\rlap{$\displaystyle \min{ \hf + \hc} $} \nonumber \\
+	& \omit\rlap{$\displaystyle \min{ w^a + w^b} $} \nonumber \\
 	\omit\rlap{subject to} \nonumber \\
 	w^m &\ge 2 \wmin^m			&&\text{ Nozzle size} \label{eq:c1} \\
 	v^m &\ge \wmin^m				&&\text{ Nozzle size}  \label{eq:c2} \\
 	\hf &\ge \hmin		&&\text{ Layer thickness}  \label{eq:c3} \\
 	\hc &\ge \hmin		&&\text{ Layer thickness}  \label{eq:c4} \\
 	v^a + v^b &\le \lmax         &&\text{ Design constraint}   \label{eq:c_total_length} \\
-	\frac{ F }{ w^m \hf } &\le \sigmafail^m					&&\text{ Tension failure } M_x^m  \label{eq:c_tensile} \\
-	\frac{ F w^{\neg m} }{ 2 v^m \hc w } &\le \taufail^m					&&\text{ Shear failure } M_y^m  \label{eq:c_shear} \\
-	\frac{ F \left(w^{\neg m}\right)^2 }{ 2 \left( v^m \right)^2 \hc w } &\le \sigmafail^a                 &&\text{ Bending failure } M_y^m  \label{eq:c_bending} \\
-%	\frac{ F w^m }{ 2 v^m w^m w} &\le \tauz^m							&&\text{ Shear failure } M_z^m  \label{eq:c_shear_z} \\
-	\frac{ F }{ 2 v^m w} &\le \tauz^m							&&\text{ Shear failure } M_z^m  \label{eq:c_shear_z} \\
-	& \text{for both materials } && m \in \{a, b\} \nonumber
+	\sigma_{11}^m = \frac{ F }{ w^m \hf } &\le \sigmafail^m					&&\text{ Tension failure } M_x^m  \label{eq:c_tensile} \\
+	\sigma_{13}^m = \frac{ F w^{\neg m} }{ 2 v^m \hc w } &\le \taufail^m					&&\text{ Shear failure } M_y^m  \label{eq:c_shear} \\
+	\sigma_{22}^m = \frac{ F \left(w^{\neg m}\right)^2 }{ 2 \left( v^m \right)^2 \hc w } &\le \sigmafail^a                 &&\text{ Bending failure } M_y^m  \label{eq:c_bending} \\
+	\sigma_{12}^m = \frac{ F }{ 2 v^m w^m} &\le \tauz^m							&&\text{ Shear failure } M_z^m  \label{eq:c_shear_z} \\
+	\omit\rlap{for both materials $m \in \{a, b\}$ where $\neg a = b$ and $\neg b = a$}\nonumber
 \end{align}
 
 The first objective function is the main objective; 
@@ -64,7 +60,40 @@ the other two objective functions are secondary.
 They are only introduced to disambiguate designs which have the same value for the objective function --
 that is: pareto optimality is introduced to disambiguate otherwise equivalent designs.
 
-The $v^m$ variables don't figure in the objective, but they do appear in the constraints and therefore are also subject to the optimization.
+Note that the $v^m$ variables don't figure in the objective,
+but they do appear in the constraints and therefore are also subject to the optimization.
+Some of the mechanical constraints will be active to provide them a definite value.
+
+\subsection{Stress formulae}
+Let's consider the stresses $\sigma$ induced by applying a force to the ends of the unit cell.
+Tensile stress in the finger of either material $m$ is given by:
+\begin{align*}
+	\sigma_{11}^m &= \frac{ F }{ w^m \hf }
+\end{align*}
+
+The shear stress acting on $M_y^m$ for either material $m$ is determined by modeling the unsupported portion of the cross beam as a doubly fixed beam,
+whereas the total load is modeled as being uniformly distributed over the whole beam.
+The portion of the total force $F$ which acts upon the unsupported part of material $a$ is proportional to $w^b / w$.
+Because the beam is fixed on both sides the shear force is half the total force acting on the beam.
+\begin{align*}
+	\sigma_{13}^m = \frac{F w^{\neg m} / w}{2 v^m \hc} = \frac{F w^{\neg m}}{2 v^m \hc w}
+\end{align*}
+where $w = w^a+w^b$.
+
+The same unsupported portion of the cross beam might be subject to bending.
+The highest bending stress for a doubly supported beam will occur on either end.
+\begin{align*}
+	\sigma_{22}^m &= \frac{M}{I}c = \frac{(F w^{\neg m} / w) w^{\neg m} / 12}{\hc (v^m)^3 / 12} \nicefrac12 v^m =  \frac{ F \left(w^{\neg m}\right)^2 }{ 2 \left( v^m \right)^2 \hc w }
+\end{align*}
+
+There is also a shear stress acting along the surface $M_z^m$.
+While one might think that only a portion of the total force $F$ is working on the supported portion of the cross beam,
+the total force must be enacted through this plane, because it is the only connection between the finger and the cross beam.
+The shear stress along the Z direction is therefore given by:
+\begin{align*}
+	\sigma_{12}^m = \frac{ F }{ 2 v^m w^m}
+\end{align*}
+
 
 \subsection{Constraint values}
 Under different circumstances the values of the constraints will be different.
