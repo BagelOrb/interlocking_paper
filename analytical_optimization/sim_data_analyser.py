@@ -254,9 +254,9 @@ if compare_to_FEM:
     for name, gF in gFs.items():
         ratios = prediction_ratio[minF == gF]
         if ratios.size > 0:
-            print(f"g{i} {name}:  {np.average(ratios):.1%}, stdev: {np.std(ratios):.1%}")
+            print(f"{name}:  {np.average(ratios):.1%}, stdev: {np.std(ratios):.1%}")
         else:
-            print(f"g{i} {name}")
+            print(f"{name}")
 
     print("- cross beam sub failure modes -")
     for i, gF in enumerate(cross_gFs):
