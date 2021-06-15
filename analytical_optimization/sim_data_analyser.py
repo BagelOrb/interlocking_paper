@@ -2,6 +2,7 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
+import matplotlib._color_data as mcd
 
 from math import sqrt
 
@@ -294,7 +295,8 @@ colormap = {'tensile a': "green",
 
 failure_mode_colors = np.full(shape, "black", dtype=object)
 for name, gF in gFs.items():
-    failure_mode_colors[minF == gF] = colormap[name]
+    failure_mode_colors[minF == gF] = mcd.XKCD_COLORS["xkcd:"+colormap[name]] + "c0"
+
 
 #
 
@@ -303,7 +305,7 @@ def plotTwo(ax, X, Y, Z1, Z2, col1=None, col2=None):
     if col1 is None:
         col1 = np.full(Z1.shape, "#00ff00d0", dtype=object)
     if col2 is None:
-        col2 = np.full(Z2.shape, "#ff0000d0", dtype=object)
+        col2 = np.full(Z2.shape, "#0000ffd0", dtype=object)
     if compare_to_FEM:
         col1[-1, :] = "#ffffff00"
         ax.plot_surface(np.append(X, X, axis=0),
