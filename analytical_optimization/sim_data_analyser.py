@@ -296,34 +296,6 @@ failure_mode_colors = np.full(shape, "black", dtype=object)
 for name, gF in gFs.items():
     failure_mode_colors[minF == gF] = colormap[name]
 
-colors = np.zeros((Nhf * Nlmax * Nwb * Nva, 3))
-colors[:, 0] = wb.reshape(-1) / wb.max()
-colors[:, 1] = va.reshape(-1) / va.max()
-colors[:, 2] = hf.reshape(-1) / hf.max()
-# colors[:, 2] = va.reshape(-1) / va.max()
-
-if False:
-    fig, axs = plt.subplots(2, 2, figsize=(10, 6))
-
-    axs[0, 0].scatter(l.reshape(-1), FEM_stress.reshape(-1), c=colors)
-    axs[0, 0].set_title('Total length')
-    axs[0, 1].scatter(hf.reshape(-1), FEM_stress.reshape(-1), c=colors)
-    axs[0, 1].set_title('hf')
-    axs[1, 0].scatter(wb.reshape(-1), FEM_stress.reshape(-1), c=colors)
-    axs[1, 0].set_title('wb')
-    # axs[1, 1].scatter(va.reshape(-1), FEM_stress.reshape(-1), c=colors)
-    # axs[1, 1].set_title('va')
-    axs[1, 1].scatter(lmax.reshape(-1), FEM_stress.reshape(-1), c=colors)
-    axs[1, 1].set_title('lmax')
-
-    for ax in axs.flat:
-        ax.set(ylabel='max stress')
-    for ax in axs.flat:
-        ax.label_outer()
-
-
-# plt.show()
-
 #
 
 
@@ -358,16 +330,6 @@ plotTwo(ax[1], hf[:, l, idx[2], :], va[:, l, idx[2], :], stress[:, l, idx[2], :]
 ax[1].set(xlabel='hf', ylabel='va')
 plotTwo(ax[2], hf[:, l, :, idx[3]], wb[:, l, :, idx[3]], stress[:, l, :, idx[3]], FEM_stress[:, l, :, idx[3]], failure_mode_colors[:, l, :, idx[3]])
 ax[2].set(xlabel='hf', ylabel='wb')
-
-if False:
-    fig, axs = plt.subplots(1, 3, figsize=(10, 6), subplot_kw={'projection': '3d'})
-    axs[0].plot_surface(hf[:, idx[1], :, idx[3]], wb[:, idx[1], :, idx[3]], FEM_stress[:, idx[1], :, idx[3]], edgecolor='none')
-    axs[0].set_title('FEM')
-    axs[1].plot_surface(hf[:, idx[1], :, idx[3]], wb[:, idx[1], :, idx[3]], FEM_stress[:, idx[1], :, idx[3]], edgecolor='none', alpha=.75)
-    axs[1].plot_surface(hf[:, idx[1], :, idx[3]], wb[:, idx[1], :, idx[3]], stress[:, idx[1], :, idx[3]], edgecolor='none', alpha=.75)
-    axs[1].set_title('combined')
-    axs[2].plot_surface(hf[:, idx[1], :, idx[3]], wb[:, idx[1], :, idx[3]], stress[:, idx[1], :, idx[3]], edgecolor='none')
-    axs[2].set_title('analytical')
 
 wm = plt.get_current_fig_manager()
 wm.window.state('zoomed')
