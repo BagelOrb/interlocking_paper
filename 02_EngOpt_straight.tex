@@ -159,7 +159,7 @@ In order to estimate the combined failure criterion we consider the von Mises yi
 When only considering one tensile stress and one shear stress, the criterion reduces to:
 
 \begin{align*}
-	% \sqrt{\frac12 \left(  \left(\sigma_{11} - \sigma_{22}\right)^2  +  \left(\sigma_{22} - \sigma_{33}\right)^2  +  \left(\sigma_{33} - \sigma_{11}\right)^2   +   6\left(\sigma_{23}^2 + \sigma_{31}^2 + \sigma_{12}^2\right)\right)}&< \sigmafail \\
+	% \sqrt{\frac12 \left(  \left(\sigma_{11} - \sigma_{22}\right)^2  +  \left(\sigma_{22} - \sigma_{33}\right)^2  +  \left(\sigma_{33} - \sigma_{11}\right)^2   +   6\left(\sigma_{23}^2 + \sigma_{13}^2 + \sigma_{12}^2\right)\right)}&< \sigmafail \\
 	%\sqrt{\frac12 \left(  \left(\sigma_{11} \right)^2  +  \left( - \sigma_{11}\right)^2   +   6\left(\sigma_{23}^2 \right)\right)}&< \sigmafail \\
 	%\sqrt{\frac12 \left(  2 \left(\sigma_{11} \right)^2  +   6\left(\sigma_{23} \right)^2  \right)}&< \sigmafail \\
 	%\sqrt{\frac12 \left(  2 \sigma ^2  +   6 \tau^2  \right)}&< \sigmafail \\
@@ -188,16 +188,16 @@ At that particular corner all three failure modes act at once, so let's set up t
 
 \begin{align*}
 	\sigma_{12} &= \frac{ F }{ 2 v^m w} \\
-	\sigma_{31} &= \frac{ F w^{\neg m} }{ 2 v^m \hc w }  =  \sigma_{12} \frac{w^{\neg m}}{\hc} \\
+	\sigma_{13} &= \frac{ F w^{\neg m} }{ 2 v^m \hc w }  =  \sigma_{12} \frac{w^{\neg m}}{\hc} \\
 	\sigma_{11} &= \frac{ F }{ w^m \hf } \\
-	\sigma_{22} &= \frac{ F \left(w^{\neg m}\right)^2 }{ 2 \left( v^m \right)^2 \hc w }   =   \sigma_{12} \frac{\left(w^{\neg m}\right)^2}{v^m \hc} = \sigma_{31} \frac{w^{\neg m}}{v^m}
+	\sigma_{22} &= \frac{ F \left(w^{\neg m}\right)^2 }{ 2 \left( v^m \right)^2 \hc w }   =   \sigma_{12} \frac{\left(w^{\neg m}\right)^2}{v^m \hc} = \sigma_{13} \frac{w^{\neg m}}{v^m}
 \end{align*}
 
 \begin{align*}
-	%	\sqrt{\frac12 \left(  \left(\sigma_{11} - \sigma_{22}\right)^2  +  \left(\sigma_{22} - \sigma_{33}\right)^2  +  \left(\sigma_{33} - \sigma_{11}\right)^2   +   6\left(\sigma_{23}^2 + \sigma_{31}^2 + \sigma_{12}^2\right)\right)}&< \sigmafail \\
-	%	\sqrt{\frac12 \left(  \left(\sigma_{11} - \sigma_{22}\right)^2  +  \sigma_{22}^2  +  \sigma_{11}^2   +   6\left(\sigma_{31}^2 + \sigma_{12}^2\right)\right)}&< \sigmafail \\
-	%	\sqrt{\frac12 \left(  \sigma_{11}^2 + \sigma_{22}^2 - 2\sigma_{11}\sigma_{22} +  \sigma_{22}^2  +  \sigma_{11}^2   +   6\left(\sigma_{31}^2 + \sigma_{12}^2\right)\right)}&< \sigmafail \\
-	\sqrt{  \sigma_{11}^2  +  \sigma_{22}^2  - \sigma_{11}\sigma_{22} +   3\left(\sigma_{31}^2 + \sigma_{12}^2\right)}&< \sigmafail \\
+	%	\sqrt{\frac12 \left(  \left(\sigma_{11} - \sigma_{22}\right)^2  +  \left(\sigma_{22} - \sigma_{33}\right)^2  +  \left(\sigma_{33} - \sigma_{11}\right)^2   +   6\left(\sigma_{23}^2 + \sigma_{13}^2 + \sigma_{12}^2\right)\right)}&< \sigmafail \\
+	%	\sqrt{\frac12 \left(  \left(\sigma_{11} - \sigma_{22}\right)^2  +  \sigma_{22}^2  +  \sigma_{11}^2   +   6\left(\sigma_{13}^2 + \sigma_{12}^2\right)\right)}&< \sigmafail \\
+	%	\sqrt{\frac12 \left(  \sigma_{11}^2 + \sigma_{22}^2 - 2\sigma_{11}\sigma_{22} +  \sigma_{22}^2  +  \sigma_{11}^2   +   6\left(\sigma_{13}^2 + \sigma_{12}^2\right)\right)}&< \sigmafail \\
+	\sqrt{  \sigma_{11}^2  +  \sigma_{22}^2  - \sigma_{11}\sigma_{22} +   3\left(\sigma_{13}^2 + \sigma_{12}^2\right)}&< \sigmafail \\
 	%\sqrt{  \sigma_{11}^2  +  \sigma_{22}^2  - \sigma_{11}\sigma_{22} +   3\left( \left( \sigma_{12} \frac{w^{\neg m}}{\hc} \right)^2 + \sigma_{12}^2\right)}&< \sigmafail \\
 	%\sqrt{  \sigma_{11}^2  +  \sigma_{22}^2  - \sigma_{11}\sigma_{22} +   3\sigma_{12}^2 \left( \left( \frac{w^{\neg m}}{\hc} \right)^2 + 1\right)}&< \sigmafail \\
 	%\sigma_{11}^2  +  \sigma_{22}^2  - \sigma_{11}\sigma_{22} +   3\sigma_{12}^2 \left( \left( \frac{w^{\neg m}}{\hc} \right)^2 + 1\right) &< \sigmafail^2 \\
@@ -225,10 +225,10 @@ The only constraint added by the shearing failure modes should therefore be that
 The constraint is violated only when both occur, so it is satisfied when either failure mode is prevented.
 The logical disjunction can be rewritten into a minimum when both constraints are transformed into negative null form:
 \begin{align*}
-% \min \left(  \frac{ F }{ 2 v^a \hc \sigmafail^a} \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 }  ,  \frac{ F }{ 2 v^b \hc \sigmafail^b} \sqrt{   \left( \frac{w^a}{v^b}  \right)^2 + 3 }  \right) - 1 &< 0 \\
-% \frac{ F }{ 2 \hc}  \min \left(  \frac{ 1 }{ v^a \sigmafail^a} \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 }  ,  \frac{ 1 }{ v^b \sigmafail^b} \sqrt{   \left( \frac{w^a}{v^b}  \right)^2 + 3 }  \right) - 1 &< 0 \\
-\frac{ F }{ 2 \hc}  \min \left(  \frac{ \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 } }{ v^a \sigmafail^a}   ,  \frac{  \sqrt{   \left( \frac{w^a}{v^b}  \right)^2 + 3 } }{ v^b \sigmafail^b}  \right) - 1 &< 0 \\
-% \frac{ F }{ 2 \hc}  \min \left(  \frac{ \sqrt{   \left(w^b\right)^2 + 3 \left(v^a\right)^2 } }{ \left(v^a\right)^2 \sigmafail^a}   ,  \frac{  \sqrt{   \left(w^a\right)^2 + 3 \left(v^b\right)^2 } }{ \left(v^b\right)^2 \sigmafail^b}  \right) - 1 &< 0 \\
+	% \min \left(  \frac{ F }{ 2 v^a \hc \sigmafail^a} \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 }  ,  \frac{ F }{ 2 v^b \hc \sigmafail^b} \sqrt{   \left( \frac{w^a}{v^b}  \right)^2 + 3 }  \right) - 1 &< 0 \\
+	% \frac{ F }{ 2 \hc}  \min \left(  \frac{ 1 }{ v^a \sigmafail^a} \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 }  ,  \frac{ 1 }{ v^b \sigmafail^b} \sqrt{   \left( \frac{w^a}{v^b}  \right)^2 + 3 }  \right) - 1 &< 0 \\
+	\frac{ F }{ 2 \hc}  \min \left(  \frac{ \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 } }{ v^a \sigmafail^a}   ,  \frac{  \sqrt{   \left( \frac{w^a}{v^b}  \right)^2 + 3 } }{ v^b \sigmafail^b}  \right) - 1 &< 0 \\
+	% \frac{ F }{ 2 \hc}  \min \left(  \frac{ \sqrt{   \left(w^b\right)^2 + 3 \left(v^a\right)^2 } }{ \left(v^a\right)^2 \sigmafail^a}   ,  \frac{  \sqrt{   \left(w^a\right)^2 + 3 \left(v^b\right)^2 } }{ \left(v^b\right)^2 \sigmafail^b}  \right) - 1 &< 0 \\
 \end{align*}
 
 Depending on the optimization algorithm used, the min operator might need to be replaced by smooth versions.
@@ -330,7 +330,7 @@ The sensitivities are as follows:
 	\diff{\log f}{\log \hf} % &= \frac{2 \wmin^a + w^b}{F} \hf \frac{F}{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
 	% &= \frac{\left(2 \wmin^a + w^b\right) \hf }{F} \frac{F}{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
 	% &= \frac{\left(2 \wmin^a + w^b\right) \hf }{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
-	 &= \frac{ \hf }{ \hf + \hmin } \\
+	&= \frac{ \hf }{ \hf + \hmin } \\
 	\diff{\log{f}}{\log{F}} &= - 1 \\
 \end{align*}
 
