@@ -13,9 +13,11 @@
 \section{Diagonal Design}
 
 Another option is to place the fingers under an angle as shown in \autoref{fig:diagonal_model}.
-There are four design variables: the finger width of both materials: $w^a$ and $w^b$, the length $L$ and the layer thickness $h$.
+There are four variables: the finger width of both materials: $w_a$ and $w_b$, the length $L$ and the layer thickness $h$. If all four variables are scaled, then the objective function and the constrained functions scale with the same factor. Therefore, the layer thickness $h$ will be fixed to $h = h_{min}$ and only the variables $w_a$, $w_b$ and $L$ will be optimized.
 
 \section{Problem Formulation}
+This section shows the deriviation of the problem formulation.
+
 \subsection{Geometry Relations}
 From \autoref{fig:diagonal_model}, the geometry relations \ref{eq:tan}, \ref{eq:cos} and \ref{eq:sin} can be derived, which are used for further analysis of the stresses.
 
@@ -117,66 +119,113 @@ We plugged in \autoref{eq:tensfail}, \ref{eq:shearmx} and \ref{eq:bending}, what
 The goal is to maximize the strength while accounting for the failure modes in the constraints.
 With that, the optimization problem can be formulated as follows:
 
-\begin{align}
-	f: & \max \frac{F}{2h \left(w_a + w_b\right)} \nonumber \\
+\begin{align*}
+	f: & \max_{F, {w_a}, {w_b}. L} \frac{F}{2h \left(w_a + w_b\right)} \nonumber \\
 	\text{subject to:} & \nonumber \\
 	g_1: & w_m \ge w_\text{m,min} \\
 	g_2: & w_a + w_b \le w_\text{max} \\
 	g_3: & L_{min} \le L \le L_{max} \\
-	g_4: & h \ge h_{min} \\
-	g_5: & \frac{ 3 F \left(w_a + w_b \right) }{ w_m ^2 L} \le \tau_m						\text{ Shear failure } M_z^m \\
-	g_6:& \sqrt{\frac{1}{2} \left( \frac{F}{w_m  h} + 	\frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_m^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w_m h L}  \right) ^2}		\le 	\sigma_m	\text{ Von Mises criterion } M_x \\
+	g_4: & \frac{ 3 F \left(w_a + w_b \right) }{ w_m ^2 L} \le \tau_m						\text{ Shear failure } M_z^m \\
+	g_5:& \sqrt{\frac{1}{2} \left( \frac{F}{w_m  h} + 	\frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_m^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w_m h L}  \right) ^2}		\le 	\sigma_m	\text{ Von Mises criterion } M_x \\
 	& \text{for both materials } && m \in \{a, b\} \nonumber 
-\end{align}
+\end{align*}
 
 
 Normalizing and rewriting to the negative null-form gives the following optimization problem:
 
-\begin{align}
-	f: & \min \frac{2h \left(w_a + w_b\right)}{F} \nonumber \\
+\begin{align*}
+	f: & \min_{F, {w_a}, {w_b}. L}  \frac{2h \left(w_a + w_b\right)}{F} \nonumber \\
 	\text{subject to:} & \nonumber \\
 	g_{1a}:& 1 - \frac{w_a}{w_{a,min}}  \le 0 \\
 	g_{1b}:& 1 - \frac{w_b}{w_{b,min}}  \le 0 \\
 	g_2:& \frac{w_a + w_b}{w_{max}}  - 1 \le 0 \\
 	g_{3.1}:& 1 - \frac{L}{L_{min}} \le 0 \\
 	g_{3.2}:&\frac{L}{L_{max}} - 1  \le 0 \\
-	g_4:& 1 - \frac{h}{h_{min}} \le 0 \\
-	g_{5a}: & \frac{ 3 F \left(w_a + w_b \right) }{ \tau_a w_a ^2 L} - 1 \le 0					\text{ Shear failure } M_z^a \\
-	g_{5b}: & \frac{ 3 F \left(w_a + w_b \right) }{ \tau_b w_b ^2 L} - 1 \le 0					\text{ Shear failure } M_z^b \\
-	g_{6a}:& \frac{\sqrt{\frac{1}{2} \left( \frac{F}{w_a  h} + 	\frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_a^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w^a h L}  \right) ^2}	} { \sigma_a} - 1	\le 0	\text{ Von Mises criterion } M_x^a \\
-	g_{6b}:& \frac{\sqrt{\frac{1}{2} \left( \frac{F}{w_b  h} + 	\frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_b^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w^b h L}  \right) ^2}	} { \sigma_b} - 1	\le 0	\text{ Von Mises criterion } M_x^a 
-\end{align}
+	g_{4a}: & \frac{ 3 F \left(w_a + w_b \right) }{ \tau_a w_a ^2 L} - 1 \le 0					\text{ Shear failure } M_z^a \\
+	g_{4b}: & \frac{ 3 F \left(w_a + w_b \right) }{ \tau_b w_b ^2 L} - 1 \le 0					\text{ Shear failure } M_z^b \\
+	g_{5a}:& \frac{\sqrt{\frac{1}{2} \left( \frac{F}{w_a  h} + 	\frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_a^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w_a h L}  \right) ^2}	} { \sigma_a} - 1	\le 0	\text{ Von Mises criterion } M_x^a \\
+	g_{5b}:& \frac{\sqrt{\frac{1}{2} \left( \frac{F}{w_b  h} + 	\frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_b^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w_b h L}  \right) ^2}	} { \sigma_b} - 1	\le 0	\text{ Von Mises criterion } M_x^a 
+\end{align*}
 \todo{How to put it neatly on one line?}
 
 
+
+\subsection{Modelling Aspects}
+One of the modelling aspects that should be considered is that all fingers are modelled as a cantilever beam with a distributed load. It is assumed that every finger takes up the same load $F$, still one finger will fail earlier than the other because of a difference in the stress levels. Furthermore, the Von Mises stress criterion was used to predict the yielding of the material under multiple loading conditions. This does not account for the an-isotropic nature of the 3D printed material, neither for the lower infill density if larger regions are considered. It should also be noted that the adhesive bonds between the layers are weaker in shear $M_z$ compared to the nominal shear strength. Therefore, this study should only be used as an initial investigation which needs to be tested and tuned in any case.
+
 \section{Initial Problem Investigation}
+This section discusses the initial investigation of the optimization problem. 
 
 \subsection{Boundedness}
+The optimization problem aims to maximize the strength, which scales proportionally with $F$ and inversily with the total width $w_a + w_b$ and the layer height $h$.  $f$ is minimized if $w_a + w_b$ and $h$ are approaching zero and if $F$ goes to infinity. Since the minimizers $F*$, $w_a*$, $w_b*$ and $L*$ do not lie within the set of positive and finite numbers $P$, the objective function is not well bounded for any of the design variables and therefore constraints are needed. The layer height $h$ was fixed and a lower bound was set on $w_a$ and $w_b$ with manufacturing constraint $g_1$. In addition, the finger length $L$ was bounded between $L_{min}$ and $L_{max}$ in constraint $g_3$, and $g_4$ and $g_5$ put an upper bound on the force $F$ that the fingers can withstand. 
 
 \subsection{Convexity}
+The objective function $f$ and the constraints $g_1$, $g_2$ and $g_3$ are linear and therefore also convex. For constraint $g_4$, the Hessian matrix was evaluated, where all principle minors should be positive semi-definite for the function to be convex. A 3x3 principle minor of the full 4x4 Hessian of $g_{4a}$ is given in \autoref{eq:Hg4} with partial derivatives for the design variables $L$, $w_a$ and $w_b$.
+
+\begin{equation}
+	\label{eq:Hg4}
+	H = \begin{bmatrix}
+				 g_{wa, wa} & g_{wa, wb} & g_{wa, L} \\
+				 g_{wb, wa} & g_{wb, wb} & g_{wb, L}  \\
+				 g_{L, wa} & g_{L, wb} & g_{L, L} 													
+		\end{bmatrix}
+	= \frac{3F}{\tau_a}\begin{bmatrix}
+		\frac{2w_a + 6 w_b}{\left( w_a \right)^4 L} & \frac{-2}{\left( w_a \right)^3 L } &  \frac{w_a + 2 w_b}{\left( w_a \right)^3 L^2 }\\
+		\frac{-2}{\left( w_a \right)^3 L } & 0 & \frac{1}{\left( w_a \right)^2 L^2 }  \\
+\frac{w_a + 2 w_b}{\left( w_a \right)^3 L^2 } & \frac{1}{\left( w_a \right)^2 L^2 } & \frac{2 \left(w_a + w_b\right)}{\left( w_a \right)^2 L^3}													
+	\end{bmatrix}
+\end{equation}
+
+The principle minor of the upper-right 2x2 matrix of the Hessian: $\frac{-2}{\left( w_a \right)^3 L } \frac{1}{\left( w_a \right)^2 L^2 } - 0 $ is not negative, which implies non-convexity of constraint $g_4$.\\
+
+Inside the square root of constraint $g_5$, there is a bending equation contains the same dependency as $g_4$ and then multiplied with even more terms. This clearly implies a non-convex constraint as well. \\
+Besides the convex objective function, the feasible domain can have multiple local boundary optima because of the non-convex constraints $g_4$ and $g_5$. This should be accounted for during the optimization of the problem.
 
 \subsection{Monotonicity}
-\begin{align}
-	f: & F^-, h^+, w_a^+, w_b^+ \\
+A monotonicity analysis was performed, the results are displayed below. 
+\begin{align*}
+	f: & F^-, w_a^+, w_b^+ \\
 	g_{1a}:& w_a^- \\
 	g_{1b}:& w_b^- \\
 	g_{2}:& w_a^+, w_b^+\\
 	g_{3.1}:& L^- \\
 	g_{3.2}:& L^+ \\
-	g_{4}:& h^-\\
-	g_{5a}:& F^+, w_a^-, w_b^+, L^- \\
-	g_{5b}:& F^+, w_a^+, w_b^-, L^-\\
-	g_{6a}:& F^+, h^-, w_b^+, L^-\\
-	g_{6b}:& F^+, h^-, w_a^+, L^-
-\end{align}
+	g_{4a}:& F^+, w_a^-, w_b^+, L^- \\
+	g_{4b}:& F^+, w_a^+, w_b^-, L^-\\
+	g_{5a}:& F^+, w_b^+, L^-\\
+	g_{5b}:& F^+, w_a^+, L^-
+\end{align*}
+
+The objective function is monotonically decreasing for $F$, and $F$ is monotonically increasing in constraint $g_{4a}$, $g_{4b}$, $g_{5a}$ and $g_{5b}$. This implies that one of these should be active. Similarly, $w_a$ and $w_b$ are monotonically increasing in the objective function. Therefore, constraints $g_{1a}$, $g_{1b}$, $g_{4a}$ or $g_{4b}$ should be active for $w_a$ or $w_b$. $L$ does not appear in the objective function but shall still be bounded within $L_{min}$ and $L_{max}$, to minimize the bending moment it is to be expected that $L$ is close to its minimum value. 
 
 \subsection{Numerical Noise}
+tbc.
+
 
 \subsection{Sensitivity Analysis}
+The logarithmic sensitivities were evaluated to compare the relative importance of each design variable on the objective function and the constraints. Since all variables in the constraints and in the objective function are independent from each other, there are no response variables that should be accounted for. \\
+The sensitivities from constraints $g_1$ untill $g_4$ were obtained by evaluating the partial derivatives. 
 
+\begin{align*}
+\diff{_L f}{_L w_a} &= \frac{w_a}{w_a + w_b} \\
+\diff{_L f}{_L w_a} &= \frac{w_b}{w_a + w_b} \\
+\diff{_L f}{_L F} &= -1 \\
+\diff{_L g_1}{_L w_a} &= t.b.c. \\
+\end{align*}
 
 
 \section{Initial Optimization}
+For the initial optimization, the grid search method was used first, after which random jumping was performed within a smaller range around the optimum found by the former mentioned method. We choose this search method because the optimum found can be used as the starting point in the optmization of the actual problem. In addition, it is easy to implement, does not suffer from getting stuck into optima and does not require the functions to be linearlized with a Taylor series approximation. It can directly be implemented to optimize the four design variables $F$, $w_a$, $w_b$ and $L$. A disadvantage is that random search does not give an accurate solution if not many points are sampled, therefore the actual optimization will be done with another method. \\
+
+We did the grid search for $w_a$ and $w_b$ ranging from 0.3 to 0.9mm with a step size of 0.1, $L$ from 1.8 to 4.6mm with a step size of 0.3, and $F$ from 1 N to 10 N with a step size of 0.25. The this resulted in a minimum objective value of 0.52 mm$^2$/N, obtained for the variables as indicated below.
+
+\begin{align}
+	w_a* &= 0.4\\
+	w_b* &= 0.9 \\
+	L* &= 3.6 \\
+	F* &= 2.5 
+\end{align} 
+
 
 \section{Optimization of the Actual Problem}
 
