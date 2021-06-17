@@ -6,24 +6,42 @@ import matplotlib._color_data as mcd
 
 from math import sqrt
 
-bending = 0.0
-z_shear_stress_cross_beam_inclusion = 1
-cross_shear_force_ratio_shift = 1
-apply_cross_a = True
-apply_cross_b = False
-combine_tensile_and_z_shear = False
-combine_z_shear_and_cross_shear = False
 
-assert (apply_cross_a)
+bending = 0.0
+cross_shear_force_ratio_shift = 1
+combine_tensile_and_z_shear = False
+
+compare_to_FEM = True
+broken_optimum = False
+combine_z_shear_and_cross_shear = True
+
+silicone = False
+
+use_z_tensile_data = not compare_to_FEM
+z_shear_stress_cross_beam_inclusion_a = float(broken_optimum)
+z_shear_stress_cross_beam_inclusion_b = float(broken_optimum)
+apply_cross_a = not broken_optimum
+apply_cross_b = broken_optimum
+use_z_shear_b = True  # not broken_optimum
+
+show_results = True
+plot_legend = False
 
 
 strain_a = 3.5 / 100
 strain_b = 29 / 100
 
-sa = 47  # / (1 + strain_a)
-sb = 10.5  # / (1 + strain_b)
-saz = sa  # 33
-sbz = sb  # 9.0
+sa = 47
+sb = 10.5
+saz = 33
+sbz = 10.6
+
+if silicone:
+    sb = sbz = 2.5
+
+if not use_z_tensile_data:
+    saz = sa
+    sbz = sb
 
 ta = sa / sqrt(3)  # TODO: reformulate constraints in terms of new gFs variables and remove these variables here
 tb = sb / sqrt(3)
@@ -33,7 +51,6 @@ tbz = sbz / sqrt(3)
 line_w = .3
 layer_thickness = .1
 
-plot_legend = False
 
 #
 
@@ -44,12 +61,11 @@ w_max = 6 * 2 * wa_min
 l_max = 6 * 2 * wa_min
 
 h_min = 2 * layer_thickness
-h_max = 10 * h_min
+h_max = 8 * h_min
 
-compare_to_FEM = False
 
-Nhf = 90
-Nlmax = 1
+Nhf = 13  # 13 is whole layer heights
+Nlmax = 4
 Nwb = Nva = 45
 
 if compare_to_FEM:
@@ -92,6 +108,8 @@ else:
     rys = np.linspace(0.1, .9, Nva)
     hfs = np.linspace(h_min, h_max - h_min, Nhf)
     lmaxs = np.linspace(3.6, 1.8, Nlmax)
+    if silicone:
+        lmaxs = np.linspace(0.8, 0.4, Nlmax)
     hf, lmax, wb, ry = np.meshgrid(hfs, lmaxs, wbs, rys, indexing='ij')
     va = ry * lmax
 
@@ -102,7 +120,7 @@ else:
 # print( np.any(np.isnan( FEM_stress)))
 
 wa = np.full(shape, 2 * wa_min)
-hc = np.full(shape, h_min)
+hc = np.full(shape, h_min * (1 + float(silicone)))
 vb = lmax - va
 l = va + vb
 w = wa + wb
@@ -123,9 +141,10 @@ s22_b = bending * s31_b * wa / vb
 s11_a = 1 / (wa * hf)  # tensile
 s11_b = 1 / (wb * hf)
 
-if z_shear_stress_cross_beam_inclusion > 0:
-    s12_a = s12_a * (wa + z_shear_stress_cross_beam_inclusion * wb) / wa
-    s12_b = s12_b * (wb + z_shear_stress_cross_beam_inclusion * wa) / wb
+if z_shear_stress_cross_beam_inclusion_a > 0:
+    s12_a = s12_a * (wa + z_shear_stress_cross_beam_inclusion_a * wb) / wa
+if z_shear_stress_cross_beam_inclusion_b > 0:
+    s12_b = s12_b * (wb + z_shear_stress_cross_beam_inclusion_b * wa) / wb
 
 if cross_shear_force_ratio_shift != 1:
     new_ratio = np.power(wa / w, cross_shear_force_ratio_shift)
@@ -148,18 +167,20 @@ gFs = {}
 gFs['tensile a'] = sa / s11_a
 gFs['tensile b'] = sb / s11_b
 gFs['Z shear a'] = sa / s12_a / sqrt(3)
-gFs['Z shear b'] = sb / s12_b / sqrt(3)
+if use_z_shear_b:
+    gFs['Z shear b'] = sb / s12_b / sqrt(3)
 if combine_tensile_and_z_shear:
     gFs['tensile and z shear a'] = sa / np.sqrt(combined_von_mises_tensile_z_shear_a)
     gFs['tensile and z shear b'] = sb / np.sqrt(combined_von_mises_tensile_z_shear_b)
 if combine_z_shear_and_cross_shear:
     z_shear_and_cross_a = sa / np.sqrt(combined_von_mises_z_shear_cross_a)
     z_shear_and_cross_b = sb / np.sqrt(combined_von_mises_z_shear_cross_b)
-    if apply_cross_a and apply_cross_b:
+    if apply_cross_a and apply_cross_b and use_z_shear_b:
         gFs['z shear and cross a+b'] = np.maximum(z_shear_and_cross_a, z_shear_and_cross_b)
     else:
         gFs['z shear and cross a'] = z_shear_and_cross_a
-        gFs['z shear and cross b'] = z_shear_and_cross_b
+        if use_z_shear_b:
+            gFs['z shear and cross b'] = z_shear_and_cross_b
 if apply_cross_a and apply_cross_b:
     if bending == 0:
         cross_shear_a = sa / s31_a / sqrt(3)
@@ -178,6 +199,12 @@ elif apply_cross_b:
     if bending > 0:
         gFs['cross shear and cross bending b'] = sb / np.sqrt(combined_von_mises_cross_b)
 
+
+print("Used constraints: ", end="")
+for name, gF in gFs.items():
+    print(name + ", ", end="")
+print("\n")
+
 minF = np.minimum.reduce(list(gFs.values()))
 stress = minF / ((wa + wb) * (hf + hc))
 F = stress * (wa + wb) * (hf + hc)
@@ -188,28 +215,31 @@ cross_gs = [
 cross_gs_names = ['shear/bend a', 'shear/bend b']
 
 gs = {}
-gs['wa'] = 1 - wa / 2 / wa_min
-gs['wb'] = 1 - wb / 2 / wb_min
-gs['va'] = 1 - va / wa_min
-gs['vb'] = 1 - vb / wb_min
-gs['hf'] = 1 - hf / h_min
-gs['hc'] = 1 - hc / h_min
+# gs['wa'] = 1 - wa / 2 / wa_min
+# gs['wb'] = 1 - wb / 2 / wb_min
+# gs['va'] = 1 - va / wa_min
+# gs['vb'] = 1 - vb / wb_min
+# gs['hf'] = 1 - hf / h_min
+# gs['hc'] = 1 - hc / h_min
 gs['design'] = (va + vb) / l_max - 1
 gs['tensile a'] = 1 - wa * hf * sa / F
 gs['tensile b'] = 1 - wb * hf * sb / F
-gs['z shear a'] = 1 - 2 * va * wa * taz / (F * (wa + z_shear_stress_cross_beam_inclusion * wb) / w)
-gs['z shear b'] = 1 - 2 * vb * wb * tbz / (F * (wa + z_shear_stress_cross_beam_inclusion * wb) / w)
+gs['z shear a'] = 1 - 2 * va * wa * taz / (F * (wa + z_shear_stress_cross_beam_inclusion_a * wb) / w)
+if use_z_shear_b:
+    gs['z shear b'] = 1 - 2 * vb * wb * tbz / (F * (wa + z_shear_stress_cross_beam_inclusion_a * wb) / w)
 if combine_tensile_and_z_shear:
     gs['tensile and z shear a'] = F * F * combined_von_mises_tensile_z_shear_a / sq(sa) - 1
-    gs['tensile and z shear b'] = F * F * combined_von_mises_tensile_z_shear_b / sq(sb) - 1
+    if use_z_shear_b:
+        gs['tensile and z shear b'] = F * F * combined_von_mises_tensile_z_shear_b / sq(sb) - 1
 if combine_z_shear_and_cross_shear:
     z_shear_and_cross_a = F * F * combined_von_mises_z_shear_cross_a / sq(sa) - 1
     z_shear_and_cross_b = F * F * combined_von_mises_z_shear_cross_b / sq(sb) - 1
-    if apply_cross_a and apply_cross_b:
+    if apply_cross_a and apply_cross_b and use_z_shear_b:
         gs['z shear and cross a+b'] = np.minimum(z_shear_and_cross_a, z_shear_and_cross_b)
     else:
         gs['z shear and cross a'] = z_shear_and_cross_a
-        gs['z shear and cross b'] = z_shear_and_cross_b
+        if use_z_shear_b:
+            gs['z shear and cross b'] = z_shear_and_cross_b
 
 if apply_cross_a and apply_cross_b:
     gs['cross a+b'] = np.minimum(cross_gs[0], cross_gs[1])  # cross
@@ -237,7 +267,7 @@ for l in range(Nlmax):
 
     print("\n== Active constraints: ", end="")
     for name, g in gs.items():
-        if abs(g[best_idx]) < .001:
+        if abs(g[best_idx]) < .01:
             print(name, end=",")
     print("")
 
@@ -268,8 +298,11 @@ if compare_to_FEM:
 
 constraints = np.maximum.reduce(gs)
 for name, g in gs.items():
+    best_idx = np.unravel_index(np.argmax(stress[:, :, :, :]), shape)
     if g.max() > .001:
-        print(f"{name} constraint is violated! : {g.max():.4f}")
+        print(f"!!! > {name} constraint is violated! : {g.max():.4f}")
+    else:
+        print(f"{name}: {g[best_idx]}")
 
 #
 
@@ -303,9 +336,9 @@ for name, gF in gFs.items():
 
 def plotTwo(ax, X, Y, Z1, Z2, col1=None, col2=None):
     if col1 is None:
-        col1 = np.full(Z1.shape, "#00ff00d0", dtype=object)
+        col1 = np.full(Z1.shape, "#00ff00c0", dtype=object)
     if col2 is None:
-        col2 = np.full(Z2.shape, "#0000ffd0", dtype=object)
+        col2 = np.full(Z2.shape, "#999999c0", dtype=object)
     if compare_to_FEM:
         col1[-1, :] = "#ffffff00"
         ax.plot_surface(np.append(X, X, axis=0),
@@ -343,6 +376,9 @@ if plot_legend:
         legend_elements.append(Patch(facecolor=color, edgecolor='none', label=name))
     ax.legend(handles=legend_elements)
 
-plt.show()
+# plt.savefig("C:\\Users\\t.kuipers\\OneDrive - Ultimaker B.V\\Documents\\PhD\\interlocking_project\\paper\\paper_git\\analytical_optimization\\ana_correct_z_yield_ORcross.svg")
+
+if show_results:
+    plt.show()
 
 # print(np.maximum.reduce(gs))
