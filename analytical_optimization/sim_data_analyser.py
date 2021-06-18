@@ -13,16 +13,22 @@ combine_tensile_and_z_shear = False
 
 compare_to_FEM = True
 broken_optimum = False
+full_stress_on_z = True
 combine_z_shear_and_cross_shear = True
 
 silicone = False
 
 use_z_tensile_data = not compare_to_FEM
-z_shear_stress_cross_beam_inclusion_a = float(broken_optimum)
-z_shear_stress_cross_beam_inclusion_b = float(broken_optimum)
+z_shear_stress_cross_beam_inclusion_a = float(full_stress_on_z or broken_optimum)
+z_shear_stress_cross_beam_inclusion_b = float(full_stress_on_z or broken_optimum)
+cross_beam_force_pillar_inclusion_a = float(broken_optimum)
+cross_beam_force_pillar_inclusion_b = float(broken_optimum)
 apply_cross_a = not broken_optimum
 apply_cross_b = broken_optimum
-use_z_shear_b = True  # not broken_optimum
+use_z_shear_a = True  # not broken_optimum
+use_z_shear_b = True
+
+hf_sampling_multiplier = 10
 
 show_results = True
 plot_legend = False
@@ -64,7 +70,7 @@ h_min = 2 * layer_thickness
 h_max = 8 * h_min
 
 
-Nhf = 13  # 13 is whole layer heights
+Nhf = 13 * hf_sampling_multiplier # 13 is whole layer heights
 Nlmax = 4
 Nwb = Nva = 45
 
@@ -131,20 +137,19 @@ if compare_to_FEM:
 def sq(x):
     return x * x
 
+dya = (wb + wa * cross_beam_force_pillar_inclusion_a) / w
+dyb = (wa + wb * cross_beam_force_pillar_inclusion_b) / w
+dza = (wa + wb * z_shear_stress_cross_beam_inclusion_a) / w
+dzb = (wb + wa * z_shear_stress_cross_beam_inclusion_b) / w
 
-s12_a = 1 / (2 * va * w) * sa / saz  # Z shear
-s12_b = 1 / (2 * vb * w) * sb / sbz
-s31_a = s12_a * wb / hc  # cross shear
-s31_b = s12_b * wa / hc
-s22_a = bending * s31_a * wb / va  # bending
-s22_b = bending * s31_b * wa / vb
 s11_a = 1 / (wa * hf)  # tensile
 s11_b = 1 / (wb * hf)
-
-if z_shear_stress_cross_beam_inclusion_a > 0:
-    s12_a = s12_a * (wa + z_shear_stress_cross_beam_inclusion_a * wb) / wa
-if z_shear_stress_cross_beam_inclusion_b > 0:
-    s12_b = s12_b * (wb + z_shear_stress_cross_beam_inclusion_b * wa) / wb
+s31_a = dya / (2 * va * hc)  # cross shear
+s31_b = dyb / (2 * vb * hc)
+s22_a = bending * s31_a * wb / va  # bending
+s22_b = bending * s31_b * wa / vb
+s12_a = dza / (2 * va * wa) * sa / saz  # Z shear
+s12_b = dzb / (2 * vb * wb) * sb / sbz
 
 if cross_shear_force_ratio_shift != 1:
     new_ratio = np.power(wa / w, cross_shear_force_ratio_shift)
@@ -166,7 +171,8 @@ cross_gFs = [gF_cross_von_mises_a, gF_cross_von_mises_b]
 gFs = {}
 gFs['tensile a'] = sa / s11_a
 gFs['tensile b'] = sb / s11_b
-gFs['Z shear a'] = sa / s12_a / sqrt(3)
+if use_z_shear_a:
+    gFs['Z shear a'] = sa / s12_a / sqrt(3)
 if use_z_shear_b:
     gFs['Z shear b'] = sb / s12_b / sqrt(3)
 if combine_tensile_and_z_shear:
@@ -209,9 +215,11 @@ minF = np.minimum.reduce(list(gFs.values()))
 stress = minF / ((wa + wb) * (hf + hc))
 F = stress * (wa + wb) * (hf + hc)
 
+# F * sqrt(term) < s
+# 1 - s / (F * sqrt(term)) < 0
 cross_gs = [
-    1 - 2 * hc / (F * wb / (wa + wb)) * va * sa / np.sqrt(bending * wb * wb / va / va + 3),
-    1 - 2 * hc / (F * wa / (wa + wb)) * vb * sb / np.sqrt(bending * wa * wa / vb / vb + 3)]
+    1 - sa / (F * np.sqrt(combined_von_mises_cross_a)),
+    1 - sb / (F * np.sqrt(combined_von_mises_cross_b))]
 cross_gs_names = ['shear/bend a', 'shear/bend b']
 
 gs = {}
@@ -224,9 +232,10 @@ gs = {}
 gs['design'] = (va + vb) / l_max - 1
 gs['tensile a'] = 1 - wa * hf * sa / F
 gs['tensile b'] = 1 - wb * hf * sb / F
-gs['z shear a'] = 1 - 2 * va * wa * taz / (F * (wa + z_shear_stress_cross_beam_inclusion_a * wb) / w)
+if use_z_shear_a:
+    gs['z shear a'] = 1 - 2 * va * wa * taz / (F * dza)
 if use_z_shear_b:
-    gs['z shear b'] = 1 - 2 * vb * wb * tbz / (F * (wa + z_shear_stress_cross_beam_inclusion_a * wb) / w)
+    gs['z shear b'] = 1 - 2 * vb * wb * tbz / (F * dzb)
 if combine_tensile_and_z_shear:
     gs['tensile and z shear a'] = F * F * combined_von_mises_tensile_z_shear_a / sq(sa) - 1
     if use_z_shear_b:
