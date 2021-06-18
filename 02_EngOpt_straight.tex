@@ -3,6 +3,7 @@
 \newcommand{\hf}{h_\text{f}}
 
 \newcommand{\sigmafail}{\sigma_\text{y}}
+\newcommand{\sigmafailz}{\sigma_\text{yZ}}
 \newcommand{\taufail}{\tau_\text{y}}
 \newcommand{\tauz}{\tau_\text{yZ}}
 
@@ -36,7 +37,11 @@ The bending constraint is given by:
 
 \Cref{fig:failure_modes} shows one cell of the straight structure, along with the design variables and the failure modes.
 We want to optimize the effective ultimate tensile strength, while keeping the structure minimal.
-The optimization problem can be formulated as follows:
+Below you will find a naive formulation of the optimization problem.
+The naive model will be fine-tuned and several variants will be considered.
+Finally we compare the variants against experimental FEM simulation results in order to get to the final formulation of the optimization problem.
+\footnote{Even though finding the correct model is not the focus of this course, it is relevant to my PhD research and we cover several interesting ideas pertaining to engineering optimization.}
+The naive problem formulation is as follows:
 
 \begin{align}
 	& \omit\rlap{$\displaystyle \max{ \frac{F}{\left( w^a + w^b \right) \left( \hf + \hc \right) }}$} \label{eq:obj} \\
@@ -73,26 +78,42 @@ Tensile stress in the finger of either material $m$ is given by:
 
 The shear stress acting on $M_y^m$ for either material $m$ is determined by modeling the unsupported portion of the cross beam as a doubly fixed beam,
 whereas the total load is modeled as being uniformly distributed over the whole beam.
-The portion of the total force $F$ which acts upon the unsupported part of material $a$ is proportional to $w^b / w$.
+The portion $d_y$ of the total force $F$ which acts upon the unsupported part of material $a$ is proportional to $w^b / w$, where $w = w^a+w^b$.
+However, in some cases the full force acts on the beam, which will be discussed below.
 Because the beam is fixed on both sides the shear force is half the total force acting on the beam.
 \begin{align*}
-	\sigma_{13}^m = \frac{F w^{\neg m} / w}{2 v^m \hc} = \frac{F w^{\neg m}}{2 v^m \hc w}
+	\sigma_{13}^m &= \frac{d_y F}{2 v^m \hc} \\
+	d_y &= 
+	\begin{cases}
+		\nicefrac{w^{\neg m}}{w} &\text{if partial force is applied} \\
+		1 &\text{otherwise}
+	\end{cases}
 \end{align*}
-where $w = w^a+w^b$.
+
 
 The same unsupported portion of the cross beam might be subject to bending.
 The highest bending stress for a doubly supported beam will occur on either end.
 \begin{align*}
-	\sigma_{22}^m &= \frac{M}{I}c = \frac{(F w^{\neg m} / w) w^{\neg m} / 12}{\hc (v^m)^3 / 12} \nicefrac12 v^m =  \frac{ F \left(w^{\neg m}\right)^2 }{ 2 \left( v^m \right)^2 \hc w }
+	\sigma_{22}^m &= \frac{M}{I}c = \frac{d_y F w^{\neg m} / 12}{\hc (v^m)^3 / 12} \nicefrac12 v^m 
+	=  \frac{ d_y F w^{\neg m} }{ 2 \left( v^m \right)^2 \hc }
+	= \sigma_{13}^m \frac{w^{\neg m}}{v^m}
 \end{align*}
 
 There is also a shear stress acting along the surface $M_z^m$.
-While one might think that only a portion of the total force $F$ is working on the supported portion of the cross beam,
-the total force must be enacted through this plane, because it is the only connection between the finger and the cross beam.
-The shear stress along the Z direction is therefore given by:
+On the one hand one might think that only a portion $d_z$ of the total force $F$ is working on the supported portion of the cross beam.
+On the other hand the total force must be enacted through this plane, because it is the only connection between the finger and the cross beam.
+In order to compare stresses along the Z direction and stresses along the XY direction against the same ultimate stress value $\sigmafail$,
+we multiply the Z shear stress by the ratio $\nicefrac{\sigmafail}{\sigmafailz}$.
+The shear stress along Z is therefore given by:
 \begin{align*}
-	\sigma_{12}^m = \frac{ F }{ 2 v^m w^m}
+	\sigma_{12}^m &= \frac{\sigmafail}{\sigmafailz} \frac{ d_z F }{ 2 v^m w^m} \\ 
+	d_z &= 
+	\begin{cases}
+		\nicefrac{w^m}{w} = 1 - d_y &\text{if partial force is applied} \\
+		1 &\text{otherwise}
+	\end{cases}
 \end{align*}
+
 
 
 \subsection{Constraint values}
@@ -129,52 +150,48 @@ This means the problem definition is not well-defined.
 In order to solve this we use the height objective function $(\hf + \hc)$ to set \cref{eq:c4} active and we will show that \cref{eq:c3} is not violated.
 
 
-\paragraph{Constraint redundancy}
+\subsection{Constraint redundancy}
 If $\nicefrac{w^b}{v^a} > \nicefrac{ \sigmafail^a }{ \taufail^a } = \sqrt{3}$ 
 then the shear failure constraints \cref{eq:c_shear} for material $a$ is dominated by the bending failure constraint \cref{eq:c_bending},
 since then 
 $
-\frac{ F w^b }{ 2 \left( v^a \right)^2 \hc \sigmafail^a}
-> \frac{ F }{ 2 v^a \hc \taufail^a} 
+\frac{ d_y F w^b }{ 2 \left( v^a \right)^2 \hc \sigmafail^a}
+> \frac{ d_y F }{ 2 v^a \hc \taufail^a} 
 $.
 Otherwise the latter is dominated by the former.
 The same holds conversely with the materials $a$ and $b$ swapped.
 Therefore two of \cref{eq:c_shear,eq:c_bending,eq:c_bending} will be redundant.
 We could combine those four constraints into two single ones:
 \begin{align}
-	%\frac{ F }{ 2 v^m \hc} &\le \taufail^m \\
-	%\frac{ F }{ 2 v^m \hc} &\le \nicefrac1{\sqrt{3}} \sigmafail^m \\
-	%\frac{ F }{ 2 \cdot \sqrt{3} v^m \hc} &\le \sigmafail^m \\
-	%???\frac{ F w^b }{ 2 \left( v^a \right)^2 \hc } &\le \sigmafail^a \\
+	%\frac{ d_y F }{ 2 v^m \hc} &\le \taufail^m \\
+	%\frac{ d_y F }{ 2 v^m \hc} &\le \nicefrac1{\sqrt{3}} \sigmafail^m \\
+	%\frac{ d_y F }{ 2 \cdot \sqrt{3} v^m \hc} &\le \sigmafail^m \\
+	%???\frac{ d_y F w^b }{ 2 \left( v^a \right)^2 \hc } &\le \sigmafail^a \\
 	%\\
-	\frac{ F }{ 2 v^a \hc }  \max{\left( \sqrt{3}, \frac{w^b}{ v^a} \right)} &\le \sigmafail^a  \nonumber \\
-	\frac{ F }{ 2 v^b \hc }  \max{\left( \sqrt{3}, \frac{w^a}{ v^b} \right)} &\le \sigmafail^b  \label{eq:shear_bend_combined}
+	\frac{ d_y F }{ 2 v^a \hc }  \max{\left( \sqrt{3}, \frac{w^b}{ v^a} \right)} &\le \sigmafail^a  \nonumber \\
+	\frac{ d_y F }{ 2 v^b \hc }  \max{\left( \sqrt{3}, \frac{w^a}{ v^b} \right)} &\le \sigmafail^b  \label{eq:shear_bend_combined}
 \end{align}
 
 
-\paragraph{Von Mises criterion}
+\subsection{Von Mises criterion}
 However, when these criteria are near-active then there could be an interaction between the two.
 The shear and bending interact and thereby lower the force at which failure happens.
-In order to estimate the combined failure criterion we consider the von Mises yield criterion.
-When only considering one tensile stress and one shear stress, the criterion reduces to:
+In order to estimate the combined failure criterion we consider the von Mises yield criterion:
 
 \begin{align*}
-	% \sqrt{\frac12 \left(  \left(\sigma_{11} - \sigma_{22}\right)^2  +  \left(\sigma_{22} - \sigma_{33}\right)^2  +  \left(\sigma_{33} - \sigma_{11}\right)^2   +   6\left(\sigma_{23}^2 + \sigma_{13}^2 + \sigma_{12}^2\right)\right)}&< \sigmafail \\
-	%\sqrt{\frac12 \left(  \left(\sigma_{11} \right)^2  +  \left( - \sigma_{11}\right)^2   +   6\left(\sigma_{23}^2 \right)\right)}&< \sigmafail \\
-	%\sqrt{\frac12 \left(  2 \left(\sigma_{11} \right)^2  +   6\left(\sigma_{23} \right)^2  \right)}&< \sigmafail \\
-	%\sqrt{\frac12 \left(  2 \sigma ^2  +   6 \tau^2  \right)}&< \sigmafail \\
-	\sqrt{ \sigma ^2  +   3 \tau^2 }&< \sigmafail
+	\left(\sigma_{11} - \sigma_{22}\right)^2  +  \left(\sigma_{22} - \sigma_{33}\right)^2  +  \left(\sigma_{33} - \sigma_{11}\right)^2  \\
+	+   6\left(\sigma_{23}^2 + \sigma_{13}^2 + \sigma_{12}^2\right) &< 2 \sigmafail^2 \\
 \end{align*}
 
-Applied to our shear and bending, we get:
+Using the von Mises criterion to combine the shear stress $\sigma_{13}$ and the bending stress $\sigma_{22}$, we get:
 
 \begin{align}
-	% \sqrt{ \left(  \frac{ F w^b }{ 2 \left( v^a \right)^2 \hc }  \right)^2   +   3 \left(  \frac{ F }{ 2 v^a \hc}  \right)^2 } &< \sigmafail^a \\
-	% \sqrt{ \left(  \frac{ F }{ 2 v^a \hc} \frac{w^b}{v^a}  \right)^2   +   3 \left(  \frac{ F }{ 2 v^a \hc}  \right)^2 } &< \sigmafail^a \\
-	% \sqrt{ \left(  \frac{ F }{ 2 v^a \hc}\right)^2  \left( \frac{w^b}{v^a}  \right)^2   +   3 \left(  \frac{ F }{ 2 v^a \hc}  \right)^2 } &< \sigmafail^a \\
-	% \sqrt{ \left(  \frac{ F }{ 2 v^a \hc}\right)^2  \left( \left( \frac{w^b}{v^a}  \right)^2   +   3  \right) } &< \sigmafail^a \\
-	\frac{ F }{ 2 v^a \hc} \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 } &< \sigmafail^a \nonumber \\
-	\frac{ F }{ 2 v^b \hc} \sqrt{   \left( \frac{w^a}{v^b}  \right)^2 + 3 } &< \sigmafail^b \label{eq:shear_bend_von_mises}
+	% \sqrt{ \left(  \frac{ d_y F w^b }{ 2 \left( v^a \right)^2 \hc }  \right)^2   +   3 \left(  \frac{ d_y F }{ 2 v^a \hc}  \right)^2 } &< \sigmafail^a \\
+	% \sqrt{ \left(  \frac{ d_y F }{ 2 v^a \hc} \frac{w^b}{v^a}  \right)^2   +   3 \left(  \frac{ d_y F }{ 2 v^a \hc}  \right)^2 } &< \sigmafail^a \\
+	% \sqrt{ \left(  \frac{ d_y F }{ 2 v^a \hc}\right)^2  \left( \frac{w^b}{v^a}  \right)^2   +   3 \left(  \frac{ d_y F }{ 2 v^a \hc}  \right)^2 } &< \sigmafail^a \\
+	% \sqrt{ \left(  \frac{ d_y F }{ 2 v^a \hc}\right)^2  \left( \left( \frac{w^b}{v^a}  \right)^2   +   3  \right) } &< \sigmafail^a \\
+	\sigma_{13,22}^a = \frac{ d_y F }{ 2 v^a \hc} \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 } &< \sigmafail^a \nonumber \\
+	\sigma_{13,22}^b = \frac{ d_y F }{ 2 v^b \hc} \sqrt{   \left( \frac{w^a}{v^b}  \right)^2 + 3 } &< \sigmafail^b \label{eq:shear_bend_von_mises}
 \end{align}
 
 Note that the von Mises yield criterion \cref{eq:shear_bend_von_mises} is de facto equivalent to the application of the P-norm smooth approximation of the maximum function as used in the combined constraint \cref{eq:shear_bend_combined}, for $P=2$.
@@ -182,53 +199,24 @@ What a neat coincidence!
 Where $\nicefrac{w^b}{v^a} \to 0$ and $\nicefrac{w^b}{v^a} \to \infty$ the failure is dominated by shear and bending respectively. 
 This shows that in the limits the von Mises yield criterion and the combined criterion coincide.
 
-
-Now let's consider the intersection where failure modes $M_x$, $M_y$ and $M_z$ meet.
-At that particular corner all three failure modes act at once, so let's set up the von Mises yield criterion for that.
-
-\begin{align*}
-	\sigma_{12} &= \frac{ F }{ 2 v^m w} \\
-	\sigma_{13} &= \frac{ F w^{\neg m} }{ 2 v^m \hc w }  =  \sigma_{12} \frac{w^{\neg m}}{\hc} \\
-	\sigma_{11} &= \frac{ F }{ w^m \hf } \\
-	\sigma_{22} &= \frac{ F \left(w^{\neg m}\right)^2 }{ 2 \left( v^m \right)^2 \hc w }   =   \sigma_{12} \frac{\left(w^{\neg m}\right)^2}{v^m \hc} = \sigma_{13} \frac{w^{\neg m}}{v^m}
-\end{align*}
-
-\begin{align*}
-	%	\sqrt{\frac12 \left(  \left(\sigma_{11} - \sigma_{22}\right)^2  +  \left(\sigma_{22} - \sigma_{33}\right)^2  +  \left(\sigma_{33} - \sigma_{11}\right)^2   +   6\left(\sigma_{23}^2 + \sigma_{13}^2 + \sigma_{12}^2\right)\right)}&< \sigmafail \\
-	%	\sqrt{\frac12 \left(  \left(\sigma_{11} - \sigma_{22}\right)^2  +  \sigma_{22}^2  +  \sigma_{11}^2   +   6\left(\sigma_{13}^2 + \sigma_{12}^2\right)\right)}&< \sigmafail \\
-	%	\sqrt{\frac12 \left(  \sigma_{11}^2 + \sigma_{22}^2 - 2\sigma_{11}\sigma_{22} +  \sigma_{22}^2  +  \sigma_{11}^2   +   6\left(\sigma_{13}^2 + \sigma_{12}^2\right)\right)}&< \sigmafail \\
-	\sqrt{  \sigma_{11}^2  +  \sigma_{22}^2  - \sigma_{11}\sigma_{22} +   3\left(\sigma_{13}^2 + \sigma_{12}^2\right)}&< \sigmafail \\
-	%\sqrt{  \sigma_{11}^2  +  \sigma_{22}^2  - \sigma_{11}\sigma_{22} +   3\left( \left( \sigma_{12} \frac{w^{\neg m}}{\hc} \right)^2 + \sigma_{12}^2\right)}&< \sigmafail \\
-	%\sqrt{  \sigma_{11}^2  +  \sigma_{22}^2  - \sigma_{11}\sigma_{22} +   3\sigma_{12}^2 \left( \left( \frac{w^{\neg m}}{\hc} \right)^2 + 1\right)}&< \sigmafail \\
-	%\sigma_{11}^2  +  \sigma_{22}^2  - \sigma_{11}\sigma_{22} +   3\sigma_{12}^2 \left( \left( \frac{w^{\neg m}}{\hc} \right)^2 + 1\right) &< \sigmafail^2 \\
-	%\sigma_{11}^2  +  \left(\sigma_{12} \frac{\left(w^{\neg m}\right)^2}{v^m \hc}\right)^2  - \sigma_{11}\sigma_{22} +   3\sigma_{12}^2 \left( \left( \frac{w^{\neg m}}{\hc} \right)^2 + 1\right) &< \sigmafail^2 \\
-	%\sigma_{11}^2  +  \sigma_{12}^2 \left(\frac{\left(w^{\neg m}\right)^2}{v^m \hc}\right)^2  - \sigma_{11}\sigma_{22} +   3\sigma_{12}^2 \left( \left( \frac{w^{\neg m}}{\hc} \right)^2 + 1\right) &< \sigmafail^2 \\
-	%\sigma_{11}^2  +  \sigma_{12}^2 \left(\frac{\left(w^{\neg m}\right)^2}{v^m \hc}\right)^2  - \sigma_{11}\sigma_{22} +   \sigma_{12}^2 \left( 3\left( \frac{w^{\neg m}}{\hc} \right)^2 + 3\right) &< \sigmafail^2 \\
-	%\sigma_{11}^2  - \sigma_{11}\sigma_{22} +   \sigma_{12}^2 \left(  \left(\frac{\left(w^{\neg m}\right)^2}{v^m \hc}\right)^2  +   3\left( \frac{w^{\neg m}}{\hc} \right)^2 + 3\right) &< \sigmafail^2 \\
-	%\sigma_{11}^2  - \sigma_{11}\sigma_{22} +   \sigma_{12}^2 \left(  \left(\frac{w^{\neg m}}{v^m}\right)^2  \left(\frac{w^{\neg m}}{\hc}\right)^2  +   3\left( \frac{w^{\neg m}}{\hc} \right)^2 + 3\right) &< \sigmafail^2 \\
-	\sigma_{11}^2  - \sigma_{11}\sigma_{22} +   \sigma_{12}^2 \left(  \left(\frac{w^{\neg m}}{\hc}\right)^2  \left(  \left(\frac{w^{\neg m}}{v^m}\right)^2  +  3 \right) + 3\right) &< \sigmafail^2 \\
-	\sigma_{11}^2  - \sigma_{11}\sigma_{22} +   \sigma_{12}^2 U &< \sigmafail^2 \\
-	\left(\frac{ F }{ w^m \hf }\right)^2  - \frac{ F }{ w^m \hf } \frac{ F \left(w^{\neg m}\right)^2 }{ 2 \left( v^m \right)^2 \hc w }   +   \left(\frac{ F }{ 2 v^m w}\right)^2 U &< \sigmafail^2 \\
-	\left(\frac{ 1 }{ w^m \hf }\right)^2  - \frac{ 1 }{ w^m \hf } \frac{ \left(w^{\neg m}\right)^2 }{ 2 \left( v^m \right)^2 \hc w }   +   \left(\frac{ 1 }{ 2 v^m w}\right)^2 U &< \frac{\sigmafail^2}{F^2} \\
-	\left(\frac{ 1 }{ w^m \hf }\right)^2  - \frac{ \left(w^{\neg m}\right)^2 }{ 2 \left( v^m \right)^2 \hc w w^m \hf}   +   \left(\frac{ 1 }{ 2 v^m w}\right)^2 U &< \frac{\sigmafail^2}{F^2} \\
-\end{align*}
+We can similarly postulate combined von Mises constraints for tensile failure $M_x$ and Z shear failure $M_z$: $\sigma_{11,12}$.
+And also for Z shear failure $M_z$ and cross beam failure $M_y$, including bending: $\sigma_{12,13,22}$; or without: $\sigma_{12,13}$.
+One might even consider a combined con Mises constraint for all stresses together: $\sigma_{11,12,13,22}$.
 
 
-
-
-\paragraph{Constraint validity}
+\subsection{Constraint validity}
 A careful analysis of the geometry will show that once shearing failure mode $M_x^a$ has occurred, 
 there is still interlocking between the two materials;
-once part of the cross beams has sheared off, still a column of material $a$ remains, which is surrounded by material $b$.
+once part of the cross beams of $b$ has sheared off, still a column of material $a$ remains, which is surrounded by material $b$.
 Once one of those failure modes has occurred still any other failure mode has to occur for the interlock to fail, except $M_x^b$.
 The only constraint added by the shearing failure modes should therefore be that both those failure modes occur together.
 The constraint is violated only when both occur, so it is satisfied when either failure mode is prevented.
 The logical disjunction can be rewritten into a minimum when both constraints are transformed into negative null form:
 \begin{align*}
-	% \min \left(  \frac{ F }{ 2 v^a \hc \sigmafail^a} \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 }  ,  \frac{ F }{ 2 v^b \hc \sigmafail^b} \sqrt{   \left( \frac{w^a}{v^b}  \right)^2 + 3 }  \right) - 1 &< 0 \\
-	% \frac{ F }{ 2 \hc}  \min \left(  \frac{ 1 }{ v^a \sigmafail^a} \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 }  ,  \frac{ 1 }{ v^b \sigmafail^b} \sqrt{   \left( \frac{w^a}{v^b}  \right)^2 + 3 }  \right) - 1 &< 0 \\
-	\frac{ F }{ 2 \hc}  \min \left(  \frac{ \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 } }{ v^a \sigmafail^a}   ,  \frac{  \sqrt{   \left( \frac{w^a}{v^b}  \right)^2 + 3 } }{ v^b \sigmafail^b}  \right) - 1 &< 0 \\
-	% \frac{ F }{ 2 \hc}  \min \left(  \frac{ \sqrt{   \left(w^b\right)^2 + 3 \left(v^a\right)^2 } }{ \left(v^a\right)^2 \sigmafail^a}   ,  \frac{  \sqrt{   \left(w^a\right)^2 + 3 \left(v^b\right)^2 } }{ \left(v^b\right)^2 \sigmafail^b}  \right) - 1 &< 0 \\
+	% \min \left(  \frac{ d_y F }{ 2 v^a \hc \sigmafail^a} \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 }  ,  \frac{ F }{ 2 v^b \hc \sigmafail^b} \sqrt{   \left( \frac{w^a}{v^b}  \right)^2 + 3 }  \right) - 1 &< 0 \\
+	% \frac{ d_y F }{ 2 \hc}  \min \left(  \frac{ 1 }{ v^a \sigmafail^a} \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 }  ,  \frac{ 1 }{ v^b \sigmafail^b} \sqrt{   \left( \frac{w^a}{v^b}  \right)^2 + 3 }  \right) - 1 &< 0 \\
+	\frac{ d_y F }{ 2 \hc}  \min \left(  \frac{ \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 } }{ v^a \sigmafail^a}   ,  \frac{  \sqrt{   \left( \frac{w^a}{v^b}  \right)^2 + 3 } }{ v^b \sigmafail^b}  \right) - 1 &< 0 \\
+	% \frac{ d_y F }{ 2 \hc}  \min \left(  \frac{ \sqrt{   \left(w^b\right)^2 + 3 \left(v^a\right)^2 } }{ \left(v^a\right)^2 \sigmafail^a}   ,  \frac{  \sqrt{   \left(w^a\right)^2 + 3 \left(v^b\right)^2 } }{ \left(v^b\right)^2 \sigmafail^b}  \right) - 1 &< 0 \\
 \end{align*}
 
 Depending on the optimization algorithm used, the min operator might need to be replaced by smooth versions.
@@ -238,10 +226,53 @@ The approximation error of the max function means that the approximated constrai
 while the smooth approximation of the min function is more lenient.
 This means that using a smooth approximation of this constraint could result in infeasible designs according to the analytical constraint.
 
+Because the elongation at failure for PP is much higher than for TPLA, we expect that in case both cross-beams break the PLA one will break before the PP one.
+We can therefore consider the situation where the cross beam shear constraint of material $a$ is violated and optimize the structure while adhering to the cross beam shear constraint of material $b$.
+See \cref{fig:straight_model_broken}.
+Note that in the broken configuration only a part of the cross-beam the total force cannot be uniformly distributed over the whole length $w$.
+It therefore makes sense to set $d_y=1$ in this situation.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\columnwidth]{sources/method/straight_model_v3_broken.pdf}
+	\caption{The straight model when part of the cross beam has sheared off at $M_y^a$.}
+	\label{fig:straight_model_broken}
+\end{figure}
+
+Including that in a single constraint is not an easy task, however.
+One might combine all constraints containing the term $d_y$ into a single constraint.
+Better yet - one might combine all constraints into a single one using the following scheme:
+\begin{align*}
+	\begin{array}{l}
+		h_1(\mathbf{x}) < 0 \\
+		\vdots \\
+		h_N(\mathbf{x}) < 0 \\
+	\end{array}
+	\to
+	\max \left(h_1(\mathbf{x}), \dots, h_N(\mathbf{x}) \right) < 0
+\end{align*}
+Using a smooth version of the $\max$ function like described above can overcome undifferentiability issues.
+However, combining all constraints into a single one hinders analysis and understanding of a particular datum in the design space.
+
 
 \todo{TODO: rescale objective function so that they are approximately in the range 0-1.}
 
-\todo{TODO: should we invert the mechanical constriants, so that the F is below the division line?}
+\todo{TODO: should we invert the mechanical constraints, so that the F is below the division line?}
+
+
+
+\subsection{Model evaluation}
+There are 4 different von Mises constraints and two ratios $d_y$ and $d_z$, so in total there are $2^6$ potential analytical models to consider.
+
+
+
+Reformulate constraints to get the min gF over all constraints
+
+Report statistics over different modeling choices
+
+Show comparison of surfaces.
+
+
 
 \subsection{Problem reformulation}
 Taking the above into account we reformulate the problem.
@@ -262,6 +293,8 @@ That way the formulae of those constraints are more alike and simpler to differe
 \newcommand{\gc}{g_\text{c}}
 \newcommand{\gza}{g_\text{za}}
 \newcommand{\gzb}{g_\text{zb}}
+
+\todo{TODO: adjust below text to match the formula changes above!}
 
 \begin{align*}
 	f: & \min{ \frac{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right) }{F} }\\
