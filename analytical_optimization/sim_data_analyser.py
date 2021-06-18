@@ -139,9 +139,6 @@ vb = lmax - va
 l = va + vb
 w = wa + wb
 
-if compare_to_FEM:
-    F_FEM = FEM_stress * (wa + wb) * (hf + hc)
-
 def sq(x):
     return x * x
 
@@ -213,6 +210,14 @@ elif apply_cross_b:
     if bending > 0:
         gFs['cross shear and cross bending b'] = sb / np.sqrt(combined_von_mises_cross_b)
 
+gMs = {}
+gMs['wa'] = 1 - wa / 2 / wa_min
+gMs['wb'] = 1 - wb / 2 / wb_min
+gMs['va'] = 1 - va / wa_min
+gMs['vb'] = 1 - vb / wb_min
+gMs['hf'] = 1 - hf / h_min
+gMs['hc'] = 1 - hc / h_min
+
 
 print("Used constraints: ", end="")
 for name, gF in gFs.items():
@@ -221,7 +226,13 @@ print("\n")
 
 minF = np.minimum.reduce(list(gFs.values()))
 stress = minF / ((wa + wb) * (hf + hc))
+
+stress = stress * (np.maximum.reduce(list(gMs.values())) <= 0.0001)
+FEM_stress = FEM_stress * (np.maximum.reduce(list(gMs.values())) <= 0.0001)
+
 F = stress * (wa + wb) * (hf + hc)
+if compare_to_FEM:
+    F_FEM = FEM_stress * (wa + wb) * (hf + hc)
 
 # F * sqrt(term) < s
 # 1 - s / (F * sqrt(term)) < 0
@@ -231,12 +242,6 @@ cross_gs = [
 cross_gs_names = ['shear/bend a', 'shear/bend b']
 
 gs = {}
-# gs['wa'] = 1 - wa / 2 / wa_min
-# gs['wb'] = 1 - wb / 2 / wb_min
-# gs['va'] = 1 - va / wa_min
-# gs['vb'] = 1 - vb / wb_min
-# gs['hf'] = 1 - hf / h_min
-# gs['hc'] = 1 - hc / h_min
 gs['design'] = (va + vb) / l_max - 1
 gs['tensile a'] = 1 - wa * hf * sa / F
 gs['tensile b'] = 1 - wb * hf * sb / F
@@ -264,6 +269,7 @@ elif apply_cross_a:
     gs['cross a'] = cross_gs[0]
 elif apply_cross_b:
     gs['cross b'] = cross_gs[1]
+
 
 for l in range(Nlmax):
     print(f"\n\n\n===  L_max: {lmax[0, l, 0, 0]}\n\n")
