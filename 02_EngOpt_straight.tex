@@ -283,6 +283,34 @@ The variables set by the presumed to be active constraints are substituted.
 We divide by the constraint values and invert the division of the mechanical constraints.
 That way the formulae of those constraints are more alike and simpler to differentiate.
 
+% shear + Z shear constraint derivation
+\iffalse
+\begin{align*}
+	%2 ( \sigma_{12,13} )^2 &= \\
+	%6\left(\sigma_{13}^2 + \sigma_{12}^2\right) &< 2 \sigmafail^2 \\
+	3\left(\sigma_{13}^2 + \sigma_{12}^2\right) &< \sigmafail^2 \\
+	%\sigma_{12,13} =
+	%\sqrt{ 3\left(\sigma_{13}^2 + \sigma_{12}^2\right) }  &< \sigmafail \\
+	%\frac{\sigmafail}{\sqrt{ 3\left(\sigma_{13}^2 + \sigma_{12}^2\right) }} &> 1 \\
+	%1 - \frac{\sigmafail}{\sqrt{ 3\left(\sigma_{13}^2 + \sigma_{12}^2\right) }} &< 0 \\
+	%1 - \frac{\sigmafail}{\sqrt{ 3\left( \left( \frac{d_y^m F}{2 v^m \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz} \frac{ d_z^m F }{ 2 v^m w^m}  \right)^2\right) }} &< 0 \\
+	%3\left( \left( \frac{d_y^m F}{2 v^m \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz} \frac{ d_z^m F }{ 2 v^m w^m}  \right)^2\right) &< \sigmafail^2\\
+	%3\left( \left( \frac{d_y^m F}{2 v^m \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz} \frac{ F }{ 2 v^m w^m}  \right)^2\right) &< \sigmafail^2\\
+	%3\left(\frac{F}{2v^m}\right)^2 \left( \left( \frac{d_y^m }{\hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz} \frac{ 1 }{ w^m}  \right)^2\right) &< \sigmafail^2\\
+	%\sqrt{3} \frac{F}{2v^m} \sqrt{ \left( \frac{d_y^m }{\hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz w^m} \right)^2 } &< \sigmafail\\
+	%\sqrt{3} \frac{F}{2v^m} \sqrt{ \left( \frac{1 }{\hc} \frac{w^{\neg m}}{w} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz w^m} \right)^2 } &< \sigmafail\\
+	%\sqrt{3} \frac{F}{2v^m} \sqrt{ \left( \frac{w^{\neg m}}{w \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz w^m} \right)^2 } &< \sigmafail\\
+	%\frac{2v^m}{F} \frac{1}{ \sqrt{3} \sqrt{ \left( \frac{w^{\neg m}}{w \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz w^m} \right)^2 } } &> \frac{1}{\sigmafail}\\
+	%\frac{2v^m}{F} \frac{\sigmafail}{ \sqrt{3} \sqrt{ \left( \frac{w^{\neg m}}{w \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz w^m} \right)^2 } } &> 1 \\
+	%1 - \frac{2v^m}{F} \frac{\sigmafail}{ \sqrt{3} \sqrt{ \left( \frac{w^{\neg m}}{w \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz w^m} \right)^2 } } &< 0 \\
+	%1 - \frac{2v^m}{F} \frac{\sigmafail}{ \sqrt{ 3\left( \frac{w^{\neg m}}{w \hc} \right)^2 + 3\left(  \frac{\sigmafail}{\sigmafailz w^m} \right)^2 } } &< 0 \\
+	1 - \frac{2v^m \sigmafail}{ F \sqrt{ 3\left( \frac{w^{\neg m}}{w \hc} \right)^2 + 3\left(  \frac{\sigmafail}{\sigmafailz w^m} \right)^2 } } &< 0 \\
+	1 - \frac{2v^a \sigmafail}{ F \sqrt{ 3\left( \frac{w^b}{w \hc} \right)^2 + 3\left(  \frac{\sigmafail}{\sigmafailz w^a} \right)^2 } } &< 0 \\
+	1 - \frac{2v^a \sigmafail}{ F \sqrt{ 3\left( \frac{w^b}{w \hc} \right)^2 + 3\left(  \frac{\sigmafail}{\sigmafailz 2\wmin^a} \right)^2 } } &< 0 \\
+\end{align*}
+\fi
+
+
 \newcommand{\gwb}{g_\text{wb}}
 \newcommand{\gva}{g_\text{va}}
 \newcommand{\gvb}{g_\text{vb}}
@@ -291,6 +319,7 @@ That way the formulae of those constraints are more alike and simpler to differe
 \newcommand{\gta}{g_\text{ta}}
 \newcommand{\gtb}{g_\text{tb}}
 \newcommand{\gc}{g_\text{c}}
+\newcommand{\gca}{g_\text{ca}}
 \newcommand{\gza}{g_\text{za}}
 \newcommand{\gzb}{g_\text{zb}}
 
@@ -305,8 +334,7 @@ That way the formulae of those constraints are more alike and simpler to differe
 	\gd: & \frac{v^a + v^b}{ \lmax }  - 1 \le 0 \\
 	\gta: & 1 - \frac{ 2 \wmin^a \hf \sigmafail^a }{ F } \le 0 \\
 	\gtb: & 1 - \frac{ w^b \hf \sigmafail^b }{ F } \le 0 \\
-	\gc: & 1 - \frac{ 2 \hmin}{ F }  \max \left(  \frac{ v^a \sigmafail^a}{ \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 } }   ,  \frac{ v^b \sigmafail^b}{  \sqrt{   \left( \frac{2\wmin^a}{v^b}  \right)^2 + 3 } }  \right) &< 0 \\
-	\gza: & 1 - \frac{ 2 v^a 2 \wmin^a \tauz^a }{ F } \le 0 \\
+	\gca: & 1 - \frac{2v^a \sigmafail}{ F \sqrt{ 3\left( \frac{w^b}{w \hc} \right)^2 + 3\left(  \frac{\sigmafail}{\sigmafailz 2\wmin^a} \right)^2 } } \le 0 \\
 	\gzb: & 1 - \frac{ 2 v^b w^b \tauz^b }{ F } \le 0
 \end{align*}
 
