@@ -227,8 +227,9 @@ print("\n")
 minF = np.minimum.reduce(list(gFs.values()))
 stress = minF / ((wa + wb) * (hf + hc))
 
-stress = stress * (np.maximum.reduce(list(gMs.values())) <= 0.0001)
-FEM_stress = FEM_stress * (np.maximum.reduce(list(gMs.values())) <= 0.0001)
+valid_manufacturing_constraints_multiplier = ((np.maximum.reduce(list(gMs.values())) <= 0.0001) + .00001) / 1 + .00001
+stress = stress * valid_manufacturing_constraints_multiplier
+FEM_stress = FEM_stress * valid_manufacturing_constraints_multiplier
 
 F = stress * (wa + wb) * (hf + hc)
 if compare_to_FEM:
