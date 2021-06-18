@@ -33,6 +33,9 @@ hf_sampling_multiplier = 10
 show_results = True
 plot_legend = False
 
+zoom_on_optimum = False
+zoom = .05  # mm
+optimum = (2.67, 2.21 / 3.0, .90)
 
 strain_a = 3.5 / 100
 strain_b = 29 / 100
@@ -110,9 +113,14 @@ if compare_to_FEM:
             FEM_stress[hf_, lmax_, :, :] = data_file[1 + (Nwb + 1) * hf_:1 + (Nwb + 1) * hf_ + Nwb,
                                            2 + (Nva + 1) * lmax_:2 + (Nva + 1) * lmax_ + Nva]
 else:
-    wbs = np.linspace(2 * wb_min, w_max - 2 * wa_min, Nwb)
-    rys = np.linspace(0.1, .9, Nva)
-    hfs = np.linspace(h_min, h_max - h_min, Nhf)
+    if zoom_on_optimum:
+        wbs = np.linspace(max(2 * wb_min, optimum[0] - zoom), optimum[0] + zoom, Nwb)
+        rys = np.linspace(optimum[1] - zoom, optimum[1] + zoom, Nva)
+        hfs = np.linspace(max(h_min, optimum[2] - zoom), optimum[2] + zoom, Nhf)
+    else:
+        wbs = np.linspace(2 * wb_min, w_max - 2 * wa_min, Nwb)
+        rys = np.linspace(0.1, .9, Nva)
+        hfs = np.linspace(h_min, h_max - h_min, Nhf)
     lmaxs = np.linspace(3.6, 1.8, Nlmax)
     if silicone:
         lmaxs = np.linspace(0.8, 0.4, Nlmax)
