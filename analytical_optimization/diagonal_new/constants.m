@@ -5,19 +5,26 @@
 % - Dimensions: [mm]
 % - Stress: [N/mm^2] 
 
-E_a = 2799;
+E_a = 2797;
 E_b = 302;
 
-sigma_a = 47;
-sigma_b = 10.5;
+sa = 47;
+sb = 10.5;
+saz = 33;
+sbz = 10.6;
 
-tau_a = sigma_a / sqrt(3);
-tau_b = sigma_b / sqrt(3);
+ta = sa / sqrt(3);
+tb = sb / sqrt(3);
+taz = saz / sqrt(3);
+tbz = sbz / sqrt(3);
 
 h = 0.5; % 0.5 mm finger height = average of previous opt.
 
-w_a_min = 0.3;
-w_b_min = 0.3;
+h_min = 0.2;
+h_max = 12 * h_min;
+
+wa_min = 0.3;
+wb_min = 0.3;
 w_max = 12 * 0.3;
-L_min = 6 * 0.3;
 L_max = 12 * 0.3;
+L_min = 6 * 0.3;

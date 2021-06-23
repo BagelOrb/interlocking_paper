@@ -5,3 +5,4 @@ function c5b = g5b(F, w_a, w_b, L)
     tau = (3*F*(w_a + w_b))/(4*w_b*h*L);
     c5b = sqrt(((sigma_t + sigma_m)^2 )/2 + 3*tau^2)/sigma_b - 1;
 end
+
