@@ -13,7 +13,7 @@
 // wb=2.67; va=1.78; lmax=2.40; hf=0.73; wa=0.60; vb=0.62; hc=0.20;
 // wb=2.30; va=1.27; lmax=1.80; hf=0.62; wa=0.60; vb=0.53; hc=0.20;
 // printable:
- wb=2.62; va=2.69; lmax=3.60; hf=1.30; wa=0.60; vb=0.91; hc=0.20;description = "ana 3.6"; 
+// wb=2.62; va=2.69; lmax=3.60; hf=1.30; wa=0.60; vb=0.91; hc=0.20;description = "ana 3.6"; 
 // wb=2.57; va=2.23; lmax=3.00; hf=1.10; wa=0.60; vb=0.77; hc=0.20;description = "ana 3.0"; 
 // wb=2.51; va=1.78; lmax=2.40; hf=0.90; wa=0.60; vb=0.62; hc=0.20; description = "ana 2.4"; 
 // wb=2.41; va=1.32; lmax=1.80; hf=0.70; wa=0.60; vb=0.48; hc=0.20; description = "ana 1.8"; 
@@ -26,36 +26,34 @@
 // printable:
  wb=1.49; va=0.35; lmax=3.60; hf=0.50; wa=0.60; vb=3.25; hc=0.20; description = "ana broken 3.6";
 
-w = wa+wb;
-h = hf+hc;
-l = va+vb;
+a = true; b = false; mat_a = a;
+
+brim = 10;
 
 tot_l = 50;
 rep_z = 5;
 rep_y = 5;
 
-echo("interface size: ", w * rep_y, h * rep_z);
-a = true; b = false;
-              mat_a = a;
-
 specimen_numbers = true;
 
-brim = 10;
+
+wmin = .3;
+hmin = .2;
 
 repeats = 5;
 inter_dist = brim;
 
-module finger()
+module finger(wa,wb,va,vb,hc,hf,w,h,l)
 {
     cube([l, wa, hf]);
 }
 
-module cell()
+module cell(wa,wb,va,vb,hc,hf,w,h,l)
 {
-    finger();
+    finger(wa,wb,va,vb,hc,hf,w,h,l);
     translate([vb,0,hf]) cube([va, w, hc]);
 }
-module pattern ()
+module pattern (wa,wb,va,vb,hc,hf,w,h,l)
 {
     intersection()
     {
@@ -64,21 +62,27 @@ module pattern ()
         {
             for (z = [-1:rep_z - 1])
                 for (y = [0:rep_y])
-                    translate([0,w*y,h*z+hc]) cell();
+                    translate([0,w*y,h*z+hc]) cell(wa,wb,va,vb,hc,hf,w,h,l);
         }
     }
 }
 
-module sample(n=1)
+module sample(n=1, wb,va,lmax,hf)
 {
+    sample_(n, 2 * wmin,wb,va,lmax - va,hmin,hf,wa+wb,hc+hf,va+vb);
+}
+module sample_(n=1, wa,wb,va,vb,hc,hf,w,h,l)
+{
+    echo("interface size: ", w * rep_y, h * rep_z);
+
     if (mat_a)
     {
-        difference()
+        difference() // brim
         {
             translate([-tot_l-brim,-brim,0]) cube([tot_l+brim+l,rep_y*w+wa+brim*2, .2]);
             translate([0,0,-1])cube([tot_l,rep_y*w+wa, rep_z*h+hc]);
         }
-        pattern();
+        pattern(wa,wb,va,vb,hc,hf,w,h,l);
         difference()
         {
             translate([-tot_l,0,0]) cube([tot_l,rep_y*w+wa, rep_z*h+hc]);
@@ -92,15 +96,19 @@ module sample(n=1)
         {
             cube([tot_l+l,rep_y*w+wa, rep_z*h+hc]);
             translate([tot_l - rep_y*w / 2, rep_y*w / 2, rep_z*h+hc-.1]) linear_extrude(1.0) text(str(n),halign="center", valign="center",size = 7*10/(rep_y*w));
-            pattern();
+            pattern(wa,wb,va,vb,hc,hf,w,h,l);
         }
     }
 }
 
+w = wa+wb;
 for (y = [0:repeats-1])
 {
-    translate([0, y * (rep_y*w+wa + inter_dist) ,0]) sample(y + 1);
+    translate([0, y * (rep_y*w+wa + inter_dist) ,0]) sample(y + 1, wb,va,lmax,hf);
 }
+
+
+// label
 if (mat_a)
 {
     difference()
