@@ -24,11 +24,34 @@
 // wb=1.22; va=0.30; lmax=2.40; hf=0.39; wa=0.60; vb=2.10; hc=0.20;
 // wb=1.04; va=0.30; lmax=1.80; hf=0.33; wa=0.60; vb=1.50; hc=0.20;
 // printable:
- wb=1.49; va=0.35; lmax=3.60; hf=0.50; wa=0.60; vb=3.25; hc=0.20; description = "ana broken 3.6";
+// wb=1.49; va=0.35; lmax=3.60; hf=0.50; wa=0.60; vb=3.25; hc=0.20; description = "ana broken 3.6"; 
 
-a = true; b = false; mat_a = a;
+lmax = 3.6;
 
-brim = 10;
+sample_points =
+    [
+    [[2.4, 2.7, 3.6, 0.8], "a"],
+    [[2.1, 2.7, 3.6, 0.8], "b"],
+    [[2.7, 2.7, 3.6, 0.8], "c"],
+    [[2.4, 2.4, 3.6, 0.8], "d"],
+    [[2.4, 3.0, 3.6, 0.8], "e"],
+    [[2.4, 2.7, 3.6, 0.6], "f"],
+    [[2.4, 2.7, 3.6, 1.0], "g"],
+    [[2.4, 2.7, 3.6, 1.2], "h"],
+    [[2.4, 2.7, 3.6, 1.4], "i"],
+    [[2.1, 2.7, 3.6, 1.2], "j"],
+    [[2.7, 2.7, 3.6, 1.2], "k"],
+    [[2.4, 2.4, 3.6, 1.2], "l"],
+    [[2.4, 3.0, 3.6, 1.2], "m"],
+    ];
+
+
+a = true; b = false; mat_a = b;
+
+n=1;
+
+brim = 7;
+brim_ext = 8;
 
 tot_l = 50;
 rep_z = 5;
@@ -41,7 +64,6 @@ wmin = .3;
 hmin = .2;
 
 repeats = 5;
-inter_dist = brim;
 
 module finger(wa,wb,va,vb,hc,hf,w,h,l)
 {
@@ -67,63 +89,84 @@ module pattern (wa,wb,va,vb,hc,hf,w,h,l)
     }
 }
 
-module sample(n=1, wb,va,lmax,hf)
+
+module sample(tag, wb,va,lmax,hf, extend_brim_after)
 {
-    sample_(n, 2 * wmin,wb,va,lmax - va,hmin,hf,wa+wb,hc+hf,va+vb);
+    sample_(tag,
+        2 * wmin,wb,
+        va,lmax - va,
+        hmin,hf,
+        wmin+wb,hmin+hf,lmax,
+        extend_brim_after);
 }
-module sample_(n=1, wa,wb,va,vb,hc,hf,w,h,l)
+module sample_(tag, wa,wb,va,vb,hc,hf,w,h,l, extend_brim_after)
 {
-    echo("interface size: ", w * rep_y, h * rep_z);
+    * echo("interface size: ", w * rep_y, h * rep_z);
 
     if (mat_a)
     {
-        difference() // brim
-        {
-            translate([-tot_l-brim,-brim,0]) cube([tot_l+brim+l,rep_y*w+wa+brim*2, .2]);
-            translate([0,0,-1])cube([tot_l,rep_y*w+wa, rep_z*h+hc]);
+        { // brim
+            difference() 
+            {
+                translate([-tot_l-brim-brim_ext,-brim,0])
+                    cube([tot_l+brim+brim_ext+l,rep_y*w+wa+brim*2, .2]);
+                translate([0,0,-1])
+                    cube([tot_l,rep_y*w+wa, rep_z*h+hc]);
+            }
+            if (extend_brim_after)
+                translate([-tot_l-brim-brim_ext,rep_y*w,0])
+                cube([tot_l+brim+brim_ext+l,brim+brim_ext, .2]);
         }
         pattern(wa,wb,va,vb,hc,hf,w,h,l);
         difference()
         {
             translate([-tot_l,0,0]) cube([tot_l,rep_y*w+wa, rep_z*h+hc]);
-            translate([-tot_l + rep_y*w / 2, rep_y*w / 2, rep_z*h+hc-.1]) linear_extrude(1.0) text(str(n),halign="center", valign="center",size = 7*10/(rep_y*w));
+            translate([-tot_l + rep_y*w / 2, rep_y*w / 2, rep_z*h+hc-.1]) linear_extrude(1.0) text(tag,halign="center", valign="center",size = 7*10/(rep_y*w));
         }
     }
     else
     {
-        translate([l,-brim,0]) cube([tot_l+brim,rep_y*w+wa+brim*2, .2]);
+        { // brim
+            translate([l,-brim,0])
+            cube([tot_l+brim+brim_ext,rep_y*w+wa+brim*2, .2]);
+            if (extend_brim_after)
+                translate([l,rep_y*w,0])
+                cube([tot_l+brim+brim_ext,brim+brim_ext, .2]);
+        }
         difference()
         {
             cube([tot_l+l,rep_y*w+wa, rep_z*h+hc]);
-            translate([tot_l - rep_y*w / 2, rep_y*w / 2, rep_z*h+hc-.1]) linear_extrude(1.0) text(str(n),halign="center", valign="center",size = 7*10/(rep_y*w));
+            translate([tot_l - rep_y*w / 2, rep_y*w / 2, rep_z*h+hc-.1]) linear_extrude(1.0) text(tag,halign="center", valign="center",size = 7*10/(rep_y*w));
             pattern(wa,wb,va,vb,hc,hf,w,h,l);
         }
     }
 }
 
-w = wa+wb;
-for (y = [0:repeats-1])
+
+module samples(from, till)
 {
-    translate([0, y * (rep_y*w+wa + inter_dist) ,0]) sample(y + 1, wb,va,lmax,hf);
+    sample(str(sample_points[from][1], n)
+        , sample_points[from][0][0]
+        , sample_points[from][0][1]
+        , sample_points[from][0][2]
+        , sample_points[from][0][3], from == till);
+    if (till > from)
+    {
+        translate([0, brim + rep_y*(sample_points[from][0][0]+2*wmin),0])
+        samples(from + 1, till);
+    }
 }
 
+*samples(0, 1);
+samples(0, len(sample_points) - 1);
 
-// label
 if (mat_a)
 {
-    difference()
-    {
-        translate([-tot_l,-12-brim,0]) cube([tot_l,12,.3]);
-        translate([-4,-6-brim,-.1]) linear_extrude([.5])
-        rotate([0,0,180]) text(description, valign="center",size=5);
-    }
+    translate([-tot_l-brim-brim_ext,-brim-brim_ext,0])
+    cube([tot_l+brim+brim_ext+lmax,brim+brim_ext, .2]);
 }
 else
 {
-    difference()
-    {
-        translate([l+0,-12-brim,0]) cube([tot_l,12,.3]);
-        translate([l+4,-6-brim,-.1]) linear_extrude([.5])
-        text(description, valign="center",size=5);
-    }
+    translate([lmax,-brim-brim_ext,0])
+    cube([tot_l+brim+brim_ext,brim+brim_ext, .2]);
 }
