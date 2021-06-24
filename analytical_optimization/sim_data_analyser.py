@@ -10,11 +10,11 @@ from math import sqrt
 bending = 0.0
 cross_shear_force_ratio_shift = 1
 combine_tensile_and_z_shear = False
-
-compare_to_FEM = True
-broken_optimum = False
-full_stress_on_z = True
+full_stress_on_z = False
 combine_z_shear_and_cross_shear = True
+
+compare_to_FEM = False
+broken_optimum = True
 
 silicone = False
 
@@ -28,14 +28,15 @@ apply_cross_b = broken_optimum
 use_z_shear_a = True  # not broken_optimum
 use_z_shear_b = True
 
-hf_sampling_multiplier = 10
-
 show_results = True
 plot_legend = False
 
+hf_sampling_multiplier = 1
+
+lmax_val = 3.6
 zoom_on_optimum = False
 zoom = .05  # mm
-optimum = (2.67, 2.21 / 3.0, .90)
+optimum = (1.49, 0.35 / lmax_val, 0.5)
 
 strain_a = 3.5 / 100
 strain_b = 29 / 100
@@ -74,8 +75,8 @@ h_max = 8 * h_min
 
 
 Nhf = 13 * hf_sampling_multiplier # 13 is whole layer heights
-Nlmax = 4
-Nwb = Nva = 45
+Nlmax = 1
+Nwb = Nva = 400
 
 if compare_to_FEM:
     # reading file
@@ -116,12 +117,11 @@ else:
     if zoom_on_optimum:
         wbs = np.linspace(max(2 * wb_min, optimum[0] - zoom), optimum[0] + zoom, Nwb)
         rys = np.linspace(optimum[1] - zoom, optimum[1] + zoom, Nva)
-        hfs = np.linspace(max(h_min, optimum[2] - zoom), optimum[2] + zoom, Nhf)
     else:
         wbs = np.linspace(2 * wb_min, w_max - 2 * wa_min, Nwb)
-        rys = np.linspace(0.1, .9, Nva)
-        hfs = np.linspace(h_min, h_max - h_min, Nhf)
-    lmaxs = np.linspace(3.6, 1.8, Nlmax)
+        rys = np.linspace(0.01, .99, Nva)
+    hfs = np.linspace(h_min, h_max - h_min, Nhf)
+    lmaxs = np.linspace(lmax_val if Nlmax == 1 else 3.6, lmax_val if Nlmax == 1 else 1.8, Nlmax)
     if silicone:
         lmaxs = np.linspace(0.8, 0.4, Nlmax)
     hf, lmax, wb, ry = np.meshgrid(hfs, lmaxs, wbs, rys, indexing='ij')
