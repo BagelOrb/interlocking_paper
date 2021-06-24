@@ -333,76 +333,74 @@ for name, g in gs.items():
 
 #
 
-
-colormap = {'tensile a': "green",
-            'tensile b': "red",
-            'Z shear a': "lime",
-            'Z shear b': "tomato",
-            'tensile and z shear a': "lightgreen",
-            'tensile and z shear b': "salmon",
-            'z shear and cross a+b': "magenta",
-            'z shear and cross a': "darkgreen",
-            'z shear and cross b': "maroon",
-            'cross shear a+b': "blue",
-            'cross shear and cross bending a+b': "aquamarine",
-            'cross shear a': "yellowgreen",
-            'cross shear b': "orange",
-            'cross shear and cross bending a': "chartreuse",
-            'cross shear and cross bending b': "pink"}
-
-failure_mode_colors = np.full(shape, "black", dtype=object)
-for name, gF in gFs.items():
-    failure_mode_colors[minF == gF] = mcd.XKCD_COLORS["xkcd:"+colormap[name]] + "c0"
-
-
-#
-
-
-def plotTwo(ax, X, Y, Z1, Z2, col1=None, col2=None):
-    if col1 is None:
-        col1 = np.full(Z1.shape, "#00ff00c0", dtype=object)
-    if col2 is None:
-        col2 = np.full(Z2.shape, "#999999c0", dtype=object)
-    if compare_to_FEM:
-        col1[-1, :] = "#ffffff00"
-        ax.plot_surface(np.append(X, X, axis=0),
-                        np.append(Y, Y, axis=0),
-                        np.append(Z1, Z2, axis=0),
-                        facecolors=np.append(col1, col2, axis=0),
-                        edgecolor='none')
-    else:
-        ax.plot_surface(X, Y, Z1, facecolors=col1, edgecolor='none')
-
-if not compare_to_FEM:
-    FEM_stress = stress
-
-best_FEM_idx = np.unravel_index(np.argmax(FEM_stress), FEM_stress.shape)
-idx = best_FEM_idx
-
-# hf, lmax, wb, va
-l = 0
-
-fig, ax = plt.subplots(1, 3, subplot_kw={'projection': '3d'})
-plotTwo(ax[0], wb[idx[0], l, :, :], va[idx[0], l, :, :], stress[idx[0], l, :, :], FEM_stress[idx[0], l, :, :], failure_mode_colors[idx[0], l, :, :])
-ax[0].set(xlabel='wb', ylabel='va')
-plotTwo(ax[1], hf[:, l, idx[2], :], va[:, l, idx[2], :], stress[:, l, idx[2], :], FEM_stress[:, l, idx[2], :], failure_mode_colors[:, l, idx[2], :])
-ax[1].set(xlabel='hf', ylabel='va')
-plotTwo(ax[2], hf[:, l, :, idx[3]], wb[:, l, :, idx[3]], stress[:, l, :, idx[3]], FEM_stress[:, l, :, idx[3]], failure_mode_colors[:, l, :, idx[3]])
-ax[2].set(xlabel='hf', ylabel='wb')
-
-wm = plt.get_current_fig_manager()
-wm.window.state('zoomed')
-
-if plot_legend:
-    fig, ax = plt.subplots()
-    legend_elements = []
-    for name, color in colormap.items():
-        legend_elements.append(Patch(facecolor=color, edgecolor='none', label=name))
-    ax.legend(handles=legend_elements)
-
-# plt.savefig("C:\\Users\\t.kuipers\\OneDrive - Ultimaker B.V\\Documents\\PhD\\interlocking_project\\paper\\paper_git\\analytical_optimization\\ana_correct_z_yield_ORcross.svg")
-
 if show_results:
+    colormap = {'tensile a': "green",
+                'tensile b': "red",
+                'Z shear a': "lime",
+                'Z shear b': "tomato",
+                'tensile and z shear a': "lightgreen",
+                'tensile and z shear b': "salmon",
+                'z shear and cross a+b': "magenta",
+                'z shear and cross a': "darkgreen",
+                'z shear and cross b': "maroon",
+                'cross shear a+b': "blue",
+                'cross shear and cross bending a+b': "aquamarine",
+                'cross shear a': "yellowgreen",
+                'cross shear b': "orange",
+                'cross shear and cross bending a': "chartreuse",
+                'cross shear and cross bending b': "pink"}
+
+    failure_mode_colors = np.full(shape, "black", dtype=object)
+    for name, gF in gFs.items():
+        failure_mode_colors[minF == gF] = mcd.XKCD_COLORS["xkcd:"+colormap[name]] + "c0"
+
+
+    #
+
+
+    def plotTwo(ax, X, Y, Z1, Z2, col1=None, col2=None):
+        if col1 is None:
+            col1 = np.full(Z1.shape, "#00ff00c0", dtype=object)
+        if col2 is None:
+            col2 = np.full(Z2.shape, "#999999c0", dtype=object)
+        if compare_to_FEM:
+            col1[-1, :] = "#ffffff00"
+            ax.plot_surface(np.append(X, X, axis=0),
+                            np.append(Y, Y, axis=0),
+                            np.append(Z1, Z2, axis=0),
+                            facecolors=np.append(col1, col2, axis=0),
+                            edgecolor='none')
+        else:
+            ax.plot_surface(X, Y, Z1, facecolors=col1, edgecolor='none')
+
+    if not compare_to_FEM:
+        FEM_stress = stress
+
+    best_FEM_idx = np.unravel_index(np.argmax(FEM_stress), FEM_stress.shape)
+    idx = best_FEM_idx
+
+    # hf, lmax, wb, va
+    l = 0
+
+    fig, ax = plt.subplots(1, 3, subplot_kw={'projection': '3d'})
+    plotTwo(ax[0], wb[idx[0], l, :, :], va[idx[0], l, :, :], stress[idx[0], l, :, :], FEM_stress[idx[0], l, :, :], failure_mode_colors[idx[0], l, :, :])
+    ax[0].set(xlabel='wb', ylabel='va')
+    plotTwo(ax[1], hf[:, l, idx[2], :], va[:, l, idx[2], :], stress[:, l, idx[2], :], FEM_stress[:, l, idx[2], :], failure_mode_colors[:, l, idx[2], :])
+    ax[1].set(xlabel='hf', ylabel='va')
+    plotTwo(ax[2], hf[:, l, :, idx[3]], wb[:, l, :, idx[3]], stress[:, l, :, idx[3]], FEM_stress[:, l, :, idx[3]], failure_mode_colors[:, l, :, idx[3]])
+    ax[2].set(xlabel='hf', ylabel='wb')
+
+    wm = plt.get_current_fig_manager()
+    wm.window.state('zoomed')
+
+    if plot_legend:
+        fig, ax = plt.subplots()
+        legend_elements = []
+        for name, color in colormap.items():
+            legend_elements.append(Patch(facecolor=color, edgecolor='none', label=name))
+        ax.legend(handles=legend_elements)
+
+    # plt.savefig("C:\\Users\\t.kuipers\\OneDrive - Ultimaker B.V\\Documents\\PhD\\interlocking_project\\paper\\paper_git\\analytical_optimization\\ana_correct_z_yield_ORcross.svg")
+
     plt.show()
 
-# print(np.maximum.reduce(gs))
