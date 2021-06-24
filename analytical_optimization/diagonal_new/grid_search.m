@@ -7,8 +7,8 @@ objective;
 clear constraints;
 constraints;
 
-Nwa = 10;
-Nwb = 10;
+Nwa = 20;
+Nwb = 20;
 NF = 20;
 
 was = linspace(2 * wa_min, w_max - 2 * wa_min, Nwa);
@@ -57,4 +57,18 @@ fprintf('w_a* = %f \n', wa(x));
 fprintf('w_b* = %f \n', wb(x));
 fprintf('L* = %f \n', L(x));
 fprintf('F* = %f \n', F(x));
+
+
+fprintf('And occurs for the following constraint values: \n');
+fprintf('g1a = %f \n', g1a(x));
+fprintf('g1b = %f \n', g1b(x));
+fprintf('g2 = %f \n', g2(x));
+fprintf('g3_1 = %f \n', g3_1(x));
+fprintf('g3_2 = %f \n', g3_2(x));
+fprintf('g4a = %f \n', g4a(x));
+fprintf('g4b = %f \n', g4b(x));
+fprintf('g5a = %f \n', g5a(x));
+fprintf('g5b = %f \n', g5b(x));
+
+
 
