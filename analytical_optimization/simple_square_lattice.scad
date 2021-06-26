@@ -30,19 +30,19 @@ lmax = 3.6;
 
 sample_points =
     [
-    [[2.4, 2.7, 3.6, 0.8], "a"],
-    [[2.1, 2.7, 3.6, 0.8], "b"],
-    [[2.7, 2.7, 3.6, 0.8], "c"],
-    [[2.4, 2.4, 3.6, 0.8], "d"],
-    [[2.4, 3.0, 3.6, 0.8], "e"],
-    [[2.4, 2.7, 3.6, 0.6], "f"],
-    [[2.4, 2.7, 3.6, 1.0], "g"],
-    [[2.4, 2.7, 3.6, 1.2], "h"],
-    [[2.4, 2.7, 3.6, 1.4], "i"],
-    [[2.1, 2.7, 3.6, 1.2], "j"],
-    [[2.7, 2.7, 3.6, 1.2], "k"],
-    [[2.4, 2.4, 3.6, 1.2], "l"],
-    [[2.4, 3.0, 3.6, 1.2], "m"],
+    [[2.4, 2.7, 3.6, 0.8], "a"], // >> near FEM opt
+    [[2.1, 2.7, 3.6, 0.8], "b"], // wb-
+    [[2.7, 2.7, 3.6, 0.8], "c"], // wb+
+    [[2.4, 2.4, 3.6, 0.8], "d"], // va-
+    [[2.4, 3.0, 3.6, 0.8], "e"], // va+
+    [[2.4, 2.7, 3.6, 0.6], "f"], // hf-
+    [[2.4, 2.7, 3.6, 1.0], "g"], // hf+
+    [[2.4, 2.7, 3.6, 1.2], "h"], // >> near ana opt
+    [[2.4, 2.7, 3.6, 1.4], "i"], // hf+
+    [[2.1, 2.7, 3.6, 1.2], "j"], // wb-
+    [[2.7, 2.7, 3.6, 1.2], "k"], // wb+
+    [[2.4, 2.4, 3.6, 1.2], "l"], // va-
+    [[2.4, 3.0, 3.6, 1.2], "m"], // va+
     ];
 
 
@@ -51,7 +51,8 @@ a = true; b = false; mat_a = b;
 n=1;
 
 brim = 7;
-brim_ext = 8;
+outer_brim = 20;
+side_brim = 30;
 
 tot_l = 50;
 rep_z = 5;
@@ -108,14 +109,14 @@ module sample_(tag, wa,wb,va,vb,hc,hf,w,h,l, extend_brim_after)
         { // brim
             difference() 
             {
-                translate([-tot_l-brim-brim_ext,-brim,0])
-                    cube([tot_l+brim+brim_ext+l,rep_y*w+wa+brim*2, .2]);
+                translate([-tot_l-side_brim,-brim,0])
+                    cube([tot_l+side_brim+l,rep_y*w+wa+brim*2, .2]);
                 translate([0,0,-1])
                     cube([tot_l,rep_y*w+wa, rep_z*h+hc]);
             }
             if (extend_brim_after)
-                translate([-tot_l-brim-brim_ext,rep_y*w,0])
-                cube([tot_l+brim+brim_ext+l,brim+brim_ext, .2]);
+                translate([-tot_l-side_brim,rep_y*w,0])
+                cube([tot_l+side_brim+l,outer_brim, .2]);
         }
         pattern(wa,wb,va,vb,hc,hf,w,h,l);
         difference()
@@ -128,14 +129,14 @@ module sample_(tag, wa,wb,va,vb,hc,hf,w,h,l, extend_brim_after)
     {
         { // brim
             translate([l,-brim,0])
-            cube([tot_l+brim+brim_ext,rep_y*w+wa+brim*2, .2]);
+            cube([tot_l+side_brim,rep_y*w+wa+brim*2, .2]);
             if (extend_brim_after)
                 translate([l,rep_y*w,0])
-                cube([tot_l+brim+brim_ext,brim+brim_ext, .2]);
+                cube([tot_l+side_brim,outer_brim, .2]);
         }
         difference()
         {
-            cube([tot_l+l,rep_y*w+wa, rep_z*h+hc]);
+            cube([tot_l+l,rep_y*w+wa, rep_z*h+hc-.0001]);
             translate([tot_l - rep_y*w / 2, rep_y*w / 2, rep_z*h+hc-.1]) linear_extrude(1.0) text(tag,halign="center", valign="center",size = 7*10/(rep_y*w));
             pattern(wa,wb,va,vb,hc,hf,w,h,l);
         }
@@ -162,11 +163,11 @@ samples(0, len(sample_points) - 1);
 
 if (mat_a)
 {
-    translate([-tot_l-brim-brim_ext,-brim-brim_ext,0])
-    cube([tot_l+brim+brim_ext+lmax,brim+brim_ext, .2]);
+    translate([-tot_l-side_brim,-outer_brim,0])
+    cube([tot_l+side_brim+lmax,outer_brim, .2]);
 }
 else
 {
-    translate([lmax,-brim-brim_ext,0])
-    cube([tot_l+brim+brim_ext,brim+brim_ext, .2]);
+    translate([lmax,-outer_brim,0])
+    cube([tot_l+side_brim,outer_brim, .2]);
 }
