@@ -5,42 +5,58 @@ objective_sqp;
 constraints_sqp;
 
 syms wa wb L F
-x_eval = [1; 1; 1; 1];
+syms l1 l2 l3 l4
+syms wa_k wb_k L_k F_k
+
+
 x = [wa; wb; L; F];
+lambda = [l1; l2; l3; l4];
 obj_min = 999999;
 
 opts = optimoptions(@quadprog,'Algorithm','trust-region-reflective');
-wa = x_eval(1);
-wb = x_eval(2);
-L = x_eval(3);
-F = x_eval(4);
 
-n = length(x);
 n_iter = 100;
-delta = 10000;
-lambda = 0.01*ones(n,1);
+delta = 1000;
+lambda_k = zeros(4,1);
 
 % Set active constraints
 h1 = g3_2;
-h2 = g5a;
-h3 = g5b;
-h4 = g6;
+h2 = g4a;
+h3 = g5a;
+h4 = g5b;
 h = [sym(h1); sym(h2); sym(h3); sym(h4)];
+
+[A, W, dfdx] =  getAandWmatrix(f, h, x, lambda);
+    
+dfdx_k = subs(dfdx, [wa, wb, L, F], [wa_k, wb_k, L_k, F_k]);
+h_k = subs(h, [wa, wb, L, F], [wa_k, wb_k, L_k, F_k]);
+W_k = subs(W, [wa, wb, L, F], [wa_k, wb_k, L_k, F_k]);
+A_k = subs(A, [wa, wb, L, F], [wa_k, wb_k, L_k, F_k]); 
+
+x_k = [0.4; 0.9; 3.2; 2.5];
+
+wa_k = x_k(1);
+wb_k = x_k(2);
+L_k = x_k(3);
+F_k = x_k(4);
 
 for n = 1:n_iter
     
+    
+    
+   
+    lambda_k = double(lambda_k + 1/delta*eval(h_k));
+    W_lambda = subs(W_k, [l1 l2 l3 l4], [lambda(1), lambda(2), lambda(3), lambda(4)]);
+
     % lb = [wa_min - x_eval(1) , wb_min -  x_eval(2), L_min - x_eval(3), 99999]
     % ub = [w_max - x_eval(1), w_max - x_eval(2), L_max, -99999]
-
-    lambda = double(lambda + 1/delta*subs(h));
-   
-    [A, W, dfdx] =  getAandWmatrix(f, h, x, lambda);
     
-    d = x - x_eval;
-    W_eval = double(subs(W));
-    dfdx_eval = double(subs(dfdx));
-    A_eval = double(subs(A));
-    h_eval = double(subs(h));
+    
+    d = x - x_k;
+    W_eval = double(eval(W_lambda));
+    dfdx_eval = double(eval(dfdx_k));
+    A_eval = double(eval(A_k));
+    h_eval = double(eval(h_k));
     
 %     f_lin = @(wa, wb, L, F) subs(f) + dot(subs(dfdx), d) + 1/2*d.' * subs(W) * d;
 %     h1_lin = @(wa, wb, L, F) subs(h1) + dot(A_eval(:,1), d);
@@ -58,19 +74,22 @@ for n = 1:n_iter
 %     h_lin_eval = double(subs(h_lin));
     
     dx = quadprog(W_eval, dfdx_eval.', A_eval, -h_eval);
-    x_eval = x_eval + dx;
-
+ 
+    x_k = x_k + dx
+    
     ev = eig(W_eval)
     isposdef = all(ev>-0);
     
-   
-    wa = x_eval(1);
-    wb = x_eval(2);
-    L = x_eval(3);
-    F = x_eval(4);
+    wa_k = x_k(1);
+    wb_k = x_k(2);
+    L_k = x_k(3);
+    F_k = x_k(4);
+    
+    obj  = f(wa_k, wb_k, L_k, F_k);
+    
     
      if isposdef
-        obj_min  = f(wa, wb, L, F)
+        obj_min  = obj;
         break
     end
 end

@@ -1,6 +1,6 @@
 function [A, W, dfdx] = getAandWmatrix(f, h, x, lambda)
     % Define matrix A
-
+    
     h1 = h(1);
     h2 = h(2);
     h3 = h(3);
@@ -54,10 +54,10 @@ function [A, W, dfdx] = getAandWmatrix(f, h, x, lambda)
             dfdx4];
  
 
-    dLdx1 = dfdx1 + dot(lambda, [dh1dx1 dh2dx1 dh3dx1 dh4dx1]) ; 
-    dLdx2 = dfdx2 + dot(lambda, [dh1dx2 dh2dx2 dh3dx2 dh4dx2]) ;
-    dLdx3 = dfdx3 + dot(lambda, [dh1dx3 dh2dx3 dh3dx3 dh4dx3]) ;
-    dLdx4 = dfdx4 + dot(lambda, [dh1dx4 dh2dx4 dh3dx4 dh4dx4]) ;
+    dLdx1 = dfdx1 + lambda.' * [dh1dx1; dh2dx1; dh3dx1; dh4dx1];
+    dLdx2 = dfdx2 + lambda.' * [dh1dx2; dh2dx2; dh3dx2; dh4dx2] ;
+    dLdx3 = dfdx3 + lambda.' * [dh1dx3; dh2dx3; dh3dx3; dh4dx3] ;
+    dLdx4 = dfdx4 + lambda.' * [dh1dx4; dh2dx4; dh3dx4; dh4dx4];
 
     ddLdx1x1 = diff(dLdx1, x(1));   
     ddLdx1x2 = diff(dLdx1, x(2));

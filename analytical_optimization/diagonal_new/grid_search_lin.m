@@ -7,9 +7,9 @@ objective;
 clear constraints;
 constraints;
 
-Nwa = 50;
-Nwb = 50;
-NF = 50;
+Nwa = 10;
+Nwb = 10;
+NF = 10;
 
 was = linspace(2 * wa_min, w_max - 2 * wa_min, Nwa);
 wbs = linspace(2 * wb_min, w_max - 2 * wb_min, Nwb);
@@ -19,20 +19,22 @@ Ls = L_min:0.3:L_max;
 obj_min = 9999999;
 best_x = [-1,-1,-1,-1]; % placeholder
 
+
 for wa_ = was
     for wb_ = wbs
         for L_ = Ls
             for F_ = Fs
-                x = [wa_, wb_, L_, F_];
+                x_k = [wa_, wb_, L_, F_];
+              
                 constraints = ...
-                    [ g1a(x)
-                      g1b(x)
-                      g2(x)
-                      g3_1(x)
-                      g3_2(x)
-                      g4a(x)
-                      g4b(x)
-                      g5a(x)
+                    [ g1a(x_k)
+                      g1b(x_k)
+                      g2(x_k)
+                      g3_1(x_k)
+                      g3_2(x_k)
+                      g4a(x_k)
+                      g4b(x_k)
+                      g5a(x_k)
                       g5b(x)];
                   
          
@@ -41,10 +43,10 @@ for wa_ = was
                     constraints_are_valid = constraints_are_valid & (g <= 0.0001);
                 end
                 if constraints_are_valid
-                    obj = f(x);
+                    obj = f(x_k);
                     if obj < obj_min
                         obj_min = obj;
-                        best_x = x;
+                        best_x = x_k;
                     end 
                    
                 end
@@ -53,24 +55,24 @@ for wa_ = was
     end
 end
 
-x = best_x;
+x_k = best_x;
 fprintf('The minimum objective of %f with a max nominal stress of %f is reached for: \n', obj_min, 1 / obj_min)
-fprintf('w_a* = %f \n', wa(x));
-fprintf('w_b* = %f \n', wb(x));
-fprintf('L* = %f \n', L(x));
-fprintf('F* = %f \n', F(x));
+fprintf('w_a* = %f \n', wa(x_k));
+fprintf('w_b* = %f \n', wb(x_k));
+fprintf('L* = %f \n', L(x_k));
+fprintf('F* = %f \n', F(x_k));
 
 
 fprintf('And occurs for the following constraint values: \n');
-fprintf('g1a = %f \n', g1a(x));
-fprintf('g1b = %f \n', g1b(x));
-fprintf('g2 = %f \n', g2(x));
-fprintf('g3_1 = %f \n', g3_1(x));
-fprintf('g3_2 = %f \n', g3_2(x));
-fprintf('g4a = %f \n', g4a(x));
-fprintf('g4b = %f \n', g4b(x));
-fprintf('g5a = %f \n', g5a(x));
-fprintf('g5b = %f \n', g5b(x));
+fprintf('g1a = %f \n', g1a(x_k));
+fprintf('g1b = %f \n', g1b(x_k));
+fprintf('g2 = %f \n', g2(x_k));
+fprintf('g3_1 = %f \n', g3_1(x_k));
+fprintf('g3_2 = %f \n', g3_2(x_k));
+fprintf('g4a = %f \n', g4a(x_k));
+fprintf('g4b = %f \n', g4b(x_k));
+fprintf('g5a = %f \n', g5a(x_k));
+fprintf('g5b = %f \n', g5b(x_k));
 
 
 
