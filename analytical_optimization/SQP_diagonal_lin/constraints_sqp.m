@@ -10,7 +10,7 @@ g4a = @(wa, wb, L, F) (3*F*(wa+wb))/(taz*wa^2*L) -1 ;
 g4b = @(wa, wb, L, F) (3*F*(wa+wb))/(tbz*wb^2*L) -1 ;
 g5a = @(wa, wb, L, F) constraint5(F, wa, wb, L, sa);
 g5b = @(wa, wb, L, F) constraint5(F, wb, wa, L, sb);
-g6 = @(wa, wb, L, F) 1- F/2.5;
+g6 = @(wa, wb, L, F) 1- F/F_min;
 
 function g5 = constraint5(F, w1, w2, L, s1)
     constants;

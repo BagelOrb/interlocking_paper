@@ -32,16 +32,28 @@ best_x = [-1,-1,-1,-1]; % placeholder
 i = 0;
 
 
+disp('Approximating Taylor series...');
+
 g1a_lin =  taylor2(g1a, wa_k, wb_k, L_k, F_k);
+fprintf('=');pause(0.001);
 g1b_lin = taylor2(g1b, wa_k, wb_k, L_k, F_k);
+fprintf('=');pause(0.001);
 g2_lin = taylor2(g2, wa_k, wb_k, L_k, F_k);
+fprintf('=');pause(0.001);
 g3_1_lin = taylor2(g3_1, wa_k, wb_k, L_k, F_k);
+fprintf('=');pause(0.001);
 g3_2_lin = taylor2(g3_2, wa_k, wb_k, L_k, F_k);
+fprintf('=');pause(0.001);
 g4a_lin = taylor2(g4a, wa_k, wb_k, L_k, F_k);
+fprintf('=');pause(0.001);
 g4b_lin = taylor2(g4b, wa_k, wb_k, L_k, F_k);
+fprintf('=');pause(0.001);
 g5a_lin = taylor2(g5a, wa_k, wb_k, L_k, F_k);
+fprintf('=');pause(0.001);
 g5b_lin = taylor2(g5b, wa_k, wb_k, L_k, F_k);
+fprintf('=');pause(0.001);
 f_lin = taylor2(f, wa_k, wb_k, L_k, F_k);
+fprintf('= \n');
 
 g1a_k = subs(g1a_lin, [wa, wb, L, F], [wa_k, wb_k, L_k, F_k]);
 g1b_k = subs(g1b_lin, [wa, wb, L, F], [wa_k, wb_k, L_k, F_k]);
@@ -58,7 +70,7 @@ f_k = subs(f_lin, [wa, wb, L, F], [wa_k, wb_k, L_k, F_k]);
 
 for wa_k = was
     i = i+1;
-    disp(i)
+    disp(['Start iteration ', num2str(i), ' out of ', num2str(Niter)]);
     for wb_k = wbs
         for L_k = Ls
             for F_k = Fs

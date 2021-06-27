@@ -7,10 +7,9 @@ constraints_sqp;
 % Define starting point
 x_0 = [0.6, 1.4, 3, 3];
 r = length(x_0);
-
 % Set number of iterations
-Niter_outer = 100;       % Max number of iterations
-Niter_inner = 100;      % Iterations per inner loop
+Niter_outer = 50;
+Niter_inner = 100;
 
 syms wa wb L F
 syms l1 l2 l3 l4
@@ -89,7 +88,7 @@ for p = 1:Niter_outer
     
     % If the optimum is found -> stop iterations
     [g_active, idx]  = maxk(g_eval,r);
-    if all(g_active <= 10^(-14)) && all(g_active >= -10^(-14)) && all(g_eval <= 10^(-14))
+    if all(g_active <= 10^(-14)) && all(g_active >= -10^(-14))
         break;
     end
     
@@ -140,10 +139,10 @@ for p = 1:Niter_outer
         obj_min  = obj;
         wa_best = wa_iter;
         wb_best = wb_iter;
-        L_best = L_iter;
-        F_best = F_iter;
-        x_best = [wa_best; wb_best; L_best; F_best];                   
-        
+            L_best = L_iter;
+            F_best = F_iter;
+            x_best = [wa_best; wb_best; L_best; F_best];                   
+        end
     end
     
 end
