@@ -5,11 +5,11 @@ objective_sqp;
 constraints_sqp;
 
 % Define starting point
-x_0 = [0.6, 1.4, 3, 3];
+x_0 = [1, 2, 3, 3];
 r = length(x_0);
 
 % Set number of iterations
-Niter_outer = 100;       % Max number of iterations
+Niter_outer = 50;       % Max number of iterations
 Niter_inner = 100;      % Iterations per inner loop
 
 syms wa wb L F

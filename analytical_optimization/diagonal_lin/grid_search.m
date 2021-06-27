@@ -11,10 +11,10 @@ syms wa wb L F
 syms wa_k wb_k L_k F_k
 
 if exist('iter','var') == 0
-    Niter = 10;
+    Niter = 5;
     was = linspace(2 * wa_min, w_max - 2 * wa_min, Niter);
     wbs = linspace(2 * wb_min, w_max - 2 * wb_min, Niter);
-    Fs = linspace(1, 5, Niter);
+    Fs = linspace(1, 10, Niter);
     Ls = L_min:0.3:L_max; 
 
 else
