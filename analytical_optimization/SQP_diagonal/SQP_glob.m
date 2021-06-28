@@ -53,14 +53,12 @@ options = optimset('Display', 'off');
 % Obtain second order Taylor series approximation
 disp('Approximating Taylor series...');
 g = cellfun(@(g_) sym(g_), gs);
-g_lin = cellfun(@(g_) taylor2(g_, wa_k, wb_k, L_k, F_k), gs);
-
-f_quad = taylor2(f, wa_k, wb_k, L_k, F_k);
 
 g_eval = ones(length(g),1);
 
-g_lin_eval = ones(length(g_lin),1);
-
+h_lin = [g(h_idx(1)); g(h_idx(2)); g(h_idx(3)); g(h_idx(4))];
+h_lin = eval(h_lin);
+[A, W, dfdx] =  getAandWmatrix(f, h_lin, x, lambda);
 
 % h = [g(h_idx(1)); g(h_idx(2)); g(h_idx(3)); g(h_idx(4))];
 % [A_real, W_real, dfdx_real] =  getAandWmatrix(sym(f), h, x, lambda);
@@ -81,7 +79,6 @@ for p = 1:Niter
         wb_k = wb_best;
         L_k = L_best;
         F_k = F_best;
-        clear wa_iter wb_iter L_iter F_iter
         syms wa_iter wb_iter L_iter F_iter
         
     end
@@ -99,12 +96,6 @@ for p = 1:Niter
         break;
     end
     
-    h_lin = [g_lin(h_idx(1)); g_lin(h_idx(2)); g_lin(h_idx(3)); g_lin(h_idx(4))];
-    h_lin = eval(h_lin);
-
-    % Find Hessian and Jacobian matrices for SQP
-    [A, W, dfdx] =  getAandWmatrix(f_quad, h_lin, x, lambda);
-
     dfdx_k = subs(dfdx, [wa, wb, L, F], [wa_iter, wb_iter, L_iter, F_iter]);
     h_k = subs(h_lin, [wa, wb, L, F], [wa_iter, wb_iter, L_iter, F_iter]);
     W_k = subs(W, [wa, wb, L, F], [wa_iter, wb_iter, L_iter, F_iter]);
@@ -151,9 +142,6 @@ for p = 1:Niter
         F_best = F_iter;
         x_best = [wa_best; wb_best; L_best; F_best];   
         % lambda_opt = lambda_k;
-         
-        
-        
     end
     
 %      Hessian of full obj function without Taylor approximation
