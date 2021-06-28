@@ -1,7 +1,8 @@
 ## TK added ignores:
 */venv
 */.idea
-*.asv # matlab generated temp files
+# matlab generated temp files
+*.asv
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
