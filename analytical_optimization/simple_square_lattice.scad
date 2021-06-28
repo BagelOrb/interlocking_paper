@@ -129,7 +129,7 @@ module sample_(tag, wa,wb,va,vb,hc,hf,w,h,l, extend_brim_after)
         difference()
         {
             translate([-tot_l,0,0]) cube([tot_l,rep_y*w+wa, rep_z*h+hc]);
-            translate([-tot_l + rep_y*w / 2, rep_y*w / 2, rep_z*h+hc-.1]) linear_extrude(1.0) text(tag,halign="center", valign="center",size = 7*10/(rep_y*w));
+            translate([-tot_l + 3, rep_y*w / 2, rep_z*h+hc-.1]) linear_extrude(1.0) text(tag,halign="left", valign="center",size = min(5,6*.1*(rep_y*w)));
         }
     }
     else
@@ -144,7 +144,7 @@ module sample_(tag, wa,wb,va,vb,hc,hf,w,h,l, extend_brim_after)
         difference()
         {
             cube([tot_l+l,rep_y*w+wa, rep_z*h+hc-.0001]);
-            translate([tot_l - rep_y*w / 2, rep_y*w / 2, rep_z*h+hc-.1]) linear_extrude(1.0) text(tag,halign="center", valign="center",size = 7*10/(rep_y*w));
+            translate([tot_l - 0, rep_y*w / 2, rep_z*h+hc-.1]) linear_extrude(1.0) text(tag,halign="right", valign="center",size = min(5,6*.1*(rep_y*w)));
             pattern(wa,wb,va,vb,hc,hf,w,h,l);
         }
     }
