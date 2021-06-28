@@ -46,10 +46,11 @@ h_lin = eval(h);
 
 g_eval = ones(ng,1);
 
+dfdx = [];
+for i = 1:nx
+    dfdx = [dfdx ; diff(f, x(i))];
+end
 
-h = [g(h_idx(1)); g(h_idx(2)); g(h_idx(3)); g(h_idx(4))];
-h = eval(h);
-[A, W, dfdx] =  getAandWmatrix(f, h, x, lambda);
 
 ddfdxx = diff2(sym(f), x);
 ddgdxx = sym(zeros(nx, nx, ng));
