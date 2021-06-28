@@ -92,15 +92,10 @@ for p = 1:Niter_outer
     end
     
     q = 1;
-    for g_con = g_lin
-                    g_lin_eval(q) = eval(subs(g_con, [wa, wb, L, F], [wa_best, wb_best, L_best, F_best]));
-                    q = q + 1;
-    end
     
     % If the optimum is found -> stop iterating
-    [g_active, idx]  = maxk(g_lin_eval,r);
-    [g_min, idx]  = maxk(g_eval,r);
-    if all(g_min <= 10^(-14)) && all(g_min >= -10^(-14)) && all(g_eval <= 10^(-14))
+    [g_active, idx]  = maxk(g_eval,r);
+    if all(g_active <= 10^(-14)) && all(g_active >= -10^(-14)) && all(g_eval <= 10^(-14))
         break;
     end
     

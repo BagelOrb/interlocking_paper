@@ -98,13 +98,13 @@ for p = 1:Niter_outer
     end
     
     % If the optimum is found -> stop iterating
-    [g_active, idx]  = maxk(g_lin_eval,r);
+    [g_active, idx_lin]  = maxk(g_lin_eval,r);
     [g_min, idx]  = maxk(g_eval,r);
     if all(g_min <= 10^(-14)) && all(g_min >= -10^(-14)) && all(g_eval <= 10^(-14))
         break;
     end
     
-    h = [g_lin(idx(1)); g_lin(idx(2)); g_lin(idx(3)); g_lin(idx(4))];
+    h = [g_lin(idx_lin(1)); g_lin(idx_lin(2)); g_lin(idx(3)); g_lin(idx(4))];
     h_lin = eval(h);
 
     % Find Hessian and Jacobian matrices for SQP
@@ -177,7 +177,7 @@ fprintf('g3_2 = %f \n', eval(subs(sym(g3_2), [wa, wb, L, F], [wa_best, wb_best, 
 fprintf('g4a = %f \n', eval(subs(sym(g4a), [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
 fprintf('g4b = %f \n', eval(subs(sym(g4b), [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
 fprintf('g5a = %f \n', eval(subs(sym(g5a), [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
-fprintf('g5b = %f \n', eval(subs(g5b, [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
-fprintf('g6 = %f \n', eval(subs(g6, [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
+fprintf('g5b = %f \n', eval(subs(sym(g5b), [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
+fprintf('g6 = %f \n', eval(subs(sym(g6), [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
 
 
