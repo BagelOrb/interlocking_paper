@@ -13,9 +13,10 @@ combine_tensile_and_z_shear = False
 full_stress_on_z = False
 combine_z_shear_and_cross_shear = True
 
-compare_to_FEM = False
-broken_optimum = True
+compare_to_FEM = True
+broken_optimum = False
 
+softmin_all_constraints = False
 silicone = False
 
 use_z_tensile_data = not compare_to_FEM
@@ -210,6 +211,15 @@ elif apply_cross_b:
     if bending > 0:
         gFs['cross shear and cross bending b'] = sb / np.sqrt(combined_von_mises_cross_b)
 
+gFs_mixed = np.zeros(shape)
+if softmin_all_constraints:
+    P = -10
+    gFs_powered = []
+    for gF in gFs.values():
+        gFs_powered.append(np.power(gF, np.full(shape, P)))
+    gFs_mixed = np.power(np.sum(gFs_powered, axis=0), np.full(shape, 1/P))
+
+
 gMs = {}
 gMs['wa'] = 1 - wa / 2 / wa_min
 gMs['wb'] = 1 - wb / 2 / wb_min
@@ -224,7 +234,7 @@ for name, gF in gFs.items():
     print(name + ", ", end="")
 print("\n")
 
-minF = np.minimum.reduce(list(gFs.values()))
+minF = gFs_mixed if softmin_all_constraints else np.minimum.reduce(list(gFs.values()))
 stress = minF / ((wa + wb) * (hf + hc))
 
 valid_manufacturing_constraints_multiplier = ((np.maximum.reduce(list(gMs.values())) <= 0.0001) + .00001) / 1 + .00001
@@ -338,8 +348,8 @@ if show_results:
                 'tensile b': "red",
                 'Z shear a': "lime",
                 'Z shear b': "tomato",
-                'tensile and z shear a': "lightgreen",
-                'tensile and z shear b': "salmon",
+                'tensile and z shear a': "green",
+                'tensile and z shear b': "red",
                 'z shear and cross a+b': "magenta",
                 'z shear and cross a': "darkgreen",
                 'z shear and cross b': "maroon",
@@ -359,7 +369,7 @@ if show_results:
 
 
     def plotTwo(ax, X, Y, Z1, Z2, col1=None, col2=None):
-        if col1 is None:
+        if col1 is None or softmin_all_constraints:
             col1 = np.full(Z1.shape, "#00ff00c0", dtype=object)
         if col2 is None:
             col2 = np.full(Z2.shape, "#999999c0", dtype=object)
