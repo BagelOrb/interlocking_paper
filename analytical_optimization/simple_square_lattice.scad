@@ -45,10 +45,17 @@ sample_points =
     [[1.5, 0.3, 3.6, 0.7], "m"], // hf+
     ];
 
+shuffles =
+    [
+    [0,1,2,3,4,5,6,7,8,9,10,11,12],
+    [10,11,12,0,1,2,3,4,5,6,7,8,9],
+    [8,9,10,11,12,0,1,2,3,4,5,6,7],
+    [5,6,7,8,9,10,11,12,0,1,2,3,4],
+    [2,3,4,5,6,7,8,9,10,11,12,0,1],
+    ];
+tpla = true; pp = false; mat_a = tpla;
 
-a = true; b = false; mat_a = b;
-
-n=1;
+n=2;
 
 brim = 7;
 outer_brim = 20;
@@ -146,11 +153,11 @@ module sample_(tag, wa,wb,va,vb,hc,hf,w,h,l, extend_brim_after)
 
 module samples(from, till)
 {
-    sample(str(sample_points[from][1], n)
-        , sample_points[from][0][0]
-        , sample_points[from][0][1]
-        , sample_points[from][0][2]
-        , sample_points[from][0][3], from == till);
+    sample(str(sample_points[shuffles[n-1][from]][1], n)
+        , sample_points[shuffles[n-1][from]][0][0]
+        , sample_points[shuffles[n-1][from]][0][1]
+        , sample_points[shuffles[n-1][from]][0][2]
+        , sample_points[shuffles[n-1][from]][0][3], from == till);
     if (till > from)
     {
         translate([0, brim + rep_y*(sample_points[from][0][0]+2*wmin),0])
