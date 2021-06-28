@@ -1,6 +1,6 @@
 function fun_quad = taylor2(fun, wa_k, wb_k, L_k, F_k)
 
-    syms wa wb L F
+    syms wa wb L F Z
     x = [wa; wb; L; F];
     x_k = [wa_k; wb_k; L_k; F_k];
     
@@ -15,7 +15,7 @@ function fun_quad = taylor2(fun, wa_k, wb_k, L_k, F_k)
         (L - L_k) * eval(subs(d_L, [wa, wb, L, F], [wa_k, wb_k, L_k, F_k]) ) + ...
         (F - F_k) * eval(subs(d_F, [wa, wb, L, F], [wa_k, wb_k, L_k, F_k]));
     
-    [A, H, dfdx] =  getAandWmatrix(fun, [0; 0; 0; 0], x, [0; 0; 0; 0]);  
+    [A, H, dfdx] =  getAandWmatrix(fun, [Z; Z; Z; Z], x, [Z; Z; Z; Z]);  
     H_k = subs(H, [wa, wb, L, F], [wa_k, wb_k, L_k, F_k]);
     
     fun_quad = fun_lin + (x - x_k).' * H_k * (x - x_k);

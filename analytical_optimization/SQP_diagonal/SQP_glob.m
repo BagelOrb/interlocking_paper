@@ -127,7 +127,7 @@ for p = 1:Niter
     W_lambda = subs(W_k, [l1 l2 l3 l4], [lambda_k(1), lambda_k(2), lambda_k(3), lambda_k(4)]);
 
     W_eval = double(eval(W_lambda));
-    dfdx_eval = double(eval(dfdx_k));
+    dfdx_eval = double(eval(subs(dfdx_k, [l1 l2 l3 l4], [lambda_k(1), lambda_k(2), lambda_k(3), lambda_k(4)])));
     A_eval = double(eval(A_k));
     h_eval = double(eval(h_k));
 
