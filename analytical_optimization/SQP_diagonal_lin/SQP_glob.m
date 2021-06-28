@@ -9,8 +9,8 @@ x_0 = [1, 2, 3, 3];
 r = length(x_0);
 
 % Set number of iterations
-Niter_outer = 50;       % Max number of iterations
-Niter_inner = 10;      % Iterations per inner loop
+Niter_outer = 20;       % Max number of iterations
+Niter_inner = 50;      % Iterations per inner loop
 
 syms wa wb L F
 syms l1 l2 l3 l4
@@ -55,9 +55,13 @@ fprintf('=');pause(0.001);
 f_quad = taylor2(f, wa_k, wb_k, L_k, F_k);
 fprintf('= \n');
 
-g = [sym(g1a_lin), sym(g1b_lin), sym(g2_lin), sym(g3_1_lin), sym(g3_2_lin), ...
-     sym(g4a_lin), sym(g4b_lin), sym(g5a_lin), sym(g5b_lin), sym(g6_lin)];
+g = [sym(g1a), sym(g1b), sym(g2), sym(g3_1), sym(g3_2), ...
+     sym(g4a), sym(g4b), sym(g5a), sym(g5b), sym(g6)];
 g_eval = ones(length(g),1);
+
+g_lin = [sym(g1a_lin), sym(g1b_lin), sym(g2_lin), sym(g3_1_lin), sym(g3_2_lin), ...
+     sym(g4a_lin), sym(g4b_lin), sym(g5a_lin), sym(g5b_lin), sym(g6_lin)];
+g_lin_eval = ones(length(g_lin),1);
 
 for p = 1:Niter_outer
     disp(['Start iteration ', num2str(p)]);
@@ -87,18 +91,24 @@ for p = 1:Niter_outer
                     q = q + 1;
     end
     
-    % If the optimum is found -> stop iterations
-    [g_active, idx]  = maxk(g_eval, r);
+    q = 1;
+    for g_con = g_lin
+                    g_lin_eval(q) = eval(subs(g_con, [wa, wb, L, F], [wa_best, wb_best, L_best, F_best]));
+                    q = q + 1;
+    end
     
-    if all(g_active <= 10^(-14)) && all(g_active >= -10^(-14)) && all(g_eval <= 10^(-14))
+    % If the optimum is found -> stop iterating
+    [g_active, idx]  = maxk(g_lin_eval,r);
+    [g_min, idx]  = maxk(g_eval,r);
+    if all(g_min <= 10^(-14)) && all(g_min >= -10^(-14)) && all(g_eval <= 10^(-14))
         break;
     end
     
-    h = [g(idx(1)); g(idx(2)); g(idx(3)); g(idx(4))];
+    h = [g_lin(idx(1)); g_lin(idx(2)); g_lin(idx(3)); g_lin(idx(4))];
     h_lin = eval(h);
 
     % Find Hessian and Jacobian matrices for SQP
-    [A, W, dfdx] = getAandWmatrix(f_quad, h_lin, x, lambda);
+    [A, W, dfdx] =  getAandWmatrix(f_quad, h_lin, x, lambda);
 
     dfdx_k = subs(dfdx, [wa, wb, L, F], [wa_iter, wb_iter, L_iter, F_iter]);
     h_k = subs(h_lin, [wa, wb, L, F], [wa_iter, wb_iter, L_iter, F_iter]);
@@ -110,8 +120,8 @@ for p = 1:Niter_outer
     wb_iter = x_k(2);
     L_iter = x_k(3);
     F_iter = x_k(4);
-    
-    obj_min = 99999;
+
+    obj_min = 9999;
     for n = 1:Niter_inner
         
         % Calculate Lagrangian multipliers
@@ -122,11 +132,11 @@ for p = 1:Niter_outer
         dfdx_eval = double(eval(dfdx_k));
         A_eval = double(eval(A_k));
         h_eval = double(eval(h_k));
-        
+
         % Obtain update step
         dx = quadprog(W_eval, dfdx_eval.', [], [], A_eval, -h_eval, [], [], [], options);
         x_iter = x_iter + dx;
-        
+
         % Evaluate eigenvalues
         ev = eig(W_eval);
         isposdef = all(ev> -10^(-14));
@@ -138,14 +148,16 @@ for p = 1:Niter_outer
 
         % Conpute objective
         obj  = f(wa_iter, wb_iter, L_iter, F_iter);
+        
         if obj < obj_min
             obj_min  = obj;
             wa_best = wa_iter;
             wb_best = wb_iter;
             L_best = L_iter;
             F_best = F_iter;
-            x_best = [wa_best; wb_best; L_best; F_best];      
+            x_best = [wa_best; wb_best; L_best; F_best];    
         end
+        
     end
     
 end
@@ -156,17 +168,16 @@ fprintf('w_b* = %f \n', wb_best);
 fprintf('L* = %f \n', L_best);
 fprintf('F* = %f \n', F_best);
 
-
 fprintf('And occurs for the following constraint values: \n');
-fprintf('g1a = %f \n', eval(subs(g1a_lin, [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
-fprintf('g1b = %f \n', eval(subs(g1b_lin, [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
-fprintf('g2 = %f \n', eval(subs(g2_lin, [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
-fprintf('g3_1 = %f \n', eval(subs(g3_1_lin, [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
-fprintf('g3_2 = %f \n', eval(subs(g3_2_lin, [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
-fprintf('g4a = %f \n', eval(subs(g4a_lin, [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
-fprintf('g4b = %f \n', eval(subs(g4b_lin, [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
-fprintf('g5a = %f \n', eval(subs(g5a_lin, [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
-fprintf('g5b = %f \n', eval(subs(g5b_lin, [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
-fprintf('g6 = %f \n', eval(subs(g6_lin, [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
+fprintf('g1a = %f \n', eval(subs(sym(g1a), [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
+fprintf('g1b = %f \n', eval(subs(sym(g1b), [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
+fprintf('g2 = %f \n', eval(subs(sym(g2), [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
+fprintf('g3_1 = %f \n', eval(subs(sym(g3_1), [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
+fprintf('g3_2 = %f \n', eval(subs(sym(g3_2), [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
+fprintf('g4a = %f \n', eval(subs(sym(g4a), [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
+fprintf('g4b = %f \n', eval(subs(sym(g4b), [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
+fprintf('g5a = %f \n', eval(subs(sym(g5a), [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
+fprintf('g5b = %f \n', eval(subs(sym(g5b), [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
+fprintf('g6 = %f \n', eval(subs(sym(g6), [wa, wb, L, F], [wa_best, wb_best, L_best, F_best])));
 
 

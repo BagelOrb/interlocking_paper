@@ -5,11 +5,12 @@ objective_sqp;
 constraints_sqp;
 
 % Define starting point
-x_0 = [0.6, 1.4, 3, 3];
+x_0 = [1, 2, 3, 3];
 r = length(x_0);
+
 % Set number of iterations
-Niter_outer = 50;
-Niter_inner = 100;
+Niter_outer = 50;       % Max number of iterations
+Niter_inner = 100;      % Iterations per inner loop
 
 syms wa wb L F
 syms l1 l2 l3 l4
@@ -87,8 +88,9 @@ for p = 1:Niter_outer
     end
     
     % If the optimum is found -> stop iterations
-    [g_active, idx]  = maxk(g_eval,r);
-    if all(g_active <= 10^(-14)) && all(g_active >= -10^(-14))
+    [g_active, idx]  = maxk(g_eval, r);
+    
+    if all(g_active <= 10^(-14)) && all(g_active >= -10^(-14)) && all(g_eval <= 10^(-14))
         break;
     end
     
@@ -96,7 +98,7 @@ for p = 1:Niter_outer
     h_lin = eval(h);
 
     % Find Hessian and Jacobian matrices for SQP
-    [A, W, dfdx] =  getAandWmatrix(f_quad, h_lin, x, lambda);
+    [A, W, dfdx] = getAandWmatrix(f_quad, h_lin, x, lambda);
 
     dfdx_k = subs(dfdx, [wa, wb, L, F], [wa_iter, wb_iter, L_iter, F_iter]);
     h_k = subs(h_lin, [wa, wb, L, F], [wa_iter, wb_iter, L_iter, F_iter]);
@@ -119,11 +121,11 @@ for p = 1:Niter_outer
         dfdx_eval = double(eval(dfdx_k));
         A_eval = double(eval(A_k));
         h_eval = double(eval(h_k));
-
+        
         % Obtain update step
         dx = quadprog(W_eval, dfdx_eval.', [], [], A_eval, -h_eval, [], [], [], options);
         x_iter = x_iter + dx;
-
+        
         % Evaluate eigenvalues
         ev = eig(W_eval);
         isposdef = all(ev> -10^(-14));
@@ -135,14 +137,13 @@ for p = 1:Niter_outer
 
         % Conpute objective
         obj  = f(wa_iter, wb_iter, L_iter, F_iter);
-
         obj_min  = obj;
         wa_best = wa_iter;
         wb_best = wb_iter;
-            L_best = L_iter;
-            F_best = F_iter;
-            x_best = [wa_best; wb_best; L_best; F_best];                   
-        end
+        L_best = L_iter;
+        F_best = F_iter;
+        x_best = [wa_best; wb_best; L_best; F_best];                   
+     
     end
     
 end
