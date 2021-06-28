@@ -29,7 +29,7 @@ Niter = 100;       % Max number of iterations
 
 r = length(x);
 x_k = ones(1,r);
-lambda_k = zeros(1,r);
+lambda_k = ones(1,r);
 
 delta = 100;
 options = optimset('Display', 'off');
@@ -37,12 +37,27 @@ options = optimset('Display', 'off');
 % Obtain second order Taylor series approximation
 disp('Approximating Taylor series...');
 g = cellfun(@(g_) sym(g_), gs);
+h = g(h_idx);
+h_lin = eval(h);
+
+ng = size(g, 2);
+nh = size(h_idx, 1);
+nx = size(x, 1);
 
 g_eval = ones(length(g),1);
 
 h = [g(h_idx(1)); g(h_idx(2)); g(h_idx(3)); g(h_idx(4))];
 h = eval(h);
 [A, W, dfdx] =  getAandWmatrix(f, h, x, lambda);
+
+ddfdxx = diff2(sym(f), x);
+ddgdxx = sym(zeros(nx, nx, ng));
+dgdx = sym(zeros(nx, ng));
+for i = 1:ng
+    [ddgdxx_i, dgdx_i] = diff2(g(i), x);
+    ddgdxx(:,:,i) = ddgdxx_i;
+    dgdx(:,i) = dgdx_i;
+end
 
 for p = 1:Niter
     disp(['Start iteration ', num2str(p)]);
@@ -60,6 +75,16 @@ for p = 1:Niter
     
     % If the optimum is found -> stop iterating
     [g_active, idx]  = maxk(g_eval,r);
+    
+    % Compute Hessian and Jacobian matrices for SQP
+    h = g(h_idx);
+    ddhdxx = ddgdxx(:,:,h_idx);
+    W = ddfdxx;
+    for i = 1:nh
+        W = W + lambda_k(i) * ddhdxx(:,:,i);
+    end
+    A = dgdx(:,h_idx).';
+    
     
     for i = 1:r
         if i == 1
