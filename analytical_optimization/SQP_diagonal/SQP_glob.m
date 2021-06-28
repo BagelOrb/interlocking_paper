@@ -34,35 +34,13 @@ options = optimset('Display', 'off');
 
 % Obtain second order Taylor series approximation
 disp('Approximating Taylor series...');
-g1a_lin =  taylor2(g1a, wa_k, wb_k, L_k, F_k);
-fprintf('=');pause(0.001);
-g1b_lin = taylor2(g1b, wa_k, wb_k, L_k, F_k);
-fprintf('=');pause(0.001);
-g2_lin = taylor2(g2, wa_k, wb_k, L_k, F_k);
-fprintf('=');pause(0.001);
-g3_1_lin = taylor2(g3_1, wa_k, wb_k, L_k, F_k);
-fprintf('=');pause(0.001);
-g3_2_lin = taylor2(g3_2, wa_k, wb_k, L_k, F_k);
-fprintf('=');pause(0.001);
-g4a_lin = taylor2(g4a, wa_k, wb_k, L_k, F_k);
-fprintf('=');pause(0.001);
-g4b_lin = taylor2(g4b, wa_k, wb_k, L_k, F_k);
-fprintf('=');pause(0.001);
-g5a_lin = taylor2(g5a, wa_k, wb_k, L_k, F_k);
-fprintf('=');pause(0.001);
-g5b_lin = taylor2(g5b, wa_k, wb_k, L_k, F_k);
-fprintf('=');pause(0.001);
-g6_lin = taylor2(g6, wa_k, wb_k, L_k, F_k);
-fprintf('=');pause(0.001);
-f_quad = taylor2(f, wa_k, wb_k, L_k, F_k);
-fprintf('= \n');
+g = cellfun(@(g_) sym(g_), gs);
+g_lin = cellfun(@(g_) taylor2(g_, wa_k, wb_k, L_k, F_k), gs);
 
-g = [sym(g1a), sym(g1b), sym(g2), sym(g3_1), sym(g3_2), ...
-     sym(g4a), sym(g4b), sym(g5a), sym(g5b), sym(g6)];
+f_quad = taylor2(f, wa_k, wb_k, L_k, F_k);
+
 g_eval = ones(length(g),1);
 
-g_lin = [sym(g1a_lin), sym(g1b_lin), sym(g2_lin), sym(g3_1_lin), sym(g3_2_lin), ...
-     sym(g4a_lin), sym(g4b_lin), sym(g5a_lin), sym(g5b_lin), sym(g6_lin)];
 g_lin_eval = ones(length(g_lin),1);
 
 
