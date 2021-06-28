@@ -22,7 +22,7 @@ g6 = sym(g6);
 
 
 if exist('iter','var') == 0
-    Niter = 5;
+    Niter = 10;
     was = linspace(2 * wa_min, w_max - 2 * wa_min, Niter);
     wbs = linspace(2 * wb_min, w_max - 2 * wb_min, Niter);
     Fs = linspace(1, 10, Niter);

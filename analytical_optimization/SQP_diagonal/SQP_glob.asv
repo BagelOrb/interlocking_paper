@@ -6,12 +6,12 @@ constraints_sqp;
 
 % Define starting point
 x_0 = [1; 1; 1; 1];
-
-% Set index of active constraints
 h_idx = [1; 5; 8; 9];
+r = length(x_0);
 
 % Set number of iterations
-Niter = 1000;       % Max number of iterations
+Niter_outer = 1000;       % Max number of iterations
+Niter_inner = 1;      % Iterations per inner loop
 
 syms wa wb L F
 syms l1 l2 l3 l4
@@ -19,7 +19,6 @@ syms wa_k wb_k L_k F_k
 syms wa_iter wb_iter L_iter F_iter
 
 x = [wa; wb; L; F];
-r = length(x_0);
 lambda = [l1; l2; l3; l4];
 lambda_k = zeros(r,1);
 obj_min = 999999;
@@ -66,10 +65,12 @@ g_lin = [sym(g1a_lin), sym(g1b_lin), sym(g2_lin), sym(g3_1_lin), sym(g3_2_lin), 
 g_lin_eval = ones(length(g_lin),1);
 
 
-% h = [g(h_idx(1)); g(h_idx(2)); g(h_idx(3)); g(h_idx(4))];
-% [A_real, W_real, dfdx_real] =  getAandWmatrix(sym(f), h, x, lambda);
+h = [g(h_idx(1)); g(h_idx(2)); g(8); g(9)];
+[A_real, W_real, dfdx_real] =  getAandWmatrix(sym(f), h, x, lambda);
 
-for p = 1:Niter
+
+
+for p = 1:Niter_outer
     disp(['Start iteration ', num2str(p)]);
     
     if p == 1
@@ -97,13 +98,16 @@ for p = 1:Niter
                     q = q + 1;
     end
     
+    q = 1;
+    
     % If the optimum is found -> stop iterating
     [g_active, idx]  = maxk(g_eval,r);
     if all(g_active >= -10^(-14)) && all(g_eval <= 10^(-14))
         break;
     end
     
-    h_lin = [g_lin(h_idx(1)); g_lin(h_idx(2)); g_lin(h_idx(3)); g_lin(h_idx(4))];
+    h_lin = [g_lin(idx(1)); g_lin(idx(2)); g_lin(idx(3)); g_lin(idx(4))];
+    h_lin = [g_lin(1); g_lin(5); g_lin(8); g_lin(9)];
     h_lin = eval(h_lin);
 
     % Find Hessian and Jacobian matrices for SQP
@@ -121,46 +125,47 @@ for p = 1:Niter
     F_iter = x_k(4);
     
     obj_min = 9999;
+    for n = 1:Niter_inner
         
-    % Calculate Lagrangian multipliers
-    lambda_k = double(lambda_k + 1/delta*eval(h_k));
-    W_lambda = subs(W_k, [l1 l2 l3 l4], [lambda_k(1), lambda_k(2), lambda_k(3), lambda_k(4)]);
+        % Calculate Lagrangian multipliers
+        lambda_k = double(lambda_k + 1/delta*eval(h_k));
+        W_lambda = subs(W_k, [l1 l2 l3 l4], [lambda_k(1), lambda_k(2), lambda_k(3), lambda_k(4)]);
+ 
+        W_eval = double(eval(W_lambda));
+        dfdx_eval = double(eval(dfdx_k));
+        A_eval = double(eval(A_k));
+        h_eval = double(eval(h_k));
 
-    W_eval = double(eval(W_lambda));
-    dfdx_eval = double(eval(dfdx_k));
-    A_eval = double(eval(A_k));
-    h_eval = double(eval(h_k));
+        % Obtain update step
+        dx = quadprog(W_eval, dfdx_eval.', [], [], A_eval, -h_eval, [], [], [], options);
+        x_iter = x_iter + dx;
 
-    % Obtain update step
-    dx = quadprog(W_eval, dfdx_eval.', [], [], A_eval, -h_eval, [], [], [], options);
-    x_iter = x_iter + dx;
+        % Evaluate eigenvalues
+        ev = eig(W_eval);
+        isposdef = all(ev> -10^(-14));
 
-    % Evaluate eigenvalues
-    ev = eig(W_eval);
-    isposdef = all(ev> -10^(-14));
+        wa_iter = x_iter(1);
+        wb_iter = x_iter(2);
+        L_iter = x_iter(3);
+        F_iter = x_iter(4);
 
-    wa_iter = x_iter(1);
-    wb_iter = x_iter(2);
-    L_iter = x_iter(3);
-    F_iter = x_iter(4);
-
-    % Conpute objective
-    obj  = f(wa_iter, wb_iter, L_iter, F_iter);
-
-    if obj < obj_min
-        obj_min  = obj;
-        wa_best = wa_iter;
-        wb_best = wb_iter;
-        L_best = L_iter;
-        F_best = F_iter;
-        x_best = [wa_best; wb_best; L_best; F_best];   
-        % lambda_opt = lambda_k;
+        % Conpute objective
+        obj  = f(wa_iter, wb_iter, L_iter, F_iter);
+        
+        if obj < obj_min
+            obj_min  = obj;
+            wa_best = wa_iter;
+            wb_best = wb_iter;
+            L_best = L_iter;
+            F_best = F_iter;
+            x_best = [wa_best; wb_best; L_best; F_best];   
+            lambda_opt = lambda_k;
          
-        
+        end
         
     end
     
-%      Hessian of full obj function without Taylor approximation
+%     h = [g(1); g(5); g(8); g(9)];
 %     W_lambda_real = subs(W_real, [l1 l2 l3 l4], [lambda_opt(1), lambda_opt(2), lambda_opt(3), lambda_opt(4)]);
 %     W_real_eval = double(subs(W_lambda_real, [wa, wb, L, F], [wa_best, wb_best, L_best, F_best]));
 %     ev_real = eig(W_real_eval);
