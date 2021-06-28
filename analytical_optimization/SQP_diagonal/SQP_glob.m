@@ -4,6 +4,24 @@ design_variables;
 objective_sqp;
 constraints_sqp;
 
+
+
+% TODO:
+% - merge x_iter x_best x_k and x_0 into x_k
+% - make x_k into a list, remove all wa_k, wb_k, etc
+% - fix stopping criteria
+% - define 2d subproblems
+% - make 2d plots of f and include constraints
+% - implement active set strategy
+%     > use submatrices of A
+%     > compute W based on full list of matrices of 2nd
+%       order derivatives of ddhdxx
+
+
+
+
+
+
 % Define starting point
 x_0 = [1; 1; 1; 1];
 
