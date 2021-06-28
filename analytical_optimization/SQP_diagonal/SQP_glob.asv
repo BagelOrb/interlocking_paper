@@ -20,7 +20,8 @@ syms l1 l2 l3 l4
 
 % Define starting point
 x = [wa; wb; L; F];
-lambda = [l1; l2; l3; l4]; % is needed for symbolic different
+lambda = [l1; l2; l3; l4]; % is needed for symbolic differentiation
+
 % Set index of active constraints
 h_idx = [1; 5; 8; 9];
 
