@@ -27,9 +27,12 @@ h_idx = [1; 5; 8; 9];
 % Set number of iterations
 Niter = 100;       % Max number of iterations
 
-r = length(x);
-x_k = ones(1,r);
-lambda_k = ones(1,r);
+ng = length(gs);
+nh = length(h_idx);
+nx = length(x);
+
+x_k = ones(1,nx);
+lambda_k = ones(1,nx);
 
 delta = 100;
 options = optimset('Display', 'off');
@@ -40,11 +43,9 @@ g = cellfun(@(g_) sym(g_), gs);
 h = g(h_idx);
 h_lin = eval(h);
 
-ng = size(g, 2);
-nh = size(h_idx, 1);
-nx = size(x, 1);
 
-g_eval = ones(length(g),1);
+g_eval = ones(ng,1);
+
 
 h = [g(h_idx(1)); g(h_idx(2)); g(h_idx(3)); g(h_idx(4))];
 h = eval(h);
@@ -66,7 +67,7 @@ for p = 1:Niter
     q = 1;
     
     for g_con = g       
-        for i = 1:r
+        for i = 1:nx
             g_con = subs(g_con, x(i), x_k(i));
         end  
         g_eval(q) = eval(g_con);
@@ -74,7 +75,7 @@ for p = 1:Niter
     end
     
     % If the optimum is found -> stop iterating
-    [g_active, idx]  = maxk(g_eval,r);
+    [g_active, idx]  = maxk(g_eval,nx);
     
     % Compute Hessian and Jacobian matrices for SQP
     h = g(h_idx);
@@ -85,8 +86,8 @@ for p = 1:Niter
     end
     A = dgdx(:,h_idx).';
     
-    
-    for i = 1:r
+    % TODO: what does this do?
+    for i = 1:nx
         if i == 1
             dfdx_k = subs(dfdx, x(i), x_k(i));
             h_k = subs(h,  x(i), x_k(i));
@@ -105,7 +106,8 @@ for p = 1:Niter
     % Calculate Lagrangian multipliers
     lambda_k = double(lambda_k + 1/delta*double(h_k));
     
-     for i = 1:r
+    % TODO: what does this do?
+     for i = 1:nx
         if i == 1
             W_eval = subs(W_k, lambda(i), lambda_k(i));
             dfdx_eval = subs(dfdx_k, lambda(i), lambda_k(i));
@@ -113,7 +115,6 @@ for p = 1:Niter
             W_eval = subs(W_eval, lambda(i), lambda_k(i));
             dfdx_eval = subs(dfdx_eval, lambda(i), lambda_k(i));
         end
-        
      end   
     W_eval = double(W_eval);
     dfdx_eval = double(dfdx_eval);
