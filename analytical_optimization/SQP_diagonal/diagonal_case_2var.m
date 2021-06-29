@@ -1,7 +1,10 @@
 constants;
 
-syms wa wb L F;
-x = [wb; F; wa; L];
+syms wb F;
+x = [wb; F];
+wa = 1.2;
+L = 3.;
+
 nx = length(x);
 x_k = ones(1,nx); % starting point
 

@@ -1,15 +1,11 @@
 clear all; % otherwise changes to the script aren't loaded until you restart MATLAB
 
-%diagonal_case;
+% diagonal_case;
 straight_case;
 
-% TODO:
-% - define 2d subproblems
-% - make 2d plots of f and include constraints
-% - implement active set strategy
-%     > use submatrices of A
-%     > compute W based on full list of matrices of 2nd
-%       order derivatives of ddhdxx
+% diagonal_case_2var;
+
+get_plot = 1;       % Turn on to obtain plot
 
 syms l1 l2 l3 l4 l5 l6 l7 l8 l9 l10
 
@@ -21,7 +17,7 @@ Niter = 400;
 
 delta = 100; % for lambda update
 
-move_limit = 1.;
+move_limit = 1;
 
 options = optimset('Display', 'off');
 
@@ -30,6 +26,7 @@ nhistory = 6;
 obj_history = [99999:99999+nhistory].';
 h_idx_history = cell(nhistory,1);
 h_max_history = cell(nhistory,1);
+x_history = [x_k];
 cycling_break = 0;
 
 % general initialization
@@ -125,7 +122,7 @@ for p = 1:Niter
     end
    
     x_k = x_k + dx.';
-        
+    x_history = [x_history; x_k];   
 
     % Evaluate eigenvalues
     ev = eig(W_eval);
@@ -159,10 +156,7 @@ for p = 1:Niter
         obj  = eval(subs(f, x.', x_k));
         g_eval = eval(subs(g, x.', x_k));
         break
-    end
-    
-    
-    
+    end       
 end
 
 fprintf('\n The minimum objective of %f with a max nominal stress of %f is reached for: \n', obj, 1 / obj)
@@ -174,3 +168,10 @@ fprintf('And occurs for the following constraint values: \n');
 for i = 1:ng
     fprintf('%s: %.3f \n', g_names(i), g_eval(i));
 end
+
+if get_plot
+    x1_array = linspace(0.8*min(x_history(:,1)), 1.1*max(x_history(:,1)), 10); 
+    x2_array  = linspace(0.8*min(x_history(:,2)), 1.1*max(x_history(:,2)), 10);
+    contourplots(x, x_history, x1_array, x2_array, f, g)
+end
+    
