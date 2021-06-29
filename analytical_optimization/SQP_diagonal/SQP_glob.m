@@ -112,6 +112,10 @@ for p = 1:Niter
 
     % Obtain update step
     [dx, sqp_obj, exitflag, output, lambda_next] = quadprog(W_eval, dfdx_eval.', [], [], A_eval, -h_eval, [], [], [], options);
+    lll = sum(dx .* dx);
+    if lll > 1
+        dx = dx / sqrt(lll);
+    end
     x_k = x_k + dx.';
     
     if all(abs(dx) < 10^(-10))
@@ -125,7 +129,7 @@ for p = 1:Niter
     % Compute objective
     obj  = eval(subs(f, x.', x_k));
     g_eval = eval(subs(g, x.', x_k));
-    fprintf("%i: objective: %.5f,\t #constraints: %i,\t highest constraint: %.3f\n", p, obj, length(h_idx), max(g_eval));
+    fprintf("%i: objective: %.5f,\t constraints: %s,\t highest constraint: %.3f\n", p, obj, num2str(h_idx), max(g_eval));
     
     % Record history
     obj_history = [obj_history(2:nhistory); obj];
