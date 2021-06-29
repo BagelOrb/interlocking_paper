@@ -92,7 +92,7 @@ for p = 1:Niter
     A_k = subs(A, x.', x_k); 
     
     % Calculate Lagrangian multipliers
-    %lambda_k = double(lambda_k + 1/delta*double(h_k));
+    lambda_k = double(lambda_k + 1/delta*double(h_k));
     % any update for lambda seems to be good; something is wrong!
     
     % Evaluate matrices with lambda
@@ -103,8 +103,8 @@ for p = 1:Niter
 
     % Obtain update step
     [dx, sqp_obj, exitflag, output, lambda_next] = quadprog(W_eval, dfdx_eval.', [], [], A_eval, -h_eval, [], [], [], options);
-    x_k = x_k + dx;
-    lambda_k = -lambda_next.eqlin.';
+    x_k = x_k + dx.';
+    %lambda_k = -lambda_next.eqlin.';
     
     if all(abs(dx) < 10^(-10))
         break;
