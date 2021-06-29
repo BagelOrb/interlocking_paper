@@ -1,13 +1,8 @@
 clear all; % otherwise changes to the script aren't loaded until you restart MATLAB
-constants;
-design_variables;
-objective_sqp;
-constraints_sqp;
+
+diagonal_case;
 
 % TODO:
-% DONE - merge x_k x_k x_k and x_0 into x_k 
-% DONE - make x_k into a list, remove all x_k(1), x_k(2), etc
-% DONE - fix stopping criteria
 % - define 2d subproblems
 % - make 2d plots of f and include constraints
 % - implement active set strategy
@@ -15,45 +10,40 @@ constraints_sqp;
 %     > compute W based on full list of matrices of 2nd
 %       order derivatives of ddhdxx
 
-syms wa wb L F
 syms l1 l2 l3 l4 l5 l6 l7 l8 l9 l10
 
 % Define starting point
-x = [wa; wb; L; F];
 lambdas = [l1; l2; l3; l4; l5; l6; l7; l8; l9; l10]; % is needed for symbolic different
 
-% Set index of active constraints
-h_idx = [];
-lambda_k = [];
-
 % Set number of iterations
-Niter = 25;
+Niter = 100;
 
-f_sym = sym(f);
+delta = 100; % for lambda update
 
-ng = length(gs);
-nh = length(h_idx);
-nx = length(x);
+options = optimset('Display', 'off');
 
+% history for cycling detection
 nhistory = 6;
 obj_history = [99999:99999+nhistory].';
 h_idx_history = cell(nhistory,1);
 cycling_break = 0;
 
+% general initialization
+f_sym = sym(f);
+
+h_idx = [];
+lambda_k = [];
+
+ng = length(gs);
+nh = length(h_idx);
+nx = length(x);
+
 x_k = ones(1,nx);
 lambdas_k = ones(1,ng);
 
-delta = 100;
-options = optimset('Display', 'off');
-
-% Obtain second order Taylor series approximation
+% Obtain second order derivatives
 disp('Approximating Taylor series...');
 g = cellfun(@(g_) sym(g_), gs);
-h = g(h_idx);
-h_lin = eval(h);
-
-
-g_eval = ones(ng,1);
 
 dfdx = [];
 for i = 1:nx
