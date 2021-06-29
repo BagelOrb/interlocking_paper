@@ -17,7 +17,7 @@ syms l1 l2 l3 l4 l5 l6 l7 l8 l9 l10
 lambdas = [l1; l2; l3; l4; l5; l6; l7; l8; l9; l10]; % is needed for symbolic different
 
 % Set number of iterations
-Niter = 50;
+Niter = 400;
 
 delta = 100; % for lambda update
 
@@ -29,6 +29,7 @@ options = optimset('Display', 'off');
 nhistory = 6;
 obj_history = [99999:99999+nhistory].';
 h_idx_history = cell(nhistory,1);
+h_max_history = cell(nhistory,1);
 cycling_break = 0;
 
 % general initialization
@@ -81,7 +82,7 @@ for p = 1:Niter
     
     if ~ cycling_break
         indices = [1:ng]; % set all violated constraints as active
-        h_idx = [indices(g_k > .000001)];
+        h_idx = [indices(g_k > 10^(-4))];
     end
     nh = length(h_idx);
     h = g(h_idx);
@@ -122,11 +123,9 @@ for p = 1:Niter
         fprintf("dx too large. Employing move limits...\n");
         dx = dx * move_limit / sqrt(lll);
     end
+   
     x_k = x_k + dx.';
-    
-    if all(abs(dx) < 10^(-10))
-        break;
-    end
+        
 
     % Evaluate eigenvalues
     ev = eig(W_eval);
@@ -135,12 +134,35 @@ for p = 1:Niter
     % Compute objective
     obj  = eval(subs(f, x.', x_k));
     g_eval = eval(subs(g, x.', x_k));
+    
     fprintf("%i: objective: %.5f,\t constraints: %s,\t highest constraint: %.3f\n", p, obj, num2str(h_idx), max(g_eval));
     
     % Record history
     obj_history = [obj_history(2:nhistory); obj];
     h_idx_history(1:nhistory-1,1) = h_idx_history(2:nhistory,1);
     h_idx_history(nhistory,1) = { h_idx };
+    
+    h_max_history(1:nhistory-1,1) = h_max_history(2:nhistory,1);
+    h_max_history(nhistory,1) = { max(g_eval) };
+    
+    if all(abs(dx) < 10^(-10))
+        fprintf("Optimum found!")
+        break;
+    end
+    
+    g_eval_other = g_eval;
+    g_eval_other(h_idx) = 0;
+    if max(g_eval_other) > 10^(-3) && cycling_break 
+        fprintf("Another constraint violated, stop!")
+        % Go one step back
+        x_k = x_k - dx.';
+        obj  = eval(subs(f, x.', x_k));
+        g_eval = eval(subs(g, x.', x_k));
+        break
+    end
+    
+    
+    
 end
 
 fprintf('\n The minimum objective of %f with a max nominal stress of %f is reached for: \n', obj, 1 / obj)
