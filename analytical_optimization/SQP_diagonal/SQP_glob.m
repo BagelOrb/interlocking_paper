@@ -29,12 +29,10 @@ h_idx_history = cell(nhistory,1);
 cycling_break = 0;
 
 % general initialization
-f_sym = sym(f);
-
 h_idx = [];
 lambda_k = [];
 
-ng = length(gs);
+ng = length(g);
 nh = length(h_idx);
 nx = length(x);
 
@@ -43,7 +41,6 @@ lambdas_k = ones(1,ng);
 
 % Obtain second order derivatives
 disp('Approximating Taylor series...');
-g = cellfun(@(g_) sym(g_), gs);
 
 dfdx = [];
 for i = 1:nx
@@ -125,7 +122,7 @@ for p = 1:Niter
     isposdef = all(ev> -10^(-14));
 
     % Compute objective
-    obj  = eval(subs(f_sym, x.', x_k));
+    obj  = eval(subs(f, x.', x_k));
     g_eval = eval(subs(g, x.', x_k));
     fprintf("%i: objective: %.5f,\t #constraints: %i,\t highest constraint: %.3f\n", p, obj, length(h_idx), max(g_eval));
     
