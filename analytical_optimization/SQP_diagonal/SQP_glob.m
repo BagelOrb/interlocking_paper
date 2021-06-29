@@ -21,11 +21,14 @@ syms l1 l2 l3 l4
 % Define starting point
 x = [wa; wb; L; F];
 lambda = [l1; l2; l3; l4]; % is needed for symbolic different
+
 % Set index of active constraints
 h_idx = [1; 5; 8; 9];
 
 % Set number of iterations
 Niter = 100;       % Max number of iterations
+
+f_sym = sym(f);
 
 ng = length(gs);
 nh = length(h_idx);
@@ -62,16 +65,11 @@ for i = 1:ng
 end
 
 for p = 1:Niter
-    disp(['Start iteration ', num2str(p)]);
-    
     % Determine active constraints
     q = 1;
     
-    for g_con = g       
-        for i = 1:nx
-            g_con = subs(g_con, x(i), x_k(i));
-        end  
-        g_eval(q) = eval(g_con);
+    for g_con = g
+        g_eval(q) = eval(subs(g_con, x.', x_k));
         q = q + 1;
     end
     
@@ -87,39 +85,19 @@ for p = 1:Niter
     end
     A = dgdx(:,h_idx).';
     
-    % TODO: what does this do?
-    for i = 1:nx
-        if i == 1
-            dfdx_k = subs(dfdx, x(i), x_k(i));
-            h_k = subs(h,  x(i), x_k(i));
-            W_k = subs(W,  x(i), x_k(i));
-            A_k = subs(A,  x(i), x_k(i)); 
-        
-        else
-            dfdx_k = subs(dfdx_k, x(i), x_k(i));
-            h_k = subs(h_k,  x(i), x_k(i));
-            W_k = subs(W_k,  x(i), x_k(i));
-            A_k = subs(A_k,  x(i), x_k(i)); 
-        end   
-    
-    end   
+    % Evaluate matrices at the current point
+    dfdx_k = subs(dfdx, x.', x_k);
+    h_k = subs(h, x.', x_k);
+    W_k = subs(W, x.', x_k);
+    A_k = subs(A, x.', x_k); 
     
     % Calculate Lagrangian multipliers
     %lambda_k = double(lambda_k + 1/delta*double(h_k));
     % any update for lambda seems to be good; something is wrong!
     
-    % TODO: what does this do?
-     for i = 1:nx
-        if i == 1
-            W_eval = subs(W_k, lambda(i), lambda_k(i));
-            dfdx_eval = subs(dfdx_k, lambda(i), lambda_k(i));
-        else
-            W_eval = subs(W_eval, lambda(i), lambda_k(i));
-            dfdx_eval = subs(dfdx_eval, lambda(i), lambda_k(i));
-        end
-     end   
-    W_eval = double(W_eval);
-    dfdx_eval = double(dfdx_eval);
+    % Evaluate matrices with lambda
+    W_eval = double(subs(W_k, lambda.', lambda_k));
+    dfdx_eval = double(subs(dfdx_k, lambda.', lambda_k));
     A_eval = double(A_k);
     h_eval = double(h_k);
 
@@ -137,8 +115,8 @@ for p = 1:Niter
     isposdef = all(ev> -10^(-14));
 
     % Compute objective
-    obj  = f(x_k(1), x_k(2), x_k(3), x_k(4));     
-    
+    obj  = eval(subs(f_sym, x.', x_k));     
+    fprintf("%i: objective: %.3f,\t highest constraint: %.3f\n", p, obj, max(g_eval));
 end
 
 fprintf('\n The minimum objective of %f with a max nominal stress of %f is reached for: \n', obj, 1 / obj)
