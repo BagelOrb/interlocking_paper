@@ -35,6 +35,11 @@ ng = length(gs);
 nh = length(h_idx);
 nx = length(x);
 
+nhistory = 6;
+obj_history = [99999:99999+nhistory].';
+h_idx_history = cell(nhistory,1);
+cycling_break = 0;
+
 x_k = ones(1,nx);
 lambdas_k = ones(1,ng);
 
@@ -67,10 +72,28 @@ end
 
 for p = 1:Niter
     % Determine active constraints
-    lambdas_k(h_idx) = lambda_k;
     g_k = eval(subs(g, x.', x_k));
-    indices = [1:ng]; % set all violated constraints as active
-    h_idx = [indices(g_k > .000001)];
+    lambdas_k(h_idx) = lambda_k;
+    
+    % cycle detection and resolution
+    if p > nhistory && ~ cycling_break ...
+        && ~ isequal(cell2mat(h_idx_history(1)), cell2mat(h_idx_history(2)))...
+        && isequal(cell2mat(h_idx_history(1)), cell2mat(h_idx_history(3)))...
+        && isequal(cell2mat(h_idx_history(3)), cell2mat(h_idx_history(5)))...
+        && isequal(cell2mat(h_idx_history(2)), cell2mat(h_idx_history(4)))...
+        && isequal(cell2mat(h_idx_history(4)), cell2mat(h_idx_history(6)))
+        fprintf("Cycling detected! Take a break and choose the one with more active constraints...\n");
+        cycling_break = 1;
+        h_idx = cell2mat(h_idx_history(1));
+        if length(h_idx) < length(cell2mat(h_idx_history(2)))
+            h_idx = cell2mat(h_idx_history(2));
+        end
+    end
+    
+    if ~ cycling_break
+        indices = [1:ng]; % set all violated constraints as active
+        h_idx = [indices(g_k > .000001)];
+    end
     nh = length(h_idx);
     h = g(h_idx);
     lambda = lambdas(h_idx); % change subset of lambdas to match subset of active constraints
@@ -114,7 +137,12 @@ for p = 1:Niter
     % Compute objective
     obj  = eval(subs(f_sym, x.', x_k));
     g_eval = eval(subs(g, x.', x_k));
-    fprintf("%i: objective: %.3f,\t #constraints: %i,\t highest constraint: %.3f\n", p, obj, length(h_idx), max(g_eval));
+    fprintf("%i: objective: %.5f,\t #constraints: %i,\t highest constraint: %.3f\n", p, obj, length(h_idx), max(g_eval));
+    
+    % Record history
+    obj_history = [obj_history(2:nhistory); obj];
+    h_idx_history(1:nhistory-1,1) = h_idx_history(2:nhistory,1);
+    h_idx_history(nhistory,1) = { h_idx };
 end
 
 fprintf('\n The minimum objective of %f with a max nominal stress of %f is reached for: \n', obj, 1 / obj)
