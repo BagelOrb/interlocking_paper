@@ -2,8 +2,8 @@
 
 alternate = 0;
 
-tpla=true;pp=false; material = tpla;
-jigsaw=0;suture=1; type = suture;
+tpla=true;pp=false; material = pp;
+jigsaw=0;suture=1; type = jigsaw;
 
 approx_h = 5;
 approx_w = 17;
@@ -11,6 +11,8 @@ approx_w = 17;
 b_mult = 3;//4.48;
 
 h_min = .5;
+
+repeats = 5;
 
 wamin = .6;
 wbmin = wamin * b_mult;
@@ -32,6 +34,7 @@ suture_l = 2.4;
 tot_l = 50;
 
 brim = 10;
+outer_brim = 20;
 
 fn=32;
 
@@ -136,21 +139,21 @@ module interface(mat = true)
         }
     }
 }
-full();
+
 module full()
 {
     if (material == tpla)
     {
         translate([-brim,0,0]) cube([brim,elem_l,h_min]);
         translate([tot_w,0,0]) cube([brim,elem_l,h_min]);
-        translate([-brim,-tot_l-brim,0]) cube([tot_w+2*brim, tot_l+brim, h_min]);
+        translate([-brim,-tot_l-outer_brim,0]) cube([tot_w+2*brim, tot_l+outer_brim, h_min]);
         
         translate([0,-tot_l,0]) cube([tot_w, tot_l+.001, tot_h]);
         interface(tpla);
     }
     else
     {
-        translate([-brim,elem_l,0]) cube([tot_w+2*brim, tot_l+brim, h_min]);
+        *translate([-brim,elem_l,0]) cube([tot_w+2*brim, tot_l+outer_brim, h_min]);
         difference()
         {
             translate([0,.001,.001]) cube([tot_w, tot_l + elem_l, tot_h-.002]);
@@ -160,3 +163,21 @@ module full()
         //translate([0,elem_l,0]) scale([1,-1,1]) interface(b);
     }
 }
+
+if (material == tpla)
+{
+    translate([-outer_brim,-tot_l-outer_brim,0])
+    cube([outer_brim,elem_l + tot_l+outer_brim,h_min]);
+    translate([repeats*(tot_w+brim)-brim,-tot_l-outer_brim,0])
+    cube([outer_brim,elem_l + tot_l+outer_brim,h_min]);
+}
+else
+{
+    translate([-outer_brim,elem_l,0]) cube([tot_w*repeats+(repeats-1)*brim+2*outer_brim, tot_l+outer_brim, h_min]);
+}
+for (i = [0:repeats-1])
+{
+    translate([(tot_w+brim)*i,0,0])
+    full();
+}
+
