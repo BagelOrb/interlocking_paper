@@ -12,7 +12,8 @@ g5a = @(wa, wb, L, F) constraint5(F, wa, wb, L, sa);
 g5b = @(wa, wb, L, F) constraint5(F, wb, wa, L, sb);
 g6 = @(wa, wb, L, F) 1- F/F_min;
 
-gs = {g1a, g1b, g2, g3_1, g3_2, g4a, g4b, g5a, g5b, g6};
+gs = { g1a, g1b, g2, g3_1, g3_2, g4a, g4b, g5a, g5b, g6 };
+g_names = [ "g1a", "g1b", "g2", "g3_1", "g3_2", "g4a", "g4b", "g5a", "g5b", "g6" ];
 
 function g5 = constraint5(F, w1, w2, L, s1)
     constants;

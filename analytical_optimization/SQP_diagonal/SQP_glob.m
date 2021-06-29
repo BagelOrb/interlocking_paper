@@ -120,19 +120,11 @@ for p = 1:Niter
 end
 
 fprintf('\n The minimum objective of %f with a max nominal stress of %f is reached for: \n', obj, 1 / obj)
-fprintf('w_a* = %f \n', x_k(1));
-fprintf('w_b* = %f \n', x_k(2));
-fprintf('L* = %f \n', x_k(3));
-fprintf('F* = %f \n', x_k(4));
+for i = 1:nx
+    fprintf('%s = %f \n', string(x(i)), x_k(i));
+end
 
 fprintf('And occurs for the following constraint values: \n');
-fprintf('g1a = %f \n', eval(subs(sym(g1a), [wa, wb, L, F], [x_k(1), x_k(2), x_k(3), x_k(4)])));
-fprintf('g1b = %f \n', eval(subs(sym(g1b), [wa, wb, L, F], [x_k(1), x_k(2), x_k(3), x_k(4)])));
-fprintf('g2 = %f \n', eval(subs(sym(g2), [wa, wb, L, F], [x_k(1), x_k(2), x_k(3), x_k(4)])));
-fprintf('g3_1 = %f \n', eval(subs(sym(g3_1), [wa, wb, L, F], [x_k(1), x_k(2), x_k(3), x_k(4)])));
-fprintf('g3_2 = %f \n', eval(subs(sym(g3_2), [wa, wb, L, F], [x_k(1), x_k(2), x_k(3), x_k(4)])));
-fprintf('g4a = %f \n', eval(subs(sym(g4a), [wa, wb, L, F], [x_k(1), x_k(2), x_k(3), x_k(4)])));
-fprintf('g4b = %f \n', eval(subs(sym(g4b), [wa, wb, L, F], [x_k(1), x_k(2), x_k(3), x_k(4)])));
-fprintf('g5a = %f \n', eval(subs(sym(g5a), [wa, wb, L, F], [x_k(1), x_k(2), x_k(3), x_k(4)])));
-fprintf('g5b = %f \n', eval(subs(sym(g5b), [wa, wb, L, F], [x_k(1), x_k(2), x_k(3), x_k(4)])));
-fprintf('g6 = %f \n', eval(subs(sym(g6), [wa, wb, L, F], [x_k(1), x_k(2), x_k(3), x_k(4)])));
+for i = 1:ng
+    fprintf('%s: %.3f \n', g_names(i), g_eval(i));
+end
