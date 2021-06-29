@@ -1,6 +1,7 @@
 clear all; % otherwise changes to the script aren't loaded until you restart MATLAB
 
-diagonal_case;
+%diagonal_case;
+straight_case;
 
 % TODO:
 % - define 2d subproblems
