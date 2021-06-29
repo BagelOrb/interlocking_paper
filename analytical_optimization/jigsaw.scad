@@ -35,6 +35,7 @@ tot_l = 50;
 
 brim = 10;
 outer_brim = 20;
+brim_h = .2;
 
 fn=32;
 
@@ -144,16 +145,16 @@ module full()
 {
     if (material == tpla)
     {
-        translate([-brim,0,0]) cube([brim,elem_l,h_min]);
-        translate([tot_w,0,0]) cube([brim,elem_l,h_min]);
-        translate([-brim,-tot_l-outer_brim,0]) cube([tot_w+2*brim, tot_l+outer_brim, h_min]);
+        translate([-brim,0,0]) cube([brim,elem_l,brim_h]);
+        translate([tot_w,0,0]) cube([brim,elem_l,brim_h]);
+        translate([-brim,-tot_l-outer_brim,0]) cube([tot_w+2*brim, tot_l+outer_brim, brim_h]);
         
         translate([0,-tot_l,0]) cube([tot_w, tot_l+.001, tot_h]);
         interface(tpla);
     }
     else
     {
-        *translate([-brim,elem_l,0]) cube([tot_w+2*brim, tot_l+outer_brim, h_min]);
+        *translate([-brim,elem_l,0]) cube([tot_w+2*brim, tot_l+outer_brim, brim_h]);
         difference()
         {
             translate([0,.001,.001]) cube([tot_w, tot_l + elem_l, tot_h-.002]);
@@ -167,13 +168,14 @@ module full()
 if (material == tpla)
 {
     translate([-outer_brim,-tot_l-outer_brim,0])
-    cube([outer_brim,elem_l + tot_l+outer_brim,h_min]);
+    cube([outer_brim,elem_l + tot_l+outer_brim,brim_h]);
     translate([repeats*(tot_w+brim)-brim,-tot_l-outer_brim,0])
-    cube([outer_brim,elem_l + tot_l+outer_brim,h_min]);
+    cube([outer_brim,elem_l + tot_l+outer_brim,brim_h]);
 }
 else
 {
-    translate([-outer_brim,elem_l,0]) cube([tot_w*repeats+(repeats-1)*brim+2*outer_brim, tot_l+outer_brim, h_min]);
+    translate([-outer_brim,elem_l,0])
+    cube([tot_w*repeats+(repeats-1)*brim+2*outer_brim, tot_l+outer_brim, brim_h]);
 }
 for (i = [0:repeats-1])
 {
