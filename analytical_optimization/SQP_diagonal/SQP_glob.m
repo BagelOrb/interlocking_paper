@@ -17,9 +17,11 @@ syms l1 l2 l3 l4 l5 l6 l7 l8 l9 l10
 lambdas = [l1; l2; l3; l4; l5; l6; l7; l8; l9; l10]; % is needed for symbolic different
 
 % Set number of iterations
-Niter = 100;
+Niter = 50;
 
 delta = 100; % for lambda update
+
+move_limit = 1.;
 
 options = optimset('Display', 'off');
 
@@ -37,7 +39,6 @@ ng = length(g);
 nh = length(h_idx);
 nx = length(x);
 
-x_k = ones(1,nx);
 lambdas_k = ones(1,ng);
 
 % Obtain second order derivatives
@@ -112,9 +113,14 @@ for p = 1:Niter
 
     % Obtain update step
     [dx, sqp_obj, exitflag, output, lambda_next] = quadprog(W_eval, dfdx_eval.', [], [], A_eval, -h_eval, [], [], [], options);
+    if exitflag == -2
+        fprintf("Problem non-convex! Perturbing randomly...\n");
+        dx = (rand(nx,1) - .5) * .1;
+    end
     lll = sum(dx .* dx);
-    if lll > 1
-        dx = dx / sqrt(lll);
+    if lll > move_limit^2
+        fprintf("dx too large. Employing move limits...\n");
+        dx = dx * move_limit / sqrt(lll);
     end
     x_k = x_k + dx.';
     

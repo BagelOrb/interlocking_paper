@@ -1,7 +1,10 @@
 straight_constants;
 
 syms wb va vb hf F;
-x = [wb va vb hf F].';
+x = [wb; va; vb; hf; F];
+nx = length(x);
+x_k = [2.7, 2.16, 1.44, 1.0, 28.2]; % starting point
+%x_k = ones(1,nx); % starting point
 
 f = (wa + wb) * (hf + hc) / F;
 

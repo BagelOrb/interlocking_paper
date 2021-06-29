@@ -2,6 +2,8 @@ constants;
 
 syms wa wb L F;
 x = [wa; wb; L; F];
+nx = length(x);
+x_k = ones(1,nx); % starting point
 
 f = (wa + wb) *2* h  / F;
 
@@ -18,6 +20,7 @@ g6 = 1- F/F_min;
 
 g = [ g1a, g1b, g2, g3_1, g3_2, g4a, g4b, g5a, g5b, g6 ];
 g_names = [ "g1a", "g1b", "g2", "g3_1", "g3_2", "g4a", "g4b", "g5a", "g5b", "g6" ];
+
 
 function g5 = constraint5(F, w1, w2, L, s1)
     constants;
