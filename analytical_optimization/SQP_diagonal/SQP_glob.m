@@ -117,7 +117,7 @@ for p = 1:Niter
         cycling_break = cycling_break + 1;
     end
     if cycling_break > 6
-        %cycling_break = 0;
+        cycling_break = 0;
     end
     nh = length(h_idx);
     h = g(h_idx);
@@ -126,7 +126,7 @@ for p = 1:Niter
     
     % Calculate Lagrangian multipliers
     h_k = g_k(h_idx);
-    lambda_k = double(lambda_k + 1/delta*double(h_k));
+    %lambda_k = double(lambda_k + 1/delta*double(h_k));
     
     % Compute Hessian and Jacobian matrices for SQP
     ddhdxx = ddgdxx(:,:,h_idx);
@@ -152,7 +152,9 @@ for p = 1:Niter
         g_k = double(subs(g, x.', x_k));
         break;
     else
-        %lambda_k = lambda_next.eqlin;
+        lambda_k = lambda_next.eqlin;
+        %[lambda_new, rank] = linsolve(A_k.', W_k * dx + dfdx);
+        %lambda_k(~ isinf(lambda_new)) = lambda_new(~ isinf(lambda_new));
     end
     employed_move_limits = false;
     lll = sum(dx .* dx);
