@@ -1,8 +1,9 @@
 straight_constants;
 
-syms hf F;
-x = [hf; F];
-wb = 2.1;
+syms wb F;
+x = [wb; F];
+%wb = 2.7;
+hf = 1;
 va = 2.;
 vb = 0.9;
 
