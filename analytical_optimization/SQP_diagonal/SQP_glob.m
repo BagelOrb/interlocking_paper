@@ -1,9 +1,9 @@
 clear all; % otherwise changes to the script aren't loaded until you restart MATLAB
 
 % diagonal_case;
-% straight_case;
+straight_case;
 % straight_case_2var;
-diagonal_case_2var;
+% diagonal_case_2var;
 
 get_plot = 1;       % Turn on to obtain plot
 
@@ -106,7 +106,7 @@ for p = 1:Niter
         %mu = linsolve(dgdx_k, -dfdx_k);
         %lambdas_k = mu;
         %h_idx = [indices(mu > 10^-4)];
-        h_idx = [indices(g_k > 10^-4)];
+        h_idx = [indices(g_k > 10^-14)];
         %h_idx = [indices(lambdas_k < -10^-4)];
         %h_idx = [indices(g_k > -10^(-4))];
         %if length(h_idx) > nx
@@ -142,6 +142,7 @@ for p = 1:Niter
     % Obtain update step
     [dx, sqp_obj, exitflag, output, lambda_next] = quadprog(W_k, dfdx_k.', [], [], A_k, -h_k, [], [], [], options);
     %[dx, sqp_obj, exitflag, output, lambda_next] = quadprog(W_k, dfdx_k.', dgdx_k.', -g_k.', [], [], [], [], [], options);
+    
     if exitflag == -2
         fprintf("Problem non-convex! Stopping execution!\n");
         % Go one step back
@@ -155,6 +156,7 @@ for p = 1:Niter
         %[lambda_new, rank] = linsolve(A_k.', W_k * dx + dfdx);
         %lambda_k(~ isinf(lambda_new)) = lambda_new(~ isinf(lambda_new));
     end
+    
     employed_move_limits = false;
     lll = sum(dx .* dx);
     if lll > move_limit^2
@@ -175,7 +177,7 @@ for p = 1:Niter
     
     fprintf("%i: objective: %.5f,\t constraints: %s,\t highest constraint: %.3f,\t move limits: %i\n", p, obj, num2str(h_idx), max(g_k), employed_move_limits);
      
-    if max(g_k) < 10^(-5) && max(g_k) > -0.01 && any(round(obj_history(:), 6) == round(obj,6))
+    if max(g_k) < 10^(-4) && max(g_k) > -0.01 && any(round(obj_history(:), 5) == round(obj,5)) && length(h_idx) == length(x)
         fprintf("Cycling inside the same loop, stop!\n")
         break
     end
@@ -188,7 +190,7 @@ for p = 1:Niter
     h_max_history(1:nhistory-1,1) = h_max_history(2:nhistory,1);
     h_max_history(nhistory,1) = { max(g_k) };
     
-    if all(abs(dx) < 10^(-14))
+    if all(abs(dx) < 10^(-6))
         fprintf("Optimum found!\n")
         break;
     end
@@ -204,11 +206,7 @@ for p = 1:Niter
         x_history = x_history(1:end-1,:);
         break
     end
-    
-   
-
-    
-    
+     
     if p == Niter
         fprintf("Reaching max iterations.\n");
     end
