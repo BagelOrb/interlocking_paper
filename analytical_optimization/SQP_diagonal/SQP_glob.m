@@ -3,7 +3,7 @@ clear all; % otherwise changes to the script aren't loaded until you restart MAT
 % diagonal_case;
 % straight_case;
 straight_case_2var;
-% diagonal_case_2var;
+diagonal_case_2var;
 
 get_plot = 1;       % Turn on to obtain plot
 
@@ -13,11 +13,11 @@ syms l1 l2 l3 l4 l5 l6 l7 l8 l9 l10 l11 l12 l13
 lambdas = [l1; l2; l3; l4; l5; l6; l7; l8; l9; l10; l11; l12; l13]; % is needed for symbolic different
 
 % Set number of iterations
-Niter = 400;
+Niter = 500;
 
 delta = 100; % for lambda update
 
-move_limit = 1;
+move_limit = 0.5;
 
 options = optimset('Display', 'off');
 
@@ -147,7 +147,7 @@ for p = 1:Niter
         fprintf("Problem non-convex! Stopping execution!\n");
         % Go one step back
         x_k = x_history(p - 1,:);
-        x_history = x_history(1:end-1,:)
+        x_history = x_history(1:end-1,:);
         obj  = double(subs(f, x.', x_k));
         g_k = double(subs(g, x.', x_k));
         break;
@@ -175,7 +175,11 @@ for p = 1:Niter
     g_k = double(subs(g, x.', x_k));
     
     fprintf("%i: objective: %.5f,\t constraints: %s,\t highest constraint: %.3f,\t move limits: %i\n", p, obj, num2str(h_idx), max(g_k), employed_move_limits);
-    
+     if max(g_k) < 10^(-14) && max(g_k) > -0.01 && any(round(obj_history(:), 6) == round(obj,6))
+        fprintf("Cycling inside the same loop, stop!\n")
+        break
+    end
+        
     % Record history
     obj_history = [obj_history(2:nhistory); obj];
     h_idx_history(1:nhistory-1,1) = h_idx_history(2:nhistory,1);
@@ -197,15 +201,19 @@ for p = 1:Niter
         x_k = x_k - dx.';
         obj  = double(subs(f, x.', x_k));
         g_k = double(subs(g, x.', x_k));
-        x_history = x_history(1:end-1,:)
+        x_history = x_history(1:end-1,:);
         break
     end
+    
+   
+
     
     
     if p == Niter
         fprintf("Reaching max iterations.\n");
     end
 end
+
 
 if ~ any(isnan(dgdx_k))
     fprintf("Checking KKT conditions...\n")
@@ -218,10 +226,10 @@ if ~ any(isnan(dgdx_k))
     end
 end
 
-fprintf("Sensitivities:\n");
-disp(dfdx_k);
-disp(dgdx_k);
-disp(mu)
+% fprintf("Sensitivities:\n");
+% disp(dfdx_k);
+% disp(dgdx_k);
+% disp(mu);
 
 fprintf('\n The minimum objective of %f with a max nominal stress of %f is reached for: \n', obj, 1 / obj)
 for i = 1:nx
@@ -237,8 +245,8 @@ if get_plot
     fprintf('Plotting...');
     x1_range = max(x_history(:,1)) - min(x_history(:,1));
     x2_range = max(x_history(:,2)) - min(x_history(:,2));
-    x1_array = linspace(max(0.001, min(x_history(:,1))-.1*x1_range), .1*x1_range+max(x_history(:,1)), 20); 
-    x2_array  = linspace(min(x_history(:,2)), .1*x2_range+max(x_history(:,2)), 20);
+    x1_array = linspace(max(0.001, min(x_history(:,1)) - 0.1*x1_range), .1*x1_range+max(x_history(:,1)), 20); 
+    x2_array = linspace(max(0.001, min(x_history(:,2)) - 0.1*x2_range), .1*x2_range+max(x_history(:,2)), 20);
     contourplots(x, x_history, x1_array, x2_array, f, g, g_names)
 end
 fprintf('Done!');

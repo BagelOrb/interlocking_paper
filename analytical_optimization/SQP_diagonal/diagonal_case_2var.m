@@ -2,8 +2,8 @@ constants;
 
 syms wb F;
 x = [wb; F];
-wa = 1.2;
-L = 3.;
+wa = 0.8;
+L = 3.3;
 
 nx = length(x);
 x_k = ones(1,nx); % starting point

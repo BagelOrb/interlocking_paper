@@ -3,7 +3,7 @@ straight_constants;
 syms wb F;
 x = [wb; F];
 %wb = 2.7;
-hf = 1;
+hf = 0.8;
 va = 2.;
 vb = 0.9;
 

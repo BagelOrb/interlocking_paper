@@ -32,6 +32,8 @@ for j=1:1:length(x2_array)
     % Grid value of objective function:
     fobj(j,i) = f_eval_k; 
     
+    set(gcf, 'WindowState', 'maximized');
+    
     for p = 1:n_constr
     % Grid values of constraints:
       g_eval(j,i,p) = g_eval_k(p);    % Scaled length constraint
@@ -49,7 +51,6 @@ xlabel(string(x(1))), ylabel(string(x(2))), ...
 hold on
 
 for p = 1:n_constr
-    contour(x1_array, x2_array, g_eval(:,:,p), [.01 .01],'--', 'showtext', 'off');hold on;
     [C, hContour] = contour(x1_array, x2_array, g_eval(:,:,p), [0.0 0.0], 'LineColor', [1 1 1]*230/255,  'showtext', 'on');
     clabel(C,hContour,'Color', [1 1 1]*230/255)
     drawnow;
@@ -58,7 +59,8 @@ for p = 1:n_constr
     for idx = 1 : numel(labels)
         hContour.TextPrims(idx).String= lab;
     end
-    % contour(x1_array, x2_array, g_eval(:,:,p), [0.05, 0.05],'--') ;% Infeasible region
+    contour(x1_array, x2_array, g_eval(:,:,p), [0.02, 0.02],'--', 'LineColor', [1 1 1]*230/255) ;% Infeasible region
+    
     hold on
 end
 
