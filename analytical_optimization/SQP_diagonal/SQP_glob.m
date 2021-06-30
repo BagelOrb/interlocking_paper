@@ -58,9 +58,13 @@ for i = 1:ng
 end
 
 for p = 1:Niter
+    
+    dfdx_k = subs(dfdx, x.', x_k);
+    dgdx_k = eval(subs(dgdx, x.', x_k));
+    
     % Determine active constraints
     g_k = eval(subs(g, x.', x_k));
-    lambdas_k(h_idx) = lambda_k;
+    lambdas_k(h_idx) = lambda_k; % save lambdas associated with old h_idx
     
     % cycle detection and resolution
     if p > nhistory && ~ cycling_break ...
@@ -79,7 +83,22 @@ for p = 1:Niter
     
     if ~ cycling_break
         indices = [1:ng]; % set all violated constraints as active
-        h_idx = [indices(g_k > 10^(-4))];
+        
+        %> dfdx_k + mu * dgdx_k = 0
+        %> mu * dgdx_k = - dfdx_k
+        %mu = linsolve(dgdx_k, -dfdx_k);
+        %lambdas_k = mu;
+        %h_idx = [indices(mu > 10^-4)];
+        h_idx = [indices(g_k > 10^-4)];
+        %h_idx = [indices(g_k > -10^(-4))];
+        %if length(h_idx) > nx
+        %    [unused, h_idx] = maxk(g_k, nx);
+        %end
+    else
+        cycling_break = cycling_break + 1;
+    end
+    if cycling_break > 6
+        %cycling_break = 0;
     end
     nh = length(h_idx);
     h = g(h_idx);
@@ -99,7 +118,6 @@ for p = 1:Niter
     A = dgdx(:,h_idx).';
     
     % Evaluate matrices at the current point
-    dfdx_k = subs(dfdx, x.', x_k);
     W_k = subs(W, x.', x_k);
     A_k = subs(A, x.', x_k); 
     
@@ -112,8 +130,14 @@ for p = 1:Niter
     % Obtain update step
     [dx, sqp_obj, exitflag, output, lambda_next] = quadprog(W_eval, dfdx_eval.', [], [], A_eval, -h_eval, [], [], [], options);
     if exitflag == -2
-        fprintf("Problem non-convex! Perturbing randomly...\n");
-        dx = (rand(nx,1) - .5) * .1;
+        fprintf("Problem non-convex! Stopping execution!\n");
+        % Go one step back
+        x_k = x_history(p - 1,:);
+        obj  = eval(subs(f, x.', x_k));
+        g_eval = eval(subs(g, x.', x_k));
+        break;
+    else
+        %lambda_k = lambda_next.eqlin;
     end
     lll = sum(dx .* dx);
     if lll > move_limit^2
