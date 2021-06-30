@@ -3,9 +3,9 @@ straight_constants;
 syms wb F;
 x = [wb; F];
 %wb = 2.7;
-hf = 0.8;
+hf = 1;
 va = 2.;
-vb = 0.9;
+vb = 1;
 
 
 nx = length(x);

@@ -2,7 +2,7 @@ clear all; % otherwise changes to the script aren't loaded until you restart MAT
 
 % diagonal_case;
 % straight_case;
-straight_case_2var;
+% straight_case_2var;
 diagonal_case_2var;
 
 get_plot = 1;       % Turn on to obtain plot
@@ -14,7 +14,6 @@ lambdas = [l1; l2; l3; l4; l5; l6; l7; l8; l9; l10; l11; l12; l13]; % is needed 
 
 % Set number of iterations
 Niter = 500;
-
 delta = 100; % for lambda update
 
 move_limit = 0.5;
@@ -175,7 +174,8 @@ for p = 1:Niter
     g_k = double(subs(g, x.', x_k));
     
     fprintf("%i: objective: %.5f,\t constraints: %s,\t highest constraint: %.3f,\t move limits: %i\n", p, obj, num2str(h_idx), max(g_k), employed_move_limits);
-     if max(g_k) < 10^(-14) && max(g_k) > -0.01 && any(round(obj_history(:), 6) == round(obj,6))
+     
+    if max(g_k) < 10^(-5) && max(g_k) > -0.01 && any(round(obj_history(:), 6) == round(obj,6))
         fprintf("Cycling inside the same loop, stop!\n")
         break
     end
