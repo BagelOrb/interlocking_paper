@@ -197,7 +197,12 @@ for p = 1:Niter
         g_k = double(subs(g, x.', x_k));
         x_history = x_history(1:end-1,:)
         break
-    end       
+    end
+    
+    
+    if p == Niter
+        fprintf("Reaching max iterations.\n");
+    end
 end
 
 if ~ any(isnan(dgdx_k))
@@ -212,6 +217,8 @@ if ~ any(isnan(dgdx_k))
 end
 
 fprintf("Sensitivities:\n");
+disp(dfdx_k);
+disp(dgdx_k);
 disp(mu)
 
 fprintf('\n The minimum objective of %f with a max nominal stress of %f is reached for: \n', obj, 1 / obj)
