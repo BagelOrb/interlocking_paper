@@ -1,10 +1,9 @@
 clear all; % otherwise changes to the script aren't loaded until you restart MATLAB
 
 % diagonal_case;
-%straight_case;
-straight_case_2var;
-
-% diagonal_case_2var;
+% straight_case;
+% straight_case_2var;
+diagonal_case_2var;
 
 get_plot = 1;       % Turn on to obtain plot
 
@@ -60,11 +59,11 @@ end
 
 for p = 1:Niter
     
-    dfdx_k = subs(dfdx, x.', x_k);
-    dgdx_k = eval(subs(dgdx, x.', x_k));
+    dfdx_k = double(subs(dfdx, x.', x_k));
+    dgdx_k = double(subs(dgdx, x.', x_k));
     
     % Determine active constraints
-    g_k = eval(subs(g, x.', x_k));
+    g_k = double(subs(g, x.', x_k));
     lambdas_k(h_idx) = lambda_k; % save lambdas associated with old h_idx
     
     % cycle detection and resolution
@@ -134,8 +133,8 @@ for p = 1:Niter
         fprintf("Problem non-convex! Stopping execution!\n");
         % Go one step back
         x_k = x_history(p - 1,:);
-        obj  = eval(subs(f, x.', x_k));
-        g_eval = eval(subs(g, x.', x_k));
+        obj  = double(subs(f, x.', x_k));
+        g_eval = double(subs(g, x.', x_k));
         break;
     else
         %lambda_k = lambda_next.eqlin;
@@ -155,8 +154,8 @@ for p = 1:Niter
     isposdef = all(ev> -10^(-14));
 
     % Compute objective
-    obj  = eval(subs(f, x.', x_k));
-    g_eval = eval(subs(g, x.', x_k));
+    obj  = double(subs(f, x.', x_k));
+    g_eval = double(subs(g, x.', x_k));
     
     fprintf("%i: objective: %.5f,\t constraints: %s,\t highest constraint: %.3f,\t move limits: %i\n", p, obj, num2str(h_idx), max(g_eval), employed_move_limits);
     
@@ -168,7 +167,7 @@ for p = 1:Niter
     h_max_history(1:nhistory-1,1) = h_max_history(2:nhistory,1);
     h_max_history(nhistory,1) = { max(g_eval) };
     
-    if all(abs(dx) < 10^(-10))
+    if all(abs(dx) < 10^(-14))
         fprintf("Optimum found!\n")
         break;
     end
@@ -179,8 +178,8 @@ for p = 1:Niter
         fprintf("Another constraint violated, stop!\n")
         % Go one step back
         x_k = x_k - dx.';
-        obj  = eval(subs(f, x.', x_k));
-        g_eval = eval(subs(g, x.', x_k));
+        obj  = double(subs(f, x.', x_k));
+        g_eval = double(subs(g, x.', x_k));
         break
     end       
 end
@@ -197,8 +196,7 @@ if ~ any(isnan(dgdx_k))
 end
 
 fprintf("Sensitivities:\n");
-disp(dfdx_k);
-disp(dgdx_k);
+disp(mu)
 
 fprintf('\n The minimum objective of %f with a max nominal stress of %f is reached for: \n', obj, 1 / obj)
 for i = 1:nx

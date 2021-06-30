@@ -48,7 +48,8 @@ xlabel(string(x(1))), ylabel(string(x(2))), ...
 hold on
 
 for p = 1:n_constr
-    [C, hContour] = contour(x1_array, x2_array, g_eval(:,:,p), [0.0 0.0], 'LineColor', [1 1 1]*50/255,  'showtext', 'on');
+    [C, hContour] = contour(x1_array, x2_array, g_eval(:,:,p), [0.0 0.0], 'LineColor', [1 1 1]*230/255,  'showtext', 'on');
+    clabel(C,hContour,'Color', [1 1 1]*230/255)
     drawnow;
     lab = char(g_names(p));
     labels=hContour.TextPrims;
@@ -59,7 +60,7 @@ for p = 1:n_constr
     hold on
 end
 
-plot(x_history(:,1), x_history(:,2), 'Marker', 'o', 'Color', 'r');
+plot(x_history(:,1), x_history(:,2), 'Marker', '*', 'Color', 'r');
 plot(x_history(size(x_history, 1),1), x_history(size(x_history, 1),2), 'Marker', 'p', 'MarkerFaceColor', 'r','MarkerEdgeColor', 'b', 'MarkerSize', 20);
 grid
 
