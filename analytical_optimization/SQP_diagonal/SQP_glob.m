@@ -1,9 +1,10 @@
 clear all; % otherwise changes to the script aren't loaded until you restart MATLAB
 
 % diagonal_case;
-% straight_case;
+%straight_case;
+straight_case_2var;
 
-diagonal_case_2var;
+% diagonal_case_2var;
 
 get_plot = 1;       % Turn on to obtain plot
 
