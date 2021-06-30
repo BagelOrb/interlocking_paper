@@ -2,8 +2,8 @@ clear all; % otherwise changes to the script aren't loaded until you restart MAT
 
 % diagonal_case;
 % straight_case;
-% straight_case_2var;
-diagonal_case_2var;
+straight_case_2var;
+% diagonal_case_2var;
 
 get_plot = 1;       % Turn on to obtain plot
 
@@ -133,6 +133,7 @@ for p = 1:Niter
         fprintf("Problem non-convex! Stopping execution!\n");
         % Go one step back
         x_k = x_history(p - 1,:);
+        x_history = x_history(1:end-1,:)
         obj  = double(subs(f, x.', x_k));
         g_eval = double(subs(g, x.', x_k));
         break;
@@ -180,6 +181,7 @@ for p = 1:Niter
         x_k = x_k - dx.';
         obj  = double(subs(f, x.', x_k));
         g_eval = double(subs(g, x.', x_k));
+        x_history = x_history(1:end-1,:)
         break
     end       
 end
@@ -209,10 +211,12 @@ for i = 1:ng
 end
 
 if get_plot
+    fprintf('Plotting...');
     x1_range = max(x_history(:,1)) - min(x_history(:,1));
     x2_range = max(x_history(:,2)) - min(x_history(:,2));
     x1_array = linspace(max(0.001, min(x_history(:,1))-.1*x1_range), .1*x1_range+max(x_history(:,1)), 10); 
     x2_array  = linspace(max(0.001, min(x_history(:,2))-.1*x2_range), .1*x2_range+max(x_history(:,2)), 10);
     contourplots(x, x_history, x1_array, x2_array, f, g, g_names)
 end
+fprintf('Done!');
     

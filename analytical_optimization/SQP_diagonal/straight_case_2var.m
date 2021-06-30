@@ -2,9 +2,9 @@ straight_constants;
 
 syms hf F;
 x = [hf; F];
-wb = 2.7;
-va = 2.16;
-vb = L_max - va - .001;
+wb = 2.1;
+va = 2.;
+vb = 0.9;
 
 
 nx = length(x);

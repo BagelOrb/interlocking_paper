@@ -1,6 +1,7 @@
 function contourplots(x, x_history, x1_array, x2_array, f, g, g_names)
 % Initialization
 clf, hold off
+warning('off')
 % Combinations of design variables D and d 
 nx = length(x);
 n_constr = size(g,2);
