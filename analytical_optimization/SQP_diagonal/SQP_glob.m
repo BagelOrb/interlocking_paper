@@ -61,6 +61,8 @@ for p = 1:Niter
     
     dfdx_k = double(subs(dfdx, x.', x_k));
     dgdx_k = double(subs(dgdx, x.', x_k));
+    dgdx_k(isnan(dgdx_k)) = 0;
+    dgdx_k(isinf(dgdx_k)) = 0;
     
     % Determine active constraints
     g_k = double(subs(g, x.', x_k));
