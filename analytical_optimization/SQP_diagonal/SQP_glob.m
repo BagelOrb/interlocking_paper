@@ -184,6 +184,21 @@ for p = 1:Niter
     end       
 end
 
+if ~ any(isnan(dgdx_k))
+    fprintf("Checking KKT conditions...\n")
+    mu = linsolve(dgdx_k, -dfdx_k);
+    if any(mu < -10^-3)
+        fprintf("Constraints violated!\n");
+    end
+    if any(abs(mu .* g_eval) > 10^-3)
+        fprintf("Active/inactive criterion violated!\n");
+    end
+end
+
+fprintf("Sensitivities:\n");
+disp(dfdx_k);
+disp(dgdx_k);
+
 fprintf('\n The minimum objective of %f with a max nominal stress of %f is reached for: \n', obj, 1 / obj)
 for i = 1:nx
     fprintf('%s = %f \n', string(x(i)), x_k(i));
