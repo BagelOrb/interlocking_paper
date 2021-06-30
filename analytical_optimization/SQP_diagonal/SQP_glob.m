@@ -137,24 +137,19 @@ for p = 1:Niter
     A = dgdx(:,h_idx).';
     
     % Evaluate matrices at the current point
-    W_k = subs(W, x.', x_k);
-    A_k = subs(A, x.', x_k); 
+    W_k = double(subs(W, x.', x_k));
+    A_k = double(subs(A, x.', x_k));
     
-    % Evaluate matrices with lambda
-    W_eval = double(W_k);
-    dfdx_eval = double(dfdx_k);
-    A_eval = double(A_k);
-    h_eval = double(h_k);
-
     % Obtain update step
-    [dx, sqp_obj, exitflag, output, lambda_next] = quadprog(W_eval, dfdx_eval.', [], [], A_eval, -h_eval, [], [], [], options);
+    [dx, sqp_obj, exitflag, output, lambda_next] = quadprog(W_k, dfdx_k.', [], [], A_k, -h_k, [], [], [], options);
+    %[dx, sqp_obj, exitflag, output, lambda_next] = quadprog(W_k, dfdx_k.', dgdx_k.', -g_k.', [], [], [], [], [], options);
     if exitflag == -2
         fprintf("Problem non-convex! Stopping execution!\n");
         % Go one step back
         x_k = x_history(p - 1,:);
         x_history = x_history(1:end-1,:)
         obj  = double(subs(f, x.', x_k));
-        g_eval = double(subs(g, x.', x_k));
+        g_k = double(subs(g, x.', x_k));
         break;
     else
         %lambda_k = lambda_next.eqlin;
@@ -170,14 +165,14 @@ for p = 1:Niter
     x_history = [x_history; x_k];   
 
     % Evaluate eigenvalues
-    ev = eig(W_eval);
+    ev = eig(W_k);
     isposdef = all(ev> -10^(-14));
 
     % Compute objective
     obj  = double(subs(f, x.', x_k));
-    g_eval = double(subs(g, x.', x_k));
+    g_k = double(subs(g, x.', x_k));
     
-    fprintf("%i: objective: %.5f,\t constraints: %s,\t highest constraint: %.3f,\t move limits: %i\n", p, obj, num2str(h_idx), max(g_eval), employed_move_limits);
+    fprintf("%i: objective: %.5f,\t constraints: %s,\t highest constraint: %.3f,\t move limits: %i\n", p, obj, num2str(h_idx), max(g_k), employed_move_limits);
     
     % Record history
     obj_history = [obj_history(2:nhistory); obj];
@@ -185,21 +180,21 @@ for p = 1:Niter
     h_idx_history(nhistory,1) = { h_idx };
     
     h_max_history(1:nhistory-1,1) = h_max_history(2:nhistory,1);
-    h_max_history(nhistory,1) = { max(g_eval) };
+    h_max_history(nhistory,1) = { max(g_k) };
     
     if all(abs(dx) < 10^(-14))
         fprintf("Optimum found!\n")
         break;
     end
     
-    g_eval_other = g_eval;
-    g_eval_other(h_idx) = 0;
-    if max(g_eval_other) > 10^(-3) && cycling_break 
+    g_k_other = g_k;
+    g_k_other(h_idx) = 0;
+    if max(g_k_other) > 10^(-3) && cycling_break 
         fprintf("Another constraint violated, stop!\n")
         % Go one step back
         x_k = x_k - dx.';
         obj  = double(subs(f, x.', x_k));
-        g_eval = double(subs(g, x.', x_k));
+        g_k = double(subs(g, x.', x_k));
         x_history = x_history(1:end-1,:)
         break
     end       
@@ -211,7 +206,7 @@ if ~ any(isnan(dgdx_k))
     if any(mu < -10^-3)
         fprintf("Constraints violated!\n");
     end
-    if any(abs(mu .* g_eval) > 10^-3)
+    if any(abs(mu .* g_k) > 10^-3)
         fprintf("Active/inactive criterion violated!\n");
     end
 end
@@ -226,7 +221,7 @@ end
 
 fprintf('And occurs for the following constraint values: \n');
 for i = 1:ng
-    fprintf('%s: %.3f \n', g_names(i), g_eval(i));
+    fprintf('%s: %.3f \n', g_names(i), g_k(i));
 end
 
 if get_plot
