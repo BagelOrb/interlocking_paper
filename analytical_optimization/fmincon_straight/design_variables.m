@@ -1,4 +1,3 @@
-straight_constants;
 wb = @(x) x(1);
 va = @(x) x(2);
 vb = @(x) x(3);
