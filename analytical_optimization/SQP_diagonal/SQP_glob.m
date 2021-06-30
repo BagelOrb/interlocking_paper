@@ -228,8 +228,8 @@ if get_plot
     fprintf('Plotting...');
     x1_range = max(x_history(:,1)) - min(x_history(:,1));
     x2_range = max(x_history(:,2)) - min(x_history(:,2));
-    x1_array = linspace(max(0.001, min(x_history(:,1))-.1*x1_range), .1*x1_range+max(x_history(:,1)), 10); 
-    x2_array  = linspace(max(0.001, min(x_history(:,2))-.1*x2_range), .1*x2_range+max(x_history(:,2)), 10);
+    x1_array = linspace(max(0.001, min(x_history(:,1))-.1*x1_range), .1*x1_range+max(x_history(:,1)), 20); 
+    x2_array  = linspace(min(x_history(:,2)), .1*x2_range+max(x_history(:,2)), 20);
     contourplots(x, x_history, x1_array, x2_array, f, g, g_names)
 end
 fprintf('Done!');
