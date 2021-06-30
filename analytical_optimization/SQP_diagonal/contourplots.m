@@ -59,7 +59,7 @@ for p = 1:n_constr
     hold on
 end
 
-plot(x_history(:,1), x_history(:,2), 'Marker', '*', 'Color', 'r');
+plot(x_history(:,1), x_history(:,2), 'Marker', 'o', 'Color', 'r');
 plot(x_history(size(x_history, 1),1), x_history(size(x_history, 1),2), 'Marker', 'p', 'MarkerFaceColor', 'r','MarkerEdgeColor', 'b', 'MarkerSize', 20);
 grid
 
