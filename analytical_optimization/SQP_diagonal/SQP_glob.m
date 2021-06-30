@@ -7,10 +7,10 @@ straight_case_2var;
 
 get_plot = 1;       % Turn on to obtain plot
 
-syms l1 l2 l3 l4 l5 l6 l7 l8 l9 l10
+syms l1 l2 l3 l4 l5 l6 l7 l8 l9 l10 l11 l12 l13
 
 % Define starting point
-lambdas = [l1; l2; l3; l4; l5; l6; l7; l8; l9; l10]; % is needed for symbolic different
+lambdas = [l1; l2; l3; l4; l5; l6; l7; l8; l9; l10; l11; l12; l13]; % is needed for symbolic different
 
 % Set number of iterations
 Niter = 400;
