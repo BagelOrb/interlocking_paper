@@ -122,8 +122,8 @@ for p = 1:Niter
     A_k = subs(A, x.', x_k); 
     
     % Evaluate matrices with lambda
-    W_eval = double(subs(W_k, lambda.', lambda_k));
-    dfdx_eval = double(subs(dfdx_k, lambda.', lambda_k));
+    W_eval = double(W_k);
+    dfdx_eval = double(dfdx_k);
     A_eval = double(A_k);
     h_eval = double(h_k);
 
