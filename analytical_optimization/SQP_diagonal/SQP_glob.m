@@ -68,6 +68,22 @@ for p = 1:Niter
     g_k = double(subs(g, x.', x_k));
     lambdas_k(h_idx) = lambda_k; % save lambdas associated with old h_idx
     
+    % Check KKT conditions
+    if ~ any(isnan(dgdx_k))
+        if p > 1
+            [mu, r] = linsolve(dgdx_k, -dfdx_k);
+            constraints_satisfied = all(g_k < 10^-3);
+            positive_mu = all(mu > -10^-3);
+            inactive_or_satisfied = all(abs(mu.' .* g_k) < 10^-3);
+            if constraints_satisfied ...
+                    && positive_mu...
+                    && inactive_or_satisfied
+                fprintf("Constraints satisfied.\n");
+                break;
+            end
+        end
+    end
+    
     % cycle detection and resolution
     if p > nhistory && ~ cycling_break ...
         && ~ isequal(cell2mat(h_idx_history(1)), cell2mat(h_idx_history(2)))...
@@ -92,6 +108,7 @@ for p = 1:Niter
         %lambdas_k = mu;
         %h_idx = [indices(mu > 10^-4)];
         h_idx = [indices(g_k > 10^-4)];
+        %h_idx = [indices(lambdas_k < -10^-4)];
         %h_idx = [indices(g_k > -10^(-4))];
         %if length(h_idx) > nx
         %    [unused, h_idx] = maxk(g_k, nx);
