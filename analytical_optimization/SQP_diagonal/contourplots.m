@@ -49,6 +49,7 @@ xlabel(string(x(1))), ylabel(string(x(2))), ...
 hold on
 
 for p = 1:n_constr
+    contour(x1_array, x2_array, g_eval(:,:,p), [.01 .01],'--', 'showtext', 'off');hold on;
     [C, hContour] = contour(x1_array, x2_array, g_eval(:,:,p), [0.0 0.0], 'LineColor', [1 1 1]*230/255,  'showtext', 'on');
     clabel(C,hContour,'Color', [1 1 1]*230/255)
     drawnow;
