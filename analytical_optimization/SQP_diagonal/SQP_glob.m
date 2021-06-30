@@ -1,9 +1,9 @@
 clear all; % otherwise changes to the script aren't loaded until you restart MATLAB
 
 % diagonal_case;
-straight_case;
+% straight_case;
 
-% diagonal_case_2var;
+diagonal_case_2var;
 
 get_plot = 1;       % Turn on to obtain plot
 
@@ -172,6 +172,6 @@ end
 if get_plot
     x1_array = linspace(0.8*min(x_history(:,1)), 1.1*max(x_history(:,1)), 10); 
     x2_array  = linspace(0.8*min(x_history(:,2)), 1.1*max(x_history(:,2)), 10);
-    contourplots(x, x_history, x1_array, x2_array, f, g)
+    contourplots(x, x_history, x1_array, x2_array, f, g, g_names)
 end
     

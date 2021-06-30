@@ -1,4 +1,4 @@
-function contourplots(x, x_history, x1_array, x2_array, f, g)
+function contourplots(x, x_history, x1_array, x2_array, f, g, g_names)
 % Initialization
 clf, hold off
 % Combinations of design variables D and d 
@@ -48,7 +48,13 @@ xlabel(string(x(1))), ylabel(string(x(2))), ...
 hold on
 
 for p = 1:n_constr
-    contour(x1_array, x2_array, g_eval(:,:,p), [0.0 0.0], 'LineColor', [1 1 1]*150/255);
+    [C, hContour] = contour(x1_array, x2_array, g_eval(:,:,p), [0.0 0.0], 'LineColor', [1 1 1]*50/255,  'showtext', 'on');
+    drawnow;
+    lab = char(g_names(p));
+    labels=hContour.TextPrims;
+    for idx = 1 : numel(labels)
+        hContour.TextPrims(idx).String= lab;
+    end
     % contour(x1_array, x2_array, g_eval(:,:,p), [0.05, 0.05],'--') ;% Infeasible region
     hold on
 end
