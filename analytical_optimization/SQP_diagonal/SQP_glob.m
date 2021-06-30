@@ -139,9 +139,10 @@ for p = 1:Niter
     else
         %lambda_k = lambda_next.eqlin;
     end
+    employed_move_limits = false;
     lll = sum(dx .* dx);
     if lll > move_limit^2
-        fprintf("dx too large. Employing move limits...\n");
+        employed_move_limits = true;
         dx = dx * move_limit / sqrt(lll);
     end
    
@@ -156,7 +157,7 @@ for p = 1:Niter
     obj  = eval(subs(f, x.', x_k));
     g_eval = eval(subs(g, x.', x_k));
     
-    fprintf("%i: objective: %.5f,\t constraints: %s,\t highest constraint: %.3f\n", p, obj, num2str(h_idx), max(g_eval));
+    fprintf("%i: objective: %.5f,\t constraints: %s,\t highest constraint: %.3f,\t move limits: %i\n", p, obj, num2str(h_idx), max(g_eval), employed_move_limits);
     
     % Record history
     obj_history = [obj_history(2:nhistory); obj];
@@ -167,14 +168,14 @@ for p = 1:Niter
     h_max_history(nhistory,1) = { max(g_eval) };
     
     if all(abs(dx) < 10^(-10))
-        fprintf("Optimum found!")
+        fprintf("Optimum found!\n")
         break;
     end
     
     g_eval_other = g_eval;
     g_eval_other(h_idx) = 0;
     if max(g_eval_other) > 10^(-3) && cycling_break 
-        fprintf("Another constraint violated, stop!")
+        fprintf("Another constraint violated, stop!\n")
         % Go one step back
         x_k = x_k - dx.';
         obj  = eval(subs(f, x.', x_k));
