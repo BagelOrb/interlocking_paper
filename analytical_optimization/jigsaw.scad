@@ -2,13 +2,13 @@
 
 alternate = 0;
 
-tpla=true;pp=false; material = pp;
+tpla=true;pp=false; material = tpla;
 jigsaw=0;suture=1; type = jigsaw;
 
 approx_h = 5;
 approx_w = 17;
 
-b_mult = 3;//4.48;
+b_mult = 4.48;
 
 h_min = .5;
 
@@ -149,7 +149,10 @@ module full()
         translate([tot_w,0,0]) cube([brim,elem_l,brim_h]);
         translate([-brim,-tot_l-outer_brim,0]) cube([tot_w+2*brim, tot_l+outer_brim, brim_h]);
         
-        translate([0,-tot_l,0]) cube([tot_w, tot_l+.001, tot_h]);
+        
+        translate([-wamin/2,-tot_l,0]) cube([tot_w+wamin, tot_l+.001, tot_h]);
+        translate([-wamin/2,0,0]) cube([wamin/2, elem_l, tot_h]);
+        translate([tot_w,0,0]) cube([wamin/2, elem_l, tot_h]);
         interface(tpla);
     }
     else
@@ -160,6 +163,7 @@ module full()
             translate([0,.001,.001]) cube([tot_w, tot_l + elem_l, tot_h-.002]);
             interface(tpla);
         }
+        translate([-wamin/2,elem_l,0]) cube([tot_w+wamin, tot_l + elem_l, tot_h-.002]);
         //translate([0,elem_l,0]) cube([tot_w, tot_l, tot_h]);
         //translate([0,elem_l,0]) scale([1,-1,1]) interface(b);
     }
