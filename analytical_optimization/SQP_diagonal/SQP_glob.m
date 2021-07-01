@@ -16,7 +16,7 @@ lambdas = [l1; l2; l3; l4; l5; l6; l7; l8; l9; l10; l11; l12; l13]; % is needed 
 Niter = 500;
 delta = 100; % for lambda update
 
-move_limit = 0.5;
+move_limit = 1;
 
 options = optimset('Display', 'off');
 
@@ -30,7 +30,6 @@ cycling_break = 0;
 
 % general initialization
 h_idx = [];
-lambda_k = [];
 
 ng = length(g);
 nh = length(h_idx);
@@ -65,7 +64,7 @@ for p = 1:Niter
     
     % Determine active constraints
     g_k = double(subs(g, x.', x_k));
-    lambdas_k(h_idx) = lambda_k; % save lambdas associated with old h_idx
+   %  lambdas_k(h_idx) = lambda_k; % save lambdas associated with old h_idx
     
     % Check KKT conditions
     if ~ any(isnan(dgdx_k))
@@ -115,9 +114,7 @@ for p = 1:Niter
     else
         cycling_break = cycling_break + 1;
     end
-    if cycling_break > 6
-        cycling_break = 0;
-    end
+    
     nh = length(h_idx);
     h = g(h_idx);
     lambda = lambdas(h_idx); % change subset of lambdas to match subset of active constraints
@@ -152,7 +149,7 @@ for p = 1:Niter
         g_k = double(subs(g, x.', x_k));
         break;
     else
-        lambda_k = lambda_next.eqlin;
+        % lambda_k = lambda_next.eqlin;
         %[lambda_new, rank] = linsolve(A_k.', W_k * dx + dfdx);
         %lambda_k(~ isinf(lambda_new)) = lambda_new(~ isinf(lambda_new));
     end
