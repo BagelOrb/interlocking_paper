@@ -13,7 +13,7 @@ combine_tensile_and_z_shear = False
 full_stress_on_z = False
 combine_z_shear_and_cross_shear = True
 
-compare_to_FEM = True
+compare_to_FEM = False
 broken_optimum = False
 
 softmin_all_constraints = False
@@ -32,7 +32,7 @@ use_z_shear_b = True
 show_results = True
 plot_legend = False
 
-hf_sampling_multiplier = 1
+hf_sampling_multiplier = 10
 
 lmax_val = 3.6
 zoom_on_optimum = False
@@ -68,11 +68,11 @@ layer_thickness = .1
 
 wa_min = line_w
 wb_min = line_w
-w_max = 6 * 2 * wa_min
+w_max = 8 * 2 * wa_min
 l_max = 6 * 2 * wa_min
 
 h_min = 2 * layer_thickness
-h_max = 8 * h_min
+h_max = 10 * h_min
 
 
 Nhf = 13 * hf_sampling_multiplier # 13 is whole layer heights
