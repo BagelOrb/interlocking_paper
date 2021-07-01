@@ -1,7 +1,7 @@
 clear all; % otherwise changes to the script aren't loaded until you restart MATLAB
 
-% diagonal_case;
-straight_case;
+diagonal_case;
+% straight_case;
 % straight_case_2var;
 % diagonal_case_2var;
 
@@ -183,7 +183,7 @@ for p = 1:Niter
     
     g_k_other = g_k;
     g_k_other(h_idx) = 0;
-    if max(g_k_other) > 10^(-3) && cycling_break 
+    if max(g_k_other) > 10^(-6) && cycling_break 
         fprintf("Another constraint violated, stop!\n")
         % Go one step back
         x_k = x_k - dx.';

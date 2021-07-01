@@ -11,7 +11,7 @@ problem.objective = f;
 problem.nonlcon = @constraints;
 problem.x0 = [1,1,1,1];
 
-[x, fval] = fmincon(problem);
+[x,fval,exitflag,output,lambda] = fmincon(problem);
 [c,ceq] = constraints(x);
  
 fprintf('\n The minimum objective of %f with a max nominal stress of %f is reached for: \n', fval, 1 / fval)

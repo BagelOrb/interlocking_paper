@@ -1,12 +1,12 @@
 
 \section{Actual Optimization}
-\subsection{Straight Case}
+\subsection{Straight Design}
 The full optimization problem was run with the same SQP implementation. After 184 iterations, the algorithm converged to an optimum of 0.137971 mm$^2$/N, equal to a maximum strength of 7.247898 N/mm$^2$. The values for the variables are presented in \autoref{tab:straightres}. It can be observed that the own implemenation of the SQP algorithm converges towards the same optimum, the deviation is in the order $10^{-3}$. The reason that the results do not exactly match is because of the discrete steps $dx$ taken by the SQP algorithm, the step size is in the order of $10^{-3}$ in the last iteration. 
 
 
 \begin{table}[H]
 	\centering
-	\resizebox{\textwidth}{!}{%
+	\resizebox{\columnwidth}{!}{%
 		\begin{tabular}{|c|c|c|}
 			\hline
 			\textbf{Variable}           & \textbf{SQP - Own implementation}                                                       & \textbf{SQP - fmincon}                                                                  \\ \hline
@@ -19,13 +19,38 @@ The full optimization problem was run with the same SQP implementation. After 18
 			$F$                         & 30.631543                                                                               & 30.636365                                                                               \\ \hline
 		\end{tabular}%
 	}
-	\caption{The result of the own implementation of the SQP algorithm vs the MATLAB SQP solver fmincon.}
+	\caption{The result of the own implementation of the SQP algorithm vs the MATLAB SQP solver fmincon for the straight design.}
 	\label{tab:straightres}
 \end{table}
 
 
-Then the KKT conditions were checked. The optimum lies in the feasible domain since all constraints are equal to or smaller than zero. Constraints $g_d$, $g_{ta}$, $g_{tb}$,\\ $g_{ca}$ and $g_{zb}$ are active.  It is remarkable that only three instead of five multipliers had a non-zero value, namely 0.0252, -0.00394 and 0.138. This can be caused by the order of accuracy of the implementation. While the constraints are considered to be active when they lie near zero, the actual value of the constraints lies in between +-$10^{-4}$ and +- $10^{-11}$. The 
+Then the KKT conditions were checked. The optimum lies in the feasible domain since all constraints are equal to or smaller than zero. Constraints $g_d$, $g_{ta}$, $g_{tb}$, $g_{ca}$ and $g_{zb}$ are active. It is remarkable that only four instead of five multipliers had a non-zero value, namely 0.0255, 0.1147, 0.0196 and 0.0046 for constraints $g_d$, $g_{tb}$, $g_{ca}$ and $g_{zb}$ respectively. This can be caused by the order of accuracy of the implementation. While the constraints are considered to be active when they lie near zero, the actual value of the constraints lies in between +-$10^{-4}$ and +- $10^{-11}$. Constraint $g_{ta}$ with the value of -9.9 $\cdot 10^{-4}$ is treated as a non-active inequality constraint in the implementation, therefore its multiplier value equals zero while it should have been positive if it is considered as active. Still, all multipliers $\mu$ are larger than or equal to zero. Therefore the KKT conditions are satisfied and the point found is a local optimum. A global optimum is not guaranteed since not all objective and constraint functions are convex, however as the results match the MATLAB fmincon implemenation it is assumed that the global optimum is found by our own implementation.
 
 
-\subsection{Diagonal Case}
--Nadine
+\subsection{Diagonal Design}
+The diagonal design converges after 42 iterations. It reaches an optimum value of 0.5008 mm$^2$/N, equal to a maximum strength of 1.996 N/mm$^2$. \autoref{tab:diagres} shows the optimal values for the design variables. It is remarkable that the own implementation converges towards another optimum, which does not match the real optimum, variable $L$ is slightly offset its true optimal value. This can be due to two reasons. The SQP implementation selects the active constraints with a cycling strategy: if the same constraints are active for more than six iterations, these are selected as the active set. Constraints $g_{1a}$, $g_{4a}$, $g_{5a}$ and $g_{5b}$ are selected as the active set after 39 iterations, where $g_{4a}$ is selected incorrectly. The reason for this is that $g_{4a}$ is a non-convex function that the SQP program has difficulties with. \\
+
+
+\begin{table}[H]
+	\centering
+	\resizebox{\columnwidth}{!}{%
+		\begin{tabular}{|c|c|c|}
+			\hline
+			\textbf{Variable}           & \textbf{SQP - Own implementation}                                                 & \textbf{SQP - fmincon}                                                             \\ \hline
+			\textbf{Objective}          & 0.500837                                                                          & 0.497616                                                                           \\ \hline
+			\textbf{Active constraints} & \begin{tabular}[c]{@{}c@{}}$g_{1a}$, $g_{4a}$, \\ $g_{5a}$, $g_{5b}$\end{tabular} & \begin{tabular}[c]{@{}c@{}}$g_{1a}$, $g_{3,2}$, \\ $g_{5a}$, $g_{5b}$\end{tabular} \\ \hline
+			\textbf{$w_a$}              & 0.3                                                                               & 0.3                                                                                \\ \hline
+			\textbf{$w_b$}              & 0.667658                                                                          & 0.666732                                                                           \\ \hline
+			\textbf{$L$}                & 3.270938                                                                          & 3.6                                                                                \\ \hline
+			\textbf{$F$}                & 1.932080                                                                          & 1.942727                                                                           \\ \hline
+		\end{tabular}%
+	}
+	\caption{The result of the own implementation of the SQP algorithm vs the MATLAB SQP solver fmincon for the diagonal design.}
+	\label{tab:diagres}
+\end{table}
+
+The findings of this result were verified with the KKT conditions. The feasibility conditions are satisfied since all constraints are smaller than or equal to zero. The Lagrangian multipliers were checked for the active constraints, which are 0.060, -0.039,  0.166 and 0.374 for constraints $g_{1a}$, $g_{4a}$, $g_{5a}$ and $g_{5b}$ respectively. Indeed, the Lagrangian multiplier for $g_{4a}$, that constrains the value of design variable $L$, is smaller than zero. Therefore, the KKT conditions are not satisfied and the point that was found is not an optimum.\\ 
+
+When evaluating the Lagrangian multipliers obtained with fmincon, these are equal to 0.051, 0.0305, 0.129 and 0.369 for constraints $g_{1a}$, $g_{4a}$, $g_{5a}$ and $g_{5b}$ respectively. The magnitudes of the multipliers matches the magnitude of the multipliers found by our own implementation. This makes sense, because the magnitide of the Lagrangian multipliers shows how strongly changes in constraints affect the objective function. This relative importance of the constraint functions does of not differ between both implementations.
+
+

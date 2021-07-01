@@ -1,6 +1,6 @@
 function fun_quad = taylor2(fun, wa_k, wb_k, L_k, F_k)
 
-    syms wa wb L F Z
+    syms wa wb L F 
     x = [wa; wb; L; F];
     x_k = [wa_k; wb_k; L_k; F_k];
     

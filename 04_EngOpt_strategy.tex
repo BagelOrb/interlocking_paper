@@ -30,6 +30,7 @@ Note that $\diffp[2]{\hvec}{\xvec}$ is a precomputed 3D matrix.
 We can then use \verb|quadprog| to solve $\min_{\Delta\xvec} \nicefrac12 \Delta\xvec^\intercal \Wmat\Delta\xvec + \nabla f^\intercal \Delta\xvec$ s.t. $\Amat\Delta\xvec+\hvec=\mathbf{0}$.
 
 \subsubsection{Active set}
+It was chosen to implement an active set strategy, because the number of design variables is not sufficient to use slack variables in the constraints.
 Here $\hvec$ is a active subset of all constraints $\gvec$, which is determined in each iteration based on the current $\xvec_k$.
 One simple approach would be to set all constraints active which are violated by the current $\xvec_k$.
 In order to be lenient to numerical errors we set a constraint $g_i$ as active when $g_i > -10^{-4}$.
