@@ -1,6 +1,31 @@
 
 \section{Actual Optimization}
 \subsection{Straight Case}
-- Nadine
+The full optimization problem was run with the same SQP implementation. After 184 iterations, the algorithm converged to an optimum of 0.137971 mm$^2$/N, equal to a maximum strength of 7.247898 N/mm$^2$. The values for the variables are presented in \autoref{tab:straightres}. It can be observed that the own implemenation of the SQP algorithm converges towards the same optimum, the deviation is in the order $10^{-3}$. The reason that the results do not exactly match is because of the discrete steps $dx$ taken by the SQP algorithm, the step size is in the order of $10^{-3}$ in the last iteration. 
+
+
+\begin{table}[H]
+	\centering
+	\resizebox{\textwidth}{!}{%
+		\begin{tabular}{|c|c|c|}
+			\hline
+			\textbf{Variable}           & \textbf{SQP - Own implementation}                                                       & \textbf{SQP - fmincon}                                                                  \\ \hline
+			\textbf{Objective}          & 0.137971                                                                                & 0.137964                                                                                \\ \hline
+			\textbf{Active constraints} & \begin{tabular}[c]{@{}c@{}}$g_d$, $g_{ta}$, $g_{tb}$,\\ $g_{ca}$, $g_{zb}$\end{tabular} & \begin{tabular}[c]{@{}c@{}}$g_d$, $g_{ta}$, $g_{tb}$,\\ $g_{ca}$, $g_{zb}$\end{tabular} \\ \hline
+			\textbf{$w_b$}              & 2.683021                                                                                & 2.685714                                                                                \\ \hline
+			\textbf{$v_a$}              & 2.667245                                                                                & 2.668029                                                                                \\ \hline
+			\textbf{$v_b$}              & 0.932755                                                                                & 0.931971                                                                                \\ \hline
+			\textbf{$h_f$}              & 1.087310                                                                                & 1.086396                                                                                \\ \hline
+			$F$                         & 30.631543                                                                               & 30.636365                                                                               \\ \hline
+		\end{tabular}%
+	}
+	\caption{The result of the own implementation of the SQP algorithm vs the MATLAB SQP solver fmincon.}
+	\label{tab:straightres}
+\end{table}
+
+
+Then the KKT conditions were checked. The optimum lies in the feasible domain since all constraints are equal to or smaller than zero. Constraints $g_d$, $g_{ta}$, $g_{tb}$,\\ $g_{ca}$ and $g_{zb}$ are active.  It is remarkable that only three instead of five multipliers had a non-zero value, namely 0.0252, -0.00394 and 0.138. This can be caused by the order of accuracy of the implementation. While the constraints are considered to be active when they lie near zero, the actual value of the constraints lies in between +-$10^{-4}$ and +- $10^{-11}$. The 
+
+
 \subsection{Diagonal Case}
 -Nadine

@@ -66,22 +66,8 @@ for p = 1:Niter
     g_k = double(subs(g, x.', x_k));
    %  lambdas_k(h_idx) = lambda_k; % save lambdas associated with old h_idx
     
-    % Check KKT conditions
-    if ~ any(isnan(dgdx_k))
-        if p > 1
-            [mu, r] = linsolve(dgdx_k, -dfdx_k);
-            constraints_satisfied = all(g_k < 10^-3);
-            positive_mu = all(mu > -10^-3);
-            inactive_or_satisfied = all(abs(mu.' .* g_k) < 10^-3);
-            if constraints_satisfied ...
-                    && positive_mu...
-                    && inactive_or_satisfied
-                fprintf("Constraints satisfied.\n");
-                break;
-            end
-        end
-    end
     
+
     % cycle detection and resolution
     if p > nhistory && ~ cycling_break ...
         && ~ isequal(cell2mat(h_idx_history(1)), cell2mat(h_idx_history(2)))...
@@ -139,6 +125,9 @@ for p = 1:Niter
     % Obtain update step
     [dx, sqp_obj, exitflag, output, lambda_next] = quadprog(W_k, dfdx_k.', [], [], A_k, -h_k, [], [], [], options);
     %[dx, sqp_obj, exitflag, output, lambda_next] = quadprog(W_k, dfdx_k.', dgdx_k.', -g_k.', [], [], [], [], [], options);
+    if cycling_break
+        lambda_k = lambda_next.eqlin;
+    end
     
     if exitflag == -2
         fprintf("Problem non-convex! Stopping execution!\n");
@@ -174,10 +163,10 @@ for p = 1:Niter
     
     fprintf("%i: objective: %.5f,\t constraints: %s,\t highest constraint: %.3f,\t move limits: %i\n", p, obj, num2str(h_idx), max(g_k), employed_move_limits);
      
-    if max(g_k) < 10^(-4) && max(g_k) > -0.01 && any(round(obj_history(:), 5) == round(obj,5)) && length(h_idx) == length(x)
-        fprintf("Cycling inside the same loop, stop!\n")
-        break
-    end
+%     if max(g_k) < 10^(-5) && max(g_k) > -0.01 && any(round(obj_history(:), 5) == round(obj,5)) && length(h_idx) == length(x)
+%         fprintf("Cycling inside the same loop, stop!\n")
+%         break
+%     end
         
     % Record history
     obj_history = [obj_history(2:nhistory); obj];
@@ -187,7 +176,7 @@ for p = 1:Niter
     h_max_history(1:nhistory-1,1) = h_max_history(2:nhistory,1);
     h_max_history(nhistory,1) = { max(g_k) };
     
-    if all(abs(dx) < 10^(-6))
+    if all(abs(dx) < 10^(-10))
         fprintf("Optimum found!\n")
         break;
     end
@@ -210,14 +199,15 @@ for p = 1:Niter
 end
 
 
-if ~ any(isnan(dgdx_k))
-    fprintf("Checking KKT conditions...\n")
-    mu = linsolve(dgdx_k, -dfdx_k);
-    if any(mu < -10^-3)
-        fprintf("Constraints violated!\n");
-    end
-    if any(abs(mu .* g_k) > 10^-3)
-        fprintf("Active/inactive criterion violated!\n");
+% Check KKT conditions
+if p > 1     
+    constraints_satisfied = all(g_k < 10^-3);
+    positive_lambda = all(lambda_k > -10^-3);
+    inactive_or_satisfied = all(abs(lambda_k.' .* h_k) < 10^-3);
+    if constraints_satisfied ...
+            && positive_lambda...
+            && inactive_or_satisfied
+        fprintf("Constraints satisfied.\n");
     end
 end
 
