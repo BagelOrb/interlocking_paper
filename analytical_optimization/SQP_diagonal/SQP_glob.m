@@ -198,7 +198,7 @@ for p = 1:Niter
      
 %     if max(g_k) < 10^(-5) && max(g_k) > -0.01 && any(round(obj_history(:), 5) == round(obj,5)) && length(h_idx) == length(x)
 %         fprintf("Cycling inside the same loop, stop!\n")
-%         break
+%         break;
 %     end
         
     % Record history
@@ -210,7 +210,7 @@ for p = 1:Niter
     h_max_history(nhistory,1) = { max(g_k) };
     
     if all(abs(dx) < 10^(-10))
-        fprintf("Optimum found!\n")
+        fprintf("Not budging anymore! dx too small.\n")
         break;
     end
     
@@ -276,7 +276,7 @@ for i = 1:ng
     fprintf('%s: %.3f \n', g_names(i), g_k(i));
 end
 
-if get_plot
+if get_plot && nx == 2
     fprintf('Plotting...');
     x1_range = max(x_history(:,1)) - min(x_history(:,1));
     x2_range = max(x_history(:,2)) - min(x_history(:,2));
