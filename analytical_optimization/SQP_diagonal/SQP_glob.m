@@ -5,15 +5,18 @@ clear all; % otherwise changes to the script aren't loaded until you restart MAT
 straight_case_2var;
 % diagonal_case_2var;
 
+% Set optimization parameters
+Niter = 300;
+delta = 100; % for lambda update
+
+show_every_iteration = false;
+
+
 get_plot = 1;       % Turn on to obtain plot
 syms l1 l2 l3 l4 l5 l6 l7 l8 l9 l10 l11 l12 l13
 
 % Define starting point
 lambdas = [l1; l2; l3; l4; l5; l6; l7; l8; l9; l10; l11; l12; l13]; % is needed for symbolic different
-
-% Set number of iterations
-Niter = 300;
-delta = 100; % for lambda update
 
 options = optimset('Display', 'off');
 
@@ -40,6 +43,7 @@ best_obj = 99999;
 
 % Obtain second order derivatives
 disp('Approximating derivatives...');
+tic;
 
 dfdx = [];
 for i = 1:nx
@@ -61,6 +65,10 @@ dfdx_f = matlabFunction(dfdx, 'Vars', x);
 ddfdxx_f = matlabFunction(ddfdxx, 'Vars', x);
 ddgdxx_f = matlabFunction(ddgdxx, 'Vars', x);
 dgdx_f = matlabFunction(dgdx, 'Vars', x);
+
+toc; % print time elapsed for differentiation
+
+tic;
 
 for p = 1:Niter
     
@@ -199,7 +207,9 @@ for p = 1:Niter
         best_x = x_k;
     end
     
-    fprintf("%i: objective: %.5f,\t constraints: %s,\t highest constraint: %.3f,\t move limits: %i\n", p, obj, num2str(h_idx), max(g_k), employed_move_limits);
+    if show_every_iteration
+        fprintf("%i: objective: %.5f,\t constraints: %s,\t highest constraint: %.3f,\t move limits: %i\n", p, obj, num2str(h_idx), max(g_k), employed_move_limits);
+    end
      
     if max(g_k) < 10^(-6) && max(g_k) > -0.01 && any(round(obj_history(:), 5) == round(obj,5)) && ismember(round(x_k,5), round(x_history,5), 'rows') && length(h_idx) == length(x)
         fprintf("Cycling inside the same loop, stop!\n")
@@ -237,6 +247,8 @@ for p = 1:Niter
 end
 x_kc = num2cell(x_k, 1);
 obj  = f_f(x_kc{:});
+
+toc; % print time elapsed for iterations
 
 if obj > best_obj || any(g_k > 10^-5)
     fprintf("Taking best x...\n");
