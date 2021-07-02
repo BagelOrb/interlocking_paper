@@ -166,10 +166,7 @@ for p = 1:Niter
     % Obtain update step
     [dx, sqp_obj, exitflag, output, lambda_next] = quadprog(W_k, dfdx_k.', [], [], A_k, -h_k, [], [], [], options);
     %[dx, sqp_obj, exitflag, output, lambda_next] = quadprog(W_k, dfdx_k.', dgdx_k.', -g_k.', [], [], [], [], [], options);
-    if cycling_break
-        lambda_k = lambda_next.eqlin;
-    end
-    
+
     if exitflag == -2
         fprintf("Problem non-convex! Stopping execution!\n");
         % Go one step back
