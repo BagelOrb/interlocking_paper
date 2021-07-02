@@ -9,11 +9,11 @@ SQP seems a good candidate for an optimization approach because our objective fu
 
 \subsection{Implementation}
 
-\newcommand{\xvec}{\bm{x}}
-\newcommand{\hvec}{\bm{h}}
-\newcommand{\gvec}{\bm{g}}
-\newcommand{\Wmat}{\bm{W}}
-\newcommand{\Amat}{\bm{A}}
+\newcommand{\xvec}{\mathbf{x}}
+\newcommand{\hvec}{\mathbf{h}}
+\newcommand{\gvec}{\mathbf{g}}
+\newcommand{\Wmat}{\mathbf{W}}
+\newcommand{\Amat}{\mathbf{A}}
 \newcommand{\lamvec}{\bm{\lambda}}
 
 Our objective and constraint formulae are differentiable,
@@ -23,43 +23,40 @@ Performing the differentiation like this is computation intensive, but since it 
 Inside the loop we evaluate the symbolic expressions of the derivatives using \verb|subs| and \verb|eval|.
 
 The $\Wmat$ and $\Amat$ matrices can then be constructed on the fly using the formulae
-$W = \diffp[2]{f}{\xvec} + \lamvec^\intercal \diffp[2]{\hvec}{\xvec}$
+$\Wmat = \diffp[2]{f}{\xvec} + \lamvec^\intercal \diffp[2]{\hvec}{\xvec}$
 and
-$A = \diff{\hvec}{\xvec}$.
+$\Amat = \diff{\hvec}{\xvec}$.
 Note that $\diffp[2]{\hvec}{\xvec}$ is a precomputed 3D matrix.
 We can then use \verb|quadprog| to solve $\min_{\Delta\xvec} \nicefrac12 \Delta\xvec^\intercal \Wmat\Delta\xvec + \nabla f^\intercal \Delta\xvec$ s.t. $\Amat\Delta\xvec+\hvec=\mathbf{0}$.
 
 \subsubsection{Active set}
-It was chosen to implement an active set strategy, because the number of design variables is not sufficient to use slack variables in the constraints.
-Here $\hvec$ is a active subset of all constraints $\gvec$, which is determined in each iteration based on the current $\xvec_k$.
+It was chosen to implement an active set strategy, because using slack variables or using penalty or barier functions introduces inaccuracies in the final result.
+Here $\hvec$ is an active subset of all constraints $\gvec$, which is determined in each iteration based on the current $\xvec_k$.
 One simple approach would be to set all constraints active which are violated by the current $\xvec_k$.
 In order to be lenient to numerical errors we set a constraint $g_i$ as active when $g_i > -10^{-4}$.
 This way successive iterations along a constraint boundary won't oscillate the active set.
 
 However, such an approach can lead to problems when considering points near or beyond the global optimum.
-When the active set contains more constraints than design variables, the quadratic program is unsolvable
+When the active set contains more constraints than design variables, the quadratic program is unsolvable.
 In an N-dimensional space only N hypersurfaces generally intersect in a point.
 We feel that SQP is not inherently equipped to deal with an active set larger than the design space.
 
 One naive approach to alleviate the issue is to choose the subset of the most violated constraints.
 However, this will not work, since the optimization will only push $\xvec_k$ further from the ignored constraints if that is in favor of the objective function.
-
+We did not develop any strategy to deal with this problem;
+the program terminates prematurely with an error message in such a case.
 
 \subsubsection{Lagrange multipliers}
-We have tried several techniques to determine the Lagrange multipliers $\lamvec$:
-\begin{itemize}
-	\item Using the Lagrage multipliers obtained from \verb|quadprog|
-	\item Solving the system of equations $\Wmat\Delta\xvec + \nabla f+\Amat^\intercal\lamvec_{k+1}$
-	\item Using a scheme similar to the Augmented Lagrangian update rule: $\lamvec_{k+1} = \lamvec_{k} + \epsilon \hvec_k$
-	\item Keep $\lamvec = \bm{1}$
-\end{itemize}
-However, we were unable to determine which method constitutes a better technique.
-Accross several test cases each technique was met with incorrect behavior.
+In order to compute the lambda multipliers of the outer problem we solve the system of linear equations given by
+$\Amat_k =  - \Wmat_k  \Delta\xvec - \left[\nabla f\right]_k
+$
 
 Because the active set can change each iteration, the lambda values of constraints which were unused in the previous iteration might have to be revived.
 We keep track of a set of Lagrange multipliers out of which the active subset is used each iteration.
 We store the lambda values of the previous iteration in the full set, update the active set and then retrieve the new set of multipliers.
 
+However, because the lambda values signify the relative importance of the constraints w.r.t. each other, the lambda values of one set cannot be reliably compared to another active set from the previous iteration.
+We therefore set $\lamvec = \mathbf{1}$ whenever the active set changes.
 
 \subsubsection{Instability prevention}
 In some cases the optimization can oscillate between two constraints.
@@ -70,7 +67,7 @@ the next iteration is then the other way around and thus a cycle is created.
 However, this type of cycle is a cycle in the active set, not in $\xvec$.
 We therefore invented a strategy to see if there is a cycle of 2 in the active sets of the past 6 iterations.
 If there is, we force the active set to be the union of the 2 active sets in the cycle.
-The forced active set is alleviated after several iterations, so that new constraints can come into view of the optimization.
+The forced active set is alleviated after 6 iterations, so that new constraints can come into view of the optimization.
 
 Another problem which often occurs in one of the first iterations is that the update $\Delta\xvec$ becomes too large.
 The optimization can then quickly escalate.
@@ -83,14 +80,17 @@ We therefore implemented a simple type of move limits: the magnitude of $\Delta\
 The main loop of the optimization method is concluded when either of several criteria is met.
 We break the loop when the improvement in one iteration is too small: $\left| \Delta\xvec \right| < \bm{1} \cdot 10^{-10}$.
 In order to stop even earlier than that we also check the KKT conditions every iteration.
-We use \verb|linsolve| to get a full set of multipliers to satisfy the optimality criterion
+We can use \verb|linsolve| to get a full set of Lagrange multipliers to satisfy the optimality criterion
 and verify whether the feasibility and complementarity constraints are satisfied.
+However, using the approximate $\lamvec$ seems to give the same results.
 
 
 In other cases the main loop is terminated because the optimization failed.
-In order to prevent an infinite loop, we set the maximum number of iterations to 1000.
+In order to prevent an infinite loop, we set the maximum number of iterations to 500.
 Also, in case there are more active constraints than design variables,
 the \verb|quadprog| algorithm would fail with an error about Non-convexity,
 because of problems with the active set as noted above.
+We also implemented a typical cycle detection, based on the values of $f$ and $\xvec$.
+If the difference between a point $\xvec_k$ and $\xvec_j$ is smaller than $10^{-4}$ in all dimensions of $\xvec$ and $f$ then execution is halted.
 In order to prevent the failure, our program terminates prematurely with an error message.
 
