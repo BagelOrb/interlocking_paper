@@ -203,15 +203,27 @@ The objective function is monotonically decreasing for $F$, and $F$ is monotonic
 
 \subsubsection{Sensitivity Analysis}
 The logarithmic sensitivities were evaluated to compare the relative importance of each design variable on the objective function and the constraints. Since all variables in the constraints and in the objective function are independent from each other, there are no response variables that should be accounted for. \\
-The sensitivities from constraints $g_1$ untill $g_4$ were obtained by evaluating the partial derivatives. 
+The sensitivities for the objective functions and all constraints were obtained by evaluating the partial derivatives. 
 
 \begin{align*}
-\diff{_L f}{_L w_a} &= \frac{w_a}{w_a + w_b} \\
-\diff{_L f}{_L w_a} &= \frac{w_b}{w_a + w_b} \\
-\diff{_L f}{_L F} &= -1 \\
-\diff{_L g_1}{_L w_a} &= t.b.c. \\
+\diff{_L f}{_L w_a} &= \frac{\mathrm{wa}}{\mathrm{wa}+\mathrm{wb}} \\
+\diff{_L f}{_L w_b} &= \frac{\mathrm{wb}}{\mathrm{wa}+\mathrm{wb}} \\
+\diff{_L f}{_L L} &= 0 \\
+\diff{_L f}{_L F} &= -1 
 \end{align*}
 
+Also the logarithmic sensitivities for the constraint functions were evaluated.
+
+\begin{align*}
+	\diff{_L g_{1a}}{_L w_a} &= \frac{\mathrm{wa}}{\mathrm{wa}-\mathrm{wa}_{\mathrm{min}}}\\
+	\diff{_L g_{1a}}{_L w_b} &= 0 \\
+	\diff{_L g_{1a}}{_L L} &= 0\\
+	\diff{_L g_{1a}}{_L F} &= 0 \\
+	\diff{_L g_{1b}}{_L w_a} &=0 \\
+	\diff{_L g_{1b}}{_L w_b} &= \frac{\mathrm{wb}}{\mathrm{wb}-\mathrm{wb}_{\mathrm{min}}}\\
+	\diff{_L g_{1b}}{_L L} &= 0\\
+	\diff{_L g_{1b}}{_L F} &=  0\\
+\end{align*}
 
 
 
