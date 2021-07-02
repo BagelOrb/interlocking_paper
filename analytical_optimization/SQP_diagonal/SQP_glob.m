@@ -2,15 +2,15 @@ clear all; % otherwise changes to the script aren't loaded until you restart MAT
 
 % straight_case_2var;
 % diagonal_case_2var;
-% straight_case;
-diagonal_case;
-% 
+straight_case;
+% diagonal_case;
+
 
 % Set optimization parameters
 Niter = 1000;
 delta = 100; % for lambda update
 
-show_every_iteration = true;
+show_every_iteration = false;
 
 get_plot = 1;       % Turn on to obtain plot
 syms l1 l2 l3 l4 l5 l6 l7 l8 l9 l10 l11 l12 l13
