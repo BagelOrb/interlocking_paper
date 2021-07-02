@@ -5,15 +5,18 @@ clear all; % otherwise changes to the script aren't loaded until you restart MAT
 straight_case_2var;
 % diagonal_case_2var;
 
+% Set optimization parameters
+Niter = 300;
+delta = 100; % for lambda update
+
+show_every_iteration = false;
+
+
 get_plot = 1;       % Turn on to obtain plot
 syms l1 l2 l3 l4 l5 l6 l7 l8 l9 l10 l11 l12 l13
 
 % Define starting point
 lambdas = [l1; l2; l3; l4; l5; l6; l7; l8; l9; l10; l11; l12; l13]; % is needed for symbolic different
-
-% Set number of iterations
-Niter = 300;
-delta = 100; % for lambda update
 
 options = optimset('Display', 'off');
 
@@ -33,18 +36,19 @@ nh = length(h_idx);
 nx = length(x);
 
 lambdas_k = ones(1,ng);
+lambda_k = [];
 
 best_x = ones(1, nx);
 best_obj = 99999;
 
 % Obtain second order derivatives
 disp('Approximating derivatives...');
+tic;
 
 dfdx = [];
 for i = 1:nx
     dfdx = [dfdx ; diff(f, x(i))];
 end
-
 
 ddfdxx = diff2(sym(f), x);
 ddgdxx = sym(zeros(nx, nx, ng));
@@ -55,16 +59,28 @@ for i = 1:ng
     dgdx(:,i) = dgdx_i;
 end
 
+g_f = matlabFunction(g, 'Vars', x);
+f_f = matlabFunction(f, 'Vars', x);
+dfdx_f = matlabFunction(dfdx, 'Vars', x);
+ddfdxx_f = matlabFunction(ddfdxx, 'Vars', x);
+ddgdxx_f = matlabFunction(ddgdxx, 'Vars', x);
+dgdx_f = matlabFunction(dgdx, 'Vars', x);
+
+toc; % print time elapsed for differentiation
+
+tic;
+
 for p = 1:Niter
     
-    dfdx_k = double(subs(dfdx, x.', x_k));
-    dgdx_k = double(subs(dgdx, x.', x_k));
+    x_kc = num2cell(x_k, 1);
+    dfdx_k = dfdx_f(x_kc{:});
+    dgdx_k = dgdx_f(x_kc{:});
     dgdx_k(isnan(dgdx_k)) = 0;
     dgdx_k(isinf(dgdx_k)) = 0;
     
     % Determine active constraints
-    g_k = double(subs(g, x.', x_k));
-   %  lambdas_k(h_idx) = lambda_k; % save lambdas associated with old h_idx
+    g_k = g_f(x_kc{:});
+    lambdas_k(h_idx) = lambda_k; % save lambdas associated with old h_idx
     
     
     % Check KKT conditions
@@ -125,6 +141,9 @@ for p = 1:Niter
     else
         cycling_break = cycling_break + 1;
     end
+    if cycling_break > 6
+        cycling_break = 0;
+    end
     
     nh = length(h_idx);
     h = g(h_idx);
@@ -136,16 +155,13 @@ for p = 1:Niter
     %lambda_k = double(lambda_k + 1/delta*double(h_k));
     
     % Compute Hessian and Jacobian matrices for SQP
-    ddhdxx = ddgdxx(:,:,h_idx);
-    W = ddfdxx;
+    ddgdxx_k = ddgdxx_f(x_kc{:});
+    ddhdxx_k = ddgdxx_k(:,:,h_idx);
+    W_k = ddfdxx_f(x_kc{:});
     for i = 1:nh
-        W = W + lambda_k(i) * ddhdxx(:,:,i);
+        W_k = W_k + lambda_k(i) * ddhdxx_k(:,:,i);
     end
-    A = dgdx(:,h_idx).';
-    
-    % Evaluate matrices at the current point
-    W_k = double(subs(W, x.', x_k));
-    A_k = double(subs(A, x.', x_k));
+    A_k = dgdx_k(:,h_idx).';
     
     % Obtain update step
     [dx, sqp_obj, exitflag, output, lambda_next] = quadprog(W_k, dfdx_k.', [], [], A_k, -h_k, [], [], [], options);
@@ -159,8 +175,8 @@ for p = 1:Niter
         % Go one step back
         x_k = x_history(p - 1,:);
         x_history = x_history(1:end-1,:);
-        obj  = double(subs(f, x.', x_k));
-        g_k = double(subs(g, x.', x_k));
+        obj  = f_f(x_kc{:});
+        g_k = g_f(x_kc{:});
         break;
     else
         %lambda_k = lambda_next.eqlin;
@@ -183,15 +199,17 @@ for p = 1:Niter
     isposdef = all(ev> -10^(-14));
 
     % Compute objective
-    obj  = double(subs(f, x.', x_k));
-    g_k = double(subs(g, x.', x_k));
+    obj  = f_f(x_kc{:});
+    g_k = g_f(x_kc{:});
     
-    if obj < best_obj && all(g_k < 10^-8)
+    if obj < best_obj && all(g_k < 10^-7)
         best_obj = obj;
         best_x = x_k;
     end
     
-    fprintf("%i: objective: %.5f,\t constraints: %s,\t highest constraint: %.3f,\t move limits: %i\n", p, obj, num2str(h_idx), max(g_k), employed_move_limits);
+    if show_every_iteration
+        fprintf("%i: objective: %.5f,\t constraints: %s,\t highest constraint: %.3f,\t move limits: %i\n", p, obj, num2str(h_idx), max(g_k), employed_move_limits);
+    end
      
     if max(g_k) < 10^(-6) && max(g_k) > -0.01 && any(round(obj_history(:), 5) == round(obj,5)) && ismember(round(x_k,5), round(x_history,5), 'rows') && length(h_idx) == length(x)
         fprintf("Cycling inside the same loop, stop!\n")
@@ -217,8 +235,8 @@ for p = 1:Niter
         fprintf("Another constraint violated, stop!\n")
         % Go one step back
         x_k = x_k - dx.';
-        obj  = double(subs(f, x.', x_k));
-        g_k = double(subs(g, x.', x_k));
+        obj  = f_f(x_kc{:});
+        g_k = g_f(x_kc{:});
         x_history = x_history(1:end-1,:);
         break
     end
@@ -227,16 +245,19 @@ for p = 1:Niter
         fprintf("Reaching max iterations.\n");
     end
 end
+x_kc = num2cell(x_k, 1);
+obj  = f_f(x_kc{:});
 
-obj  = double(subs(f, x.', x_k));
+toc; % print time elapsed for iterations
 
-if obj > best_obj || any(g_k > -10^-8)
+if obj > best_obj || any(g_k > 10^-5)
     fprintf("Taking best x...\n");
     obj = best_obj;
     x_k = best_x;
-    g_k = double(subs(g, x.', x_k));
-    dfdx_k = double(subs(dfdx, x.', x_k));
-    dgdx_k = double(subs(dgdx, x.', x_k));
+    x_kc = num2cell(x_k, 1);
+    g_k = g_f(x_kc{:});
+    dfdx_k = dfdx_f(x_kc{:});
+    dgdx_k = dgdx_f(x_kc{:});
     dgdx_k(isnan(dgdx_k)) = 0;
     dgdx_k(isinf(dgdx_k)) = 0;
 end
@@ -279,7 +300,7 @@ if get_plot && nx == 2
     x2_range = max(x_history(:,2)) - min(x_history(:,2));
     x1_array = linspace(max(0.001, min(x_history(:,1)) - 0.1*x1_range), .1*x1_range+max(x_history(:,1)), 20); 
     x2_array = linspace(max(0.001, min(x_history(:,2)) - 0.1*x2_range), .1*x2_range+max(x_history(:,2)), 20);
-    contourplots(x, x_history, x1_array, x2_array, f, g, g_names)
+    contourplots(x, x_history, x1_array, x2_array, f_f, g_f, g_names)
 end
 fprintf('Done!');
     

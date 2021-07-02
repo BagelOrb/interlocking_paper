@@ -1,10 +1,10 @@
-function contourplots(x, x_history, x1_array, x2_array, f, g, g_names)
+function contourplots(x, x_history, x1_array, x2_array, f_f, g_f, g_names)
 % Initialization
 clf, hold off
 warning('off')
 % Combinations of design variables D and d 
 nx = length(x);
-n_constr = size(g,2);
+n_constr = length(g_f(1, 1));
 g_eval = zeros(length(x2_array), length(x1_array), n_constr);
 % Matrix of output values for combinations of design variables D and d: 
 
@@ -22,13 +22,13 @@ for j=1:1:length(x2_array)
     x_k(1) = x1_array(i);
     x_k(2) = x2_array(j);
     
-    
+    x_kc = num2cell(x_k, 1);
     
     % x_k = [x_k(1) x_k(2)];
     
  	 % Objective function
-    f_eval_k = eval(subs(f, x.', x_k));
-    g_eval_k = eval(subs(g, x.', x_k));
+    f_eval_k = f_f(x_kc{:});
+    g_eval_k = g_f(x_kc{:});
     % Grid value of objective function:
     fobj(j,i) = f_eval_k; 
     
