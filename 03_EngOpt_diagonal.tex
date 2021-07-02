@@ -203,41 +203,74 @@ The objective function is monotonically decreasing for $F$, and $F$ is monotonic
 
 \subsubsection{Sensitivity Analysis}
 The logarithmic sensitivities were evaluated to compare the relative importance of each design variable on the objective function and the constraints. Since all variables in the constraints and in the objective function are independent from each other, there are no response variables that should be accounted for. \\
-The sensitivities for the objective functions and all constraints were obtained by evaluating the partial derivatives. 
+The sensitivities for the objective functions and all constraints were obtained by numerically calculating the partial derivatives with the matlab \texttt{diff} function, which were simplified afterwards. This only needs to be done once, the symbolic expressions can be reused in every iteration and because of the exact evaluation the highest accuracy is achieved. \\
+
+ If the numerical expression was not available, it would be recommended to use either discrete or continuum derivaties. Other methods like the finite difference method are not recommended to use because it is prone to suffer from numerical noise and it is inefficient as it cannot reuse parts from previous computations. 
 
 \begin{align*}
-\diff{_L f}{_L w_a} &= \frac{\mathrm{wa}}{\mathrm{wa}+\mathrm{wb}} \\
-\diff{_L f}{_L w_b} &= \frac{\mathrm{wb}}{\mathrm{wa}+\mathrm{wb}} \\
+\diff{_L f}{_L w_a} &= \frac{w_a}{w_a+w_b} \\
+\diff{_L f}{_L w_b} &= \frac{w_b}{w_a+w_b} \\
 \diff{_L f}{_L L} &= 0 \\
 \diff{_L f}{_L F} &= -1 
 \end{align*}
 
-Also the logarithmic sensitivities for the constraint functions were evaluated.
+Also the logarithmic sensitivities for the constraint functions were evaluated. For constraint $g_1$:
 
 \begin{align*}
-	\diff{_L g_{1a}}{_L w_a} &= \frac{\mathrm{wa}}{\mathrm{wa}-\mathrm{wa}_{\mathrm{min}}}\\
+	\diff{_L g_{1a}}{_L w_a} &= \frac{w_a}{w_a-w_{a,min}}\\
 	\diff{_L g_{1a}}{_L w_b} &= 0 \\
 	\diff{_L g_{1a}}{_L L} &= 0\\
 	\diff{_L g_{1a}}{_L F} &= 0 \\
 	\diff{_L g_{1b}}{_L w_a} &=0 \\
-	\diff{_L g_{1b}}{_L w_b} &= \frac{\mathrm{wb}}{\mathrm{wb}-\mathrm{wb}_{\mathrm{min}}}\\
+	\diff{_L g_{1b}}{_L w_b} &= \frac{w_b}{w_b-w_{b,min}}\\
 	\diff{_L g_{1b}}{_L L} &= 0\\
 	\diff{_L g_{1b}}{_L F} &=  0\\
 \end{align*}
 
+For constraint $g_2$:
+\begin{align*}
+	\diff{_L g_{2}}{_L w_a} &= \frac{w_a}{w_a-w_{max}+w_b}\\
+	\diff{_L g_{2}}{_L w_b} &=  \frac{w_b}{w_a-w_{max}+w_b}\\
+	\diff{_L g_{2}}{_L L} &= 0\\
+	\diff{_L g_{2}}{_L F} &=  0\\
+\end{align*}
 
+For constraint $g_3$:
+\begin{align*}
+	\diff{_L g_{3,1}}{_L w_a} &= 0\\
+	\diff{_L g_{3,1}}{_L w_b} &= 0 \\
+	\diff{_L g_{3,1}}{_L L} &=  \frac{L}{L-L_{min}}\\
+	\diff{_L g_{3,1}}{_L F} &=  0\\
+	\diff{_L g_{3,2}}{_L w_a} &= 0\\
+	\diff{_L g_{3,2}}{_L w_b} &= 0\\
+	\diff{_L g_{3,2}}{_L L} &= \frac{L}{L-L_{max}}\\
+	\diff{_L g_{3,2}}{_L F} &= 0 \\
+\end{align*}
 
+For constraint $g_4$:
+\begin{align*}
+	\diff{_L g_{4a}}{_L w_a} &= -\frac{3\,F\,\left(w_a+2\,w_b\right)}{-L\,\tau_{a,z}\,{w_a}^2+3\,F\,w_a+3\,F\,w_b}\\
+	\diff{_L g_{4a}}{_L w_b} &= \frac{3\,F\,w_b}{-L\,\tau_{a,z}\,{w_a}^2+3\,F\,w_a+3\,F\,w_b} \\
+	\diff{_L g_{4a}}{_L L} &= -\frac{3\,F\,\left(w_a+w_b\right)}{-L\,\tau_{a,z}\,{w_a}^2+3\,F\,w_a+3\,F\,w_b}\\
+	\diff{_L g_{4a}}{_L F} &=  \frac{3\,F\,\left(w_a+w_b\right)}{-L\,\tau_{a,z}\,{w_a}^2+3\,F\,w_a+3\,F\,w_b}\\
+	\diff{_L g_{4b}}{_L w_a} &= \frac{3\,F\,w_a}{-L\,\tau_{b,z}\,{w_b}^2+3\,F\,w_b+3\,F\,w_a}\\
+	\diff{_L g_{4b}}{_L w_b} &=-\frac{3\,F\,\left(2\,w_a+w_b\right)}{-L\,\tau_{b,z}\,{w_b}^2+3\,F\,w_b+3\,F\,w_a} \\
+	\diff{_L g_{4b}}{_L L} &= -\frac{3\,F\,\left(w_a+w_b\right)}{-L\,\tau_{b,z}\,{w_b}^2+3\,F\,w_b+3\,F\,w_a}\\
+	\diff{_L g_{4b}}{_L F} &= \frac{3\,F\,\left(w_a+w_b\right)}{-L\,\tau_{b,z}\,{w_b}^2+3\,F\,w_b+3\,F\,w_a} \\
+\end{align*}
 
-For the initial optimization, the grid search method was used first, after which random jumping was performed within a smaller range around the optimum found by the former mentioned method. We choose this search method because the optimum found can be used as the starting point in the optmization of the actual problem. In addition, it is easy to implement, does not suffer from getting stuck into optima and does not require the functions to be linearlized with a Taylor series approximation. It can directly be implemented to optimize the four design variables $F$, $w_a$, $w_b$ and $L$. A disadvantage is that random search does not give an accurate solution if not many points are sampled, therefore the actual optimization will be done with another method. \\
+The symbolic derivatives of constraint $g_5$ was also obtained with the symbolic differentiation in MATLAB. However, this resulted in a long expression which does not add value to the analysis. Therefore, only the numerical result will be presented for the derivatives of constraint $g_5$.
 
-We did the grid search for $w_a$ and $w_b$ ranging from 0.3 to 0.9mm with a step size of 0.1, $L$ from 1.8 to 4.6mm with a step size of 0.3, and $F$ from 1 N to 10 N with a step size of 0.25. The this resulted in a minimum objective value of 0.52 mm$^2$/N, obtained for the variables as indicated below.
+%For the initial optimization, the grid search method was used first, after which random jumping was performed within a smaller range around the optimum found by the former mentioned method. We choose this search method because the optimum found can be used as the starting point in the optmization of the actual problem. In addition, it is easy to implement, does not suffer from getting stuck into optima and does not require the functions to be linearlized with a Taylor series approximation. It can directly be implemented to optimize the four design variables $F$, $w_a$, $w_b$ and $L$. A disadvantage is that random search does not give an accurate solution if not many points are sampled, therefore the actual optimization will be done with another method. \\
 
-\begin{align}
-	w_a* &= 0.4\\
-	w_b* &= 0.9 \\
-	L* &= 3.6 \\
-	F* &= 2.5 
-\end{align} 
+%We did the grid search for $w_a$ and $w_b$ ranging from 0.3 to 0.9mm with a step size of 0.1, $L$ from 1.8 to 4.6mm with a step size of 0.3, and $F$ from 1 N to 10 N with a step size of 0.25. The this resulted in a minimum objective value of 0.52 mm$^2$/N, obtained for the variables as indicated below.
+%
+%\begin{align}
+%	w_a* &= 0.4\\
+%	w_b* &= 0.9 \\
+%	L* &= 3.6 \\
+%	F* &= 2.5 
+%\end{align} 
 
 
 
