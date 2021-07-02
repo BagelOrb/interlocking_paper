@@ -33,6 +33,7 @@ nh = length(h_idx);
 nx = length(x);
 
 lambdas_k = ones(1,ng);
+lambda_k = [];
 
 best_x = ones(1, nx);
 best_obj = 99999;
@@ -44,7 +45,6 @@ dfdx = [];
 for i = 1:nx
     dfdx = [dfdx ; diff(f, x(i))];
 end
-
 
 ddfdxx = diff2(sym(f), x);
 ddgdxx = sym(zeros(nx, nx, ng));
@@ -64,7 +64,7 @@ for p = 1:Niter
     
     % Determine active constraints
     g_k = double(subs(g, x.', x_k));
-   %  lambdas_k(h_idx) = lambda_k; % save lambdas associated with old h_idx
+    lambdas_k(h_idx) = lambda_k; % save lambdas associated with old h_idx
     
     
     % Check KKT conditions
@@ -124,6 +124,9 @@ for p = 1:Niter
         %end
     else
         cycling_break = cycling_break + 1;
+    end
+    if cycling_break > 6
+        cycling_break = 0;
     end
     
     nh = length(h_idx);
