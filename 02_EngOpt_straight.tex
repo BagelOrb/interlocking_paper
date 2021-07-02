@@ -288,25 +288,28 @@ That way the formulae of those constraints are more alike and simpler to differe
 \begin{align*}
 	%2 ( \sigma_{12,13} )^2 &= \\
 	%6\left(\sigma_{13}^2 + \sigma_{12}^2\right) &< 2 \sigmafail^2 \\
-	3\left(\sigma_{13}^2 + \sigma_{12}^2\right) &< \sigmafail^2 \\
+	%3\left(\sigma_{13}^2 + \sigma_{12}^2\right) &< \sigmafail^2 \\
 	%\sigma_{12,13} =
-	%\sqrt{ 3\left(\sigma_{13}^2 + \sigma_{12}^2\right) }  &< \sigmafail \\
-	%\frac{\sigmafail}{\sqrt{ 3\left(\sigma_{13}^2 + \sigma_{12}^2\right) }} &> 1 \\
-	%1 - \frac{\sigmafail}{\sqrt{ 3\left(\sigma_{13}^2 + \sigma_{12}^2\right) }} &< 0 \\
-	%1 - \frac{\sigmafail}{\sqrt{ 3\left( \left( \frac{d_y^m F}{2 v^m \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz} \frac{ d_z^m F }{ 2 v^m w^m}  \right)^2\right) }} &< 0 \\
-	%3\left( \left( \frac{d_y^m F}{2 v^m \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz} \frac{ d_z^m F }{ 2 v^m w^m}  \right)^2\right) &< \sigmafail^2\\
-	%3\left( \left( \frac{d_y^m F}{2 v^m \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz} \frac{ F }{ 2 v^m w^m}  \right)^2\right) &< \sigmafail^2\\
-	%3\left(\frac{F}{2v^m}\right)^2 \left( \left( \frac{d_y^m }{\hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz} \frac{ 1 }{ w^m}  \right)^2\right) &< \sigmafail^2\\
-	%\sqrt{3} \frac{F}{2v^m} \sqrt{ \left( \frac{d_y^m }{\hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz w^m} \right)^2 } &< \sigmafail\\
-	%\sqrt{3} \frac{F}{2v^m} \sqrt{ \left( \frac{1 }{\hc} \frac{w^{\neg m}}{w} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz w^m} \right)^2 } &< \sigmafail\\
-	%\sqrt{3} \frac{F}{2v^m} \sqrt{ \left( \frac{w^{\neg m}}{w \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz w^m} \right)^2 } &< \sigmafail\\
-	%\frac{2v^m}{F} \frac{1}{ \sqrt{3} \sqrt{ \left( \frac{w^{\neg m}}{w \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz w^m} \right)^2 } } &> \frac{1}{\sigmafail}\\
-	%\frac{2v^m}{F} \frac{\sigmafail}{ \sqrt{3} \sqrt{ \left( \frac{w^{\neg m}}{w \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz w^m} \right)^2 } } &> 1 \\
-	%1 - \frac{2v^m}{F} \frac{\sigmafail}{ \sqrt{3} \sqrt{ \left( \frac{w^{\neg m}}{w \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz w^m} \right)^2 } } &< 0 \\
-	%1 - \frac{2v^m}{F} \frac{\sigmafail}{ \sqrt{ 3\left( \frac{w^{\neg m}}{w \hc} \right)^2 + 3\left(  \frac{\sigmafail}{\sigmafailz w^m} \right)^2 } } &< 0 \\
-	1 - \frac{2v^m \sigmafail}{ F \sqrt{ 3\left( \frac{w^{\neg m}}{w \hc} \right)^2 + 3\left(  \frac{\sigmafail}{\sigmafailz w^m} \right)^2 } } &< 0 \\
-	1 - \frac{2v^a \sigmafail}{ F \sqrt{ 3\left( \frac{w^b}{w \hc} \right)^2 + 3\left(  \frac{\sigmafail}{\sigmafailz w^a} \right)^2 } } &< 0 \\
-	1 - \frac{2v^a \sigmafail}{ F \sqrt{ 3\left( \frac{w^b}{w \hc} \right)^2 + 3\left(  \frac{\sigmafail}{\sigmafailz 2\wmin^a} \right)^2 } } &< 0 \\
+	\sqrt{ 3\left(\sigma_{13}^2 + \sigma_{12}^2\right) }  &< \sigmafail \\
+	\frac{\sigmafail}{\sqrt{ 3\left(\sigma_{13}^2 + \sigma_{12}^2\right) }} &> 1 \\
+	1 - \frac{\sigmafail}{\sqrt{ 3\left(\sigma_{13}^2 + \sigma_{12}^2\right) }} &< 0 \\
+	1 - \frac{\sigmafail}{\sqrt{ 3\left( \left( \frac{d_y^m F}{2 v^m \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz} \frac{ d_z^m F }{ 2 v^m w^m}  \right)^2\right) }} &< 0 \\
+	3\left( \left( \frac{d_y^m F}{2 v^m \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz} \frac{ d_z^m F }{ 2 v^m w^m}  \right)^2\right) &< \sigmafail^2\\
+	3\left( \left( \frac{d_y^m F}{2 v^m \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz} \frac{ w^m F }{ 2 v^m w^m w}  \right)^2\right) &< \sigmafail^2\\
+	3\left( \left( \frac{d_y^m F}{2 v^m \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz} \frac{ F }{ 2 v^m w}  \right)^2\right) &< \sigmafail^2\\
+	3\left(\frac{F}{2v^m}\right)^2 \left( \left( \frac{d_y^m }{\hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz} \frac{ 1 }{ w}  \right)^2\right) &< \sigmafail^2\\
+	\sqrt{3} \frac{F}{2v^m} \sqrt{ \left( \frac{d_y^m }{\hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz w} \right)^2 } &< \sigmafail\\
+	\sqrt{3} \frac{F}{2v^m} \sqrt{ \left( \frac{1 }{\hc} \frac{w^{\neg m}}{w} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz w} \right)^2 } &< \sigmafail\\
+	\sqrt{3} \frac{F}{2v^m} \sqrt{ \left( \frac{w^{\neg m}}{w \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz w} \right)^2 } &< \sigmafail\\
+	\sqrt{3} \frac{F}{2v^m w} \sqrt{ \left( \frac{w^{\neg m}}{ \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz} \right)^2 } &< \sigmafail\\
+	\frac{2v^m w}{F} \frac{1}{ \sqrt{3} \sqrt{ \left( \frac{w^{\neg m}}{ \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz} \right)^2 } } &> \frac{1}{\sigmafail}\\
+	\frac{2v^m w}{F} \frac{\sigmafail}{ \sqrt{3} \sqrt{ \left( \frac{w^{\neg m}}{ \hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz} \right)^2 } } &> 1 \\
+	1 - \frac{2v^m w}{F} \frac{\sigmafail}{ \sqrt{3} \sqrt{ \left( \frac{w^{\neg m}}{\hc} \right)^2 + \left(  \frac{\sigmafail}{\sigmafailz} \right)^2 } } &< 0 \\
+	1 - \frac{2v^m w}{F} \frac{\sigmafail}{ \sqrt{ 3\left( \frac{w^{\neg m}}{ \hc} \right)^2 + 3\left(  \frac{\sigmafail}{\sigmafailz} \right)^2 } } &< 0 \\
+	1 - \frac{2v^m w \sigmafail}{ F \sqrt{ 3\left( \frac{w^{\neg m}}{ \hc} \right)^2 + 3\left(  \frac{\sigmafail}{\sigmafailz} \right)^2 } } &< 0 \\
+	%\\
+	1 - \frac{2v^a w \sigmafail^a}{ F \sqrt{ 3\left( \frac{w^b}{ \hc} \right)^2 + 3\left(  \frac{\sigmafail^a}{\sigmafailz^a} \right)^2 } } &< 0 \\
+	1 - \frac{2v^b w \sigmafail^b}{ F \sqrt{ 3\left( \frac{w^a}{ \hc} \right)^2 + 3\left(  \frac{\sigmafail^b}{\sigmafailz^b} \right)^2 } } &< 0 \\
 \end{align*}
 \fi
 
@@ -318,12 +321,9 @@ That way the formulae of those constraints are more alike and simpler to differe
 \newcommand{\gd}{g_\text{d}}
 \newcommand{\gta}{g_\text{ta}}
 \newcommand{\gtb}{g_\text{tb}}
-\newcommand{\gc}{g_\text{c}}
 \newcommand{\gca}{g_\text{ca}}
-\newcommand{\gza}{g_\text{za}}
 \newcommand{\gzb}{g_\text{zb}}
 
-\todo{TODO: adjust below text to match the formula changes above!}
 
 \begin{align*}
 	f: & \min{ \frac{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right) }{F} }\\
@@ -334,7 +334,7 @@ That way the formulae of those constraints are more alike and simpler to differe
 	\gd: & \frac{v^a + v^b}{ \lmax }  - 1 \le 0 \\
 	\gta: & 1 - \frac{ 2 \wmin^a \hf \sigmafail^a }{ F } \le 0 \\
 	\gtb: & 1 - \frac{ w^b \hf \sigmafail^b }{ F } \le 0 \\
-	\gca: & 1 - \frac{2v^a \sigmafail}{ F \sqrt{ 3\left( \frac{w^b}{w \hc} \right)^2 + 3\left(  \frac{\sigmafail^a}{\sigmafailz^a 2\wmin^a} \right)^2 } } \le 0 \\
+	\gca: & 1 - \frac{2v^a (2\wmin^a + w^b) \sigmafail^a}{ F \sqrt{ 3\left( \frac{w^b}{ \hc} \right)^2 + 3\left(  \frac{\sigmafail^a}{\sigmafailz^a} \right)^2 } } \le 0 \\
 	\gzb: & 1 - \frac{ 2 v^b w^b \tauz^b }{ F } \le 0
 \end{align*}
 
@@ -358,46 +358,61 @@ The non-objective variables $v^a$ and $v^b$ are bound by $\gva$, $\gvb$ and $\gd
 	\gd: & v^{a+}, v^{b+} \\
 	\gta: & F^+, \hf^- \\
 	\gtb: & F^+, w^{b-}, \hf^- \\
-	\gc: & F^+, v^{a-}, v^{b-}, w^{b+} \\
-	\gza: & F^+, v^{a-} \\
+	\gca: & F^+, v^{a+}, w^{a+}, w^{b\pm} \\
 	\gzb: & F^+, v^{b-}, w^{b-}
 \end{align*}
 
 
-\subsection{Convexity}
-Since the objective function doesn't contain any complex mathematical expressions one can easily see that it is convex.
-The same cannot be said for the feasible space, however.
-The combination of constraints cannot be easily classified as demarcating a convex space.
+\subsection{Monotonicity and Convexity}
+Since the objective function doesn't contain any complex mathematical expressions one can easily see that it is monotonous.
+All of the objective and constraint formulae are monotonous, but because of the the $F$ below the division line they are not convex.
+We can therefore not preclude the existence of local optima.
 
-Specifically, the combined cross beam constraint $\gc$ is the union of two constraints relating to the two cross beams of the two materials.
+If we would have used the disjunctive constraint on the cross beam failures, however, the feasible domain would definitely be non-convex.
+The combined cross beam constraint entails the union of two feasible domains from the constraints relating to the two cross beams of the two materials.
 Convexity is not invariant under union, so the convexity of the feasible space is not easily verified.
-Given that the two sub-domains of $\gc$ aren't dominated by the other, nor by any other constraint, we can derive that $\gc$ introduces a non-convexity to the feasible domain.
-Since the feasible space is non-convex, we cannot preclude local optima.
+Given that the two sub-domains aren't dominated by the other, nor by any other constraint, we can derive that the disjunctive cross beam constraint would cause there to be at least two local minima in the design space.
 
 
 
 
 \subsection{Sensitivity analysis}
 The sensitivities are as follows:
+
 \begin{align*}
-	\diff{f}{v^a} &= \diff{f}{v^b} = 0 \\
-	\diff{f}{w^b} &= \frac{\hf + \hmin}{F} \\
-	\diff{f}{\hf} &= \frac{2 \wmin^a + w^b}{F} \\
-	\diff{f}{F} &= - \frac{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)}{F^2} \\
-	\diff{\log f}{\log w^b} % &= \frac{\hf + \hmin}{F}  w^b \frac{F}{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
+	\frac{\partial f}{\partial v^a} &= \frac{\partial f}{\partial v^b} = 0 \\
+	\frac{\partial f}{\partial w^b} &= \frac{\hf + \hmin}{F} \\
+	\frac{\partial f}{\partial \hf} &= \frac{2 \wmin^a + w^b}{F} \\
+	\frac{\partial f}{\partial F} &= - \frac{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)}{F^2} \\
+	\frac{\partial \log f}{\partial \log w^b} % &= \frac{\hf + \hmin}{F}  w^b \frac{F}{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
 	% &= \frac{\left( \hf + \hmin \right) w^b}{F} \frac{F}{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
 	% &= \frac{\left( \hf + \hmin \right) w^b}{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
 	&= \frac{ w^b }{ 2 \wmin^a + w^b} \\
-	\diff{\log f}{\log \hf} % &= \frac{2 \wmin^a + w^b}{F} \hf \frac{F}{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
+	\frac{\partial \log f}{\partial \log \hf} % &= \frac{2 \wmin^a + w^b}{F} \hf \frac{F}{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
 	% &= \frac{\left(2 \wmin^a + w^b\right) \hf }{F} \frac{F}{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
 	% &= \frac{\left(2 \wmin^a + w^b\right) \hf }{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
 	&= \frac{ \hf }{ \hf + \hmin } \\
 	\diff{\log{f}}{\log{F}} &= - 1 \\
 \end{align*}
 
+\iffalse
+\begin{align*}
+\begin{array}{c|ccccc} \nicefrac{\partial \_}{\partial \_} & w^b & v^a & v^b & \hf & F \\
+    	\hline
+	f & \frac{\hf + \hmin}{F}  & 0 & 0 & \frac{2 \wmin^a + w^b}{F} & - \frac{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)}{F^2} \\
+	\gwb & -\nicefrac{1}{2\wmin^b} & 0 & 0 & 0 & 0 \\
+	\gva & 0 & -\nicefrac{1}{\wmin^a} & 0 & 0 & 0 \\
+	\gvb & 0 & 0 & -\nicefrac{1}{\wmin^b} & 0 & 0 \\
+	\ghf & 0 & 0 & 0 & -\nicefrac{1}{\hmin} & 0 \\
+	\gd & 0 & \nicefrac{1}{\lmax} & \nicefrac{1}{\lmax} & 0 & 0\\
+	\gta & 
+\end{array} 
+\end{align*}
+\fi
+
 The fact that the logarithmic sensitivity of the objective w.r.t. the force equals $-1$ reflects that for any given design the test force is maximized until the first failure mode will happen.
 The sensitivities of the other design variables are in the same ballpark, given that the constraint values $\wmin$ and $\hmin$ are in the same order of magnitude.
-\todo{We will show the sensitivities at the global optimum further down in this paper.}
+We will show the sensitivities at the global optimum further down in this paper.
 
 
 \subsection{Constraint sensitivities}
@@ -414,12 +429,10 @@ The sensitivities of the other design variables are in the same ballpark, given 
 	\diff{\gtb}{\hf} &= \frac{-w^b\sigmafail^a}{F} \\
 	\diff{\gtb}{w^b} &= \frac{-\hf\sigmafail^a}{F} \\
 	\diff{\gtb}{F} &= \frac{w^b \hf \sigmafail^a}{F^2} \\
-	\diff{\gc}{w^b} &= - \frac{ 2 \hmin}{ F }  \frac{ w^b \sigmafail^a}{ v^a \left(   \left( \frac{w^b}{v^a}  \right)^2 + 3 \right)^{\nicefrac32} } \\
-	\diff{\gc}{v^a} &= - \frac{ 2 \hmin}{ F }  \frac{ v^a \sigmafail^a \left( 3 \left(v^a\right)^2 + 2 \left(w^b\right)^2 \right) }{ \left( 3 \left(v^a\right)^2 + \left(w^b\right)^2 \right)^{\nicefrac32} }  \\
-	\diff{\gc}{v^b} &= - \frac{ 2 \hmin}{ F }  \frac{ v^b \sigmafail^b \left( 3 \left(v^b\right)^2 + 8 \left(\wmin^a\right)^2 \right) }{ \left( 3 \left(v^b\right)^2 + 4 \left(\wmin^a\right)^2 \right)^{\nicefrac32} }  \\
-	\diff{\gc}{F} &= \frac{ 2 \hmin}{ F^2 }  \max \left(  \frac{ v^a \sigmafail^a}{ \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 } }   ,  \frac{ v^b \sigmafail^b}{  \sqrt{   \left( \frac{2\wmin^a}{v^b}  \right)^2 + 3 } }  \right) \\
-	\diff{\gza}{v^a} &= \frac{-4\wmin^a\tauz^a}{F} \\
-	\diff{\gza}{F} &= \frac{4v^a \wmin^a\tauz^a}{F^2} \\
+	\diff{\gca}{w^b} &= - \frac{ 2 \hmin}{ F }  \frac{ w^b \sigmafail^a}{ v^a \left(   \left( \frac{w^b}{v^a}  \right)^2 + 3 \right)^{\nicefrac32} } \\
+	\diff{\gca}{v^a} &= - \frac{ 2 \hmin}{ F }  \frac{ v^a \sigmafail^a \left( 3 \left(v^a\right)^2 + 2 \left(w^b\right)^2 \right) }{ \left( 3 \left(v^a\right)^2 + \left(w^b\right)^2 \right)^{\nicefrac32} }  \\
+	\diff{\gca}{v^b} &= - \frac{ 2 \hmin}{ F }  \frac{ v^b \sigmafail^b \left( 3 \left(v^b\right)^2 + 8 \left(\wmin^a\right)^2 \right) }{ \left( 3 \left(v^b\right)^2 + 4 \left(\wmin^a\right)^2 \right)^{\nicefrac32} }  \\
+	\diff{\gca}{F} &= \frac{ 2 \hmin}{ F^2 }  \max \left(  \frac{ v^a \sigmafail^a}{ \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 } }   ,  \frac{ v^b \sigmafail^b}{  \sqrt{   \left( \frac{2\wmin^a}{v^b}  \right)^2 + 3 } }  \right) \\
 	\diff{\gzb}{w^b} &= \frac{-2v^b\tauz^a}{F} \\
 	\diff{\gzb}{v^b} &= \frac{-2w^b\tauz^a}{F} \\
 	\diff{\gzb}{F} &= \frac{4v^a w^b\tauz^a}{F^2}
@@ -450,41 +463,13 @@ This gives us the following:
 
 We can easily verify that all domain constraints are met, so we were justified in assuming the value for $w^a$ and $\hc$ in \cref{sec:domain_assumptions}.
 
-When we evaluate the constraints we can see that $\gd$, $\gtb$ and $\gc$ are approximately zero.
+When we evaluate the constraints we can see that $\gd$, $\gtb$ and $\gca$ are approximately zero.
 This includes the combined cross beam constraint.
 If we evaluate the original constraints (in negative null form) with the above values we can see that only the shear failure $M_y^a$ is active.
 
 
-\subsection{2D plots}
-\todo{TODO}
 
 
-
-
-
-\subsection{Analytical derivation}
-\todo{Derive optimum using near-active constraints.}
-
-
-\subsection{Optimization Approach}
-
-
-Rosen's gradient projection method (or Zoutendijks method of feasible directions?)
-
-Second Order optimality check: Karush-Kuhn-Tucker condition, use Bordered Hessian approach
-(L9)
-
-
-
-\subsection{Future work}
-Possible extensions:
-\begin{itemize}
-	\item Consider how the optimal design depends on the constraint values.
-	\item Test various material combinations.
-	\item Consider multiple repetitions of the cell in the loading direction.
-	\item Consider tensile load in Z direction.
-	\item Consider FEM model.
-\end{itemize}
 
 \iffalse
 Formula is given by this? :

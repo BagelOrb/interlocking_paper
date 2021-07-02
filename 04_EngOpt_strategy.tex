@@ -24,7 +24,7 @@ Inside the loop we evaluate the symbolic expressions of the derivatives using \v
 
 The $\Wmat$ and $\Amat$ matrices can then be constructed on the fly using the formulae
 $W = \diffp[2]{f}{\xvec} + \lamvec^\intercal \diffp[2]{\hvec}{\xvec}$
-end
+and
 $A = \diff{\hvec}{\xvec}$.
 Note that $\diffp[2]{\hvec}{\xvec}$ is a precomputed 3D matrix.
 We can then use \verb|quadprog| to solve $\min_{\Delta\xvec} \nicefrac12 \Delta\xvec^\intercal \Wmat\Delta\xvec + \nabla f^\intercal \Delta\xvec$ s.t. $\Amat\Delta\xvec+\hvec=\mathbf{0}$.
