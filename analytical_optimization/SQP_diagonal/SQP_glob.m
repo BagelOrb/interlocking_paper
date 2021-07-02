@@ -37,6 +37,9 @@ nx = length(x);
 
 lambdas_k = ones(1,ng);
 
+best_x = ones(1, nx);
+best_obj = 99999;
+
 % Obtain second order derivatives
 disp('Approximating Taylor series...');
 
@@ -161,6 +164,11 @@ for p = 1:Niter
     obj  = double(subs(f, x.', x_k));
     g_k = double(subs(g, x.', x_k));
     
+    if obj < best_obj && all(g_k < 10^-4)
+        best_obj = obj;
+        best_x = x_k;
+    end
+    
     fprintf("%i: objective: %.5f,\t constraints: %s,\t highest constraint: %.3f,\t move limits: %i\n", p, obj, num2str(h_idx), max(g_k), employed_move_limits);
      
 %     if max(g_k) < 10^(-5) && max(g_k) > -0.01 && any(round(obj_history(:), 5) == round(obj,5)) && length(h_idx) == length(x)
@@ -198,6 +206,18 @@ for p = 1:Niter
     end
 end
 
+obj  = double(subs(f, x.', x_k));
+
+if obj > best_obj || any(g_k > -10^-3)
+    fprintf("Taking best x...\n");
+    obj = best_obj;
+    x_k = best_x;
+    g_k = double(subs(g, x.', x_k));
+    dfdx_k = double(subs(dfdx, x.', x_k));
+    dgdx_k = double(subs(dgdx, x.', x_k));
+    dgdx_k(isnan(dgdx_k)) = 0;
+    dgdx_k(isinf(dgdx_k)) = 0;
+end
 
 % Check KKT conditions
 if p > 1     
