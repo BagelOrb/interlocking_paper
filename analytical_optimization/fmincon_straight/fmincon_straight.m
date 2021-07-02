@@ -8,11 +8,11 @@ options = optimoptions('fmincon','Display','iter','Algorithm','sqp');
 problem.options = options;
 problem.solver = 'fmincon';
 problem.objective = f;
-problem.nonlcon = @constraints;
+problem.nonlcon = @(x) constraints(x, L_max);
 problem.x0 = [1,1,1,1,1];
 
 [x, fval] = fmincon(problem);
-[c,ceq] = constraints(x);
+[c,ceq] = constraints(x, L_max);
  
 fprintf('\n The minimum objective of %f with a max nominal stress of %f is reached for: \n', fval, 1 / fval)
 fprintf('wb = %f \n', wb(x));
