@@ -70,7 +70,24 @@ for p = 1:Niter
    %  lambdas_k(h_idx) = lambda_k; % save lambdas associated with old h_idx
     
     
+    % Check KKT conditions
+    if ~ any(isnan(dgdx_k))
+        if p > 1
+            %[mu, r] = linsolve(dgdx_k, -dfdx_k);
+            mu = lambdas_k;
+            constraints_satisfied = all(g_k < 10^-3);
+            positive_mu = all(lambdas_k > -10^-3);
+            inactive_or_satisfied = all(abs(lambdas_k .* g_k) < 10^-3);
 
+            if constraints_satisfied ...
+                    && positive_mu...
+                    && inactive_or_satisfied
+                fprintf("Constraints satisfied.\n");
+                break;
+            end
+        end
+    end
+    
     % cycle detection and resolution
     if p > nhistory && ~ cycling_break ...
         && ~ isequal(cell2mat(h_idx_history(1)), cell2mat(h_idx_history(2)))...
@@ -92,9 +109,17 @@ for p = 1:Niter
         %> dfdx_k + mu * dgdx_k = 0
         %> mu * dgdx_k = - dfdx_k
         %mu = linsolve(dgdx_k, -dfdx_k);
+        mu = lambdas_k;
         %lambdas_k = mu;
         %h_idx = [indices(mu > 10^-4)];
-        h_idx = [indices(g_k > 10^-14)];
+        h_idx_before = h_idx;
+        violateds = [indices(g_k > 10^-8)];
+        h_idx = violateds;
+        %h_idx = union(h_idx, violateds);
+        %h_idx = setdiff(h_idx, [indices(mu < -10^-1)]);
+        if ~ isequal(h_idx_before, h_idx)
+            lambdas_k = ones(1, ng);
+        end
         %h_idx = [indices(lambdas_k < -10^-4)];
         %h_idx = [indices(g_k > -10^(-4))];
         %if length(h_idx) > nx
@@ -141,9 +166,9 @@ for p = 1:Niter
         g_k = double(subs(g, x.', x_k));
         break;
     else
-        % lambda_k = lambda_next.eqlin;
-        %[lambda_new, rank] = linsolve(A_k.', W_k * dx + dfdx);
-        %lambda_k(~ isinf(lambda_new)) = lambda_new(~ isinf(lambda_new));
+        %lambda_k = lambda_next.eqlin;
+        [lambda_new, rank] = linsolve(A_k.', - W_k * dx - dfdx_k);
+        lambda_k(~ isinf(lambda_new)) = lambda_new(~ isinf(lambda_new));
     end
     
     employed_move_limits = false;
