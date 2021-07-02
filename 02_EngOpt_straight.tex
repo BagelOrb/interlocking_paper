@@ -105,7 +105,7 @@ we multiply the Z shear stress by the ratio $\nicefrac{\sigmafail}{\sigmafailz}$
 The shear stress along Z is therefore given by:
 \begin{align*}
 	\sigma_{12}^m &= \frac{\sigmafail}{\sigmafailz} \frac{ d_z^m F }{ 2 v^m w^m} \\ 
-	d_z^m &= \frac{w^m + u_y^m w^{\neg m}}{w}
+	d_z^m &= \frac{w^m + u_z^m w^{\neg m}}{w}
 \end{align*}
 
 
@@ -262,15 +262,79 @@ However, combining all constraints into a single one hinders analysis and unders
 
 
 \subsection{Model evaluation}
-There are 4 different von Mises constraints and two ratios $d_y^m$ and $d_z^m$, so in total there are $2^6$ potential analytical models to consider.
+Consider broken optimum
+
+When subjecting the microstructure to a load the distribution of stress is difficult to predict, because of the interplay between several failure modes.
+Our model makes some strong assumptions on the homogeneity of stress distribution throughout the beams.
+We mentioned several modeling choices which were deferred: the values for $u^m_y$, $u^m_z$, the exclusion of the bending constraints and using combined von Mises criterions.
+In order to evaluate which of the variants of our analytical model is best we compare against an extensive grid search of FEM simulations.
+\footnote{The FEM simulations were not performed by either of the two students. The implementation details of the FEM simulation are left out of this report.}
+
+The simluations were performed on a grid along three dimensions: $w^b$, $v^a$ and $\hf$, within the ranges $(0.6,3.0)$, $(0.1\lmax, 0.9\lmax)$ and $(1.8, 3.6)$ respectively.
+Because the design constraint is active, and because the minimum feature size is active, we can derive $w^a$, $v^b$ and $\hc$ from these.
+The output of each simulation is a force $F$, which can be used to compute the ultimate tensile strength $f$ of a given design.
+
+Similarly we converted our problem such that for each design in the 3D space, we compute the force according to each mechanical constraint.
+For example, the minmum force according to the tensile constraint for $a$ would be $F = \sigmafail^a w^a \hf$.
+Because the structure will fail as soon as the first mechanical constraint is violated,
+we record the minimum force for all constraints and use that to compute the predicted ultimate strength.
+Also for the comparison we set $\sigmafailz^m = \sigmafail^m$, because the FEM simulations cannot capture the difference in strength along the Z direction caused by the layerwise buildup of FDM 3D printing.
+
+\begin{table}
+	\centering
+	\caption{Accuracy of the analytical model w.r.t. FEM results.}
+	\label{tab:prediction_ratios}
+	\begin{tabular}{llll|ll}
+		$u^m_z$ & $\sigma_{22}$ & $\sigma_{11,12}$ & $\sigma_{12,13}$ & $\nicefrac{F}{\hat{F}}$ & std dev \\
+		\hline
+		\checkmark & - & - & - & 104.2\% & 19.8\% \\
+		\checkmark & - & - & \checkmark & 101.7\% & 18.9\% \\
+		\checkmark & - &\checkmark&\checkmark & 94.7\% & 19.3\% \\
+		\checkmark & - &\checkmark& - & 97.0\% & 20.5\% \\
+		\checkmark &\checkmark& - & - & 85.3\% & 31.0\% \\
+		- & - & - &\checkmark& 107.6\% & 16.2\% \\
+		- & - & - & - & 107.8\% & 16.2\% \\
+	\end{tabular}
+\end{table}
+
+We compare each point in the FEM data set to our analytical model,
+and calculate the average prediction ratio $\nicefrac{F}{\hat{F}}$ between the simulated $\hat{F}$ and the analytically predicte $F$, along with the standard deviation.
+See \cref{tab:prediction_ratios}.
+From these results we can see that including the bending stress $\sigma_{22}$ doesn't improve the accuracy of our analytical model.
+Also the $\sigma_{11,12}$ von Mises criterion which combines tensile and Z shear lowers teh accuracy.
+Using the $\sigma_{12,13}$ von Mises criterion to combine the stresses in the cross beam with the Z shear stress does improve the model.
+
+The question whether we should use the full force for computing the Z shear stress $u^m_z$ is more difficult to answer;
+while it gets the prediction ratio closer to \SI{100}{\percent}, the standard deviation increases.
+It makes sense that the analytical model overestimates the ultimate strength, because we assume homogenous stress distributions.
+Omitting $u^m_z$ may cause an increase in prediction ratio, but the overall shape is closer o the FEM predictions as indicated by the lower standard deviation.
+Because we are less concerned with the actual ultimate strength, and more in the optimal design, we will choose to only use the partial force when computing the Z shear stress.
+
+The comparison on the final model is shown in \cref{fig:ana_vs_FEM}.
+We can then reintroduce the correct value for $\sigmafailz^m$ and evaluate the analytical model on a more dense grid.
+See \cref{fig:ana_minF}.
+One important observation is that we can distinguish 4 constraint surfaces which culminate in the same optimum, while there are only 3 free design variables.
+The fact that 4 surfaces meet in a 3-dimensional space is not to be thought of as a coincidence, but is presumably inherent to the particular problem at hand.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\columnwidth]{sources/method/ana_vs_FEM.png}
+	\caption{Ultimate tensile strength, colored according to failure mode and FEM simulation results in gray.
+	These are three 2D slices through the 3D space spanned by $w^b$, $v^a$ and $\hf$, sliced at the maximum ultimate strength value.
+	}
+	\label{fig:ana_vs_FEM}
+\end{figure}
 
 
 
-Reformulate constraints to get the min gF over all constraints
-
-Report statistics over different modeling choices
-
-Show comparison of surfaces.
+\begin{figure}
+	\centering
+	\includegraphics[width=\columnwidth]{sources/method/ana_minF.png}
+	\caption{Ultimate tensile strength, colored according to failure mode according to the validated model.
+	These are three 2D slices through the 3D space spanned by $w^b$, $v^a$ and $\hf$, sliced at the maximum ultimate strength value.
+	}
+	\label{fig:ana_minF}
+\end{figure}
 
 
 
