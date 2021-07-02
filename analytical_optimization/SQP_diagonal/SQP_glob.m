@@ -1,16 +1,16 @@
 clear all; % otherwise changes to the script aren't loaded until you restart MATLAB
 
-% diagonal_case;
-% straight_case;
-straight_case_2var;
+% straight_case_2var;
 % diagonal_case_2var;
+% straight_case;
+diagonal_case;
+% 
 
 % Set optimization parameters
-Niter = 300;
+Niter = 1000;
 delta = 100; % for lambda update
 
-show_every_iteration = false;
-
+show_every_iteration = true;
 
 get_plot = 1;       % Turn on to obtain plot
 syms l1 l2 l3 l4 l5 l6 l7 l8 l9 l10 l11 l12 l13
@@ -19,6 +19,7 @@ syms l1 l2 l3 l4 l5 l6 l7 l8 l9 l10 l11 l12 l13
 lambdas = [l1; l2; l3; l4; l5; l6; l7; l8; l9; l10; l11; l12; l13]; % is needed for symbolic different
 
 options = optimset('Display', 'off');
+thres = 10^(-8);
 
 % history for cycling detection
 nhistory = 6;
@@ -69,7 +70,7 @@ dgdx_f = matlabFunction(dgdx, 'Vars', x);
 toc; % print time elapsed for differentiation
 
 tic;
-
+disp('Start iteration...');
 for p = 1:Niter
     
     x_kc = num2cell(x_k, 1);
@@ -88,9 +89,9 @@ for p = 1:Niter
         if p > 1
             %[mu, r] = linsolve(dgdx_k, -dfdx_k);
             mu = lambdas_k;
-            constraints_satisfied = all(g_k < 10^-8);
-            positive_mu = all(lambdas_k > -10^-8);
-            inactive_or_satisfied = all(abs(lambdas_k .* g_k) < 10^-8);
+            constraints_satisfied = all(g_k < thres);
+            positive_mu = all(lambdas_k > -thres);
+            inactive_or_satisfied = all(abs(lambdas_k .* g_k) < thres);
 
             if constraints_satisfied ...
                     && positive_mu...
@@ -126,7 +127,7 @@ for p = 1:Niter
         %lambdas_k = mu;
         %h_idx = [indices(mu > 10^-4)];
         h_idx_before = h_idx;
-        violateds = [indices(g_k > 10^-8)];
+        violateds = [indices(g_k > thres)];
         h_idx = violateds;
         %h_idx = union(h_idx, violateds);
         %h_idx = setdiff(h_idx, [indices(mu < -10^-1)]);
@@ -196,22 +197,24 @@ for p = 1:Niter
 
     % Evaluate eigenvalues
     ev = eig(W_k);
-    isposdef = all(ev> -10^(-14));
+    isposdef = all(ev> -thres);
 
     % Compute objective
+    x_kc = num2cell(x_k, 1);
     obj  = f_f(x_kc{:});
     g_k = g_f(x_kc{:});
     
-    if obj < best_obj && all(g_k < 10^-7)
+    if obj < best_obj && all(g_k < thres)
         best_obj = obj;
         best_x = x_k;
+        best_lambda = lambda_k;
     end
     
     if show_every_iteration
         fprintf("%i: objective: %.5f,\t constraints: %s,\t highest constraint: %.3f,\t move limits: %i\n", p, obj, num2str(h_idx), max(g_k), employed_move_limits);
     end
      
-    if max(g_k) < 10^(-6) && max(g_k) > -0.01 && any(round(obj_history(:), 5) == round(obj,5)) && ismember(round(x_k,5), round(x_history,5), 'rows') && length(h_idx) == length(x)
+    if max(g_k) < thres && max(g_k) > -0.01 && any(round(obj_history(:), 5) == round(obj,5)) && ismember(round(x_k,5), round(x_history,5), 'rows') && length(h_idx) == length(x)
         fprintf("Cycling inside the same loop, stop!\n")
         break;
     end
@@ -224,14 +227,14 @@ for p = 1:Niter
     h_max_history(1:nhistory-1,1) = h_max_history(2:nhistory,1);
     h_max_history(nhistory,1) = { max(g_k) };
     
-    if all(abs(dx) < 10^(-10))
+    if all(abs(dx) < thres)
         fprintf("Not budging anymore! dx too small.\n")
         break;
     end
     
     g_k_other = g_k;
     g_k_other(h_idx) = 0;
-    if max(g_k_other) > 10^(-6) && cycling_break 
+    if max(g_k_other) > thres && cycling_break 
         fprintf("Another constraint violated, stop!\n")
         % Go one step back
         x_k = x_k - dx.';
@@ -250,10 +253,11 @@ obj  = f_f(x_kc{:});
 
 toc; % print time elapsed for iterations
 
-if obj > best_obj || any(g_k > 10^-5)
+if obj > best_obj || any(g_k > thres)
     fprintf("Taking best x...\n");
     obj = best_obj;
     x_k = best_x;
+    lambda_k = best_lambda;
     x_kc = num2cell(x_k, 1);
     g_k = g_f(x_kc{:});
     dfdx_k = dfdx_f(x_kc{:});
@@ -266,9 +270,9 @@ end
 if ~ any(isnan(dgdx_k))
     if p > 1
         [mu, r] = linsolve(dgdx_k, -dfdx_k);
-        constraints_satisfied = all(g_k < 10^-8);
-        positive_mu = all(mu > -10^-2);
-        inactive_or_satisfied = all(abs(mu.' .* g_k) < 10^-8);
+        constraints_satisfied = all(g_k < thres);
+        positive_mu = all(mu > -thres);
+        inactive_or_satisfied = all(abs(mu.' .* g_k) < thres);
         if constraints_satisfied ...
                 && positive_mu...
                 && inactive_or_satisfied

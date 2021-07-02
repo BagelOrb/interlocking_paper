@@ -1,5 +1,5 @@
 constants;
-move_limit = 0.5;
+move_limit = 0.01;
 
 syms wb F;
 x = [wb; F];
