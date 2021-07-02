@@ -194,7 +194,7 @@ for p = 1:Niter
     obj  = f_f(x_kc{:});
     g_k = g_f(x_kc{:});
     
-    if obj < best_obj && all(g_k < 10^-8)
+    if obj < best_obj && all(g_k < 10^-7)
         best_obj = obj;
         best_x = x_k;
     end
@@ -238,7 +238,7 @@ end
 x_kc = num2cell(x_k, 1);
 obj  = f_f(x_kc{:});
 
-if obj > best_obj || any(g_k > -10^-8)
+if obj > best_obj || any(g_k > 10^-5)
     fprintf("Taking best x...\n");
     obj = best_obj;
     x_k = best_x;
