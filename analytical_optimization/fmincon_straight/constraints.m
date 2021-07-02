@@ -9,7 +9,7 @@ function [c,ceq] = constraints(x, L_max_overwritten)
     c(5) = (va(x) + vb(x)) / L_max_overwritten - 1;
     c(6) = 1 - wa * hf(x) * sa / F(x);
     c(7) = 1 - wb(x) * hf(x) * sb / F(x);
-    c(8) = 1 - 2 * va(x) * sa / (F(x) * sqrt(3 * (wb(x)/(wa+wb(x))/hc)^2 + 3*(sa/saz/wa)^2));
+    c(8) = 1 - 2 * va(x) * (wa+wb(x)) * sa / (F(x) * sqrt(3 * (wb(x)/hc)^2 + 3*(sa/saz)^2));
     c(9) = 1 - 2*vb(x)*wb(x)*tbz / F(x);
 
     ceq = [];

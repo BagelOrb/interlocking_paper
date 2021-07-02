@@ -15,7 +15,7 @@ ghf = 1 - hf / h_min;
 gd =  (va + vb) / L_max - 1;
 gta = 1 - wa * hf * sa / F;
 gtb = 1 - wb * hf * sb / F;
-gca = 1 - 2 * va * sa / (F * sqrt(3 * (wb/(wa+wb)/hc)^2 + 3*(sa/saz/wa)^2));
+gca = 1 - 2 * va * sa * (wa+wb) / (F * sqrt(3 * (wb/hc)^2 + 3*(sa/saz)^2));
 gzb = 1 - 2*vb*wb*tbz / F;
 
 g = [ gwb, gva, gvb, ghf, gd, gta, gtb, gca, gzb ];
