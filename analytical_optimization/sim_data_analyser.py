@@ -177,9 +177,9 @@ cross_gFs = [gF_cross_von_mises_a, gF_cross_von_mises_b]
 gFs = {}
 gFs['tensile a'] = sa / s11_a
 gFs['tensile b'] = sb / s11_b
-if use_z_shear_a:
+if use_z_shear_a and (not combine_z_shear_and_cross_shear or not apply_cross_a):
     gFs['Z shear a'] = sa / s12_a / sqrt(3)
-if use_z_shear_b:
+if use_z_shear_b and (not combine_z_shear_and_cross_shear or not apply_cross_b):
     gFs['Z shear b'] = sb / s12_b / sqrt(3)
 if combine_tensile_and_z_shear:
     gFs['tensile and z shear a'] = sa / np.sqrt(combined_von_mises_tensile_z_shear_a)
@@ -190,10 +190,11 @@ if combine_z_shear_and_cross_shear:
     if apply_cross_a and apply_cross_b and use_z_shear_b:
         gFs['z shear and cross a+b'] = np.maximum(z_shear_and_cross_a, z_shear_and_cross_b)
     else:
-        gFs['z shear and cross a'] = z_shear_and_cross_a
-        if use_z_shear_b:
+        if apply_cross_a and use_z_shear_a:
+            gFs['z shear and cross a'] = z_shear_and_cross_a
+        if apply_cross_b and use_z_shear_b:
             gFs['z shear and cross b'] = z_shear_and_cross_b
-if apply_cross_a and apply_cross_b:
+if apply_cross_a and apply_cross_b and not combine_z_shear_and_cross_shear:
     if bending == 0:
         cross_shear_a = sa / s31_a / sqrt(3)
         cross_shear_b = sb / s31_b / sqrt(3)
@@ -202,11 +203,11 @@ if apply_cross_a and apply_cross_b:
         cross_shear_and_cross_bending_a = sa / np.sqrt(combined_von_mises_cross_a)
         cross_shear_and_cross_bending_b = sa / np.sqrt(combined_von_mises_cross_b)
         gFs['cross shear and cross bending a+b'] = np.maximum(cross_shear_and_cross_bending_a, cross_shear_and_cross_bending_b)
-elif apply_cross_a:
+elif apply_cross_a and (not combine_z_shear_and_cross_shear or not use_z_shear_b):
     gFs['cross shear a'] = sa / s31_a / sqrt(3)
     if bending > 0:
         gFs['cross shear and cross bending a'] = sa / np.sqrt(combined_von_mises_cross_a)
-elif apply_cross_b:
+elif apply_cross_b and (not combine_z_shear_and_cross_shear or not use_z_shear_a):
     gFs['cross shear b'] = sb / s31_b / sqrt(3)
     if bending > 0:
         gFs['cross shear and cross bending b'] = sb / np.sqrt(combined_von_mises_cross_b)
