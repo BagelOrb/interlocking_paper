@@ -1,4 +1,5 @@
 straight_constants;
+move_limit = 0.5;
 
 syms wb F;
 x = [wb; F];

@@ -1,4 +1,5 @@
 constants;
+move_limit = 1;
 
 syms wa wb L F;
 x = [wa; wb; L; F];
