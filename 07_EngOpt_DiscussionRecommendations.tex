@@ -21,8 +21,15 @@ We can assume a deposition accuracy of \SI{0.1}{\milli\meter}, which is a reason
 The optimum is found at the intersection of several constraint surfaces - each of which has a different steepness at the optimum.
 Taking the manufacturing accuracy is a random perturbation in the design space we can envision that the expected stress at the optimum might be lower
 compared to a different reference point which is a bit farther down along the least steep surface.
+
+\todo{Include graphs of minF}
 Looking at the graphs and the sensitivities it would make sense to choose a design with a slightly lower $\hf$ and $w^b$ than the optimum of the straight design.
-However, a thorough mathematical justification of the exact location of the best point in the design space given manufacturing inaccuracy remains future work.
+Computing the sensitivity of $\xvec_i$ in one of the active constraints $\gvec_i$ would be done by looking at:
+\begin{align*}
+	\diffp{f}{{\xvec_i}} + \sum\limits^{j \neq i} \diffp{f}{{\xvec_j}} \left( \diffp{{\gvec_i}}{{\xvec_j}} \right)^{-1} \diffp{{\gvec_i}}{{\xvec_i}}
+\end{align*}
+One could compute the expected ultimate strength considering a random perturbation of the design.
+However, a thorough mathematical justification of the exact location of the best point in the design space given manufacturing inaccuracy falls outside the scope of the current work.
 
 Depending on the application of the interlocking structure different constraint values might apply.
 For different materials the optimum can be quite different.
