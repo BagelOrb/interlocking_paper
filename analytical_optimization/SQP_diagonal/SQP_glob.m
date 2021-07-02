@@ -245,14 +245,19 @@ if obj > best_obj || any(g_k > -10^-3)
 end
 
 % Check KKT conditions
-if p > 1     
-    constraints_satisfied = all(g_k < 10^-3);
-    positive_lambda = all(lambda_k > -10^-3);
-    inactive_or_satisfied = all(abs(lambda_k.' .* h_k) < 10^-3);
-    if constraints_satisfied ...
-            && positive_lambda...
-            && inactive_or_satisfied
-        fprintf("Constraints satisfied.\n");
+if ~ any(isnan(dgdx_k))
+    if p > 1
+        [mu, r] = linsolve(dgdx_k, -dfdx_k);
+        constraints_satisfied = all(g_k < 10^-2);
+        positive_mu = all(mu > -10^-2);
+        inactive_or_satisfied = all(abs(mu.' .* g_k) < 10^-2);
+        if constraints_satisfied ...
+                && positive_mu...
+                && inactive_or_satisfied
+            fprintf("Constraints satisfied.\n");
+        else
+            fprintf("Constrains violated!\n");
+        end
     end
 end
 
