@@ -20,7 +20,7 @@ Our objective and constraint formulae are differentiable,
 but deriving the derivative of the more complex constraints may prove to be laborsome and error-prone.
 We therefore use the Matlab builtin functionality \verb|diff| to derive the derivatives of the symbolic formulae.
 Performing the differentiation like this is computation intensive, but since it can be performed at the start of the program we can save on precious computation time inside the main loop.
-Inside the loop we evaluate the symbolic expressions of the derivatives using \verb|subs| and \verb|eval|.
+The symbolic expressions are then converted to standard functions using \verb|matlabFunction|, so that they can be evaluated efficiently inside the loop.
 
 The $\Wmat$ and $\Amat$ matrices can then be constructed on the fly using the formulae
 $\Wmat = \diffp[2]{f}{\xvec} + \lamvec^\intercal \diffp[2]{\hvec}{\xvec}$
