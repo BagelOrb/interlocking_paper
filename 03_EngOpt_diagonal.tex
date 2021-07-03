@@ -9,7 +9,6 @@
 \end{figure}
 
 
-
 \section{Diagonal Design}
 
 Another option is to place the fingers under an angle as shown in \autoref{fig:diagonal_model}.
@@ -108,29 +107,51 @@ The tensile $\sigma_t$, bending $\sigma_b$ and shear stresses $\tau_x$ acting at
 
 We plugged in \autoref{eq:tensfail}, \ref{eq:shearmx} and \ref{eq:bending}, what gave \ref{eq:vmcrit}.
 
+\begin{table}[H]
+\resizebox{\columnwidth}{!}{%
+\begin{minipage}{0.7\textwidth}
 \begin{equation}
 	\label{eq:vmcrit}
-	\sqrt{\frac{1}{2} \left( \frac{F}{w_m  h} + 	\frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_m^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w_m h L }  \right) ^2}
+	\sqrt{\frac{1}{2} \left( \frac{F}{w_m  h} + \frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_m^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w_m h L }  \right) ^2}
 \end{equation}
-\todo{How to put it on the page??} 
+\end{minipage} %
+}
+\end{table}
 
 
 \subsubsection{Optimization Problem}
 The goal is to maximize the strength while accounting for the failure modes in the constraints.
 With that, the optimization problem can be formulated as follows. 
+
 \begin{align*}
 	f: & \max_{F, {w_a}, {w_b}. L} \frac{F}{2h \left(w_a + w_b\right)} \nonumber \\
 	\text{subject to:} & \nonumber \\
 	g_1: & w_m \ge w_\text{m,min} \\
 	g_2: & w_a + w_b \le w_\text{max} \\
 	g_3: & L_{min} \le L \le L_{max} \\
-	g_4: & \frac{ 3 F \left(w_a + w_b \right) }{ w_m ^2 L} \le \tau_m						\text{ Shear failure } M_z^m \\
-	g_5:& \sqrt{\frac{1}{2} \left( \frac{F}{w_m  h} + 	\frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_m^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w_m h L}  \right) ^2}		\le 	\sigma_m	\text{ Von Mises criterion } M_x \\
-	& \text{for both materials } && m \in \{a, b\} \nonumber 
+	g_4: & \frac{ 3 F \left(w_a + w_b \right) }{ w_m ^2 L} \le \tau_m						\text{ Shear failure } M_z^m 
+	\end{align*}	
+	\vspace{-8mm}
+	
+	\begin{table}[H]
+	\resizebox{\columnwidth}{!}{%
+	\begin{minipage}{0.5\textwidth}
+	\begin{align*}
+	g_5:& \sqrt{\frac{1}{2} \left( \frac{F}{w_m  h} + 	\frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_m^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w_m h L}  \right) ^2}		\le 	\sigma_m \\	
+	&	\text{ Von Mises criterion } M_x 
 \end{align*}
+\end{minipage} %
+}
+\end{table}
+\vspace{-8mm}
+\begin{align*}
+	& \text{for both materials } m \in \{a, b\} \nonumber 
+\end{align*}
+	
 
 
 Constraint $g_5$ can be squared at both sides to get rid of the square root. Normalizing and rewriting to the negative null-form gives the following optimization problem:
+
 
 \begin{align*}
 	f: & \min_{F, {w_a}, {w_b}. L}  \frac{2h \left(w_a + w_b\right)}{F} \nonumber \\
@@ -141,11 +162,21 @@ Constraint $g_5$ can be squared at both sides to get rid of the square root. Nor
 	g_{3.1}:& 1 - \frac{L}{L_{min}} \le 0 \\
 	g_{3.2}:&\frac{L}{L_{max}} - 1  \le 0 \\
 	g_{4a}: & \frac{ 3 F \left(w_a + w_b \right) }{ \tau_a w_a ^2 L} - 1 \le 0					\text{ Shear failure } M_z^a \\
-	g_{4b}: & \frac{ 3 F \left(w_a + w_b \right) }{ \tau_b w_b ^2 L} - 1 \le 0					\text{ Shear failure } M_z^b \\
-	g_{5a}:& \frac{\frac{1}{2} \left( \frac{F}{w_a  h} + 	\frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_a^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w_a h L}  \right) ^2	} { \sigma_a^2} - 1	\le 0	\text{ Von Mises criterion } M_x^a \\
-	g_{5b}:& \frac{\frac{1}{2} \left( \frac{F}{w_b  h} + 	\frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_b^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w_b h L}  \right) ^2	} { \sigma_b^2} - 1	\le 0	\text{ Von Mises criterion } M_x^a 
+	g_{4b}: & \frac{ 3 F \left(w_a + w_b \right) }{ \tau_b w_b ^2 L} - 1 \le 0					\text{ Shear failure } M_z^b 
+\end{align*}	
+\vspace{-8mm}
+\begin{table}[H]
+	\resizebox{\columnwidth}{!}{%
+\begin{minipage}{0.5\textwidth}
+\begin{align*}
+	g_{5a}:& \frac{\frac{1}{2} \left( \frac{F}{w_a  h} + 	\frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_a^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w_a h L}  \right) ^2	} { \sigma_a^2} - 1	\le 0	\\
+		& 	\text{ Von Mises criterion } M_x^a \\
+	g_{5b}:& \frac{\frac{1}{2} \left( \frac{F}{w_b  h} + 	\frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_b^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w_b h L}  \right) ^2	} { \sigma_b^2} - 1	\le 0 \\
+		& \text{ Von Mises criterion } M_x^a 
 \end{align*}
-\todo{How to put it neatly on one line?}
+\end{minipage} %
+}
+\end{table}
 
 
 
@@ -161,19 +192,19 @@ The optimization problem aims to maximize the strength, which scales proportiona
 \subsubsection{Convexity}
 The objective function $f$ and the constraints $g_1$, $g_2$ and $g_3$ are linear and therefore also convex. For constraint $g_4$, the Hessian matrix was evaluated, where all principle minors should be positive semi-definite for the function to be convex. A 3x3 principle minor of the full 4x4 Hessian of $g_{4a}$ is given in \autoref{eq:Hg4} with partial derivatives for the design variables $L$, $w_a$ and $w_b$.
 
-\begin{equation}
+\begin{align}
 	\label{eq:Hg4}
-	H = \begin{bmatrix}
+	H &= \begin{bmatrix}
 				 g_{wa, wa} & g_{wa, wb} & g_{wa, L} \\
 				 g_{wb, wa} & g_{wb, wb} & g_{wb, L}  \\
 				 g_{L, wa} & g_{L, wb} & g_{L, L} 													
-		\end{bmatrix}
-	= \frac{3F}{\tau_a}\begin{bmatrix}
+		\end{bmatrix} \\
+	&= \frac{3F}{\tau_a}\begin{bmatrix}
 		\frac{2w_a + 6 w_b}{\left( w_a \right)^4 L} & \frac{-2}{\left( w_a \right)^3 L } &  \frac{w_a + 2 w_b}{\left( w_a \right)^3 L^2 }\\
 		\frac{-2}{\left( w_a \right)^3 L } & 0 & \frac{1}{\left( w_a \right)^2 L^2 }  \\
 \frac{w_a + 2 w_b}{\left( w_a \right)^3 L^2 } & \frac{1}{\left( w_a \right)^2 L^2 } & \frac{2 \left(w_a + w_b\right)}{\left( w_a \right)^2 L^3}													
 	\end{bmatrix}
-\end{equation}
+\end{align}
 
 The principle minor of the upper-right 2x2 matrix of the Hessian: $\frac{-2}{\left( w_a \right)^3 L } \frac{1}{\left( w_a \right)^2 L^2 } - 0 $ is not negative, which implies non-convexity of constraint $g_4$.\\
 
