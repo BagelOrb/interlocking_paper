@@ -37,7 +37,7 @@ From \autoref{fig:diagonal_model}, the geometry relations \ref{eq:tan}, \ref{eq:
 \end{equation}
 
 
-\subsubsection{Tension Failure M$_x$}\label{ssec:tensfail}
+\subsubsection{Tension Failure M\textsubscript{x}}\label{ssec:tensfail}
 For the tension failure, we consider the smallest cross sectional area of one finger, which is equal to $w_m h \sin \alpha$ . The tensile force perpendicular to this area is equal to $\frac{F}{\sin \alpha}$, where $F$ is the force per finger. %which was divided by 2 because every finger takes up half of the load. ? - adjust later maybe
 Working out $\frac{F}{A} \le \sigma$ resulted in \autoref{eq:tensfail}
 
@@ -117,8 +117,7 @@ We plugged in \autoref{eq:tensfail}, \ref{eq:shearmx} and \ref{eq:bending}, what
 
 \subsubsection{Optimization Problem}
 The goal is to maximize the strength while accounting for the failure modes in the constraints.
-With that, the optimization problem can be formulated as follows:
-
+With that, the optimization problem can be formulated as follows. 
 \begin{align*}
 	f: & \max_{F, {w_a}, {w_b}. L} \frac{F}{2h \left(w_a + w_b\right)} \nonumber \\
 	\text{subject to:} & \nonumber \\
@@ -131,7 +130,7 @@ With that, the optimization problem can be formulated as follows:
 \end{align*}
 
 
-Normalizing and rewriting to the negative null-form gives the following optimization problem:
+Constraint $g_5$ can be squared at both sides to get rid of the square root. Normalizing and rewriting to the negative null-form gives the following optimization problem:
 
 \begin{align*}
 	f: & \min_{F, {w_a}, {w_b}. L}  \frac{2h \left(w_a + w_b\right)}{F} \nonumber \\
@@ -143,8 +142,8 @@ Normalizing and rewriting to the negative null-form gives the following optimiza
 	g_{3.2}:&\frac{L}{L_{max}} - 1  \le 0 \\
 	g_{4a}: & \frac{ 3 F \left(w_a + w_b \right) }{ \tau_a w_a ^2 L} - 1 \le 0					\text{ Shear failure } M_z^a \\
 	g_{4b}: & \frac{ 3 F \left(w_a + w_b \right) }{ \tau_b w_b ^2 L} - 1 \le 0					\text{ Shear failure } M_z^b \\
-	g_{5a}:& \frac{\sqrt{\frac{1}{2} \left( \frac{F}{w_a  h} + 	\frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_a^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w_a h L}  \right) ^2}	} { \sigma_a} - 1	\le 0	\text{ Von Mises criterion } M_x^a \\
-	g_{5b}:& \frac{\sqrt{\frac{1}{2} \left( \frac{F}{w_b  h} + 	\frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_b^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w_b h L}  \right) ^2}	} { \sigma_b} - 1	\le 0	\text{ Von Mises criterion } M_x^a 
+	g_{5a}:& \frac{\frac{1}{2} \left( \frac{F}{w_a  h} + 	\frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_a^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w_a h L}  \right) ^2	} { \sigma_a^2} - 1	\le 0	\text{ Von Mises criterion } M_x^a \\
+	g_{5b}:& \frac{\frac{1}{2} \left( \frac{F}{w_b  h} + 	\frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_b^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w_b h L}  \right) ^2	} { \sigma_b^2} - 1	\le 0	\text{ Von Mises criterion } M_x^a 
 \end{align*}
 \todo{How to put it neatly on one line?}
 
@@ -202,10 +201,11 @@ The objective function is monotonically decreasing for $F$, and $F$ is monotonic
 
 
 \subsubsection{Sensitivity Analysis}
-The logarithmic sensitivities were evaluated to compare the relative importance of each design variable on the objective function and the constraints. Since all variables in the constraints and in the objective function are independent from each other, there are no response variables that should be accounted for. \\
-The sensitivities for the objective functions and all constraints were obtained by numerically calculating the partial derivatives with the matlab \texttt{diff} function, which were simplified afterwards. This only needs to be done once, the symbolic expressions can be reused in every iteration and because of the exact evaluation the highest accuracy is achieved. \\
+The logarithmic sensitivities were evaluated to compare the relative importance of each design variable on the objective function and the constraints. The sensitivities for the objective functions and all constraints were obtained by numerically calculating the partial derivatives with the matlab \texttt{diff} function, which were simplified afterwards. This only needs to be done once, the symbolic expressions can be reused in every iteration and because of the exact evaluation the highest accuracy is achieved. \\
 
  If the numerical expression was not available, it would be recommended to use either discrete or continuum derivaties. Other methods like the finite difference method are not recommended to use because it is prone to suffer from numerical noise and it is inefficient as it cannot reuse parts from previous computations. 
+ 
+ The logarithmic sensitivities for the objective function are given below. $\diff{_L f}{_L w_a}$ and $\diff{_L f}{_L w_b}$ are always smaller than 1, therefore the variables $w_a$ and $w_b$ are not very influential compared to $F$.
 
 \begin{align*}
 \diff{_L f}{_L w_a} &= \frac{w_a}{w_a+w_b} \\
@@ -214,7 +214,8 @@ The sensitivities for the objective functions and all constraints were obtained 
 \diff{_L f}{_L F} &= -1 
 \end{align*}
 
-Also the logarithmic sensitivities for the constraint functions were evaluated. For constraint $g_1$:
+Also the logarithmic sensitivities for the constraint functions were evaluated for constraint $g_1$. Only variable $w_a$ influences constraint $g_{1a}$ and only $w_b$ influences $g_{1b}$.
+ % Since $w_a - w_{min}$ and $w_b - w_{min}$ are smaller than $w_a$ and $w_b$ respectively, $\diff{_L g_{1a}}{_L w_a}$ and $\diff{_L g_{1b}}{_L w_b}$ are both larger than 1. Therefore variable $w_a$ is a very influential parameter on $g_{1a}$ and $w_b$ is a very influential parameter on $g_{1b}$.
 
 \begin{align*}
 	\diff{_L g_{1a}}{_L w_a} &= \frac{w_a}{w_a-w_{a,min}}\\
@@ -227,15 +228,16 @@ Also the logarithmic sensitivities for the constraint functions were evaluated. 
 	\diff{_L g_{1b}}{_L F} &=  0\\
 \end{align*}
 
-For constraint $g_2$:
+For constraint $g_2$, $w_a + w_b$ is smaller than $w_{max}$, therefore both $\diff{_L g_{2}}{_L w_a}$ and $\diff{_L g_{2}}{_L w_b}$ are expected to be negative. The magnitude of $w_a$ and $w_b$ determines their relative importance.
+% It is unsure whether $w_a + w_b - w_{max}$ are larger than either $w_a$ and $w_b$, therefore no conclusion can be drawn on the importance of the design variables on constraint $g_2$.
 \begin{align*}
-	\diff{_L g_{2}}{_L w_a} &= \frac{w_a}{w_a-w_{max}+w_b}\\
-	\diff{_L g_{2}}{_L w_b} &=  \frac{w_b}{w_a-w_{max}+w_b}\\
+	\diff{_L g_{2}}{_L w_a} &= \frac{w_a}{w_a + w_b - w_{max}}\\
+	\diff{_L g_{2}}{_L w_b} &=  \frac{w_b}{w_a + w_b - w_{max}}\\
 	\diff{_L g_{2}}{_L L} &= 0\\
 	\diff{_L g_{2}}{_L F} &=  0\\
 \end{align*}
 
-For constraint $g_3$:
+Constraint $g_3$ is only influenced by $L$. 
 \begin{align*}
 	\diff{_L g_{3,1}}{_L w_a} &= 0\\
 	\diff{_L g_{3,1}}{_L w_b} &= 0 \\
@@ -247,7 +249,8 @@ For constraint $g_3$:
 	\diff{_L g_{3,2}}{_L F} &= 0 \\
 \end{align*}
 
-For constraint $g_4$:
+For constraint $g_{4a}$, it is known that $3\,F\,\left(w_a+2\,w_b\right)$ > $3\,F\,\left(w_a+w_b\right)$ > $3\,F\,w_b$. Therefore, design variable $w_a$ has the greatest influence, $L$ and $F$ have an equal influence and $w_b$ has the smallest influence on constraint $g_{4a}$. Similarly, $w_b$ has the greatest influence on $g_{4b}$, followed by an equal influence of $L$ and $F$, and the smallest influence of $w_a$. 
+
 \begin{align*}
 	\diff{_L g_{4a}}{_L w_a} &= -\frac{3\,F\,\left(w_a+2\,w_b\right)}{-L\,\tau_{a,z}\,{w_a}^2+3\,F\,w_a+3\,F\,w_b}\\
 	\diff{_L g_{4a}}{_L w_b} &= \frac{3\,F\,w_b}{-L\,\tau_{a,z}\,{w_a}^2+3\,F\,w_a+3\,F\,w_b} \\
@@ -259,7 +262,8 @@ For constraint $g_4$:
 	\diff{_L g_{4b}}{_L F} &= \frac{3\,F\,\left(w_a+w_b\right)}{-L\,\tau_{b,z}\,{w_b}^2+3\,F\,w_b+3\,F\,w_a} \\
 \end{align*}
 
-The symbolic derivatives of constraint $g_5$ was also obtained with the symbolic differentiation in MATLAB. However, this resulted in a long expression which does not add value to the analysis. Therefore, only the numerical result will be presented for the derivatives of constraint $g_5$.
+The sensitivities of constraint $g_5$ was also obtained frmo the symbolic differentiation in MATLAB. However, this resulted in a long expression from which no relative influences of the design variables could be derived. Therefore only the numerical result will be presented for the derivatives of constraint $g_5$.
+
 
 %For the initial optimization, the grid search method was used first, after which random jumping was performed within a smaller range around the optimum found by the former mentioned method. We choose this search method because the optimum found can be used as the starting point in the optmization of the actual problem. In addition, it is easy to implement, does not suffer from getting stuck into optima and does not require the functions to be linearlized with a Taylor series approximation. It can directly be implemented to optimize the four design variables $F$, $w_a$, $w_b$ and $L$. A disadvantage is that random search does not give an accurate solution if not many points are sampled, therefore the actual optimization will be done with another method. \\
 
