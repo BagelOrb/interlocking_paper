@@ -7,7 +7,7 @@ SQP seems a good candidate for an optimization approach because our objective fu
 
 
 
-\subsection{Implementation}
+\subsection{Symbolic implementation}
 
 \newcommand{\xvec}{\mathbf{x}}
 \newcommand{\hvec}{\mathbf{h}}
@@ -29,7 +29,7 @@ $\Amat = \diff{\hvec}{\xvec}$.
 Note that $\diffp[2]{\hvec}{\xvec}$ is a precomputed 3D matrix.
 We can then use \verb|quadprog| to solve $\min_{\Delta\xvec} \nicefrac12 \Delta\xvec^\intercal \Wmat\Delta\xvec + \nabla f^\intercal \Delta\xvec$ s.t. $\Amat\Delta\xvec+\hvec=\mathbf{0}$.
 
-\subsubsection{Active set}
+\subsection{Active set}
 It was chosen to implement an active set strategy, because using slack variables or using penalty or barier functions introduces inaccuracies in the final result.
 Here $\hvec$ is an active subset of all constraints $\gvec$, which is determined in each iteration based on the current $\xvec_k$.
 One simple approach would be to set all constraints active which are violated by the current $\xvec_k$.
@@ -46,7 +46,7 @@ However, this will not work, since the optimization will only push $\xvec_k$ fur
 We did not develop any strategy to deal with this problem;
 the program terminates prematurely with an error message in such a case.
 
-\subsubsection{Lagrange multipliers}
+\subsection{Lagrange multipliers}
 In order to compute the lambda multipliers of the outer problem we solve the system of linear equations given by
 $\Amat_k =  - \Wmat_k  \Delta\xvec - \left[\nabla f\right]_k
 $
@@ -58,7 +58,7 @@ We store the lambda values of the previous iteration in the full set, update the
 However, because the lambda values signify the relative importance of the constraints w.r.t. each other, the lambda values of one set cannot be reliably compared to another active set from the previous iteration.
 We therefore set $\lamvec = \mathbf{1}$ whenever the active set changes.
 
-\subsubsection{Instability prevention}
+\subsection{Instability prevention}
 In some cases the optimization can oscillate between two constraints.
 It can happen that the optimizatoin cycles between points on either side of two constraint surfaces.
 Each time the optimization is in a point $\xvec_k$ which violates some constraing $g_a$,
@@ -76,7 +76,7 @@ We therefore implemented a simple type of move limits: the magnitude of $\Delta\
 
 
 
-\subsubsection{Stopping criteria}
+\subsection{Stopping criteria}
 The main loop of the optimization method is concluded when either of several criteria is met.
 We break the loop when the improvement in one iteration is too small: $\left| \Delta\xvec \right| < \bm{1} \cdot 10^{-10}$.
 In order to stop even earlier than that we also check the KKT conditions every iteration.
