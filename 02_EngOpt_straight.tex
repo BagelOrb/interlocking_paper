@@ -255,15 +255,13 @@ Using a smooth version of the $\max$ function like described above can overcome 
 However, combining all constraints into a single one hinders analysis and understanding of a particular datum in the design space.
 
 
-\todo{TODO: rescale objective function so that they are approximately in the range 0-1.}
+%\todo{TODO: rescale objective function so that they are approximately in the range 0-1.}
 
-\todo{TODO: should we invert the mechanical constraints, so that the F is below the division line?}
+%\todo{TODO: should we invert the mechanical constraints, so that the F is below the division line?}
 
 
 
 \subsection{Model evaluation}
-Consider broken optimum
-
 When subjecting the microstructure to a load the distribution of stress is difficult to predict, because of the interplay between several failure modes.
 Our model makes some strong assumptions on the homogeneity of stress distribution throughout the beams.
 We mentioned several modeling choices which were deferred: the values for $u^m_y$, $u^m_z$, the exclusion of the bending constraints and using combined von Mises criterions.
@@ -316,6 +314,12 @@ See \cref{fig:ana_minF}.
 One important observation is that we can distinguish 4 constraint surfaces which culminate in the same optimum, while there are only 3 free design variables.
 The fact that 4 surfaces meet in a 3-dimensional space is not to be thought of as a coincidence, but is presumably inherent to the particular problem at hand.
 
+When evaluating the converted analytical model,
+we can easily verify that all domain constraints are met,
+so we were justified in assuming the value for $w^a$ and $\hc$ in \cref{sec:domain_assumptions}.
+That is to say: since none of the other design variables are below thair lower bound it was safe to assume that it were these two variables which had to be at their lower bound rather than any of the others.
+
+
 \begin{figure}
 	\centering
 	\includegraphics[width=\columnwidth]{sources/method/ana_vs_FEM.png}
@@ -343,6 +347,7 @@ Taking the above into account we reformulate the problem.
 The shear constraints are combined into one.
 The constraints which hold for both materials are expanded.
 The variables set by the presumed to be active constraints are substituted.
+To our regret the design variables have not been scaled so as to all lie approximately in the domain $(0,1)$.
 
 We divide by the constraint values and invert the division of the mechanical constraints.
 That way the formulae of those constraints are more alike and simpler to differentiate.
@@ -501,35 +506,6 @@ We will show the sensitivities at the global optimum further down in this paper.
 	\diff{\gzb}{v^b} &= \frac{-2w^b\tauz^a}{F} \\
 	\diff{\gzb}{F} &= \frac{4v^a w^b\tauz^a}{F^2}
 \end{align*}
-
-
-
-\subsection{Problem investigation}
-
-We performed a quick brute search algorithm to find the optimum.
-We assume the design constraint to be active.
-That leaves us with three degrees of freedom in the design space.
-For each combination we check the failure force according to each mechanical constraint 
-and use the minimum failure force to compute the objective function for that design.
-
-\todo{TODO: update the following according to the latest model!}
-
-This gives us the following:
-\begin{align*}
-	w^a	&=0.6 \\
-	w^b	&=1.98 \\
-	v^a	&=2.07 \\
-	v^b	&=1.53 \\
-	\hf	&=0.72 \\
-	\hc	&=0.2 \\
-	F	&=14.95 
-\end{align*}
-
-We can easily verify that all domain constraints are met, so we were justified in assuming the value for $w^a$ and $\hc$ in \cref{sec:domain_assumptions}.
-
-When we evaluate the constraints we can see that $\gd$, $\gtb$ and $\gca$ are approximately zero.
-This includes the combined cross beam constraint.
-If we evaluate the original constraints (in negative null form) with the above values we can see that only the shear failure $M_y^a$ is active.
 
 
 

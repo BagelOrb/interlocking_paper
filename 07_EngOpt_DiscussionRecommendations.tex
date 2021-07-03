@@ -22,8 +22,8 @@ The optimum is found at the intersection of several constraint surfaces - each o
 Taking the manufacturing accuracy is a random perturbation in the design space we can envision that the expected stress at the optimum might be lower
 compared to a different reference point which is a bit farther down along the least steep surface.
 
-\todo{Include graphs of minF}
-Looking at the graphs and the sensitivities it would make sense to choose a design with a slightly lower $\hf$ and $w^b$ than the optimum of the straight design.
+
+Looking at the graphs in \cref{fig:ana_minF} and the sensitivities it would make sense to choose a design with a slightly lower $\hf$ and $w^b$ than the optimum of the straight design.
 Computing the sensitivity of $\xvec_i$ in one of the active constraints $\gvec_i$ would be done by looking at:
 \begin{align*}
 	\diffp{f}{{\xvec_i}} + \sum\limits^{j \neq i} \diffp{f}{{\xvec_j}} \left( \diffp{{\gvec_i}}{{\xvec_j}} \right)^{-1} \diffp{{\gvec_i}}{{\xvec_i}}
@@ -33,10 +33,11 @@ However, a thorough mathematical justification of the exact location of the best
 
 Depending on the application of the interlocking structure different constraint values might apply.
 For different materials the optimum can be quite different.
-\todo{Refer to sensitivity wrt $\sigma_a$}
+Though the sensitivities shows the dependency of the objective function and constraints w.r.t. the design variables,
+deriving the dependency of the actual optimum w.r.t. the material parameters has not been investigated.
 Another important consideration is the design constraint;
 for thin designs the value of \SI{3.6}{\milli\meter} might be too big already.
-\cref{fig:stress_vs_L} shows that if the design it, using a more lenient design constraint provides dimishing returns.
+\Cref{fig:stress_vs_L} shows that using a more lenient design constraint provides dimishing returns.
 Moreover, the minimal manufacturable design is already at \SI{84}{\percent} of the ultimate stress compared to twice the total allowed length $\lmax$.
 
 \begin{figure}
@@ -50,6 +51,9 @@ Moreover, the minimal manufacturable design is already at \SI{84}{\percent} of t
 \subsection{Limitations and Future work}
 As mentioned before, the active set strategy and the lambda update strategy need more tuning to work properly;
 if not with better heuristics then with local iterations to get $\xvec$ and $\lamvec$ closer to their intended values.
+Moreover there is some fundamental flaw with the \verb|quadprog| update which drove the unconstrained optimization along isolines rather than in the steepest descent direction.
+Manufacturing constraints mean that $\hf$ should be constrained to integer values of $\hmin$.
+SQP doesn't seem to be well suited for the problem at hand.
 
 The mathematical problem definition we proposed has strong assumptions w.r.t. the homogeneity of stress distributions throughout the part,
 while we can expect that in such complex internal loading scenarios the disctribution of stress to be heterogenous.
