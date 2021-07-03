@@ -13,7 +13,7 @@ combine_tensile_and_z_shear = False
 full_stress_on_z = False
 combine_z_shear_and_cross_shear = True
 
-compare_to_FEM = False
+compare_to_FEM = True
 broken_optimum = False
 
 softmin_all_constraints = False
@@ -32,7 +32,7 @@ use_z_shear_b = True
 show_results = True
 plot_legend = False
 
-hf_sampling_multiplier = 10
+hf_sampling_multiplier = 1
 
 lmax_val = 3.6
 zoom_on_optimum = False
@@ -363,7 +363,7 @@ if show_results:
 
     failure_mode_colors = np.full(shape, "black", dtype=object)
     for name, gF in gFs.items():
-        failure_mode_colors[minF == gF] = mcd.XKCD_COLORS["xkcd:"+colormap[name]] + "c0"
+        failure_mode_colors[minF == gF] = mcd.XKCD_COLORS["xkcd:"+colormap[name]] + "a0"
 
 
     #
@@ -371,18 +371,18 @@ if show_results:
 
     def plotTwo(ax, X, Y, Z1, Z2, col1=None, col2=None):
         if col1 is None or softmin_all_constraints:
-            col1 = np.full(Z1.shape, "#00ff00c0", dtype=object)
+            col1 = np.full(Z1.shape, "#00ff00a0", dtype=object)
         if col2 is None:
-            col2 = np.full(Z2.shape, "#999999c0", dtype=object)
+            col2 = np.full(Z2.shape, "#999999e0", dtype=object)
         if compare_to_FEM:
             col1[-1, :] = "#ffffff00"
             ax.plot_surface(np.append(X, X, axis=0),
                             np.append(Y, Y, axis=0),
                             np.append(Z1, Z2, axis=0),
                             facecolors=np.append(col1, col2, axis=0),
-                            edgecolor='none')
+                            edgecolor='none', linewidth=0)
         else:
-            ax.plot_surface(X, Y, Z1, facecolors=col1, edgecolor='none')
+            ax.plot_surface(X, Y, Z1, facecolors=col1, edgecolor='none', linewidth=0)
 
     if not compare_to_FEM:
         FEM_stress = stress
