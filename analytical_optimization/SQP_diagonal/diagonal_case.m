@@ -1,11 +1,10 @@
 constants;
-move_limit = 1;
+move_limit = 0.9;
 
 syms wa wb L F;
 x = [wa; wb; L; F];
 nx = length(x);
 x_k = ones(1,nx); % starting point
-
 f = (wa + wb) *2* h  / F;
 
 g1a = 1- wa/wa_min;
@@ -28,5 +27,5 @@ function g5 = constraint5(F, w1, w2, L, s1)
     sigma_t = F/(w1+h);
     sigma_m = (3*F*(w1 + w2)*((w1 + w2)^2 + 4*L^2))/( 8*h*w1^2* L^2);
     tau = (3*F*(w1 + w2))/(4*w1*h*L);
-    g5 = sqrt(((sigma_t + sigma_m)^2 )/2 + 3*tau^2)/s1 - 1;
+    g5 = (((sigma_t + sigma_m)^2 )/2 + 3*tau^2)/s1^2  - 1;
 end

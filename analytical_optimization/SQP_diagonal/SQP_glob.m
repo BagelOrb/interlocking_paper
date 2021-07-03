@@ -1,14 +1,13 @@
 clear all; % otherwise changes to the script aren't loaded until you restart MATLAB
 
-% straight_case_2var;
+straight_case_2var;
 % diagonal_case_2var;
-straight_case;
+% straight_case;
 % diagonal_case;
 
 
 % Set optimization parameters
 Niter = 1000;
-delta = 100; % for lambda update
 
 show_every_iteration = false;
 
@@ -19,7 +18,7 @@ syms l1 l2 l3 l4 l5 l6 l7 l8 l9 l10 l11 l12 l13
 lambdas = [l1; l2; l3; l4; l5; l6; l7; l8; l9; l10; l11; l12; l13]; % is needed for symbolic different
 
 options = optimset('Display', 'off');
-thres = 10^(-8);
+thres = 10^(-10);
 
 % history for cycling detection
 nhistory = 6;
@@ -71,23 +70,23 @@ toc; % print time elapsed for differentiation
 
 tic;
 disp('Start iteration...');
+
 for p = 1:Niter
-    
+
     x_kc = num2cell(x_k, 1);
     dfdx_k = dfdx_f(x_kc{:});
     dgdx_k = dgdx_f(x_kc{:});
     dgdx_k(isnan(dgdx_k)) = 0;
     dgdx_k(isinf(dgdx_k)) = 0;
-    
+
     % Determine active constraints
     g_k = g_f(x_kc{:});
     lambdas_k(h_idx) = lambda_k; % save lambdas associated with old h_idx
-    
-    
+
+
     % Check KKT conditions
     if ~ any(isnan(dgdx_k))
         if p > 1
-            %[mu, r] = linsolve(dgdx_k, -dfdx_k);
             mu = lambdas_k;
             constraints_satisfied = all(g_k < thres);
             positive_mu = all(lambdas_k > -thres);
@@ -101,8 +100,8 @@ for p = 1:Niter
             end
         end
     end
-    
-    % cycle detection and resolution
+
+    % Cycle detection and resolution
     if p > nhistory && ~ cycling_break ...
         && ~ isequal(cell2mat(h_idx_history(1)), cell2mat(h_idx_history(2)))...
         && isequal(cell2mat(h_idx_history(1)), cell2mat(h_idx_history(3)))...
@@ -116,45 +115,33 @@ for p = 1:Niter
             h_idx = cell2mat(h_idx_history(2));
         end
     end
-    
+
     if ~ cycling_break
-        indices = [1:ng]; % set all violated constraints as active
-        
-        %> dfdx_k + mu * dgdx_k = 0
-        %> mu * dgdx_k = - dfdx_k
-        %mu = linsolve(dgdx_k, -dfdx_k);
+        indices = [1:ng]; % set all violated constraints as active 
         mu = lambdas_k;
-        %lambdas_k = mu;
-        %h_idx = [indices(mu > 10^-4)];
         h_idx_before = h_idx;
         violateds = [indices(g_k > thres)];
         h_idx = violateds;
-        %h_idx = union(h_idx, violateds);
-        %h_idx = setdiff(h_idx, [indices(mu < -10^-1)]);
+
         if ~ isequal(h_idx_before, h_idx)
             lambdas_k = ones(1, ng);
         end
-        %h_idx = [indices(lambdas_k < -10^-4)];
-        %h_idx = [indices(g_k > -10^(-4))];
-        %if length(h_idx) > nx
-        %    [unused, h_idx] = maxk(g_k, nx);
-        %end
+
     else
         cycling_break = cycling_break + 1;
     end
     if cycling_break > 6
         cycling_break = 0;
     end
-    
+
     nh = length(h_idx);
     h = g(h_idx);
     lambda = lambdas(h_idx); % change subset of lambdas to match subset of active constraints
     lambda_k = lambdas_k(h_idx);
-    
+
     % Calculate Lagrangian multipliers
     h_k = g_k(h_idx);
-    %lambda_k = double(lambda_k + 1/delta*double(h_k));
-    
+
     % Compute Hessian and Jacobian matrices for SQP
     ddgdxx_k = ddgdxx_f(x_kc{:});
     ddhdxx_k = ddgdxx_k(:,:,h_idx);
@@ -163,13 +150,13 @@ for p = 1:Niter
         W_k = W_k + lambda_k(i) * ddhdxx_k(:,:,i);
     end
     A_k = dgdx_k(:,h_idx).';
-    
+
     % Obtain update step
     [dx, sqp_obj, exitflag, output, lambda_next] = quadprog(W_k, dfdx_k.', [], [], A_k, -h_k, [], [], [], options);
-    %[dx, sqp_obj, exitflag, output, lambda_next] = quadprog(W_k, dfdx_k.', dgdx_k.', -g_k.', [], [], [], [], [], options);
 
     if exitflag == -2
         fprintf("Problem non-convex! Stopping execution!\n");
+
         % Go one step back
         x_k = x_history(p - 1,:);
         x_history = x_history(1:end-1,:);
@@ -177,18 +164,18 @@ for p = 1:Niter
         g_k = g_f(x_kc{:});
         break;
     else
-        %lambda_k = lambda_next.eqlin;
+
         [lambda_new, rank] = linsolve(A_k.', - W_k * dx - dfdx_k);
         lambda_k(~ isinf(lambda_new)) = lambda_new(~ isinf(lambda_new));
     end
-    
+
     employed_move_limits = false;
     lll = sum(dx .* dx);
     if lll > move_limit^2
         employed_move_limits = true;
         dx = dx * move_limit / sqrt(lll);
     end
-   
+
     x_k = x_k + dx.';
     x_history = [x_history; x_k];   
 
@@ -200,47 +187,48 @@ for p = 1:Niter
     x_kc = num2cell(x_k, 1);
     obj  = f_f(x_kc{:});
     g_k = g_f(x_kc{:});
-    
+
     if obj < best_obj && all(g_k < thres)
         best_obj = obj;
         best_x = x_k;
         best_lambda = lambda_k;
     end
-    
+
     if show_every_iteration
         fprintf("%i: objective: %.5f,\t constraints: %s,\t highest constraint: %.3f,\t move limits: %i\n", p, obj, num2str(h_idx), max(g_k), employed_move_limits);
     end
-     
+
     if max(g_k) < thres && max(g_k) > -0.01 && any(round(obj_history(:), 5) == round(obj,5)) && ismember(round(x_k,5), round(x_history,5), 'rows') && length(h_idx) == length(x)
         fprintf("Cycling inside the same loop, stop!\n")
         break;
     end
-        
+
     % Record history
     obj_history = [obj_history(2:nhistory); obj];
     h_idx_history(1:nhistory-1,1) = h_idx_history(2:nhistory,1);
     h_idx_history(nhistory,1) = { h_idx };
-    
+
     h_max_history(1:nhistory-1,1) = h_max_history(2:nhistory,1);
     h_max_history(nhistory,1) = { max(g_k) };
-    
+
     if all(abs(dx) < thres)
         fprintf("Not budging anymore! dx too small.\n")
         break;
     end
-    
+
     g_k_other = g_k;
     g_k_other(h_idx) = 0;
-    if max(g_k_other) > thres && cycling_break 
-        fprintf("Another constraint violated, stop!\n")
-        % Go one step back
-        x_k = x_k - dx.';
-        obj  = f_f(x_kc{:});
-        g_k = g_f(x_kc{:});
-        x_history = x_history(1:end-1,:);
-        break
-    end
-     
+%     if max(g_k_other) > thres && cycling_break 
+%         fprintf("Another constraint violated, stop!\n")
+% 
+%         % Go one step back
+%         x_k = x_k - dx.';
+%         obj  = f_f(x_kc{:});
+%         g_k = g_f(x_kc{:});
+%         x_history = x_history(1:end-1,:);
+%         break
+%     end
+
     if p == Niter
         fprintf("Reaching max iterations.\n");
     end
@@ -280,11 +268,6 @@ if ~ any(isnan(dgdx_k))
     end
 end
 
-% fprintf("Sensitivities:\n");
-% disp(dfdx_k);
-% disp(dgdx_k);
-% disp(mu);
-
 fprintf('\n The minimum objective of %f with a max nominal stress of %f is reached for: \n', obj, 1 / obj)
 for i = 1:nx
     fprintf('%s = %f \n', string(x(i)), x_k(i));
@@ -295,13 +278,27 @@ for i = 1:ng
     fprintf('%s: %.3f \n', g_names(i), g_k(i));
 end
 
+
 if get_plot && nx == 2
     fprintf('Plotting...');
     x1_range = max(x_history(:,1)) - min(x_history(:,1));
     x2_range = max(x_history(:,2)) - min(x_history(:,2));
-    x1_array = linspace(max(0.001, min(x_history(:,1)) - 0.1*x1_range), .1*x1_range+max(x_history(:,1)), 20); 
-    x2_array = linspace(max(0.001, min(x_history(:,2)) - 0.1*x2_range), .1*x2_range+max(x_history(:,2)), 20);
+    x1_array = linspace(max(0.1, min(x_history(:,1)) - 0.1*x1_range), .1*x1_range+max(x_history(:,1)), 50); 
+    x2_array = linspace(max(0.5, min(x_history(:,2)) - 0.1*x2_range), .1*x2_range+max(x_history(:,2)), 50);
     contourplots(x, x_history, x1_array, x2_array, f_f, g_f, g_names)
 end
 fprintf('Done!');
-    
+
+% Logarithmic sensitivities
+for i = 1:size(dgdx_k, 1)
+    for j = 1:size(dgdx_k, 2)
+        dgdx_L_ij = x(i)/ g(j) * dgdx(i,j);
+        dgdx_L_ij_f = matlabFunction(dgdx_L_ij, 'Vars', x);
+        dgdx_L(i,j) = round(dgdx_L_ij_f(x_kc{:}),3);
+    end
+end
+
+for i = 1:size(dfdx_k, 1)
+        dfdx_L(i) = round(x_k(i)/best_obj * dfdx_k(i),3);    
+end
+dfdx_L = dfdx_L.';

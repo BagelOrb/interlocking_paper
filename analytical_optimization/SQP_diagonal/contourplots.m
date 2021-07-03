@@ -29,6 +29,12 @@ for j=1:1:length(x2_array)
  	 % Objective function
     f_eval_k = f_f(x_kc{:});
     g_eval_k = g_f(x_kc{:});
+    
+    
+    if f_eval_k > 10
+        f_eval_k = (f_eval_k)/10 + 9;    % Set maximum to better visualize levels in contour plot
+    end
+    
     % Grid value of objective function:
     fobj(j,i) = f_eval_k; 
     
@@ -44,7 +50,8 @@ for j=1:1:length(x2_array)
 end
 
 % Contour plot of scaled spring problem
-contourf(x1_array, x2_array, fobj, 'LineColor','none');
+contourf(x1_array, x2_array, fobj, 30,'LineColor','none');
+colormap('parula')
 % contour(x1_array, x2_array, fobj, 'ShowText','on');
 xlabel(string(x(1))), ylabel(string(x(2))), ...
    %title('Contour plot')
@@ -64,7 +71,7 @@ for p = 1:n_constr
     hold on
 end
 
-plot(x_history(:,1), x_history(:,2), 'Marker', '*', 'Color', 'r');
+plot(x_history(:,1), x_history(:,2), 'Marker', 'o', 'MarkerFaceColor', 'r', 'MarkerEdgeColor', 'r', 'MarkerSize', 2);
 plot(x_history(size(x_history, 1),1), x_history(size(x_history, 1),2), 'Marker', 'p', 'MarkerFaceColor', 'r','MarkerEdgeColor', 'b', 'MarkerSize', 20);
 grid
 
