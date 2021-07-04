@@ -1,9 +1,11 @@
 \section{Optimization Approach}
-Because of the specifics of our problems definitions we have chosen Sequential Quadratic Programming (SQP) as the optimization approach.
-Given that our problems are constrained, none of the unconstrained optimization methods applies.
-Also, given that the objective function and all of the stress values are monotonic, we expect the response surface not to be highly irregular, so random methods would be overkill.
-In fact, we expect there to be one global optimum.
-SQP seems a good candidate for an optimization approach because our objective function and constraints are differentiable and because it can deal with infeabile points natively.
+The SQP algorithm was chosen to optimize problem. 
+Given that the optimization problem is constrained, none of the unconstrained optimization methods applies.
+Also, given that the objective function and all of the stress values are monotonic, the surface is not expected to show high irregularies or discrete jumps. Therefore random methods like random jumping, simulated annealing would be inefficient and these are neither repeatable, which is desired when comparing two cases. The same holds for the genetic algorithm which is computationally expensive for a large population and number of iterations.
+Since the governing equations are available, the first and second order derivatives can be utilized to reach the optimum with less computational power. Therefore, neither Nelder-Mead Simplex nor Powell’s conjugate directions were considered.\\
+
+First order methods, like the conjugate gradient method can also be used, however it has a slow convergence for non quadratic functions which appear in the design problem. Considering second order methods, SQP is the best general purpose method for differentiable constrained problems. It can handle inquality constraints with an active set strategy and it does not require a feasible starting point. Since the objective function and constraints are differentiable and SQP is expected to converge fast towards the optimum, SQP will be used to evaluated the optimization problem.
+ 
 
 
 
