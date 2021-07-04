@@ -1,64 +1,5 @@
-\section{Introduction}
-Our project is centered around the PhD research of Tim Kuipers.
-Considerable effort needed to be put into getting the model right, even though that was not the aim of the final project according to the guidelines.
-
-\medskip
-
-If one wishes to print one part consisting of two incompatible materials then some interlocking geometry will need to be introduced at the interface between these two materials in order to make these two materials adhere to each other mechanically.
-We consider two materials, a hard one (shown in green) and a soft one (in cyan), which are placed next to each other such that the interface is horizontal
-and we will consider a tensile force applied orthogonal to the interface.
-
-The structure consists of parallel beams of alternating materials in some layers, and in other layers the beams of both materials are rotated, so that they connect the various beams of the former, thusly interlocking the materials.
-We want to optimize the structure such that it can withstand the highest tensile force, for an arbitrarily large interface;
-that is, we want to optimize the effective ultimate tensile strength of the interlocking micro-structure.
-We want to optimize our structure such that none of the components of breaks or yields at the highest applied force.
-On the other hand we would like our structure to be as small as possible, which is captured in both constraints and objective functions.
-
-\newcommand{\hmin}{\underline{h}}
-\newcommand{\wmin}{\underline{w}}
-\newcommand{\lmax}{\overline{L}}
-
-We consider two closely related interlocking geometries consisting of beams of material $a$ and material $b$.
-Without loss of generality let us assume that material $a$ is the stronger one: $\sigma^a_\text{yield} > \sigma^b_\text{yield} $
-Both of these geometries are limited by manufacturing constraints:
-\begin{itemize}
-	\item heights are a discrete multiple of the layer thickness $\hmin$
-	\item any geometry is at least $2\hmin$ high to prevent oscillation in manufacturing accuracy
-	\item any geometry is at least as wide as the minimum manufacturable thread width $\wmin$, which depends on the nozzle size
-	\item short beams are at least $2\wmin$ in order to prevent frequent retractions
-\end{itemize}
-
-The optimal structure can withstand the highest tensile stress, while remaining relatively small, so as to not affect the design by much.
-We therefore set sensible constraints on the total size.
-Suppose the interface between the two materials is along the XZ plane, so the force is applied in the Y direction.
-We constrain the total length in Y to be $\lmax$.
-Depending on the design we might require different constraint values for $\lmax$.
-We consider the default setting to be $\lmax = 12 \wmin$, but may choose to consider also $\lmax \in \{ 6, 8, 10, 12 \} \wmin$
-
-The total height of the micro-structure should reasonably be below $\overline{h}=12\hmin$.
-The total width should reasonably be below $12\wmin$.
-These are not hard constraints, just expected upper bounds of the ranges within which to check.
-
-We will consider the situation where the nozzle size is \SI{0.4}{\milli\meter} and so we estimate $\wmin=\SI{0.3}{\milli\meter}$.
-The chosen layer height is $\hmin=\SI{0.1}{\milli\meter}$.
-
-We consider two orientations of the interlocking pattern:
-\begin{description}
-	\item[Straight] even beams (`cross beams') are aligned parallel to the interface and odd beams (`fingers') are perpendicular
-	\item[Diagonal] even beams and odd beams (both `fingers') are at equal and opposite angles w.r.t. the interface.
-\end{description}
-
-The materials under consideration are Ultimaker Green Tough PLA and Ultimaker Transparent PP, but we might also want to consider Ultimaker Red TPU.
-The material properties are given in \cref{tab:mat_props}.
-YZ specimens have been reported in favor of the XY samples, because their behavior is determined more by the walls of a print. 
-Our current model only involves $\sigma_\text{yield}$ and $\sigma_\text{z,yield}$, except that for TPU we will use the break values instead, since it doesn't yield.
-
-\input{04_1_mat_prop}
-
-
-
 \begin{table}
-	\caption{Statement of contributions}
+	\caption{Statement of Contributions}
 	\begin{tabular}{lll}
 		& Tim & Nadine \\
 		Introduction &  \checkmark & \\
@@ -71,4 +12,50 @@ Our current model only involves $\sigma_\text{yield}$ and $\sigma_\text{z,yield}
 		Conclusion & \checkmark & \\
 	\end{tabular}
 \end{table}
+
+
+
+\section{Introduction}
+\textit{This project is centered around the PhD research of Tim Kuipers. Therefore we have done slightly more work than necessary to obtain the right model and optimize the structure.}
+
+\medskip
+
+If one wishes to print a part consisting of two incompatible materials, an interlocking geometry is needed at the interface to make both materials mechanically adhere to each other. 
+This can be achieved with structure that consists of parallel beams of alternating materials that interlock. 
+Two materials were considered, a hard one (shown in green) and a soft one (in cyan), which are placed such that the interface is perpendicular to the printed layers, see \cref{fig:failure_modes}.
+
+The structure needs to be optimized for the highest ultimate strength of the interlocking micro-structure to maximize the force that a given area can withstand. 
+It will be loaded in tension which is applied orthogonally to the interface. None of the components is allowed to break or yield at the highest applied force.
+
+In addition, the structure shall be as small as possible to prevent that it affects the full part design, which is captured in both the constraints and the objective functions.
+The design space of both geometries is limited by the following manufacturing constraints.
+\begin{itemize}
+	\setlength\itemsep{0mm}
+	\item The layer height is a discrete multiple of the layer thickness $h_{min}$.
+	\item Any geometry height is at least $2 h_{min}$ to prevent oscillations during manufacturing.
+	\item The total height of the micro-structure shall be less than 12 layers, therefore $h_{max}=12 h_{min}$.
+	\item Any geometry length is least $2w_{min}$ to prevent frequent retractions.
+	\item The total length of the micro-structure shall be less than 12 layers, therefore $L_{max} = 12 w_{min}$.
+	\item Any geometry width is larger than the minimum manufacturable thread width $w_{min}$, which is determined by the nozzle size.
+	\item The total width of the micro-structure shall be less than $12w_{min}$.
+\end{itemize}
+
+The nozzle size of the printer used is \SI{0.4}{\milli\meter}, $w_{min}$ is estimated to be slightly lower with a value of $\SI{0.3}{\milli\meter}$.
+The layer height is set at $h_{min}=\SI{0.1}{\milli\meter}$.
+
+Two orientations of the interlocking pattern are investigated:
+\begin{description}
+	\setlength\itemsep{0em}
+	\item[Straight] Even beams (`cross beams') are aligned parallel and odd beams (`fingers') are placed perpendicular to the interlocking interface, see \cref{fig:failure_modes}.
+	\item[Diagonal] Even beams and odd beams (both `fingers') are oriented at an angle with respect to the interlocking interface, see \cref{fig:diagonal_model}.
+\end{description}
+
+The materials that were considered are material $a$: Ultimaker Green Tough PLA and material $b$: Ultimaker Transparent PP. TPU might be considered as well in further analysis. The material properties are given in \cref{tab:mat_props}.
+Material $a$ is taken as the stronger material: $\sigma^a_\text{yield} > \sigma^b_\text{yield} $.
+Note that 3D printed structures are anisotropic.
+These material properties are taken for load cases parallel to layer width since the behavior of a structure is determined mostly by the walls of a print when loaded in tension. 
+The current model only involves $\sigma_\text{yield}$ and $\sigma_\text{z,yield}$. Since TPU does not yield, the ultimate strength will be used instead.
+
+\input{04_1_mat_prop}
+
 

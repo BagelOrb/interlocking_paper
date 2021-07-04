@@ -30,7 +30,7 @@ deriving the dependency of the actual optimum w.r.t. the material parameters has
 Another important consideration is the design constraint;
 for thin designs the value of \SI{3.6}{\milli\meter} might be too big already.
 \Cref{fig:stress_vs_L} shows that using a more lenient design constraint provides dimishing returns.
-Moreover, the minimal manufacturable design is already at \SI{84}{\percent} of the ultimate stress compared to twice the total allowed length $\lmax$.
+Moreover, the minimal manufacturable design is already at \SI{84}{\percent} of the ultimate stress compared to twice the total allowed length $L_{max}$.
 
 \begin{figure}
 	\centering
@@ -44,7 +44,7 @@ Moreover, the minimal manufacturable design is already at \SI{84}{\percent} of t
 As mentioned before, the active set strategy and the lambda update strategy need more tuning to work properly;
 if not with better heuristics then with local iterations to get $\xvec$ and $\lamvec$ closer to their intended values.
 Moreover there is some fundamental flaw with the \verb|quadprog| update which drove the unconstrained optimization along isolines rather than in the steepest descent direction.
-Manufacturing constraints mean that $\hf$ should be constrained to integer values of $\hmin$.
+Manufacturing constraints mean that $\hf$ should be constrained to integer values of $h_{min}$.
 SQP doesn't seem to be well suited for the problem at hand.
 
 The mathematical problem definition we proposed has strong assumptions w.r.t. the homogeneity of stress distributions throughout the part,

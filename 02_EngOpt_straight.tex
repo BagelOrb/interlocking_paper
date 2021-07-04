@@ -48,11 +48,11 @@ The naive problem formulation is as follows:
 	& \omit\rlap{$\displaystyle \min{ \hf + \hc} $} \nonumber \\
 	& \omit\rlap{$\displaystyle \min{ w^a + w^b} $} \nonumber \\
 	\omit\rlap{subject to} \nonumber \\
-	w^m &\ge 2 \wmin^m			&&\text{ Nozzle size} \label{eq:c1} \\
-	v^m &\ge \wmin^m				&&\text{ Nozzle size}  \label{eq:c2} \\
-	\hf &\ge \hmin		&&\text{ Layer thickness}  \label{eq:c3} \\
-	\hc &\ge \hmin		&&\text{ Layer thickness}  \label{eq:c4} \\
-	v^a + v^b &\le \lmax         &&\text{ Design constraint}   \label{eq:c_total_length} \\
+	w^m &\ge 2 w_{min}^m			&&\text{ Nozzle size} \label{eq:c1} \\
+	v^m &\ge w_{min}^m				&&\text{ Nozzle size}  \label{eq:c2} \\
+	\hf &\ge h_{min}		&&\text{ Layer thickness}  \label{eq:c3} \\
+	\hc &\ge h_{min}		&&\text{ Layer thickness}  \label{eq:c4} \\
+	v^a + v^b &\le L_{max}         &&\text{ Design constraint}   \label{eq:c_total_length} \\
 	\sigma_{11}^m = \frac{ F }{ w^m \hf } &\le \sigmafail^m					&&\text{ Tension failure } M_x^m  \label{eq:c_tensile} \\
 	\sigma_{13}^m = \frac{ F w^{\neg m} }{ 2 v^m \hc w } &\le \taufail^m					&&\text{ Shear failure } M_y^m  \label{eq:c_shear} \\
 	\sigma_{22}^m = \frac{ F \left(w^{\neg m}\right)^2 }{ 2 \left( v^m \right)^2 \hc w } &\le \sigmafail^a                 &&\text{ Bending failure } M_y^m  \label{eq:c_bending} \\
@@ -114,7 +114,7 @@ The shear stress along Z is therefore given by:
 Under different circumstances the values of the constraints will be different.
 Different nozzles and different layer thickness settings require different constraint values.
 Because of manufacturing constraints we know that the layer thickness has to be smaller than half the smallest nozzle size:
-$\hmin < \nicefrac{1}{2} \wmin^m$.
+$h_{min} < \nicefrac{1}{2} w_{min}^m$.
 
 Materials properties of 3D printed materials are always such that $\tauz^m < \taufail^m$.
 According to the von Mises yield criterion we have that $\taufail^m = \sigmafail^m / \sqrt{3} $.
@@ -122,8 +122,8 @@ According to the von Mises yield criterion we have that $\taufail^m = \sigmafail
 Depending on the types of material used the tensile and shear strength in the Z direction can be an order of magnitude lower than in the horizontal directions.
 In such a case the Z shearing failure constraints \cref{eq:c_shear_z} will be active for that material.
 
-Depending on the design we might apply a different $\lmax$, 
-but it is required that $\lmax \ge \wmin^a + \wmin^b$.
+Depending on the design we might apply a different $L_{max}$, 
+but it is required that $L_{max} \ge w_{min}^a + w_{min}^b$.
 
 \subsection{Boundedness}
 The manufacturing constraints provide sufficient lower bounds, but the upper bounds are problematic in the current formulation.
@@ -268,7 +268,7 @@ We mentioned several modeling choices which were deferred: the values for $u^m_y
 In order to evaluate which of the variants of our analytical model is best we compare against an extensive grid search of FEM simulations.
 \footnote{The FEM simulations were not performed by either of the two students. The implementation details of the FEM simulation are left out of this report.}
 
-The simluations were performed on a grid along three dimensions: $w^b$, $v^a$ and $\hf$, within the ranges $(0.6,3.0)$, $(0.1\lmax, 0.9\lmax)$ and $(1.8, 3.6)$ respectively.
+The simluations were performed on a grid along three dimensions: $w^b$, $v^a$ and $\hf$, within the ranges $(0.6,3.0)$, $(0.1L_{max}, 0.9L_{max})$ and $(1.8, 3.6)$ respectively.
 Because the design constraint is active, and because the minimum feature size is active, we can derive $w^a$, $v^b$ and $\hc$ from these.
 The output of each simulation is a force $F$, which can be used to compute the ultimate tensile strength $f$ of a given design.
 
@@ -395,15 +395,15 @@ That way the formulae of those constraints are more alike and simpler to differe
 
 
 \begin{align*}
-	f: & \min{ \frac{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right) }{F} }\\
-	\gwb: & 1 - \nicefrac{w^b }{2 \wmin^b} \le 0 \\
-	\gva: & 1 - \nicefrac{v^a }{\wmin^a} \le 0 \\
-	\gvb: & 1 - \nicefrac{v^b }{\wmin^b} \le 0 \\
-	\ghf: & 1 - \nicefrac{\hf}{\hmin} \le 0 \\
-	\gd: & \frac{v^a + v^b}{ \lmax }  - 1 \le 0 \\
-	\gta: & 1 - \frac{ 2 \wmin^a \hf \sigmafail^a }{ F } \le 0 \\
+	f: & \min{ \frac{\left( 2 w_{min}^a + w^b \right) \left( \hf + h_{min} \right) }{F} }\\
+	\gwb: & 1 - \nicefrac{w^b }{2 w_{min}^b} \le 0 \\
+	\gva: & 1 - \nicefrac{v^a }{w_{min}^a} \le 0 \\
+	\gvb: & 1 - \nicefrac{v^b }{w_{min}^b} \le 0 \\
+	\ghf: & 1 - \nicefrac{\hf}{h_{min}} \le 0 \\
+	\gd: & \frac{v^a + v^b}{ L_{max} }  - 1 \le 0 \\
+	\gta: & 1 - \frac{ 2 w_{min}^a \hf \sigmafail^a }{ F } \le 0 \\
 	\gtb: & 1 - \frac{ w^b \hf \sigmafail^b }{ F } \le 0 \\
-	\gca: & 1 - \frac{2v^a (2\wmin^a + w^b) \sigmafail^a}{ F \sqrt{ 3\left( \frac{w^b}{ \hc} \right)^2 + 3\left(  \frac{\sigmafail^a}{\sigmafailz^a} \right)^2 } } \le 0 \\
+	\gca: & 1 - \frac{2v^a (2w_{min}^a + w^b) \sigmafail^a}{ F \sqrt{ 3\left( \frac{w^b}{ \hc} \right)^2 + 3\left(  \frac{\sigmafail^a}{\sigmafailz^a} \right)^2 } } \le 0 \\
 	\gzb: & 1 - \frac{ 2 v^b w^b \tauz^b }{ F } \le 0
 \end{align*}
 
@@ -450,17 +450,17 @@ The sensitivities are as follows:
 
 \begin{align*}
 	\frac{\partial f}{\partial v^a} &= \frac{\partial f}{\partial v^b} = 0 \\
-	\frac{\partial f}{\partial w^b} &= \frac{\hf + \hmin}{F} \\
-	\frac{\partial f}{\partial \hf} &= \frac{2 \wmin^a + w^b}{F} \\
-	\frac{\partial f}{\partial F} &= - \frac{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)}{F^2} \\
-	\frac{\partial \log f}{\partial \log w^b} % &= \frac{\hf + \hmin}{F}  w^b \frac{F}{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
-	% &= \frac{\left( \hf + \hmin \right) w^b}{F} \frac{F}{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
-	% &= \frac{\left( \hf + \hmin \right) w^b}{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
-	&= \frac{ w^b }{ 2 \wmin^a + w^b} \\
-	\frac{\partial \log f}{\partial \log \hf} % &= \frac{2 \wmin^a + w^b}{F} \hf \frac{F}{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
-	% &= \frac{\left(2 \wmin^a + w^b\right) \hf }{F} \frac{F}{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
-	% &= \frac{\left(2 \wmin^a + w^b\right) \hf }{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)} \\
-	&= \frac{ \hf }{ \hf + \hmin } \\
+	\frac{\partial f}{\partial w^b} &= \frac{\hf + h_{min}}{F} \\
+	\frac{\partial f}{\partial \hf} &= \frac{2 w_{min}^a + w^b}{F} \\
+	\frac{\partial f}{\partial F} &= - \frac{\left( 2 w_{min}^a + w^b \right) \left( \hf + h_{min} \right)}{F^2} \\
+	\frac{\partial \log f}{\partial \log w^b} % &= \frac{\hf + h_{min}}{F}  w^b \frac{F}{\left( 2 w_{min}^a + w^b \right) \left( \hf + h_{min} \right)} \\
+	% &= \frac{\left( \hf + h_{min} \right) w^b}{F} \frac{F}{\left( 2 w_{min}^a + w^b \right) \left( \hf + h_{min} \right)} \\
+	% &= \frac{\left( \hf + h_{min} \right) w^b}{\left( 2 w_{min}^a + w^b \right) \left( \hf + h_{min} \right)} \\
+	&= \frac{ w^b }{ 2 w_{min}^a + w^b} \\
+	\frac{\partial \log f}{\partial \log \hf} % &= \frac{2 w_{min}^a + w^b}{F} \hf \frac{F}{\left( 2 w_{min}^a + w^b \right) \left( \hf + h_{min} \right)} \\
+	% &= \frac{\left(2 w_{min}^a + w^b\right) \hf }{F} \frac{F}{\left( 2 w_{min}^a + w^b \right) \left( \hf + h_{min} \right)} \\
+	% &= \frac{\left(2 w_{min}^a + w^b\right) \hf }{\left( 2 w_{min}^a + w^b \right) \left( \hf + h_{min} \right)} \\
+	&= \frac{ \hf }{ \hf + h_{min} } \\
 	\diff{\log{f}}{\log{F}} &= - 1 \\
 \end{align*}
 
@@ -468,40 +468,40 @@ The sensitivities are as follows:
 \begin{align*}
 \begin{array}{c|ccccc} \nicefrac{\partial \_}{\partial \_} & w^b & v^a & v^b & \hf & F \\
     	\hline
-	f & \frac{\hf + \hmin}{F}  & 0 & 0 & \frac{2 \wmin^a + w^b}{F} & - \frac{\left( 2 \wmin^a + w^b \right) \left( \hf + \hmin \right)}{F^2} \\
-	\gwb & -\nicefrac{1}{2\wmin^b} & 0 & 0 & 0 & 0 \\
-	\gva & 0 & -\nicefrac{1}{\wmin^a} & 0 & 0 & 0 \\
-	\gvb & 0 & 0 & -\nicefrac{1}{\wmin^b} & 0 & 0 \\
-	\ghf & 0 & 0 & 0 & -\nicefrac{1}{\hmin} & 0 \\
-	\gd & 0 & \nicefrac{1}{\lmax} & \nicefrac{1}{\lmax} & 0 & 0\\
+	f & \frac{\hf + h_{min}}{F}  & 0 & 0 & \frac{2 w_{min}^a + w^b}{F} & - \frac{\left( 2 w_{min}^a + w^b \right) \left( \hf + h_{min} \right)}{F^2} \\
+	\gwb & -\nicefrac{1}{2w_{min}^b} & 0 & 0 & 0 & 0 \\
+	\gva & 0 & -\nicefrac{1}{w_{min}^a} & 0 & 0 & 0 \\
+	\gvb & 0 & 0 & -\nicefrac{1}{w_{min}^b} & 0 & 0 \\
+	\ghf & 0 & 0 & 0 & -\nicefrac{1}{h_{min}} & 0 \\
+	\gd & 0 & \nicefrac{1}{L_{max}} & \nicefrac{1}{L_{max}} & 0 & 0\\
 	\gta & 
 \end{array} 
 \end{align*}
 \fi
 
 The fact that the logarithmic sensitivity of the objective w.r.t. the force equals $-1$ reflects that for any given design the test force is maximized until the first failure mode will happen.
-The sensitivities of the other design variables are in the same ballpark, given that the constraint values $\wmin$ and $\hmin$ are in the same order of magnitude.
+The sensitivities of the other design variables are in the same ballpark, given that the constraint values $w_{min}$ and $h_{min}$ are in the same order of magnitude.
 We will show the sensitivities at the global optimum further down in this paper.
 
 
 \subsection{Constraint sensitivities}
 
 \begin{align*}
-	\diff{\gwb}{w^b} &= \frac{-1}{2\wmin^b} \\
-	\diff{\gva}{v^a} &= \frac{-1}{\wmin^a} \\
-	\diff{\gvb}{v^b} &= \frac{-1}{\wmin^b} \\
-	\diff{\ghf}{\hf} &= \frac{-1}{\hmin} \\
-	\diff{\gd}{v^a} &= \frac{1}{\lmax} \\
-	\diff{\gd}{v^b} &= \frac{1}{\lmax} \\
-	\diff{\gta}{\hf} &= \frac{-2\wmin^a\sigmafail^a}{F} \\
-	\diff{\gta}{F} &= \frac{2\wmin^a \hf \sigmafail^a}{F^2} \\
+	\diff{\gwb}{w^b} &= \frac{-1}{2w_{min}^b} \\
+	\diff{\gva}{v^a} &= \frac{-1}{w_{min}^a} \\
+	\diff{\gvb}{v^b} &= \frac{-1}{w_{min}^b} \\
+	\diff{\ghf}{\hf} &= \frac{-1}{h_{min}} \\
+	\diff{\gd}{v^a} &= \frac{1}{L_{max}} \\
+	\diff{\gd}{v^b} &= \frac{1}{L_{max}} \\
+	\diff{\gta}{\hf} &= \frac{-2w_{min}^a\sigmafail^a}{F} \\
+	\diff{\gta}{F} &= \frac{2w_{min}^a \hf \sigmafail^a}{F^2} \\
 	\diff{\gtb}{\hf} &= \frac{-w^b\sigmafail^a}{F} \\
 	\diff{\gtb}{w^b} &= \frac{-\hf\sigmafail^a}{F} \\
 	\diff{\gtb}{F} &= \frac{w^b \hf \sigmafail^a}{F^2} \\
-	\diff{\gca}{w^b} &= - \frac{ 2 \hmin}{ F }  \frac{ w^b \sigmafail^a}{ v^a \left(   \left( \frac{w^b}{v^a}  \right)^2 + 3 \right)^{\nicefrac32} } \\
-	\diff{\gca}{v^a} &= - \frac{ 2 \hmin}{ F }  \frac{ v^a \sigmafail^a \left( 3 \left(v^a\right)^2 + 2 \left(w^b\right)^2 \right) }{ \left( 3 \left(v^a\right)^2 + \left(w^b\right)^2 \right)^{\nicefrac32} }  \\
-	\diff{\gca}{v^b} &= - \frac{ 2 \hmin}{ F }  \frac{ v^b \sigmafail^b \left( 3 \left(v^b\right)^2 + 8 \left(\wmin^a\right)^2 \right) }{ \left( 3 \left(v^b\right)^2 + 4 \left(\wmin^a\right)^2 \right)^{\nicefrac32} }  \\
-	\diff{\gca}{F} &= \frac{ 2 \hmin}{ F^2 }  \max \left(  \frac{ v^a \sigmafail^a}{ \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 } }   ,  \frac{ v^b \sigmafail^b}{  \sqrt{   \left( \frac{2\wmin^a}{v^b}  \right)^2 + 3 } }  \right) \\
+	\diff{\gca}{w^b} &= - \frac{ 2 h_{min}}{ F }  \frac{ w^b \sigmafail^a}{ v^a \left(   \left( \frac{w^b}{v^a}  \right)^2 + 3 \right)^{\nicefrac32} } \\
+	\diff{\gca}{v^a} &= - \frac{ 2 h_{min}}{ F }  \frac{ v^a \sigmafail^a \left( 3 \left(v^a\right)^2 + 2 \left(w^b\right)^2 \right) }{ \left( 3 \left(v^a\right)^2 + \left(w^b\right)^2 \right)^{\nicefrac32} }  \\
+	\diff{\gca}{v^b} &= - \frac{ 2 h_{min}}{ F }  \frac{ v^b \sigmafail^b \left( 3 \left(v^b\right)^2 + 8 \left(w_{min}^a\right)^2 \right) }{ \left( 3 \left(v^b\right)^2 + 4 \left(w_{min}^a\right)^2 \right)^{\nicefrac32} }  \\
+	\diff{\gca}{F} &= \frac{ 2 h_{min}}{ F^2 }  \max \left(  \frac{ v^a \sigmafail^a}{ \sqrt{   \left( \frac{w^b}{v^a}  \right)^2 + 3 } }   ,  \frac{ v^b \sigmafail^b}{  \sqrt{   \left( \frac{2w_{min}^a}{v^b}  \right)^2 + 3 } }  \right) \\
 	\diff{\gzb}{w^b} &= \frac{-2v^b\tauz^a}{F} \\
 	\diff{\gzb}{v^b} &= \frac{-2w^b\tauz^a}{F} \\
 	\diff{\gzb}{F} &= \frac{4v^a w^b\tauz^a}{F^2}
