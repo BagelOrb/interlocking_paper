@@ -1,7 +1,9 @@
-straight_constants;
+
 move_limit = 1; 
 
 syms wb va vb hf F;
+syms hc wa wa_min wb_min sa sb sbz saz tbz L_max h_min 
+
 x = [wb; va; vb; hf; F];
 nx = length(x);
 %x_k = [2.7, 2.16, 1.44, 1.0, 28.2]; % starting point
@@ -20,7 +22,7 @@ gca = 1 - 2 * va * sa * (wa+wb) / (F * sqrt(3 * (wb/hc)^2 + 3*(sa/saz)^2));
 gzb = 1 - 2*vb*wb*tbz / F;
 
 g = [ gwb, gva, gvb, ghf, gd, gta, gtb, gca, gzb ];
-g_names = [ "g1", "g2a", "g2b", "g3", "4", "g5a", "g5b", "g6a", "g6b" ];
+g_names = [ "g1", "g2a", "g2b", "g3", "4", "g5a", "g5b", "g6", "g7" ];
 
 
 

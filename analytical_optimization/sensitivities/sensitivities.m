@@ -1,5 +1,5 @@
 clear all;
-diagonal_case;
+straight_case;
 
 ng = length(g);
 nx = length(x);

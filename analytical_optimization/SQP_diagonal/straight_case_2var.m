@@ -26,9 +26,7 @@ gca = 1 - 2 * va * sa / (F * sqrt(3 * (wb/(wa+wb)/hc)^2 + 3*(sa/saz/wa)^2));
 gzb = 1 - 2*vb*wb*tbz / F;
 
 g = [ gwb, gva, gvb, ghf, gd, gta, gtb, gca, gzb ];
-g_names = [ "gwb", "gva", "gvb", "ghf", "gd", "gta", "gtb", "gca", "gzb" ];
-
-
+g_names = [ "g1", "g2a", "g2b", "g3", "4", "g5a", "g5b", "g6", "g7" ];
 
 
 
