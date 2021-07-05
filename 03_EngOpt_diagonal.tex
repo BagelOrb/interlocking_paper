@@ -47,7 +47,7 @@ Working out $\frac{F}{A} \le \sigma$ resulted in \cref{eq:tensfail}
 
 \begin{equation}
 	\label{eq:tensfail}
-	\frac{F}{w_m  h} \le \sigma_{max}
+	\frac{F}{w_m  h} \le \sigma_\text{max}
 \end{equation}
 
 
@@ -136,9 +136,9 @@ With that, the optimization problem can be formulated as follows.
 \begin{align*}
 	f: & \max_{F, {w_a}, {w_b}. L} \frac{F}{2h \left(w_a + w_b\right)} \nonumber \\
 	\text{subject to:} & \nonumber \\
-	g_1: & w_m \ge w_\text{m,min} \\
+	g_1: & w_m \ge w_{m,\text{min}} \\
 	g_2: & w_a + w_b \le w_\text{max} \\
-	g_3: & L_{min} \le L \le \Lmax \\
+	g_3: & L_\text{min} \le L \le \Lmax \\
 	g_4: & \frac{ 3 F \left(w_a + w_b \right) }{ w_m ^2 L} \le \tau_m						\text{ Shear failure } M_z^m 
 \end{align*}	
 \vspace{-8mm}
@@ -167,10 +167,10 @@ Normalizing and rewriting to the negative null-form gives the following optimiza
 \begin{align*}
 	f: & \min_{F, {w_a}, {w_b}. L}  \frac{2h \left(w_a + w_b\right)}{F} \nonumber \\
 	\text{subject to:} & \nonumber \\
-	g_{1a}:& 1 - \frac{w_a}{w_{a,min}}  \le 0 \\
-	g_{1b}:& 1 - \frac{w_b}{w_{b,min}}  \le 0 \\
-	g_2:& \frac{w_a + w_b}{w_{max}}  - 1 \le 0 \\
-	g_{3.1}:& 1 - \frac{L}{L_{min}} \le 0 \\
+	g_{1a}:& 1 - \frac{w_a}{w_{a,\text{min}}}  \le 0 \\
+	g_{1b}:& 1 - \frac{w_b}{w_{b,\text{min}}}  \le 0 \\
+	g_2:& \frac{w_a + w_b}{w_\text{max}}  - 1 \le 0 \\
+	g_{3.1}:& 1 - \frac{L}{L_\text{min}} \le 0 \\
 	g_{3.2}:&\frac{L}{\Lmax} - 1  \le 0 \\
 	g_{4a}: & \frac{ 3 F \left(w_a + w_b \right) }{ \tau_a w_a ^2 L} - 1 \le 0					\text{ Shear failure } M_z^a \\
 	g_{4b}: & \frac{ 3 F \left(w_a + w_b \right) }{ \tau_b w_b ^2 L} - 1 \le 0					\text{ Shear failure } M_z^b 
@@ -206,7 +206,7 @@ This section discusses the initial investigation of the optimization problem.
 The optimization problem aims to maximize the strength, which scales proportionally with $F$ and inversily with the total width $w_a + w_b$ and the layer height $h$.  $f$ is minimized if $w_a + w_b$ and $h$ are approaching zero and if $F$ goes to infinity. 
 Since the minimizers $F*$, $w_a*$, $w_b*$ and $L*$ do not lie within the set of positive and finite numbers $P$, the objective function is not well bounded for any of the design variables and therefore constraints are needed. 
 The layer height $h$ was fixed and a lower bound was set on $w_a$ and $w_b$ with manufacturing constraint $g_1$. 
-In addition, the finger length $L$ was bounded between $L_{min}$ and $\Lmax$ in constraint $g_3$, and $g_4$ and $g_5$ put an upper bound on the force $F$ that the fingers can withstand. 
+In addition, the finger length $L$ was bounded between $L_\text{min}$ and $\Lmax$ in constraint $g_3$, and $g_4$ and $g_5$ put an upper bound on the force $F$ that the fingers can withstand. 
 
 \subsubsection{Convexity}
 The objective function $f$ has the same format as the objective function in the straight design: $\frac{w  h}{F}$ and is therefore non-convex.
@@ -248,7 +248,7 @@ A monotonicity analysis was performed, the results are displayed below.
 The objective function is monotonically decreasing for $F$, and $F$ is monotonically increasing in constraint $g_{4a}$, $g_{4b}$, $g_{5a}$ and $g_{5b}$. 
 This implies that one of these should be active. 
 Similarly, $w_a$ and $w_b$ are monotonically increasing in the objective function. 
-Therefore, constraints $g_{1a}$, $g_{1b}$, $g_{4a}$ or $g_{4b}$ should be active for $w_a$ or $w_b$. $L$ does not appear in the objective function but shall still be bounded within $L_{min}$ and $\Lmax$, to minimize the bending moment it is to be expected that $L$ is close to its minimum value. 
+Therefore, constraints $g_{1a}$, $g_{1b}$, $g_{4a}$ or $g_{4b}$ should be active for $w_a$ or $w_b$. $L$ does not appear in the objective function but shall still be bounded within $L_\text{min}$ and $\Lmax$, to minimize the bending moment it is to be expected that $L$ is close to its minimum value. 
 
 
 
@@ -270,22 +270,22 @@ Only variable $w_a$ influences constraint $g_{1a}$ and only $w_b$ influences $g_
 Therefore variable $w_a$ is a very influential parameter on $g_{1a}$ and $w_b$ is a very influential parameter on $g_{1b}$.
 
 \begin{align*}
-	\diff{_L g_{1a}}{_L w_a} &= \frac{w_a}{w_a-w_{a,min}}\\
+	\diff{_L g_{1a}}{_L w_a} &= \frac{w_a}{w_a-w_{a,\text{min}}}\\
 	\diff{_L g_{1a}}{_L w_b} &= 0 \\
 	\diff{_L g_{1a}}{_L L} &= 0\\
 	\diff{_L g_{1a}}{_L F} &= 0 \\
 	\diff{_L g_{1b}}{_L w_a} &=0 \\
-	\diff{_L g_{1b}}{_L w_b} &= \frac{w_b}{w_b-w_{b,min}}\\
+	\diff{_L g_{1b}}{_L w_b} &= \frac{w_b}{w_b-w_{b,\text{min}}}\\
 	\diff{_L g_{1b}}{_L L} &= 0\\
 	\diff{_L g_{1b}}{_L F} &=  0\\
 \end{align*}
 
-For constraint $g_2$, $w_a + w_b$ is smaller than $w_{max}$, therefore both $\diff{_L g_{2}}{_L w_a}$ and $\diff{_L g_{2}}{_L w_b}$ are expected to be negative. 
+For constraint $g_2$, $w_a + w_b$ is smaller than $w_\text{max}$, therefore both $\diff{_L g_{2}}{_L w_a}$ and $\diff{_L g_{2}}{_L w_b}$ are expected to be negative. 
 The magnitude of $w_a$ and $w_b$ determines their relative importance.
-% It is unsure whether $w_a + w_b - w_{max}$ are larger than either $w_a$ and $w_b$, therefore no conclusion can be drawn on the importance of the design variables on constraint $g_2$.
+% It is unsure whether $w_a + w_b - w_\text{max}$ are larger than either $w_a$ and $w_b$, therefore no conclusion can be drawn on the importance of the design variables on constraint $g_2$.
 \begin{align*}
-	\diff{_L g_{2}}{_L w_a} &= \frac{w_a}{w_a + w_b - w_{max}}\\
-	\diff{_L g_{2}}{_L w_b} &=  \frac{w_b}{w_a + w_b - w_{max}}\\
+	\diff{_L g_{2}}{_L w_a} &= \frac{w_a}{w_a + w_b - w_\text{max}}\\
+	\diff{_L g_{2}}{_L w_b} &=  \frac{w_b}{w_a + w_b - w_\text{max}}\\
 	\diff{_L g_{2}}{_L L} &= 0\\
 	\diff{_L g_{2}}{_L F} &=  0\\
 \end{align*}
@@ -294,7 +294,7 @@ Constraint $g_3$ is only influenced by $L$.
 \begin{align*}
 	\diff{_L g_{3,1}}{_L w_a} &= 0\\
 	\diff{_L g_{3,1}}{_L w_b} &= 0 \\
-	\diff{_L g_{3,1}}{_L L} &=  \frac{L}{L-L_{min}}\\
+	\diff{_L g_{3,1}}{_L L} &=  \frac{L}{L-L_\text{min}}\\
 	\diff{_L g_{3,1}}{_L F} &=  0\\
 	\diff{_L g_{3,2}}{_L w_a} &= 0\\
 	\diff{_L g_{3,2}}{_L w_b} &= 0\\
