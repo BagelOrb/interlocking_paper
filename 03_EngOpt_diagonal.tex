@@ -139,7 +139,7 @@ With that, the optimization problem can be formulated as follows.
 	g_1: & w_m \ge w_{m,\text{min}} \\
 	g_2: & w_a + w_b \le w_\text{max} \\
 	g_3: & L_\text{min} \le L \le \Lmax \\
-	g_4: & \frac{ 3 F \left(w_a + w_b \right) }{ w_m ^2 L} \le \tau_m						\text{ Shear failure } M_z^m 
+	g_4: & \frac{ 3 F \left(w_a + w_b \right) }{ w_m ^2 L} \le \tau_m						\text{ Shear failure } M_{\text{z}, m} 
 \end{align*}	
 \vspace{-8mm}
 
@@ -172,8 +172,8 @@ Normalizing and rewriting to the negative null-form gives the following optimiza
 	g_2:& \frac{w_a + w_b}{w_\text{max}}  - 1 \le 0 \\
 	g_{3.1}:& 1 - \frac{L}{L_\text{min}} \le 0 \\
 	g_{3.2}:&\frac{L}{\Lmax} - 1  \le 0 \\
-	g_{4a}: & \frac{ 3 F \left(w_a + w_b \right) }{ \tau_a w_a ^2 L} - 1 \le 0					\text{ Shear failure } M_z^a \\
-	g_{4b}: & \frac{ 3 F \left(w_a + w_b \right) }{ \tau_b w_b ^2 L} - 1 \le 0					\text{ Shear failure } M_z^b 
+	g_{4a}: & \frac{ 3 F \left(w_a + w_b \right) }{ \tau_a w_a ^2 L} - 1 \le 0					\text{ Shear failure } M_{\text{z}, a} \\
+	g_{4b}: & \frac{ 3 F \left(w_a + w_b \right) }{ \tau_b w_b ^2 L} - 1 \le 0					\text{ Shear failure } M_{\text{z}, b} 
 \end{align*}	
 \vspace{-8mm}
 \begin{table}[H]
@@ -181,9 +181,9 @@ Normalizing and rewriting to the negative null-form gives the following optimiza
 		\begin{minipage}{0.5\textwidth}
 			\begin{align*}
 				g_{5a}:& \frac{\frac{1}{2} \left( \frac{F}{w_a  h} + 	\frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_a^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w_a h L}  \right) ^2	} { \sigma_a^2} - 1	\le 0	\\
-				& 	\text{ Von Mises criterion } M_x^a \\
+				& 	\text{ Von Mises criterion } M_{\text{x}, a} \\
 				g_{5b}:& \frac{\frac{1}{2} \left( \frac{F}{w_b  h} + 	\frac{ 3 F \left(w_a + w_b \right) \left(\left(w_a + w_b \right) ^2 + 4L^2 \right)  }{ 8h w_b^2 L^2 }   \right)^2+ 3\left(	\frac{ 3 F \left(w_a + w_b \right) }{ 4  w_b h L}  \right) ^2	} { \sigma_b^2} - 1	\le 0 \\
-				& \text{ Von Mises criterion } M_x^a 
+				& \text{ Von Mises criterion } M_{\text{x}, a} 
 			\end{align*}
 		\end{minipage} %
 	}

@@ -37,44 +37,44 @@ This section shows the derivation of the optimization problem.
 \subsubsection{Tension Failure M\textsubscript{x}}
 The tensile stresses in the fingers of either material $m$ are computed with $\frac{F}{A}$ as shown in \cref{eq:tens}.
 \begin{align}\label{eq:tens}
-	\sigma_{11}^m &= \frac{ F }{ w^m \hf }
+	\sigma_{m11} &= \frac{ F }{ \wm \hf }
 \end{align}
 
 \subsubsection{Shear Failure M\textsubscript{y}}
-The shear stresses $\frac{F}{A}$ acting on $M_y^m$ for either material $m$ are determined by modeling the the cross beam as a cantilever beam fixed at both ends.
+The shear stresses $\frac{F}{A}$ acting on $M_{\text{y}, m}$ for either material $m$ are determined by modeling the the cross beam as a cantilever beam fixed at both ends.
 The load is modeled as a uniformly distributed load over the whole beam.
 Because the beam is fixed on both sides, the shear force equals half the total force acting on the beam as shown in \cref{eq:sh}.
 
-The parameter $d_y^m$ indicates the portion of the total force $F$ which acts upon the unsupported part of material $a$ and is proportional to $\wb / w$, where $w = \wa+\wb$ as given in \cref{eq:dy}.
+The parameter $d_{m, \text{y}}$ indicates the portion of the total force $F$ which acts upon the unsupported part of material $a$ and is proportional to $\wb / w$, where $w = \wa+\wb$ as given in \cref{eq:dy}.
 However, in some cases the full force acts on the beam which will be discussed later.  
-To select between these case, the parameter $u_y^m$ can be varied between 0 and 1.
+To select between these case, the parameter $u_{\text{y},m}$ can be varied between 0 and 1.
 
 \begin{align}\label{eq:sh}
-	\sigma_{13}^m &= \frac{d_y^m F}{2 v^m \hc} 
+	\sigma_{m13} &= \frac{d_{m, \text{y}} F}{2 \vm \hc} 
 \end{align}
 \begin{align}\label{eq:dy}
-	d_y^m &= \frac{w^{\neg m} + u_y^m w^m}{w}
+	d_{m, \text{y}} &= \frac{\w{\neg m} + u_{\text{y},m} \wm}{w}
 \end{align}
 
 \subsubsection{Bending Failure M\textsubscript{y}}
 
 The highest bending stress for a doubly supported beam occurs in the middle and is given in \cref{eq:bs}.
 \begin{align}\label{eq:bs}
-	\sigma_{22}^m &= \frac{M}{I}c = \frac{d_y^m F w^{\neg m} / 12}{\hc (v^m)^3 / 12} \nicefrac12 v^m 
-	=  \frac{ d_y^m F w^{\neg m} }{ 2 \left( v^m \right)^2 \hc }
-	= \sigma_{13}^m \frac{w^{\neg m}}{v^m}
+	\sigma_{m22} &= \frac{M}{I}c = \frac{d_{m, \text{y}} F \w{\neg m} / 12}{\hc (\vm)^3 / 12} \nicefrac12 \vm 
+	=  \frac{ d_{m, \text{y}} F \w{\neg m} }{ 2 \left( \vm \right)^2 \hc }
+	= \sigma_{m13} \frac{\w{\neg m}}{\vm}
 \end{align}
 
 \subsubsection{Shear Failure M\textsubscript{z}}
-There is also a shear stress acting on the surface $M_z^m$.
-On the one hand one might think that only a portion $d_z^m$ of the total force $F$ is acting on the supported portion of the cross beam.
+There is also a shear stress acting on the surface $M_{\text{z}, m}$.
+On the one hand one might think that only a portion $d_{m, \text{z}}$ of the total force $F$ is acting on the supported portion of the cross beam.
 On the other hand the total force must be enacted through this plane, because it is the only connection between the finger and the cross beam.
-The term $u_z^m$ switches between a fraction of and the full force by varying it in between 0 or 1 respectively.
-In order to compare the stresses along the Z direction and stresses along the XY direction against the same ultimate stress value $\sigmafail$, the Z shear stress was multiplied with the ratio $\nicefrac{\sigmafail}{\sigmafailz}$.
+The term $u_{\text{z},m}$ switches between a fraction of and the full force by varying it in between 0 or 1 respectively.
+In order to compare the stresses along the Z direction and stresses along the XY direction against the same ultimate stress value $\sigmafail{m}$, the Z shear stress was multiplied with the ratio $\nicefrac{\sigmafail{m}}{\sigmafailz{m}}$.
 The shear stress along Z is therefore given in \cref{eq:mz}
 \begin{align}\label{eq:mz}
-	\sigma_{12}^m &= \frac{\sigmafail}{\sigmafailz} \frac{ d_z^m F }{ 2 v^m w^m} \\ 
-	d_z^m &= \frac{w^m + u_z^m w^{\neg m}}{w}
+	\sigma_{m12} &= \frac{\sigmafail{m}}{\sigmafailz{m}} \frac{ d_{m, \text{z}} F }{ 2 \vm \wm} \\ 
+	d_{m, \text{z}} &= \frac{\wm + u_{\text{z},m} \w{\neg m}}{w}
 \end{align}
 
 \subsubsection{Optimization Problem}
@@ -86,36 +86,36 @@ Based on the stresses derived above, the following optimization problem was obta
 \begin{align}
 	f:& \omit\rlap{$\displaystyle \max{ \frac{F}{\left( \wa + \wb \right) \left( \hf + \hc \right) }}$} \label{eq:obj} \\
 	\omit\rlap{subject to} \nonumber \\
-	\gwb: & w^m \ge 2 \wmin^m		&&	\text{ Nozzle size} \label{eq:c1} \\
-	g_2: & v^m \ge \wmin^m			&&	\text{ Nozzle size}  \label{eq:c2} \\
+	\gwb: & \wm \ge 2 \wminm		&&	\text{ Nozzle size} \label{eq:c1} \\
+	g_2: & \vm \ge \wminm			&&	\text{ Nozzle size}  \label{eq:c2} \\
 	g_{3f}: &\hf \ge \hmin	&&	\text{Layer thickness}  \label{eq:c3} \\
 	g_{3c}: & \hc \ge \hmin	&&	\text{Layer thickness}  \label{eq:c4} \\
 	\gd: & \va + \vb \le \Lmax      &&   \text{ Design constraint}   \label{eq:c_total_length} \\
-	g_5: & \sigma_{11}^m = \frac{ F }{ w^m \hf } \le \sigmafail^m				&&	\text{ Tension failure } M_x^m  \label{eq:c_tensile} \\
-	g_{6,S}: & \sigma_{13}^m = \frac{ F w^{\neg m} }{ 2 v^m \hc w } \le \taufail^m			&&		\text{ Shear failure } M_y^m  \label{eq:c_shear} \\
-	g_{6,B}: & \sigma_{22}^m = \frac{ F \left(w^{\neg m}\right)^2 }{ 2 \left( v^m \right)^2 \hc w } \le \sigmafail^a             &&    \text{ Bending failure } M_y^m  \label{eq:c_bending} \\
-	\gzb: &\sigma_{12}^m = \frac{ F }{ 2 v^m w^m} \le \tauz^m						&&	\text{ Shear failure } M_z^m  \label{eq:c_shear_z} \\
+	g_5: & \sigma_{m11} = \frac{ F }{ \wm \hf } \le \sigmafail{m}				&&	\text{ Tension failure } M_{\text{x}, m}  \label{eq:c_tensile} \\
+	g_{6,S}: & \sigma_{m13} = \frac{ F \w{\neg m} }{ 2 \vm \hc w } \le \taufail{m}			&&		\text{ Shear failure } M_{\text{y}, m}  \label{eq:c_shear} \\
+	g_{6,B}: & \sigma_{m22} = \frac{ F \left(\w{\neg m}\right)^2 }{ 2 \left( \vm \right)^2 \hc w } \le \sigmafail{a}             &&    \text{ Bending failure } M_{\text{y}, m}  \label{eq:c_bending} \\
+	\gzb: &\sigma_{m12} = \frac{ F }{ 2 \vm \wm} \le \tauz{m}						&&	\text{ Shear failure } M_{\text{z}, m}  \label{eq:c_shear_z} \\
 	& \omit\rlap{for both materials $m \in \{a, b\}$ where $\neg a = b$ and $\neg b = a$}\nonumber
 \end{align}
 
 
-While the $v^m$ variables do not appear in the objective function, they are included in the constraints are therefore also subject to the optimization. 
+While the $\vm$ variables do not appear in the objective function, they are included in the constraints are therefore also subject to the optimization. 
 These are bounded by the active constraints.
 
 The constraint values depend on the printer and the materials.
 Different nozzles and layer thickness settings require other limits on the design.
 Due to the manufacturing constraints, the layer thickness shall be smaller than half the smallest nozzle diameter:
-$\hmin < \nicefrac{1}{2} \wmin^m$.
+$\hmin < \nicefrac{1}{2} \wminm$.
 
-Material properties of 3D printed materials have $\tauz^m < \taufail^m$, since the shear strength parallel to the layers is lower due to the layer bonding.
+Material properties of 3D printed materials have $\tauz{m} < \taufail{m}$, since the shear strength parallel to the layers is lower due to the layer bonding.
 
 
 \subsubsection{Vom Mises Yield Criterion}
-From the von Mises yield criterion it is known that $\taufail^m = \sigmafail^m / \sqrt{3} $.
-If $\nicefrac{\wb}{\va} > \nicefrac{ \sigmafail^a }{ \taufail^a } = \sqrt{3}$, then 
+From the von Mises yield criterion it is known that $\taufail{m} = \sigmafail{m} / \sqrt{3} $.
+If $\nicefrac{\wb}{\va} > \nicefrac{ \sigmafail{a} }{ \taufail{a} } = \sqrt{3}$, then 
 $
-\frac{ d_y^m F \wb }{ 2 \left( \va \right)^2 \hc \sigmafail^a}
-> \frac{ d_y^m F }{ 2 \va \hc \taufail^a} 
+\frac{ d_{m, \text{y}} F \wb }{ 2 \left( \va \right)^2 \hc \sigmafail{a}}
+> \frac{ d_{m, \text{y}} F }{ 2 \va \hc \taufail{a}} 
 $. 
 This means that the shear failure constraints \cref{eq:c_shear} for material $a$ are dominated by the bending failure constraint \cref{eq:c_bending}.
 Otherwise the latter is dominated by the former.
@@ -123,13 +123,13 @@ The same holds conversely with the materials $a$ and $b$ swapped.
 Therefore, constraints \cref{eq:c_shear,eq:c_bending} can be combined.
 
 \begin{align}\label{eq:shear_bend_combined}
-	%\frac{ d_y^m F }{ 2 v^m \hc} &\le \taufail^m \\
-	%\frac{ d_y^m F }{ 2 v^m \hc} &\le \nicefrac1{\sqrt{3}} \sigmafail^m \\
-	%\frac{ d_y^m F }{ 2 \cdot \sqrt{3} v^m \hc} &\le \sigmafail^m \\
-	%???\frac{ d_y^m F \wb }{ 2 \left( \va \right)^2 \hc } &\le \sigmafail^a \\
+	%\frac{ d_{m, \text{y}} F }{ 2 \vm \hc} &\le \taufail{m} \\
+	%\frac{ d_{m, \text{y}} F }{ 2 \vm \hc} &\le \nicefrac1{\sqrt{3}} \sigmafail{m} \\
+	%\frac{ d_{m, \text{y}} F }{ 2 \cdot \sqrt{3} \vm \hc} &\le \sigmafail{m} \\
+	%???\frac{ d_{m, \text{y}} F \wb }{ 2 \left( \va \right)^2 \hc } &\le \sigmafail{a} \\
 	%\\
-	\frac{ d_y^m F }{ 2 \va \hc }  \max{\left( \sqrt{3}, \frac{\wb}{ \va} \right)} &\le \sigmafail^a  \nonumber \\
-	\frac{ d_y^m F }{ 2 \vb \hc }  \max{\left( \sqrt{3}, \frac{\wa}{ \vb} \right)} &\le \sigmafail^b  
+	\frac{ d_{m, \text{y}} F }{ 2 \va \hc }  \max{\left( \sqrt{3}, \frac{\wb}{ \va} \right)} &\le \sigmafail{a}  \nonumber \\
+	\frac{ d_{m, \text{y}} F }{ 2 \vb \hc }  \max{\left( \sqrt{3}, \frac{\wa}{ \vb} \right)} &\le \sigmafail{b}  
 \end{align}
 
 The same result was obtained when using the Von Mises yield criterion directly with the shear stress $\sigma_{13}$ and the bending stress $\sigma_{22}$ \cref{eq:shear_bend_von_mises}.
@@ -142,12 +142,12 @@ The same result was obtained when using the Von Mises yield criterion directly w
 
 
 \begin{align}\label{eq:shear_bend_von_mises}
-	% \sqrt{ \left(  \frac{ d_y^m F \wb }{ 2 \left( \va \right)^2 \hc }  \right)^2   +   3 \left(  \frac{ d_y^m F }{ 2 \va \hc}  \right)^2 } &< \sigmafail^a \\
-	% \sqrt{ \left(  \frac{ d_y^m F }{ 2 \va \hc} \frac{\wb}{\va}  \right)^2   +   3 \left(  \frac{ d_y^m F }{ 2 \va \hc}  \right)^2 } &< \sigmafail^a \\
-	% \sqrt{ \left(  \frac{ d_y^m F }{ 2 \va \hc}\right)^2  \left( \frac{\wb}{\va}  \right)^2   +   3 \left(  \frac{ d_y^m F }{ 2 \va \hc}  \right)^2 } &< \sigmafail^a \\
-	% \sqrt{ \left(  \frac{ d_y^m F }{ 2 \va \hc}\right)^2  \left( \left( \frac{\wb}{\va}  \right)^2   +   3  \right) } &< \sigmafail^a \\
-	\sigma_{13,22}^a = \frac{ d_y^m F }{ 2 \va \hc} \sqrt{   \left( \frac{\wb}{\va}  \right)^2 + 3 } &< \sigmafail^a \nonumber \\
-	\sigma_{13,22}^b = \frac{ d_y^m F }{ 2 \vb \hc} \sqrt{   \left( \frac{\wa}{\vb}  \right)^2 + 3 } &< \sigmafail^b 
+	% \sqrt{ \left(  \frac{ d_{m, \text{y}} F \wb }{ 2 \left( \va \right)^2 \hc }  \right)^2   +   3 \left(  \frac{ d_{m, \text{y}} F }{ 2 \va \hc}  \right)^2 } &< \sigmafail{a} \\
+	% \sqrt{ \left(  \frac{ d_{m, \text{y}} F }{ 2 \va \hc} \frac{\wb}{\va}  \right)^2   +   3 \left(  \frac{ d_{m, \text{y}} F }{ 2 \va \hc}  \right)^2 } &< \sigmafail{a} \\
+	% \sqrt{ \left(  \frac{ d_{m, \text{y}} F }{ 2 \va \hc}\right)^2  \left( \frac{\wb}{\va}  \right)^2   +   3 \left(  \frac{ d_{m, \text{y}} F }{ 2 \va \hc}  \right)^2 } &< \sigmafail{a} \\
+	% \sqrt{ \left(  \frac{ d_{m, \text{y}} F }{ 2 \va \hc}\right)^2  \left( \left( \frac{\wb}{\va}  \right)^2   +   3  \right) } &< \sigmafail{a} \\
+	\sigma_{a13,22} = \frac{ d_{m, \text{y}} F }{ 2 \va \hc} \sqrt{   \left( \frac{\wb}{\va}  \right)^2 + 3 } &< \sigmafail{a} \nonumber \\
+	\sigma_{b13,22} = \frac{ d_{m, \text{y}} F }{ 2 \vb \hc} \sqrt{   \left( \frac{\wa}{\vb}  \right)^2 + 3 } &< \sigmafail{b} 
 \end{align}
 
 This von Mises yield criterion \cref{eq:shear_bend_von_mises} is equivalent to the application of the P-norm smooth approximation of the maximum function as used in the combined constraint \cref{eq:shear_bend_combined}, for $P=2$.
@@ -161,18 +161,18 @@ And also for Z shear failure $M_z$ and cross beam failure $M_y$, including bendi
 One might even consider a combined von Mises constraint for all stresses together: $\sigma_{11,12,13,22}$.
 
 \subsubsection{Constraint validity}
-A careful analysis of the geometry will show that if shearing failure mode $M_x^a$ has occurred, 
+A careful analysis of the geometry will show that if shearing failure mode $M_{\text{x}, a}$ has occurred, 
 there is still interlocking between the two materials. 
 If for example a part of the cross beams of $b$ has sheared off, still a column of material $a$ remains, which is surrounded by material $b$.
-Once one of those failure modes has occurred, still any other failure mode has to occur for the interlock to fail, except $M_x^b$.
+Once one of those failure modes has occurred, still any other failure mode has to occur for the interlock to fail, except $M_{\text{x}, b}$.
 Therefore a constraint was added to the shearing failure modes that both those failure modes shall occur together.
 The constraint is violated only when both occur, so it is satisfied when either failure mode is prevented.
 The logical disjunction can be rewritten into a minimum when both constraints are transformed into negative null form:
 \begin{align*}
-	% \min \left(  \frac{ d_y^m F }{ 2 \va \hc \sigmafail^a} \sqrt{   \left( \frac{\wb}{\va}  \right)^2 + 3 }  ,  \frac{ F }{ 2 \vb \hc \sigmafail^b} \sqrt{   \left( \frac{\wa}{\vb}  \right)^2 + 3 }  \right) - 1 &< 0 \\
-	% \frac{ d_y^m F }{ 2 \hc}  \min \left(  \frac{ 1 }{ \va \sigmafail^a} \sqrt{   \left( \frac{\wb}{\va}  \right)^2 + 3 }  ,  \frac{ 1 }{ \vb \sigmafail^b} \sqrt{   \left( \frac{\wa}{\vb}  \right)^2 + 3 }  \right) - 1 &< 0 \\
-	\frac{ d_y^m F }{ 2 \hc}  \min \left(  \frac{ \sqrt{   \left( \frac{\wb}{\va}  \right)^2 + 3 } }{ \va \sigmafail^a}   ,  \frac{  \sqrt{   \left( \frac{\wa}{\vb}  \right)^2 + 3 } }{ \vb \sigmafail^b}  \right) - 1 &< 0 \\
-	% \frac{ d_y^m F }{ 2 \hc}  \min \left(  \frac{ \sqrt{   \left(\wb\right)^2 + 3 \left(\va\right)^2 } }{ \left(\va\right)^2 \sigmafail^a}   ,  \frac{  \sqrt{   \left(\wa\right)^2 + 3 \left(\vb\right)^2 } }{ \left(\vb\right)^2 \sigmafail^b}  \right) - 1 &< 0 \\
+	% \min \left(  \frac{ d_{m, \text{y}} F }{ 2 \va \hc \sigmafail{a}} \sqrt{   \left( \frac{\wb}{\va}  \right)^2 + 3 }  ,  \frac{ F }{ 2 \vb \hc \sigmafail{b}} \sqrt{   \left( \frac{\wa}{\vb}  \right)^2 + 3 }  \right) - 1 &< 0 \\
+	% \frac{ d_{m, \text{y}} F }{ 2 \hc}  \min \left(  \frac{ 1 }{ \va \sigmafail{a}} \sqrt{   \left( \frac{\wb}{\va}  \right)^2 + 3 }  ,  \frac{ 1 }{ \vb \sigmafail{b}} \sqrt{   \left( \frac{\wa}{\vb}  \right)^2 + 3 }  \right) - 1 &< 0 \\
+	\frac{ d_{m, \text{y}} F }{ 2 \hc}  \min \left(  \frac{ \sqrt{   \left( \frac{\wb}{\va}  \right)^2 + 3 } }{ \va \sigmafail{a}}   ,  \frac{  \sqrt{   \left( \frac{\wa}{\vb}  \right)^2 + 3 } }{ \vb \sigmafail{b}}  \right) - 1 &< 0 \\
+	% \frac{ d_{m, \text{y}} F }{ 2 \hc}  \min \left(  \frac{ \sqrt{   \left(\wb\right)^2 + 3 \left(\va\right)^2 } }{ \left(\va\right)^2 \sigmafail{a}}   ,  \frac{  \sqrt{   \left(\wa\right)^2 + 3 \left(\vb\right)^2 } }{ \left(\vb\right)^2 \sigmafail{b}}  \right) - 1 &< 0 \\
 \end{align*}
 
 Depending on the optimization algorithm used, the min operator might need to be replaced by smooth versions.
@@ -188,20 +188,20 @@ See \cref{fig:straight_model_broken}.
 In this situation the cross beam shear and bending constraints for material $a$ do not hold.
 Note that after the failure mode occured, the total force cannot be uniformly distributed over the whole length $w$, and therefore:
 $
-u_y^a = \text{N/A};
-u_y^b = 1 ;
-u_z^a = 1 ;
-u_z^b = 1
+u_{\text{y},a} = \text{N/A};
+u_{\text{y},b} = 1 ;
+u_{\text{z},a} = 1 ;
+u_{\text{z},b} = 1
 $.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\columnwidth]{sources/method/straight_model_v3_broken.pdf}
-	\caption{The straight design if a part of the cross beam has sheared off at $M_y^a$.}
+	\caption{The straight design if a part of the cross beam has sheared off at $M_{\text{y}, a}$.}
 	\label{fig:straight_model_broken}
 \end{figure}
 
-All constraints containing the term $d_y^m$ can be combined into a single constraint with the following scheme:
+All constraints containing the term $d_{m, \text{y}}$ can be combined into a single constraint with the following scheme:
 \begin{align*}
 	\begin{array}{l}
 		h_1(\mathbf{x}) < 0 \\
@@ -218,7 +218,7 @@ However, combining all constraints into a single constraint reduces the understa
 \subsubsection{Model Validation}
 When subjecting the microstructure to a load the distribution of stress is difficult to predict because of the interplay between several failure modes.
 The current model makes assumptions on the homogeneity of the stress distribution throughout the beams.
-Several modeling choices that were deferred have been mentioned: the values for $u^m_y$, $u^m_z$, the exclusion of the bending constraints and using the combined von Mises criterions.
+Several modeling choices that were deferred have been mentioned: the values for $u_{\text{y}, m}$, $u{\text{z}, m}$, the exclusion of the bending constraints and using the combined von Mises criterions.
 In order to evaluate which analytical model is the most representative, the results of an extensive grid search were compared to FEM simulations.
 \footnote{The FEM simulations were not performed by either of the two students that contributed to this report. 
 	Therefore the implementation details of the FEM simulation are left out.}
@@ -228,16 +228,16 @@ Because the design constraint is active, and also the minimum feature size is ac
 The output of each simulation is a force $F$ which can be used to compute the ultimate tensile strength $f$ of a given design.
 
 Similarly the problem was converted such that for each design in the 3D space, the force is computed according to each mechanical constraint.
-For example, the minimum force according to the tensile constraint for $a$ would be $F = \sigmafail^a \wa \hf$.
+For example, the minimum force according to the tensile constraint for $a$ would be $F = \sigmafail{a} \wa \hf$.
 Because the structure fails as soon as the first mechanical constraint is violated, the minimum force for all constraints is recorded and used to compute the predicted ultimate strength.
-Also for the comparison, $\sigmafailz^m$ was set equal to $\sigmafail^m$ because the FEM simulations cannot anisotropic material behaviour when there is a difference in strength along the Z direction caused by the layerwise buildup of FDM 3D printing.
+Also for the comparison, $\sigmafailz{m}$ was set equal to $\sigmafail{m}$ because the FEM simulations cannot anisotropic material behaviour when there is a difference in strength along the Z direction caused by the layerwise buildup of FDM 3D printing.
 
 \begin{table}[h]
 	\centering
 	\caption{Accuracy of the analytical model w.r.t. FEM results.}
 	\label{tab:prediction_ratios}
 	\begin{tabular}{llll|ll}
-		$u^m_z$ & $\sigma_{22}$ & $\sigma_{11,12}$ & $\sigma_{12,13}$ & $\nicefrac{F}{\hat{F}}$ & std dev \\
+		$u_{\text{z}, m}$ & $\sigma_{22}$ & $\sigma_{11,12}$ & $\sigma_{12,13}$ & $\nicefrac{F}{\hat{F}}$ & std dev \\
 		\hline
 		\checkmark & - & - & - & 104.2\% & 19.8\% \\
 		\checkmark & - & - & \checkmark & 101.7\% & 18.9\% \\
@@ -255,14 +255,14 @@ From these results it can be observed that including the bending stress $\sigma_
 Also the $\sigma_{11,12}$ von Mises criterion which combines tensile and Z shear lowers the accuracy.
 Using the $\sigma_{12,13}$ von Mises criterion to combine the stresses in the cross beam with the Z shear stress does improve the model.
 
-The question whether the full force should be used to compute the Z shear stress $u^m_z$ is more difficult to answer;
+The question whether the full force should be used to compute the Z shear stress $u_{\text{z}, m}$ is more difficult to answer;
 while the prediction ratio gets closer to \SI{100}{\percent}, the standard deviation increases.
 It makes sense that the analytical model overestimates the ultimate strength since homogenous stress distributions are assumed.
-Omitting $u^m_z$ may cause an increase in the prediction ratio, but the overall shape is closer to the FEM predictions as indicated by the lower standard deviation.
+Omitting $u_{\text{z}, m}$ may cause an increase in the prediction ratio, but the overall shape is closer to the FEM predictions as indicated by the lower standard deviation.
 Because the actual ultimate strength is less of a concern compared to obtaining the optimal design, it was chosen to only use the partial force when computing the Z shear stress.
 
 The comparison on the final model is shown in \cref{fig:ana_vs_FEM}.
-The correct value for $\sigmafailz^m$ was set and the analytical model was evaluated on a more dense grid.
+The correct value for $\sigmafailz{m}$ was set and the analytical model was evaluated on a more dense grid.
 See \cref{fig:ana_minF}.
 One important observation is that four constraint surfaces can be distinguished which culminate in the same optimum, while there are only three free design variables.
 The four surfaces meet in a three-dimensional space, however this is not a coincidence but is presumably inherent to the particular problem at hand.
@@ -317,16 +317,16 @@ Therefore, \cref{eq:c1} was set to be active for material $a$ and \cref{eq:c4} w
 
 
 \begin{align*}
-	f: & \min{ \frac{\left( 2 \wmin^a + \wb \right) \left( \hf + \hmin \right) }{F} }\\
-	\gwb: & 1 - \nicefrac{\wb }{2 \wmin^b} \le 0 \\
-	\gva: & 1 - \nicefrac{\va }{\wmin^a} \le 0 \\
-	\gvb: & 1 - \nicefrac{\vb }{\wmin^b} \le 0 \\
+	f: & \min{ \frac{\left( 2 \wmina + \wb \right) \left( \hf + \hmin \right) }{F} }\\
+	\gwb: & 1 - \nicefrac{\wb }{2 \wminb} \le 0 \\
+	\gva: & 1 - \nicefrac{\va }{\wmina} \le 0 \\
+	\gvb: & 1 - \nicefrac{\vb }{\wminb} \le 0 \\
 	\ghf: & 1 - \nicefrac{\hf}{\hmin} \le 0 \\
 	\gd: & \frac{\va + \vb}{ \Lmax }  - 1 \le 0 \\
-	\gta: & 1 - \frac{ 2 \wmin^a \hf \sigmafail^a }{ F } \le 0 \\
-	\gtb: & 1 - \frac{ \wb \hf \sigmafail^b }{ F } \le 0 \\
-	\gca: & 1 - \frac{2\va (2\wmin^a + \wb) \sigmafail^a}{ F \sqrt{ 3\left( \frac{\wb}{ \hc} \right)^2 + 3\left(  \frac{\sigmafail^a}{\sigmafailz^a} \right)^2 } } \le 0 \\
-	\gzb: & 1 - \frac{ 2 \vb \wb \tauz^b }{ F } \le 0
+	\gta: & 1 - \frac{ 2 \wmina \hf \sigmafail{a} }{ F } \le 0 \\
+	\gtb: & 1 - \frac{ \wb \hf \sigmafail{b} }{ F } \le 0 \\
+	\gca: & 1 - \frac{2\va (2\wmina + \wb) \sigmafail{a}}{ F \sqrt{ 3\left( \frac{\wb}{ \hc} \right)^2 + 3\left(  \frac{\sigmafail{a}}{\sigmafailz{a}} \right)^2 } } \le 0 \\
+	\gzb: & 1 - \frac{ 2 \vb \wb \tauz{b} }{ F } \le 0
 \end{align*}
 
 \subsection{Initial Problem Investigation}
@@ -350,7 +350,7 @@ Its hessian matrix is given in \cref{eq:hessians}
 	\resizebox{\columnwidth}{!}{%
 		\begin{minipage}{0.6\textwidth}
 			\begin{equation}\label{eq:hessians}
-				\hf = \begin{bmatrix} 0 & 0 & 0 & \frac{1}{F} & -\frac{\mathrm{\hf}+\hmin}{F^2}\\ 0 & 0 & 0 & 0 & 0\\ 0 & 0 & 0 & 0 & 0\\ \frac{1}{F} & 0 & 0 & 0 & -\frac{\mathrm{\wb}+2 \wmin}{F^2}\\ -\frac{\hf+\hmin}{F^2} & 0 & 0 & -\frac{\mathrm{\wb}+2\wmin}{F^2} & \frac{2\,\left(\hf+\hmin\right)\,\left(\mathrm{\wb}+2 \wmin\right)}{F^3} \end{bmatrix}
+				\hf = \begin{bmatrix} 0 & 0 & 0 & \frac{1}{F} & -\frac{\mathrm{\hf}+\hmin}{F^2}\\ 0 & 0 & 0 & 0 & 0\\ 0 & 0 & 0 & 0 & 0\\ \frac{1}{F} & 0 & 0 & 0 & -\frac{\mathrm{\wb}+2 \wmina}{F^2}\\ -\frac{\hf+\hmin}{F^2} & 0 & 0 & -\frac{\mathrm{\wb}+2\wmina}{F^2} & \frac{2\,\left(\hf+\hmin\right)\,\left(\mathrm{\wb}+2 \wmin\right)}{F^3} \end{bmatrix}
 			\end{equation}
 		\end{minipage} %
 	}
@@ -435,13 +435,13 @@ In constraints $\gta$ and $\gtb$, all design variables which contribute to the c
 	\diff{_L \gta}{_L \wb} &= 0 \\
 	\diff{_L \gta}{_L \va} &= 0 \\
 	\diff{_L \gta}{_L \vb} &= 0 \\
-	\diff{_L \gta}{_L \hf} &= -\frac{2\hf\,\sigmafail^a\, \wmin}{2F-\hf\,\sigmafail^a\,\wmin}\\
-	\diff{_L \gta}{_L F} &= \frac{2\hf\,\sigmafail^a\, \wmin}{2F-\hf\,\sigmafail^a\, \wmin} \\
-	\diff{_L \gtb}{_L \wb} &=  -\frac{\hf\,\sigmafail^b\,\wb}{F-\hf\,\sigmafail^b\,\wb}\\
+	\diff{_L \gta}{_L \hf} &= -\frac{2\hf\,\sigmafail{a}\, \wmin}{2F-\hf\,\sigmafail{a}\,\wmin}\\
+	\diff{_L \gta}{_L F} &= \frac{2\hf\,\sigmafail{a}\, \wmin}{2F-\hf\,\sigmafail{a}\, \wmin} \\
+	\diff{_L \gtb}{_L \wb} &=  -\frac{\hf\,\sigmafail{b}\,\wb}{F-\hf\,\sigmafail{b}\,\wb}\\
 	\diff{_L \gtb}{_L \va} &= 0 \\
 	\diff{_L \gtb}{_L \vb} &=  0\\
-	\diff{_L \gtb}{_L \hf} &= -\frac{\hf\,\sigmafail^b\,\wb}{F-\hf\,\sigmafail^b\,\wb}\\
-	\diff{_L \gtb}{_L F} &= \frac{\hf\,\sigmafail^b\,\wb}{F-\hf\,\sigmafail^b\,\wb}	
+	\diff{_L \gtb}{_L \hf} &= -\frac{\hf\,\sigmafail{b}\,\wb}{F-\hf\,\sigmafail{b}\,\wb}\\
+	\diff{_L \gtb}{_L F} &= \frac{\hf\,\sigmafail{b}\,\wb}{F-\hf\,\sigmafail{b}\,\wb}	
 \end{align*}
 
 The sensitivities of constraint $\gca$ were also obtained from the symbolic differentiation in MATLAB. 
