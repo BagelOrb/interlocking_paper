@@ -1,8 +1,12 @@
 \section{Conclusion}
-This paper aimed to determine the optimal design variables for a mechanically interlocking structure of two incompatible materials. Two designs were considered, a straight design and a diagonal design. After optimizing with a self-implemented SQP algorithm, it was found that the straight interlocking design outperforms the diagonal design.
+This paper aimed to determine the optimal design variables for a mechanically interlocking structure of two incompatible materials. 
+Two designs were considered, a straight design and a diagonal design. 
+After optimizing with a self-implemented SQP algorithm, it was found that the straight interlocking design outperforms the diagonal design.
 The maximum stress which can be reached with the straight design is around three times as high as the maximum stress which can be achieved using the diagonal setup.
-The design variables $w_b$, $v_a$, $v_b$, $h_f$ and $F$ are equal to 2.68, 2.56, 1.03, 1.20 and 33.91 respectively. The tensile strength of the interlocking structure is then 7.36 MPa. 
-When comparing this ultimate tensile strength of the interlocking structure to the tensile strength of the weakest of the two materials, Ultimaker PolyPropylene of 6.4 MPA, the tensile strength increases even by 15\%. This value is relatively high considering the weak chemical bonding between PP and most other thermoplastics.
+The design variables $w_b$, $v_a$, $v_b$, $h_f$ and $F$ are equal to 2.68, 2.56, 1.03, 1.20 and 33.91 respectively. 
+The tensile strength of the interlocking structure is then 7.36 MPa. 
+When comparing this ultimate tensile strength of the interlocking structure to the tensile strength of the weakest of the two materials, Ultimaker PolyPropylene of \SI{10.5}{\mega\pascal}, the tensile strength reaches \SI{70}{\percent} of the base material strength.
+This value is relatively high considering the weak chemical bonding between PP and most other thermoplastics.
 
 
 \subsection{Recommendations}
@@ -44,7 +48,8 @@ In the current optimization problem, the active set and the lambda update strate
 if not with better heuristics then with local iterations to get $\xvec$ and $\lamvec$ closer to their intended values.
 Moreover the \texttt{quadprog} encountered problems when updating the design variables for non-convex objective functions, which drove the unconstrained optimization along isolines rather than in the direction of the steepest descent. 
 
-Considering the optimization strategy, also different algorithms can be experienced with. For example, if the governing equations are not directly or differentiable, for example when the $max$ out of two variables is taken as suggested, other algorithms like the genetic algorithm, Powell’s Conjugate Directions method or Nelder and Mead Simplex method are recommended to be exploited.
+Considering the optimization strategy, also different algorithms can be experienced with. 
+For example, if the governing equations are not directly or differentiable, for example when the $max$ out of two variables is taken as suggested, other algorithms like the genetic algorithm, Powell’s Conjugate Directions method or Nelder and Mead Simplex method are recommended to be exploited.
 
 Another limitation is that the manufacturing constraint that $\hf$ should be an integer multiple of $\hmin$ was not accounted for.
 SQP doesn't seem to be well suited for the problem at hand, however when looking at the sensitivities it is recommended to round this value up to relax the constraints.
