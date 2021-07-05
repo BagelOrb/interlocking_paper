@@ -3,87 +3,105 @@
 \subsection{Straight Design}
 
 \subsubsection{Results}
-The full optimization problem was run with the same SQP implementation. After 7 seconds on average, the algorithm converged to an optimum of 0.1359 mm$^2$/N, equal to a maximum strength of 7.36 N/mm$^2$. The values for the variables are presented in \autoref{tab:straightres}. It can be observed that the own implemenation of the SQP algorithm converges towards a slightly lower optimum than fmincon while still satisfying all constraints, the maximum value of the constraint functions is -2.275 $\cdot 10^{-11}$.
+The full optimization problem was run with the same SQP implementation. 
+After 7 seconds on average, the algorithm converged to an optimum of 0.1359 mm$^2$/N, equal to a maximum strength of 7.36 N/mm$^2$. 
+The values for the variables are presented in \cref{tab:straightres}. 
+It can be observed that the own implemenation of the SQP algorithm converges towards a slightly lower optimum than fmincon while still satisfying all constraints, the maximum value of the constraint functions is -2.275 $\cdot 10^{-11}$.
 
 
 \begin{table}[H]
 	\centering
-	\resizebox{\columnwidth}{!}{%
-		\begin{tabular}{|c|c|c|}
-			\hline
-			\textbf{Variable}           & \textbf{SQP - Own implementation}                                                       & \textbf{SQP - fmincon}                                                                  \\ \hline
-			\textbf{Objective}          & 0.135903                                                                                & 0.137964                                                                                \\ \hline
-			\textbf{Active constraints} & \begin{tabular}[c]{@{}c@{}}$g_d$, $g_{ta}$, $g_{tb}$,\\ $g_{ca}$, $g_{zb}$\end{tabular} & \begin{tabular}[c]{@{}c@{}}$g_d$, $g_{ta}$, $g_{tb}$,\\ $g_{ca}$, $g_{zb}$\end{tabular} \\ \hline
-			\textbf{$w_b$}              &  2.685701                                                                               & 2.685714                                                                                \\ \hline
-			\textbf{$v_a$}              & 2.568289                                                                                 & 2.668029                                                                                \\ \hline
-			\textbf{$v_b$}              & 1.031711                                                                                 & 0.931971                                                                                \\ \hline
-			\textbf{$h_f$}              & 1.202763                                                                                 & 1.086396                                                                                \\ \hline
-			$F$                         & 33.914224                                                                                & 30.636365                                                                               \\ \hline
-		\end{tabular}%
-	}
 	\caption{The result of the own implementation of the SQP algorithm vs the MATLAB SQP solver fmincon for the straight design.}
 	\label{tab:straightres}
+	\resizebox{\columnwidth}{!}{%
+		\begin{tabular}{c|c|c}
+			\textbf{Variable}           & \textbf{SQP - Own implementation}                                                       & \textbf{SQP - fmincon}                                                                  \\ \hline
+			\textbf{Objective}          & 0.135903                                                                                & 0.137964                                                                                \\ 
+			\textbf{Active constraints} & $g_d$ $g_{ta}$ $g_{tb}$ $g_{ca}$ $g_{zb}$ & $g_d$ $g_{ta}$ $g_{tb}$ $g_{ca}$ $g_{zb}$ \\ \hline
+			\textbf{$w_b$}              &  2.685701                                                                               & 2.685714                                                                                \\ 
+			\textbf{$v_a$}              & 2.568289                                                                                 & 2.668029                                                                                \\ 
+			\textbf{$v_b$}              & 1.031711                                                                                 & 0.931971                                                                                \\ 
+			\textbf{$h_f$}              & 1.202763                                                                                 & 1.086396                                                                                \\ 
+			$F$                         & 33.914224                                                                                & 30.636365                                                                               \\ 
+		\end{tabular}%
+	}
 \end{table}
 
 \subsubsection{KKT Conditions}
-Then the KKT conditions were checked. The optimum lies in the feasible domain since all constraints are equal to or smaller than zero. Constraints $g_d$, $g_{ta}$, $g_{tb}$, $g_{ca}$ and $g_{zb}$ are active. The Lagrangian multipliers for constraints $g_d$, $g_{tb}$, $g_{ca}$ and $g_{zb}$ are 0.022, 0.0075, 0.11, 0.017 and 0.0069 respectively.  All multipliers $\mu$ are larger than or equal to zero. Therefore the KKT conditions are satisfied and the design variables found are a local optimum. A global optimum is not guaranteed since not all objective and constraint functions are convex, however as the objective is lower than the MATLAB fmincon implemenation while still satisfying all constraints, it is assumed that the global optimum is found by our own implementation.
+Then the KKT conditions were checked. 
+The optimum lies in the feasible domain since all constraints are equal to or smaller than zero. Constraints $g_d$, $g_{ta}$, $g_{tb}$, $g_{ca}$ and $g_{zb}$ are active. The Lagrangian multipliers for constraints $g_d$, $g_{tb}$, $g_{ca}$ and $g_{zb}$ are 0.022, 0.0075, 0.11, 0.017 and 0.0069 respectively.  
+All multipliers $\mu$ are larger than or equal to zero. 
+Therefore the KKT conditions are satisfied and the design variables found are a local optimum. 
+A global optimum is not guaranteed since not all objective and constraint functions are convex, 
+however as the objective is lower than the MATLAB fmincon implemenation while still satisfying all constraints, it is assumed that the global optimum is found by our own implementation.
 
 
 \subsubsection{Sensitivity Analysis}
 
-\autoref{tab:straightsens1} and \ref{tab:straightsens2} present the sensitivities of the objective function and constraints with respect to the design variables. It is remarkable that the magnitudes of the sensitivities varies a lot. This means that some constraints increase much when changing a certain design variable while another might only increase or decrease slightly for the same change.  Note that these results match the monotonicity analysis considering the sign of the first order derivatives. The green cells evaluate the boundedness by the active constraints, one cannot decrease the objective function without increasing the objective function which is visible from the opposite sign of the two partial derivatives.
+\Cref{tab:straightsens1} present the sensitivities of the objective function and constraints with respect to the design variables. 
+It is remarkable that the magnitudes of the sensitivities varies a lot. 
+This means that some constraints increase much when changing a certain design variable while another might only increase or decrease slightly for the same change.  
+Note that these results match the monotonicity analysis considering the sign of the first order derivatives. 
+The green cells evaluate the boundedness by the active constraints, one cannot decrease the objective function without increasing the objective function which is visible from the opposite sign of the two partial derivatives.
 
-\begin{table}[H]
+\begin{table}
 	\centering
-	\begin{tabular}{|c|c|c|c|c|c|}
-		\hline
-		\textbf{}                    & \textbf{$\frac{d f}{d  x}$} & \textbf{$\frac{d \gwb}{d  x}$} & \textbf{$\frac{d \gva}{d  x}$} & \textbf{$\frac{d \gvb}{d  x}$} & \textbf{$\frac{d \ghf}{d  x}$} \\ \hline
-		\textbf{$\frac{d g}{dw_b}$}  & \cellcolor[HTML]{9AFF99} 0.041                       & -1.667                       & 0                            & 0                            & 0                            \\ \hline
-		\textbf{$\frac{d_g}{d v_a}$} & 0                           & 0                            & -3.333                       & 0                            & 0                            \\ \hline
-		\textbf{$\frac{d g}{d v_b}$} & 0                           & 0                            & 0                            & -3.333                       & 0                            \\ \hline
-		\textbf{$\frac{dg}{d h_f}$}  & \cellcolor[HTML]{9AFF99} 0.097                       & 0                            & 0                            & 0                            & -5                           \\ \hline
-		\textbf{$\frac{d g}{d F}$}   & \cellcolor[HTML]{9AFF99} -0.004                      & 0                            & 0                            & 0                            & 0                            \\ \hline
-	\end{tabular}
-	\caption{The sensitivities for the straight design case, part 1.}
+	\caption{The sensitivities for the straight design case.}
 	\label{tab:straightsens1}
-\end{table}
-
-\begin{table}[H]
-	\centering
-	\begin{tabular}{|c|c|c|c|c|c|}
-		\hline
-		\textbf{}                    & \textbf{$\frac{d \gd}{d  x}$} & \textbf{$\frac{d \gta}{d  x}$} & \textbf{$\frac{d \gtb}{d  x}$} & \textbf{$\frac{d \gca}{d  x}$} & \textbf{$\frac{d \gzb}{d  x}$} \\ \hline
-		\textbf{$\frac{d g}{dw_b}$}  & 0                             & 0                              & \cellcolor[HTML]{9AFF99}-0.372 & 0.064                          & \cellcolor[HTML]{9AFF99}-0.372 \\ \hline
-		\textbf{$\frac{d_g}{d v_a}$} & \cellcolor[HTML]{9AFF99}0.278 & 0                              & 0                              & \cellcolor[HTML]{9AFF99}-0.389 & 0                              \\ \hline
-		\textbf{$\frac{d g}{d v_b}$} & \cellcolor[HTML]{9AFF99}0.278 & 0                              & 0                              & 0                              & \cellcolor[HTML]{9AFF99}-0.969 \\ \hline
-		\textbf{$\frac{dg}{d h_f}$}  & 0                             & \cellcolor[HTML]{9AFF99}-0.832 & \cellcolor[HTML]{9AFF99}-0.832 & 0                              & 0                              \\ \hline
-		\textbf{$\frac{d g}{d F}$}   & 0                             & \cellcolor[HTML]{9AFF99}0.029  & \cellcolor[HTML]{9AFF99}0.029  & \cellcolor[HTML]{9AFF99}0.029  & \cellcolor[HTML]{9AFF99}0.029  \\ \hline
+	\begin{tabular}{c|ccccc}
+		\textbf{}                    & \textbf{$\frac{d f}{d  x}$} & \textbf{$\frac{d \gwb}{d  x}$} & \textbf{$\frac{d \gva}{d  x}$} & \textbf{$\frac{d \gvb}{d  x}$} & \textbf{$\frac{d \ghf}{d  x}$} \\ \hline
+		\textbf{$\frac{d g}{dw_b}$}  & \cellcolor[HTML]{9AFF99} 0.041                       & -1.667                       & 0                            & 0                            & 0                            \\ 
+		\textbf{$\frac{d_g}{d v_a}$} & 0                           & 0                            & -3.333                       & 0                            & 0                            \\ 
+		\textbf{$\frac{d g}{d v_b}$} & 0                           & 0                            & 0                            & -3.333                       & 0                            \\ 
+		\textbf{$\frac{dg}{d h_f}$}  & \cellcolor[HTML]{9AFF99} 0.097                       & 0                            & 0                            & 0                            & -5                           \\ 
+		\textbf{$\frac{d g}{d F}$}   & \cellcolor[HTML]{9AFF99} -0.004                      & 0                            & 0                            & 0                            & 0                            \\ 
 	\end{tabular}
-	\caption{The sensitivities for the straight design case, part 2.}
-	\label{tab:straightsens2}
+\medskip
+%\end{table}
+%
+%\begin{table}[H]
+%	\centering
+%	\caption{The sensitivities for the straight design case, part 2.}
+%	\label{tab:straightsens2}
+	\begin{tabular}{c|ccccc}
+		\textbf{}                    & \textbf{$\frac{d \gd}{d  x}$} & \textbf{$\frac{d \gta}{d  x}$} & \textbf{$\frac{d \gtb}{d  x}$} & \textbf{$\frac{d \gca}{d  x}$} & \textbf{$\frac{d \gzb}{d  x}$} \\ \hline
+		\textbf{$\frac{d g}{dw_b}$}  & 0                             & 0                              & \cellcolor[HTML]{9AFF99}-0.372 & 0.064                          & \cellcolor[HTML]{9AFF99}-0.372 \\ 
+		\textbf{$\frac{d_g}{d v_a}$} & \cellcolor[HTML]{9AFF99}0.278 & 0                              & 0                              & \cellcolor[HTML]{9AFF99}-0.389 & 0                              \\ 
+		\textbf{$\frac{d g}{d v_b}$} & \cellcolor[HTML]{9AFF99}0.278 & 0                              & 0                              & 0                              & \cellcolor[HTML]{9AFF99}-0.969 \\ 
+		\textbf{$\frac{dg}{d h_f}$}  & 0                             & \cellcolor[HTML]{9AFF99}-0.832 & \cellcolor[HTML]{9AFF99}-0.832 & 0                              & 0                              \\ 
+		\textbf{$\frac{d g}{d F}$}   & 0                             & \cellcolor[HTML]{9AFF99}0.029  & \cellcolor[HTML]{9AFF99}0.029  & \cellcolor[HTML]{9AFF99}0.029  & \cellcolor[HTML]{9AFF99}0.029  \\ 
+	\end{tabular}
 \end{table}
 
-The logarithmic sensitivities of the objective function with respect to the design variables were also evaluated. These are 0.817, 0, 0, 0.857 and -1 for the design variables $w_b$, $v_a$, $v_b$, $h_f$ and $F$ respectively. It is not possible to relax the constraints that are active on $F$ since these consists of stress limits rather than design choiches. Therefore, to lower the objective function if necessary, it is recommended to relax constraint $g_d$ by increasing the upper limit for $L$. 
+The logarithmic sensitivities of the objective function with respect to the design variables were also evaluated. 
+These are 0.817, 0, 0, 0.857 and -1 for the design variables $w_b$, $v_a$, $v_b$, $h_f$ and $F$ respectively. 
+It is not possible to relax the constraints that are active on $F$ since these consists of stress limits rather than design choiches. 
+Therefore, to lower the objective function if necessary, it is recommended to relax constraint $g_d$ by increasing the upper limit for $L$. 
 
 
 \subsection{Diagonal Design}
 \subsubsection{Results}
-The diagonal design converges after around 6 seconds. It reaches an optimum value of 0.5008 mm$^2$/N, equal to a maximum strength of 1.996 N/mm$^2$. \autoref{tab:diagres} shows the optimal values for the design variables. It is remarkable that the own implementation converges towards another optimum, which does not match the real optimum, variable $L$ is slightly offset its true optimal value. This can be due to two reasons. The SQP implementation selects the active set based on the constraints that are violated in the current iteration, where $g_{4a}$ is selected incorrectly. The reason might be that $g_{4a}$ is a non-convex function that the used \texttt{quadprog} function has difficulties with. After reaching $L$ = 3.27 it is not able to escape from the non-convex feasible space boundary. \\
+The diagonal design converges after around 6 seconds. It reaches an optimum value of 0.5008 mm$^2$/N, equal to a maximum strength of 1.996 N/mm$^2$.
+\Cref{tab:diagres} shows the optimal values for the design variables.
+It is remarkable that the own implementation converges towards another optimum, which does not match the real optimum, variable $L$ is slightly offset its true optimal value. 
+This can be due to two reasons. 
+The SQP implementation selects the active set based on the constraints that are violated in the current iteration, where $g_{4a}$ is selected incorrectly. 
+The reason might be that $g_{4a}$ is a non-convex function that the used \texttt{quadprog} function has difficulties with.
+After reaching $L$ = 3.27 it is not able to escape from the non-convex feasible space boundary.
 
 
 
-\begin{table}[H]
+\begin{table}
 	\centering
 	\resizebox{\columnwidth}{!}{%
-		\begin{tabular}{|c|c|c|}
-			\hline
+		\begin{tabular}{c|c|c}
 			\textbf{Variable}           & \textbf{SQP - Own implementation}                                                 & \textbf{SQP - fmincon}                                                             \\ \hline
-			\textbf{Objective}          & 0.500837                                                                          & 0.497616                                                                           \\ \hline
-			\textbf{Active constraints} & \begin{tabular}[c]{@{}c@{}}$g_{1a}$, $g_{4a}$, \\ $g_{5a}$, $g_{5b}$\end{tabular} & \begin{tabular}[c]{@{}c@{}}$g_{1a}$, $g_{3,2}$, \\ $g_{5a}$, $g_{5b}$\end{tabular} \\ \hline
-			\textbf{$w_a$}              & 0.3                                                                               & 0.3                                                                                \\ \hline
-			\textbf{$w_b$}              & 0.667658                                                                          & 0.666732                                                                           \\ \hline
-			\textbf{$L$}                & 3.270938                                                                          & 3.6                                                                                \\ \hline
-			\textbf{$F$}                & 1.932080                                                                          & 1.942727                                                                           \\ \hline
+			\textbf{Objective}          & 0.500837                                                                          & 0.497616                                                                           \\ 
+			\textbf{Active constraints} & $g_{1a}$ $g_{4a}$ $g_{5a}$ $g_{5b}$ & $g_{1a}$ $g_{3,2}$ $g_{5a}$ $g_{5b}$ \\ \hline
+			\textbf{$w_a$}              & 0.3                                                                               & 0.3                                                                                \\ 
+			\textbf{$w_b$}              & 0.667658                                                                          & 0.666732                                                                           \\ 
+			\textbf{$L$}                & 3.270938                                                                          & 3.6                                                                                \\ 
+			\textbf{$F$}                & 1.932080                                                                          & 1.942727                                                                           \\ 
 		\end{tabular}%
 	}
 	\caption{The result of the own implementation of the SQP algorithm vs the MATLAB SQP solver fmincon for the diagonal design.}
@@ -91,43 +109,44 @@ The diagonal design converges after around 6 seconds. It reaches an optimum valu
 \end{table}
 
 \subsubsection{KKT Conditions}
-The findings of this result were verified with the KKT conditions. The feasibility conditions are satisfied since all constraints are smaller than or equal to zero. The Lagrangian multipliers were checked for the active constraints, which are 0.060, -0.039,  0.166 and 0.374 for constraints $g_{1a}$, $g_{4a}$, $g_{5a}$ and $g_{5b}$ respectively. Indeed, the Lagrangian multiplier for $g_{4a}$, that constrains the value of design variable $L$, is smaller than zero. Therefore, the KKT conditions are not satisfied and the point that was found is not an optimum.\\ 
+The findings of this result were verified with the KKT conditions. The feasibility conditions are satisfied since all constraints are smaller than or equal to zero. 
+The Lagrangian multipliers were checked for the active constraints, which are 0.060, -0.039,  0.166 and 0.374 for constraints $g_{1a}$, $g_{4a}$, $g_{5a}$ and $g_{5b}$ respectively. 
+Indeed, the Lagrangian multiplier for $g_{4a}$, that constrains the value of design variable $L$, is smaller than zero. 
+Therefore, the KKT conditions are not satisfied and the point that was found is not an optimum.
 
-When evaluating the Lagrangian multipliers obtained with fmincon, these are equal to 0.051, 0.0305, 0.129 and 0.369 for constraints $g_{1a}$, $g_{4a}$, $g_{5a}$ and $g_{5b}$ respectively. The magnitudes of the multipliers matches the magnitude of the multipliers found by our own implementation. This makes sense, because the magnitide of the Lagrangian multipliers shows how strongly changes in constraints affect the objective function. This relative importance of the constraint functions does of not differ between both implementations.
+When evaluating the Lagrangian multipliers obtained with fmincon, these are equal to 0.051, 0.0305, 0.129 and 0.369 for constraints $g_{1a}$, $g_{4a}$, $g_{5a}$ and $g_{5b}$ respectively. 
+The magnitudes of the multipliers matches the magnitude of the multipliers found by our own implementation. 
+This makes sense, because the magnitide of the Lagrangian multipliers shows how strongly changes in constraints affect the objective function. 
+This relative importance of the constraint functions does of not differ between both implementations.
 
 \subsubsection{Sensitivity Analysis}
-\autoref{tab:diagsens1} and \ref{tab:diagsens2} show the sensitivities for the diagonal design case, where these signs of the first order derivatives matches the monotonicity analysis. The green cells show the boundedness of the design variables, it is not possible to decrease the objective without increasing of the constraint functions.
+\Cref{tab:diagsens1} show the sensitivities for the diagonal design case, where these signs of the first order derivatives matches the monotonicity analysis. The green cells show the boundedness of the design variables, it is not possible to decrease the objective without increasing of the constraint functions.
 
-\begin{table}[H]
+\begin{table}
 	\centering
-	\begin{tabular}{|c|c|c|c|c|c|}
-		\hline
-		\textbf{}                    & \textbf{$\frac{d f }{d  x}$}   & \textbf{$\frac{d g_{1a}}{d  x}$} & \textbf{$\frac{d g_{1b}}{d  x}$} & \textbf{$\frac{d g_{2}}{d  x}$} & \textbf{$\frac{d g_{3,1}}{d  x}$} \\ \hline
-		\textbf{$\frac{d g}{dw_a}$}  & \cellcolor[HTML]{9AFF99}0.518  & \cellcolor[HTML]{9AFF99}-3.333   & 0                                & 0.278                           & 0                                 \\ \hline
-		\textbf{$\frac{d_g}{d w_b}$} & \cellcolor[HTML]{9AFF99}0.518  & 0                                & -3.333                           & 0.278                           & 0                                 \\ \hline
-		\textbf{$\frac{d g}{d L}$}   & 0                              & 0                                & 0                                & 0                               & -0.556                            \\ \hline
-		\textbf{$\frac{dg}{d F}$}    & \cellcolor[HTML]{9AFF99}-0.259 & 0                                & 0                                & 0                               & 0                                 \\ \hline
-	\end{tabular}
-	\caption{The sensitivities for the diagonal design case, part 1.}
+	\caption{The sensitivities for the diagonal design case.}
 	\label{tab:diagsens1}
-\end{table}
-
-\begin{table}[]
-	\centering
-	\begin{tabular}{|c|l|l|l|l|l|}
-		\hline
-		\textbf{}                    & \multicolumn{1}{c|}{\textbf{$\frac{d g_{3,2} }{d  x}$}} & \multicolumn{1}{c|}{\textbf{$\frac{d g_{4a}}{d  x}$}} & \multicolumn{1}{c|}{\textbf{$\frac{d g_{4b}}{d  x}$}} & \multicolumn{1}{c|}{\textbf{$\frac{d g_{5a}}{d  x}$}} & \multicolumn{1}{c|}{\textbf{$\frac{d g_{5b}}{d  x}$}} \\ \hline
-		\textbf{$\frac{d g}{dw_a}$}  & 0                                                       & \cellcolor[HTML]{9AFF99}-5.633                        & 0.65                                                  & \cellcolor[HTML]{9AFF99}-10.791                       & 1.917                                                 \\ \hline
-		\textbf{$\frac{d_g}{d w_b}$} & 0                                                       & 1.033                                                 & -1.233                                                & 2.076                                                 & \cellcolor[HTML]{9AFF99}-3.474                        \\ \hline
-		\textbf{$\frac{d g}{d L}$}   & 0.278                                                   & \cellcolor[HTML]{9AFF99}-0.306                        & -0.192                                                & \cellcolor[HTML]{9AFF99}-0.032                        & \cellcolor[HTML]{9AFF99}-0.05                         \\ \hline
-		\textbf{$\frac{dg}{d F}$}    & 0                                                       & \cellcolor[HTML]{9AFF99}0.518                         & 0.325                                                 & \cellcolor[HTML]{9AFF99}1.035                         & \cellcolor[HTML]{9AFF99}1.035                         \\ \hline
+	\begin{tabular}{c|ccccc}
+		\textbf{}                    & \textbf{$\frac{d f }{d  x}$}   & \textbf{$\frac{d g_{1a}}{d  x}$} & \textbf{$\frac{d g_{1b}}{d  x}$} & \textbf{$\frac{d g_{2}}{d  x}$} & \textbf{$\frac{d g_{3,1}}{d  x}$} \\ \hline
+		\textbf{$\frac{d g}{dw_a}$}  & \cellcolor[HTML]{9AFF99}0.518  & \cellcolor[HTML]{9AFF99}-3.333   & 0                                & 0.278                           & 0                                 \\ 
+		\textbf{$\frac{d_g}{d w_b}$} & \cellcolor[HTML]{9AFF99}0.518  & 0                                & -3.333                           & 0.278                           & 0                                 \\ 
+		\textbf{$\frac{d g}{d L}$}   & 0                              & 0                                & 0                                & 0                               & -0.556                            \\ 
+		\textbf{$\frac{dg}{d F}$}    & \cellcolor[HTML]{9AFF99}-0.259 & 0                                & 0                                & 0                               & 0                                 \\ 
 	\end{tabular}
-	\caption{The sensitivities for the diagonal design case, part 1.}
-	\label{tab:diagsens2}
+	\begin{tabular}{c|lllll}
+		\textbf{}                    & \multicolumn{1}{c|}{\textbf{$\frac{d g_{3,2} }{d  x}$}} & \multicolumn{1}{c|}{\textbf{$\frac{d g_{4a}}{d  x}$}} & \multicolumn{1}{c|}{\textbf{$\frac{d g_{4b}}{d  x}$}} & \multicolumn{1}{c|}{\textbf{$\frac{d g_{5a}}{d  x}$}} & \multicolumn{1}{c|}{\textbf{$\frac{d g_{5b}}{d  x}$}} \\ \hline
+		\textbf{$\frac{d g}{dw_a}$}  & 0                                                       & \cellcolor[HTML]{9AFF99}-5.633                        & 0.65                                                  & \cellcolor[HTML]{9AFF99}-10.791                       & 1.917                                                 \\ 
+		\textbf{$\frac{d_g}{d w_b}$} & 0                                                       & 1.033                                                 & -1.233                                                & 2.076                                                 & \cellcolor[HTML]{9AFF99}-3.474                        \\ 
+		\textbf{$\frac{d g}{d L}$}   & 0.278                                                   & \cellcolor[HTML]{9AFF99}-0.306                        & -0.192                                                & \cellcolor[HTML]{9AFF99}-0.032                        & \cellcolor[HTML]{9AFF99}-0.05                         \\ 
+		\textbf{$\frac{dg}{d F}$}    & 0                                                       & \cellcolor[HTML]{9AFF99}0.518                         & 0.325                                                 & \cellcolor[HTML]{9AFF99}1.035                         & \cellcolor[HTML]{9AFF99}1.035                         \\ 
+	\end{tabular}
 \end{table}
 
 
-The logarithmic sensitivies of the objective function are 0.31, 0.69, 0 and -1 for design variables $w_a$, $w_b$, $L$ and $F$ respectively. Constraint $g_{4a}$, $g_{5a}$ and $g_{5b}$ cannot be relaxed because these involve stress limitations rather than design choices. Therefore, it is recommended to relax constraint $g_{1a}$ by decreasing $w_{a,min}$ to lower the objective function, which can be achieved by selecting another printer with a smaller nozzle diameter.
+The logarithmic sensitivies of the objective function are 0.31, 0.69, 0 and -1 for design variables $w_a$, $w_b$, $L$ and $F$ respectively. 
+Constraint $g_{4a}$, $g_{5a}$ and $g_{5b}$ cannot be relaxed because these involve stress limitations rather than design choices. 
+Therefore, it is recommended to relax constraint $g_{1a}$ by decreasing $w_{a,min}$ to lower the objective function, 
+which can be achieved by selecting another printer with a smaller nozzle diameter.
 
 
 

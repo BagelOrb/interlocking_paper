@@ -41,23 +41,25 @@
 
 
 \Cref{fig:failure_modes} shows one cell of the straight design, along with the design variables and the failure modes.
-The aim is to optimize the effective ultimate tensile strength while keeping the perpendicular area of the structure minimal. Variables $\wb$, $\va$, $\vb$, $\hf$ and $F$ will be optimized.
+The aim is to optimize the effective ultimate tensile strength while keeping the perpendicular area of the structure minimal.
+Variables $\wb$, $\va$, $\vb$, $\hf$ and $F$ will be optimized.
 
 
 \subsection{Problem Formulation}
 This section shows the derivation of the optimization problem. 
 
 \subsubsection{Tension Failure M\textsubscript{x}}
-The tensile stresses in the fingers of either material $m$ are computed with $\frac{F}{A}$ as shown in \autoref{eq:tens}.
+The tensile stresses in the fingers of either material $m$ are computed with $\frac{F}{A}$ as shown in \cref{eq:tens}.
 \begin{align}\label{eq:tens}
 	\sigma_{11}^m &= \frac{ F }{ w^m \hf }
 \end{align}
 
 \subsubsection{Shear Failure M\textsubscript{y}}
 The shear stresses $\frac{F}{A}$ acting on $M_y^m$ for either material $m$ are determined by modeling the the cross beam as a cantilever beam fixed at both ends.
-The load is modeled as a uniformly distributed load over the whole beam. Because the beam is fixed on both sides, the shear force equals half the total force acting on the beam as shown in \autoref{eq:sh}.
+The load is modeled as a uniformly distributed load over the whole beam.
+Because the beam is fixed on both sides, the shear force equals half the total force acting on the beam as shown in \cref{eq:sh}.
 
-The parameter $d_y^m$ indicates the portion of the total force $F$ which acts upon the unsupported part of material $a$ and is proportional to $\wb / w$, where $w = \wa+\wb$ as given in \autoref{eq:dy}.
+The parameter $d_y^m$ indicates the portion of the total force $F$ which acts upon the unsupported part of material $a$ and is proportional to $\wb / w$, where $w = \wa+\wb$ as given in \cref{eq:dy}.
 However, in some cases the full force acts on the beam which will be discussed later.  
 To select between these case, the parameter $u_y^m$ can be varied between 0 and 1.
 
@@ -70,7 +72,7 @@ To select between these case, the parameter $u_y^m$ can be varied between 0 and 
 
 \subsubsection{Bending Failure M\textsubscript{y}}
 
-The highest bending stress for a doubly supported beam occurs in the middle and is given in \autoref{eq:bs}.
+The highest bending stress for a doubly supported beam occurs in the middle and is given in \cref{eq:bs}.
 \begin{align}\label{eq:bs}
 	\sigma_{22}^m &= \frac{M}{I}c = \frac{d_y^m F w^{\neg m} / 12}{\hc (v^m)^3 / 12} \nicefrac12 v^m 
 	=  \frac{ d_y^m F w^{\neg m} }{ 2 \left( v^m \right)^2 \hc }
@@ -83,7 +85,7 @@ On the one hand one might think that only a portion $d_z^m$ of the total force $
 On the other hand the total force must be enacted through this plane, because it is the only connection between the finger and the cross beam.
 The term $u_z^m$ switches between a fraction of and the full force by varying it in between 0 or 1 respectively.
 In order to compare the stresses along the Z direction and stresses along the XY direction against the same ultimate stress value $\sigmafail$, the Z shear stress was multiplied with the ratio $\nicefrac{\sigmafail}{\sigmafailz}$.
-The shear stress along Z is therefore given in \autoref{eq:mz}
+The shear stress along Z is therefore given in \cref{eq:mz}
 \begin{align}\label{eq:mz}
 	\sigma_{12}^m &= \frac{\sigmafail}{\sigmafailz} \frac{ d_z^m F }{ 2 v^m w^m} \\ 
 	d_z^m &= \frac{w^m + u_z^m w^{\neg m}}{w}
@@ -114,7 +116,8 @@ Based on the stresses derived above, the following optimization problem was obta
 While the $v^m$ variables do not appear in the objective function, they are included in the constraints are therefore also subject to the optimization. 
 These are bounded by the active constraints.
 
-The constraint values depend on the printer and the materials. Different nozzles and layer thickness settings require other limits on the design.
+The constraint values depend on the printer and the materials.
+Different nozzles and layer thickness settings require other limits on the design.
 Due to the manufacturing constraints, the layer thickness shall be smaller than half the smallest nozzle diameter:
 $\hmin < \nicefrac{1}{2} \wmin^m$.
 
@@ -127,7 +130,8 @@ If $\nicefrac{\wb}{\va} > \nicefrac{ \sigmafail^a }{ \taufail^a } = \sqrt{3}$, t
 $
 \frac{ d_y^m F \wb }{ 2 \left( \va \right)^2 \hc \sigmafail^a}
 > \frac{ d_y^m F }{ 2 \va \hc \taufail^a} 
-$. This means that the shear failure constraints \cref{eq:c_shear} for material $a$ are dominated by the bending failure constraint \cref{eq:c_bending}.
+$. 
+This means that the shear failure constraints \cref{eq:c_shear} for material $a$ are dominated by the bending failure constraint \cref{eq:c_bending}.
 Otherwise the latter is dominated by the former.
 The same holds conversely with the materials $a$ and $b$ swapped.
 Therefore, constraints \cref{eq:c_shear,eq:c_bending} can be combined.
@@ -142,7 +146,7 @@ Therefore, constraints \cref{eq:c_shear,eq:c_bending} can be combined.
 	\frac{ d_y^m F }{ 2 \vb \hc }  \max{\left( \sqrt{3}, \frac{\wa}{ \vb} \right)} &\le \sigmafail^b  
 \end{align}
 
-The same result was obtained when using the Von Mises yield criterion directly with the shear stress $\sigma_{13}$ and the bending stress $\sigma_{22}$ \autoref{eq:shear_bend_von_mises}.
+The same result was obtained when using the Von Mises yield criterion directly with the shear stress $\sigma_{13}$ and the bending stress $\sigma_{22}$ \cref{eq:shear_bend_von_mises}.
 % The shear and bending both act on the and thereby lower the force at which failure happens.
 
 \begin{align*}
@@ -172,7 +176,8 @@ One might even consider a combined von Mises constraint for all stresses togethe
 
 \subsubsection{Constraint validity}
 A careful analysis of the geometry will show that if shearing failure mode $M_x^a$ has occurred, 
-there is still interlocking between the two materials. If for example a part of the cross beams of $b$ has sheared off, still a column of material $a$ remains, which is surrounded by material $b$.
+there is still interlocking between the two materials. 
+If for example a part of the cross beams of $b$ has sheared off, still a column of material $a$ remains, which is surrounded by material $b$.
 Once one of those failure modes has occurred, still any other failure mode has to occur for the interlock to fail, except $M_x^b$.
 Therefore a constraint was added to the shearing failure modes that both those failure modes shall occur together.
 The constraint is violated only when both occur, so it is satisfied when either failure mode is prevented.
@@ -229,7 +234,8 @@ When subjecting the microstructure to a load the distribution of stress is diffi
 The current model makes assumptions on the homogeneity of the stress distribution throughout the beams.
 Several modeling choices that were deferred have been mentioned: the values for $u^m_y$, $u^m_z$, the exclusion of the bending constraints and using the combined von Mises criterions.
 In order to evaluate which analytical model is the most representative, the results of an extensive grid search were compared to FEM simulations.
-\footnote{The FEM simulations were not performed by either of the two students that contributed to this report. Therefore the implementation details of the FEM simulation are left out.}
+\footnote{The FEM simulations were not performed by either of the two students that contributed to this report. 
+	Therefore the implementation details of the FEM simulation are left out.}
 
 The grid search was performed along three dimensions: $\wb$, $\va$ and $\hf$, within the ranges $(0.6,3.0)$, $(0.1\Lmax, 0.9\Lmax)$ and $(1.8, 3.6)$ respectively.
 Because the design constraint is active, and also the minimum feature size is active, $\wa$, $\vb$ and $\hc$ can be derived.
@@ -313,7 +319,8 @@ The constraints which hold for both materials were expanded.
 The variables set by the presumed to be active constraints were substituted.
 % The design variables have not been scaled so as to all lie approximately in the domain $(0,1)$.
 
-The constraints were normalized the division of the mechanical constraints was inverted. That way the equations of those constraints are more alike and simpler to differentiate.
+The constraints were normalized the division of the mechanical constraints was inverted. 
+That way the equations of those constraints are more alike and simpler to differentiate.
 
 $\wa$ and $h_c$ were kept constant to disambiguate designs which have the same value for the objective function, that is: pareto optimality is introduced to disambiguate otherwise equivalent designs. 
 \label{sec:domain_assumptions}
@@ -341,24 +348,29 @@ Therefore, \cref{eq:c1} was set to be active for material $a$ and \cref{eq:c4} w
 This section describes the initial investigation of the optimization problem. 
 
 \subsubsection{Boundedness}
-The optimization problem aims to maximize the strength, which scales proportionally with $F$ and inversily with $\wb$ and $\hf$.  The objective function is minimized if $\wb$ and $\hf$ are approaching zero and if $F$ goes to infinity. Since the minimizers $F*$, $\wb*$ and $\hf*$ do not lie within the set of positive and finite numbers $P$, the objective function is not well bounded for all of the design variables and therefore constraints are needed.
+The optimization problem aims to maximize the strength, which scales proportionally with $F$ and inversily with $\wb$ and $\hf$. 
+The objective function is minimized if $\wb$ and $\hf$ are approaching zero and if $F$ goes to infinity. 
+Since the minimizers $F*$, $\wb*$ and $\hf*$ do not lie within the set of positive and finite numbers $P$, the objective function is not well bounded for all of the design variables and therefore constraints are needed.
 
-A lower bound was set on $\wb$ and $\hf$ with manufacturing constraints $\gwb$ and $\ghf$. In addition, $g_5$, $\gca$ and $\gzb$ put an upper bound on $F$. Constraints $\gva$ and $\gvb$ put a lower bound and constraint $\ghf$ puts an upper bound on $\va$ and $\vb$.
+A lower bound was set on $\wb$ and $\hf$ with manufacturing constraints $\gwb$ and $\ghf$. 
+In addition, $g_5$, $\gca$ and $\gzb$ put an upper bound on $F$. 
+Constraints $\gva$ and $\gvb$ put a lower bound and constraint $\ghf$ puts an upper bound on $\va$ and $\vb$.
 
 \subsubsection{Convexity}
-The objective function scales linearly with variables $\wb$ and $\hf$ and inversily with $F$. Its hessian matrix is given in \autoref{eq:hessians}
+The objective function scales linearly with variables $\wb$ and $\hf$ and inversily with $F$. 
+Its hessian matrix is given in \cref{eq:hessians}
 
 \begin{table}[H]
 	\resizebox{\columnwidth}{!}{%
 		\begin{minipage}{0.6\textwidth}
-\begin{equation}\label{eq:hessians}
-	\hf = \begin{bmatrix} 0 & 0 & 0 & \frac{1}{F} & -\frac{\mathrm{\hf}+\hmin}{F^2}\\ 0 & 0 & 0 & 0 & 0\\ 0 & 0 & 0 & 0 & 0\\ \frac{1}{F} & 0 & 0 & 0 & -\frac{\mathrm{\wb}+2 \wmin}{F^2}\\ -\frac{\hf+\hmin}{F^2} & 0 & 0 & -\frac{\mathrm{\wb}+2\wmin}{F^2} & \frac{2\,\left(\hf+\hmin\right)\,\left(\mathrm{\wb}+2 \wmin\right)}{F^3} \end{bmatrix}
-\end{equation}
-\end{minipage} %
-}
+			\begin{equation}\label{eq:hessians}
+				\hf = \begin{bmatrix} 0 & 0 & 0 & \frac{1}{F} & -\frac{\mathrm{\hf}+\hmin}{F^2}\\ 0 & 0 & 0 & 0 & 0\\ 0 & 0 & 0 & 0 & 0\\ \frac{1}{F} & 0 & 0 & 0 & -\frac{\mathrm{\wb}+2 \wmin}{F^2}\\ -\frac{\hf+\hmin}{F^2} & 0 & 0 & -\frac{\mathrm{\wb}+2\wmin}{F^2} & \frac{2\,\left(\hf+\hmin\right)\,\left(\mathrm{\wb}+2 \wmin\right)}{F^3} \end{bmatrix}
+			\end{equation}
+		\end{minipage} %
+	}
 \end{table}
 
-Since the principle minor of the lower left 4x4 matrix is not positive definite, the objective function is non-convex.\\
+Since the principle minor of the lower left 4x4 matrix is not positive definite, the objective function is non-convex.
 Constraints $\gwb$ till $\gd$ are linear and therefore convex.
 Constraints $g_5$ till $\gzb$ have also an $\frac{wh}{F}$ term like $f$ and are therefore non-convex.
 Because of the non-convex objective function and constraints, local minima should be accounted for in the optimization problem.
@@ -382,17 +394,24 @@ The result of the monotonicity analysis is shown below.
 \end{align*}
 
 
-The objective function is monotonically decreasing for $F$, and $F$ is monotonically increasing in constraint $\gta$, $\gtb$, $\gca$ and $\gzb$. Therefore one of these constraints should be active. Similarly, $\wb$ and $\hf$ are monotonically increasing in the objective function what means that constraints $\gwb$, $\ghf$, $\gta$, $\gtb$ or $\gzb$ can be active.\\
+The objective function is monotonically decreasing for $F$, and $F$ is monotonically increasing in constraint $\gta$, $\gtb$, $\gca$ and $\gzb$. 
+Therefore one of these constraints should be active. 
+Similarly, $\wb$ and $\hf$ are monotonically increasing in the objective function what means that constraints $\gwb$, $\ghf$, $\gta$, $\gtb$ or $\gzb$ can be active.
 
-$\va$ and $\vb$ not appear in the objective function are bounded by $\gva$, $\gvb$ and $\gd$. They also appear in $\gca$ and $\gzb$ which might be active as well.
+$\va$ and $\vb$ not appear in the objective function are bounded by $\gva$, $\gvb$ and $\gd$. 
+They also appear in $\gca$ and $\gzb$ which might be active as well.
 
 
 \subsubsection{Sensitivity Analysis}
-The logarithmic sensitivities were evaluated to compare the relative importance of each design variable on the objective function and the constraints. The sensitivities for the objective functions and all constraints were obtained by numerically calculating the partial derivatives with the matlab \texttt{diff} function, which were simplified afterwards. This only needs to be done once, the symbolic expressions can be reused in every iteration and because of the exact evaluation the highest accuracy is achieved. \\
+The logarithmic sensitivities were evaluated to compare the relative importance of each design variable on the objective function and the constraints. 
+The sensitivities for the objective functions and all constraints were obtained by numerically calculating the partial derivatives with the matlab \texttt{diff} function, which were simplified afterwards. 
+This only needs to be done once, the symbolic expressions can be reused in every iteration and because of the exact evaluation the highest accuracy is achieved.
 
-If the numerical expression was not available, it would be recommended to use either discrete or continuum derivaties. Other methods like the finite difference method are not recommended to use because it is prone to suffer from numerical noise and it is inefficient as it cannot reuse parts from previous computations. 
+If the numerical expression was not available, it would be recommended to use either discrete or continuum derivaties. 
+Other methods like the finite difference method are not recommended to use because it is prone to suffer from numerical noise and it is inefficient as it cannot reuse parts from previous computations. 
 
-The logarithmic sensitivities for the objective function are given below. Since the logarithmic sensitivity of the objective with respect to the force equals $-1$, it means that for any given design the test force is maximized until the first failure mode will happen.
+The logarithmic sensitivities for the objective function are given below. 
+Since the logarithmic sensitivity of the objective with respect to the force equals $-1$, it means that for any given design the test force is maximized until the first failure mode will happen.
 The relative importance of the other design variables $\wb$ and $\hf$ depend on their magnitude, however these are expected to be smaller than 1 in magnitude.
 
 \begin{align*}
@@ -404,13 +423,14 @@ The relative importance of the other design variables $\wb$ and $\hf$ depend on 
 \end{align*}
 
 Similarly, the logarithmic sensitivities for the constraints were also evaluated. 
-The non-zero logarithmic sensitivities for constraints $\gwb$, $\gva$, $\gvb$ and $\ghf$ are shown below. These are only affected by one variable each and therefore no information on relative importance can be extracted.
+The non-zero logarithmic sensitivities for constraints $\gwb$, $\gva$, $\gvb$ and $\ghf$ are shown below. 
+These are only affected by one variable each and therefore no information on relative importance can be extracted.
 
 \begin{align*}
 	\diff{_L \gwb}{_L \wb} &= \frac{\wb}{\wb-2\,w_{b,min}} \\
 	\diff{_L \gva}{_L \va} &=  \frac{\va}{\va-w_{a,min}} \\
 	\diff{_L \gvb}{_L \vb} &= 
- \frac{\vb}{\vb-w_{b,min}} \\
+	\frac{\vb}{\vb-w_{b,min}} \\
 	\diff{_L \gvb}{_L \hf} &= -\frac{\hf}{\hmin-\hf}
 \end{align*}
 
@@ -438,7 +458,9 @@ In constraints $\gta$ and $\gtb$, all design variables which contribute to the c
 	\diff{_L \gtb}{_L F} &= \frac{\hf\,\sigmafail^b\,\wb}{F-\hf\,\sigmafail^b\,\wb}	
 \end{align*}
 
-The sensitivities of constraint $\gca$ were also obtained from the symbolic differentiation in MATLAB. However, this resulted in a long expression from which no relative influences of the design variables could be derived. Therefore only the numerical result will be presented for the derivatives of constraint $\gca$.
+The sensitivities of constraint $\gca$ were also obtained from the symbolic differentiation in MATLAB. 
+However, this resulted in a long expression from which no relative influences of the design variables could be derived. 
+Therefore only the numerical result will be presented for the derivatives of constraint $\gca$.
 
 
 Also in constraint $\gzb$, design variables $\wb$, $\vb$ and $F$ are all equally important.
