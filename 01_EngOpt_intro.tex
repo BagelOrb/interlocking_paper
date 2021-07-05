@@ -33,17 +33,17 @@ In addition, the structure shall be as small as possible to prevent that it affe
 The design space of both geometries is limited by the following manufacturing constraints.
 \begin{itemize}
 	\setlength\itemsep{0mm}
-	\item The layer height is a discrete multiple of the layer thickness $h_{min}$.
-	\item Any geometry height is at least $2 h_{min}$ to prevent oscillations during manufacturing.
-	\item The total height of the micro-structure shall be less than 12 layers, therefore $h_{max}=12 h_{min}$.
-	\item Any geometry length is least $2w_{min}$ to prevent frequent retractions.
-	\item The total length of the micro-structure shall be less than 12 layers, therefore $L_{max} = 12 w_{min}$.
-	\item Any geometry width is larger than the minimum manufacturable thread width $w_{min}$, which is determined by the nozzle size.
-	\item The total width of the micro-structure shall be less than $12w_{min}$.
+	\item The layer height is a discrete multiple of the layer thickness $\hmin$.
+	\item Any geometry height is at least $2 \hmin$ to prevent oscillations during manufacturing.
+	\item The total height of the micro-structure shall be less than 12 layers, therefore $h_{max}=12 \hmin$.
+	\item Any geometry length is least $2\wmin$ to prevent frequent retractions.
+	\item The total length of the micro-structure shall be less than 12 layers, therefore $\Lmax = 12 \wmin$.
+	\item Any geometry width is larger than the minimum manufacturable thread width $\wmin$, which is determined by the nozzle size.
+	\item The total width of the micro-structure shall be less than $12\wmin$.
 \end{itemize}
 
-The nozzle size of the printer used is \SI{0.4}{\milli\meter}, $w_{min}$ is estimated to be slightly lower with a value of $\SI{0.3}{\milli\meter}$.
-The layer height is set at $h_{min}=\SI{0.1}{\milli\meter}$.
+The nozzle size of the printer used is \SI{0.4}{\milli\meter}, $\wmin$ is estimated to be slightly lower with a value of $\SI{0.3}{\milli\meter}$.
+The layer height is set at $\hmin=\SI{0.1}{\milli\meter}$.
 
 Two orientations of the interlocking pattern are investigated:
 \begin{description}
