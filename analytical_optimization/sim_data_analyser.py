@@ -13,7 +13,7 @@ combine_tensile_and_z_shear = False
 full_stress_on_z = False
 combine_z_shear_and_cross_shear = True
 
-compare_to_FEM = True
+compare_to_FEM = False
 broken_optimum = False
 
 softmin_all_constraints = False
@@ -38,6 +38,24 @@ lmax_val = 3.6
 zoom_on_optimum = False
 zoom = .05  # mm
 optimum = (1.49, 0.35 / lmax_val, 0.5)
+
+evaluate_data_points = True
+data_points_to_evaluate = np.asarray([
+    # wb, va ,lmax,  hf
+    [2.4, 2.7, 3.6, 0.8],
+    [2.1, 2.7, 3.6, 0.8],
+    [2.7, 2.7, 3.6, 0.8],
+    [2.4, 2.4, 3.6, 0.8],
+    [2.4, 3	 , 3.6, 0.8],
+    [2.4, 2.7, 3.6, 0.6],
+    [2.4, 2.7, 3.6, 1  ],
+    [1.5, 0.3, 3.6, 0.5],
+    [1.2, 0.3, 3.6, 0.5],
+    [1.7, 0.3, 3.6, 0.5],
+    [1.5, 0.6, 3.6, 0.5],
+    [1.5, 0.3, 3.6, 0.3],
+    [1.5, 0.3, 3.6, 0.7]])
+
 
 strain_a = 3.5 / 100
 strain_b = 29 / 100
@@ -90,6 +108,9 @@ if compare_to_FEM:
 
 shape = (Nhf, Nlmax, Nwb, Nva)
 
+if evaluate_data_points:
+    shape = data_points_to_evaluate[:,0].shape
+
 FEM_stress = np.ndarray(shape=shape)
 hf = np.ndarray(shape=shape)
 lmax = np.ndarray(shape=shape)
@@ -130,6 +151,12 @@ else:
 
     if Nhf < 30:
         print(f"hfs: {hfs}")
+
+if evaluate_data_points:
+    hf = data_points_to_evaluate[:,3]
+    lmax = data_points_to_evaluate[:,2]
+    va = data_points_to_evaluate[:,1]
+    wb = data_points_to_evaluate[:,0]
 
 # FEM_stress[np.isnan(FEM_stress)] = 0
 # print( np.any(np.isnan( FEM_stress)))
@@ -245,6 +272,13 @@ FEM_stress = FEM_stress * valid_manufacturing_constraints_multiplier
 F = stress * (wa + wb) * (hf + hc)
 if compare_to_FEM:
     F_FEM = FEM_stress * (wa + wb) * (hf + hc)
+
+
+if evaluate_data_points:
+    print("Stress values for given data points:")
+    for stress_val in stress:
+        print(f"{stress_val:.3}, ", end="")
+    print()
 
 # F * sqrt(term) < s
 # 1 - s / (F * sqrt(term)) < 0
