@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 import matplotlib._color_data as mcd
+import matplotlib.colors
 
 from math import sqrt
 
@@ -15,6 +16,7 @@ combine_z_shear_and_cross_shear = True
 
 compare_to_FEM = False
 broken_optimum = False
+hf_sampling_multiplier = 10
 
 softmin_all_constraints = False
 silicone = False
@@ -30,16 +32,15 @@ use_z_shear_a = True  # not broken_optimum
 use_z_shear_b = True
 
 show_results = True
-plot_legend = False
+plot_legend = True
 
-hf_sampling_multiplier = 1
 
 lmax_val = 3.6
 zoom_on_optimum = False
 zoom = .05  # mm
 optimum = (1.49, 0.35 / lmax_val, 0.5)
 
-evaluate_data_points = True
+evaluate_data_points = False
 data_points_to_evaluate = np.asarray([
     # wb, va ,lmax,  hf
     [2.4, 2.7, 3.6, 0.8],
@@ -381,42 +382,76 @@ for name, g in gs.items():
 if show_results:
     colormap = {'tensile a': "green",
                 'tensile b': "red",
-                'Z shear a': "lime",
-                'Z shear b': "tomato",
-                'tensile and z shear a': "green",
-                'tensile and z shear b': "red",
-                'z shear and cross a+b': "magenta",
-                'z shear and cross a': "darkgreen",
-                'z shear and cross b': "maroon",
+                'Z shear a': "blue",
+                'Z shear b': "magenta",
+                'tensile and z shear a': "blue",
+                'tensile and z shear b': "magenta",
+                'z shear and cross a+b': "blue",
+                'z shear and cross a': "blue",
+                'z shear and cross b': "magenta",
                 'cross shear a+b': "blue",
                 'cross shear and cross bending a+b': "aquamarine",
-                'cross shear a': "yellowgreen",
-                'cross shear b': "orange",
+                'cross shear a': "magenta",
+                'cross shear b': "cyan",
+                'cross shear and cross bending a': "chartreuse",
+                'cross shear and cross bending b': "pink"}
+    name_map = {'tensile a': "$g_{ta}$",
+                'tensile b': "$g_{tb}$",
+                'Z shear a': "$g_{za}$",
+                'Z shear b': "$g_{zb}$",
+                'tensile and z shear a': "blue",
+                'tensile and z shear b': "yellow",
+                'z shear and cross a+b': "blue",
+                'z shear and cross a': "$g_{ca}$",
+                'z shear and cross b': "yellow",
+                'cross shear a+b': "blue",
+                'cross shear and cross bending a+b': "aquamarine",
+                'cross shear a': "magenta",
+                'cross shear b': "cyan",
                 'cross shear and cross bending a': "chartreuse",
                 'cross shear and cross bending b': "pink"}
 
-    failure_mode_colors = np.full(shape, "black", dtype=object)
+    failure_mode_colors = np.full(shape + (4,), 0.0)
     for name, gF in gFs.items():
-        failure_mode_colors[minF == gF] = mcd.XKCD_COLORS["xkcd:"+colormap[name]] + "a0"
+        failure_mode_colors[minF == gF] = matplotlib.colors.to_rgba(mcd.XKCD_COLORS["xkcd:"+colormap[name]] + "c0")
+    failure_mode_colors[np.maximum.reduce(list(gMs.values())) >= 0.000001, :] = 0
 
 
     #
 
 
     def plotTwo(ax, X, Y, Z1, Z2, col1=None, col2=None):
+        XX = X
+        YY = Y
+        ZZ = Z1
+        col = col1
         if col1 is None or softmin_all_constraints:
-            col1 = np.full(Z1.shape, "#00ff00a0", dtype=object)
+            col1 = np.full(Z1.shape + (4,), .5, dtype=object)
         if col2 is None:
-            col2 = np.full(Z2.shape, "#999999e0", dtype=object)
+            col2 = np.full(Z2.shape + (4,), .5, dtype=object)
+            col2[:,:,3] = 1
+
+        cmap = plt.get_cmap('Greys')
+        zz_scaled = (ZZ - np.min(ZZ)) / (np.max(ZZ) - np.min(ZZ))
+        mapped = cmap(.7 - .6 * zz_scaled * zz_scaled) if compare_to_FEM else cmap(.9 - .8 * np.power(zz_scaled, 3))
+        is_grey = mapped[:,:,0]
+        is_grey = is_grey * 2 - 1
+        is_grey *= is_grey
+        mult = np.repeat(is_grey, 4, axis=1).reshape(col.shape)
+        col = mapped * mult + (1 - mult) * col
+        col[ZZ > .1, 3] = .6 if compare_to_FEM else .75
+        col[ZZ <= .1, 3] = 0
+
         if compare_to_FEM:
-            col1[-1, :] = "#ffffff00"
-            ax.plot_surface(np.append(X, X, axis=0),
-                            np.append(Y, Y, axis=0),
-                            np.append(Z1, Z2, axis=0),
-                            facecolors=np.append(col1, col2, axis=0),
-                            edgecolor='none', linewidth=0)
-        else:
-            ax.plot_surface(X, Y, Z1, facecolors=col1, edgecolor='none', linewidth=0)
+            col[-1, :] = 0
+            XX = np.append(X, X, axis=0)
+            YY = np.append(Y, Y, axis=0)
+            ZZ = np.append(Z1, Z2, axis=0)
+            col = np.append(col, col2, axis=0)
+
+
+
+        ax.plot_surface(XX, YY, ZZ, facecolors=col, edgecolor='none', linewidth=0, shade=compare_to_FEM)
 
     if not compare_to_FEM:
         FEM_stress = stress
@@ -439,11 +474,13 @@ if show_results:
     wm.window.state('zoomed')
 
     if plot_legend:
-        fig, ax = plt.subplots()
+        #fig, ax = plt.subplots()
         legend_elements = []
-        for name, color in colormap.items():
-            legend_elements.append(Patch(facecolor=color, edgecolor='none', label=name))
-        ax.legend(handles=legend_elements)
+        for name, constr in gFs.items():
+            color = colormap[name]
+            legend_elements.append(Patch(facecolor=color, edgecolor='none', label=name_map[name]))
+        ax[2].legend(handles=legend_elements)
+        #plt.axis('off')
 
     # plt.savefig("C:\\Users\\t.kuipers\\OneDrive - Ultimaker B.V\\Documents\\PhD\\interlocking_project\\paper\\paper_git\\analytical_optimization\\ana_correct_z_yield_ORcross.svg")
 
