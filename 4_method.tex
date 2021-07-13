@@ -1,7 +1,7 @@
-\section{Interlocking structure}
-\subsection{Introduction}
-
-\subsubsection{Interlocking upper strength bound}
+% !TeX spellcheck = en_GB 
+\section{Interlocking}
+\subsection{Interlocking upper strength bound}
+at any cross section the total force must be present in both materials
 
 \begin{align*}
 	\sigma &= \frac{F}{A_a + A_b} \\
@@ -15,41 +15,68 @@
 	&= \frac{ 1 }{ \nicefrac{1}{\sigmafail{b}} + \nicefrac{1}{\sigmafail{a}} } 
 \end{align}
 
-\subsubsection{Genus interlocking}
+\subsection{Genus interlocking}
 What is genus interlocking?
 
 Less dependency on friction and deformability (poissons ratio?)
 
 
-\subsubsection{Interlaced Genus Interlocking Structure}
-Basic structure
-
-Connectivity graph
-
-Variants: diagonal, straight, stacked
-
-Symmetry in diagonal design. Limitations in
 
 
+
+
+
+
+\section{Interlaced Genus Interlocking Structure}
+Basic structure; Connectivity graph
+
+Stacked vs single
+
+straight vs diagonal
+
+optimize for tensile
 
 
 \subsection{Straight}
 
-\subsubsection{Analytical model}
+stress formulae
+
+bound constraints
+
+problem formulation
+
+scale invariance, neccesarily active constraints
+
+inversion
+
+response surfaces; active constraints
+
+\subsubsection{broken optimum}
 
 
-
-
-\subsection{Stacked}
-
-\subsubsection{Analytical model}
-
-\subsubsection{Comparison to non-stacked}
+changed problem definition
 
 
 
 
 \subsection{Diagonal}
-\subsubsection{Symmetry}
+symmetry; design variables
 
-\subsubsection{Analytical model}
+Manufacturability;Rounded edges with radius $r$
+
+formula for width
+\begin{align}
+	d &= 2Mw / \sqrt{4M^2-w^2} \\
+	M &= L - 2r \\
+	w &= \wa + \wb
+\end{align}
+
+area of Z shear
+\begin{align}
+	A_z &= \frac12 \pi r^2 + r (\wa-2r) \frac{d}{w} + d M \left(\frac{\wa}{w}\right)^2
+\end{align}
+
+
+difficult to model; homogeneous stress distribution assumption violated; deformation dependent
+
+assume homogenous tensile stress as if beam was straight?
