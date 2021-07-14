@@ -1,14 +1,20 @@
 
 sample_points = [
-    [[1.2, 3.6], "v"],
-    [[1.8, 3.6], "w"],
-    [[2.4, 3.6], "x"],
-    [[3.0, 3.6], "y"],
-    [[3.6, 3.6], "z"],
+    [[0.6, 3.6], "s1"],
+    [[0.6, 3.6], "s2"],
+    [[0.6, 3.6], "s3"],
+    [[0.6, 3.6], "s4"],
+    [[0.6, 3.6], "s5"],
+//    [[0.9, 3.6], "t"],
+//    [[1.2, 3.6], "v"],
+//    [[1.8, 3.6], "w"],
+//    [[2.4, 3.6], "x"],
+//    [[3.0, 3.6], "y"],
+//    [[3.6, 3.6], "z"],
     ];
 
 
-tpla = true; pp = false; material = tpla;
+tpla = true; pp = false; material = pp;
 
 n=1;
 N = len(sample_points);
@@ -167,7 +173,7 @@ module samples(from, till)
     da = wa * d/w;
     tot_w = rep_y*d+da;
     echo("wb, L", wb, L);
-    sample(str(sample_points[(from + N - round((n-1) / 5 * N)) % N][1], n)
+    sample(str(sample_points[(from + N - round((n-1) / 5 * N)) % N][1])
         , wb
         , L);
     if (till > from)
