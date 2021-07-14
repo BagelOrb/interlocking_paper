@@ -19,8 +19,8 @@ h = .2;
 r = .15;
 
 tot_l = 50;
-rep_z = 1;//round(5 / (2*h));
-rep_y = 1;//5;
+rep_z = round(5 / (2*h));
+rep_y = 5;
 
 brim = 7;
 outer_brim = 20;
@@ -142,7 +142,14 @@ module sample(tag, wb, L)
     }
     else
     {
-        mat_b(wa,wb,da,db,d,L,h, tot_w,tot_h,tot_l);
+        difference()
+        {
+            mat_b(wa,wb,da,db,d,L,h, tot_w,tot_h,tot_l);
+            translate([tot_l + L - 3, tot_w / 2, tot_h-.2])
+            rotate([0,0,180])
+            linear_extrude(1.0)
+            text(tag,halign="left", valign="center",size = min(5,6*.1*(tot_w)));
+        }
     }
 }
 
@@ -170,7 +177,7 @@ module samples(from, till)
     }
 }
 
-samples(0, 1);//N-1);
+samples(0, N-1);
 
 if (false)
 {
