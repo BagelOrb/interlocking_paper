@@ -96,7 +96,7 @@ h_max = 10 * h_min
 
 Nhf = 13 * hf_sampling_multiplier # 13 is whole layer heights
 Nlmax = 1
-Nwb = Nva = 400
+Nwb = Nva = 200
 
 if compare_to_FEM:
     # reading file
@@ -382,16 +382,16 @@ for name, g in gs.items():
 if show_results:
     colormap = {'tensile a': "green",
                 'tensile b': "red",
-                'Z shear a': "blue",
+                'Z shear a': "orange",
                 'Z shear b': "magenta",
-                'tensile and z shear a': "blue",
+                'tensile and z shear a': "orange",
                 'tensile and z shear b': "magenta",
-                'z shear and cross a+b': "blue",
+                'z shear and cross a+b': "orange",
                 'z shear and cross a': "blue",
                 'z shear and cross b': "magenta",
                 'cross shear a+b': "blue",
                 'cross shear and cross bending a+b': "aquamarine",
-                'cross shear a': "magenta",
+                'cross shear a': "blue",
                 'cross shear b': "cyan",
                 'cross shear and cross bending a': "chartreuse",
                 'cross shear and cross bending b': "pink"}
@@ -406,8 +406,8 @@ if show_results:
                 'z shear and cross b': "yellow",
                 'cross shear a+b': "blue",
                 'cross shear and cross bending a+b': "aquamarine",
-                'cross shear a': "magenta",
-                'cross shear b': "cyan",
+                'cross shear a': "$g_{ca}$",
+                'cross shear b': "$g_{cb}$",
                 'cross shear and cross bending a': "chartreuse",
                 'cross shear and cross bending b': "pink"}
 
@@ -431,6 +431,21 @@ if show_results:
             col2 = np.full(Z2.shape + (4,), .5, dtype=object)
             col2[:,:,3] = 1
 
+        cdict = {'red': [[0.0, 1.0, 1.0],
+                         [0.5, 0.5, 0.5],
+                         [1.0, 0.0, 0.0]],
+                 'green': [[0.0, 0.0, 0.0],
+                           [0.5, 0.5, 0.5],
+                           [1.0, 1.0, 1.0]],
+                 'blue': [[0.0, 0.0, 0.0],
+                          [0.5, 0.5, 0.5],
+                          [1.0, 0.0, 0.0]],
+                 'alpha': [[0.0, 0.0, 0.0],
+                          [0.1, 0.0, 0.0],
+                          [0.3, 1.0, 1.0],
+                          [1.0, 1.0, 1.0]]}
+        newcmp = matplotlib.colors.LinearSegmentedColormap('testCmap', segmentdata=cdict, N=256)
+
         cmap = plt.get_cmap('Greys')
         zz_scaled = (ZZ - np.min(ZZ)) / (np.max(ZZ) - np.min(ZZ))
         mapped = cmap(.7 - .6 * zz_scaled * zz_scaled) if compare_to_FEM else cmap(.9 - .8 * np.power(zz_scaled, 3))
@@ -439,7 +454,7 @@ if show_results:
         is_grey *= is_grey
         mult = np.repeat(is_grey, 4, axis=1).reshape(col.shape)
         col = mapped * mult + (1 - mult) * col
-        col[ZZ > .1, 3] = .6 if compare_to_FEM else .75
+        col[ZZ > .1, 3] = .6 if compare_to_FEM else 1.
         col[ZZ <= .1, 3] = 0
 
         if compare_to_FEM:
@@ -449,9 +464,9 @@ if show_results:
             ZZ = np.append(Z1, Z2, axis=0)
             col = np.append(col, col2, axis=0)
 
-
-
-        ax.plot_surface(XX, YY, ZZ, facecolors=col, edgecolor='none', linewidth=0, shade=compare_to_FEM)
+        #ax.plot_surface(XX, YY, ZZ, facecolors=col, edgecolor='none', linewidth=0, shade=compare_to_FEM)
+        ax.scatter(X, Y, Z1, c=col.reshape(-1, 4), s=1)
+        ax.set_zlim(1, 8)
 
     if not compare_to_FEM:
         FEM_stress = stress
@@ -464,11 +479,11 @@ if show_results:
 
     fig, ax = plt.subplots(1, 3, subplot_kw={'projection': '3d'})
     plotTwo(ax[0], wb[idx[0], l, :, :], va[idx[0], l, :, :], stress[idx[0], l, :, :], FEM_stress[idx[0], l, :, :], failure_mode_colors[idx[0], l, :, :])
-    ax[0].set(xlabel='wb', ylabel='va')
+    ax[0].set(xlabel='$w_b$', ylabel='$v_a$')
     plotTwo(ax[1], hf[:, l, idx[2], :], va[:, l, idx[2], :], stress[:, l, idx[2], :], FEM_stress[:, l, idx[2], :], failure_mode_colors[:, l, idx[2], :])
-    ax[1].set(xlabel='hf', ylabel='va')
+    ax[1].set(xlabel='$h_f$', ylabel='$v_a$')
     plotTwo(ax[2], hf[:, l, :, idx[3]], wb[:, l, :, idx[3]], stress[:, l, :, idx[3]], FEM_stress[:, l, :, idx[3]], failure_mode_colors[:, l, :, idx[3]])
-    ax[2].set(xlabel='hf', ylabel='wb')
+    ax[2].set(xlabel='$h_f$', ylabel='$w_b$')
 
     wm = plt.get_current_fig_manager()
     wm.window.state('zoomed')
