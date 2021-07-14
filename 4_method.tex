@@ -131,15 +131,15 @@ The straight model can be seen in \cref{fig:straight_model}.
 A cell consists of a single \emph{finger} protruding from the body outward from material $a$ and part of a \emph{cross beam} angled at \SI{90}{\degree}.
 In order to print the relatively short fingers using continuous extrusion, we employ the constraint that $\wm \ge 2\wmin{m}$,
 whereas the cross beams are long and continuous enough, so $\vm \ge \wmin{m}$.
-We set the minimum height of either of the beams to twice the layer height, so as to be able to recover from manufacturing inaccuracies: $\hf \ge \hmin$ and $\hc \ge \hmin$.
-\footnote{If the structure would consist of alternating geometry each layer, then the inaccuracy of the one layer can cause overextrusion in the next layer, which escalates the problem upward.}
+We set the minimum height of either of the beams to twice the layer height, so as to be able to recover from manufacturing inaccuracies: $\hf \ge 2\hmin$ and $\hc \ge 2\hmin$.
+\footnote{If the structure would consist of alternating geometry each layer, then the inaccuracy of the one layer can cause overextrusion in the next layer, which escalates the problem upward during printing.}
 
 The total tensile strength of the microstructure is given by $\nicefrac{F}{(\wa +\wb)(\hf + \hc)}$.
 Because the objective and all stresses are invariant under scaling,
 we can safely assert that a subset of the bounds on the design variables are met, in order to limit the design space from six to three dimensions:
 \begin{align*}
 	\wa &= 2 \wmin{a} \\
-	\hc &= \hmin \\
+	\hc &= 2\hmin \\
 	\va &= \lmax - \vb
 \end{align*}
 
@@ -171,42 +171,128 @@ The shear stress is multiplied by one half because the beams are fixed on both s
 The above considerations combine to form the following constrained optimization problem:
 
 \begin{align}
-	f: & \min{ \frac{\left( 2 \wmin{a} + \wb \right) \left( \hf + 2\hmin \right) }{F} }\\
+	f: & \max{ \frac{F}{\left( 2 \wmin{a} + \wb \right) \left( \hf + 2\hmin \right) } }  \label{eq:objective} \\
 	\omit\rlap{subject to} \nonumber \\
-	\gwb: & 1 - \nicefrac{\wb }{2 \wmin{b}} \le 0 		&&	\text{ Nozzle size} \label{eq:gwb}\\
-	\gva: & 1 - \nicefrac{ \left( \lmax - \vb \right) }{\wmin{a}} \le 0 		&&	\text{ Nozzle size} \label{eq:gva}\\
-	\gvb: & 1 - \nicefrac{\vb }{\wmin{b}} \le 0 		&&	\text{ Nozzle size} \label{eq:gvb}\\
-	\ghf: & 1 - \nicefrac{\hf}{\hmin} \le 0 		&&	\text{ Layer thickness } \label{eq:ghf}\\
-	\gta: & 1 - \frac{ 2 \wmin{a} \hf \sigmafail{a} }{ F } \le 0 &&	\text{ Tension failure } \myz{a}  \label{eq:g_tensile_a} \\
-	\gtb: & 1 - \frac{ \wb \hf \sigmafail{b} }{ F } \le 0 &&	\text{ Tension failure } \myz{b}  \label{eq:g_tensile_b} \\
-	\gca: & 1 - \frac{ 2 w \left( \lmax - \vb \right) 2 \hmin \sigmafailz{a} }{ \wb F \sqrt{3} } \le 0 &&		\text{ Shear failure } \mxz{a}  \label{eq:g_shear_a} \\
-%	\gcb: & 1 - \frac{ 2 w \vb \hc \sigmafailz{b} }{ \wa F \sqrt{3} } \le 0 &&		\text{ Shear failure } M_{\text{y}, b}  \label{eq:g_shear_b} \\
-	\gza: & 1 - \frac{ 2 w \left( \lmax - \vb \right) \wa \sigmafailz{a} }{ \wa F \sqrt{3} } \le 0 	&&	\text{ Shear failure } \mxy{a} \label{eq:g_z_shear_a} \\
-	\gzb: & 1 - \frac{ 2 w \vb \wb \sigmafailz{b} }{ \wb F \sqrt{3} } \le 0 	&&	\text{ Shear failure } \mxy{b} \label{eq:g_z_shear_b} 
+	\gwb: & \nicefrac{\wb }{2 \wmin{b}} \ge 1 		&&	\label{eq:gwb}\\
+	\gva: & \nicefrac{ \left( \lmax - \vb \right) }{\wmin{a}} \ge 1 		&&	\label{eq:gva}\\
+	\gvb: & \nicefrac{\vb }{\wmin{b}} \ge 1 		&&	 \label{eq:gvb}\\
+	\ghf: & \nicefrac{\hf}{\hmin} \ge 1 		&&	 \label{eq:ghf}\\
+	\gta: & \frac{ 2 \wmin{a} \hf \sigmafail{a} }{ F } \ge 1 &&	\myz{a}  \label{eq:g_tensile_a} \\
+	\gtb: & \frac{ \wb \hf \sigmafail{b} }{ F } \ge 1 &&	\myz{b}  \label{eq:g_tensile_b} \\
+	\gca: & \frac{ 2 w \left( \lmax - \vb \right) 2 \hmin \sigmafailz{a} }{ \wb F \sqrt{3} } \ge 1 &&	 \mxz{a}  \label{eq:g_shear_a} \\
+	%	\gcb: & \frac{ 2 w \vb \hc \sigmafailz{b} }{ \wa F \sqrt{3} } \ge 1 &&	 \mxz{b}  \label{eq:g_shear_b} \\
+	\gza: & \frac{ 2 w \left( \lmax - \vb \right) \wa \sigmafailz{a} }{ \wa F \sqrt{3} } \ge 1 	&&	 \mxy{a} \label{eq:g_z_shear_a} \\
+	\gzb: & \frac{ 2 w \vb \wb \sigmafailz{b} }{ \wb F \sqrt{3} } \ge 1 	&&	\mxy{b} \label{eq:g_z_shear_b} 
 \end{align}
 
 The $\sqrt{3}$ comes from the von Mises yield criterion.
 Although one might consider combining the stresses together using the same criterion, this does not increase the accuracy of the model,
 because the failure mode planes do not overlap.
 
+Using these formulae one can easily find the maximum force and thus the maximum stress of any design;
+simply multiply both sides of the mechanical constraints \crefrange{eq:g_tensile_a}{eq:g_z_shear_b}
+by $F$ and using the lowest value will tell you which of the failure modes will happen first in a given design.
+The resulting response surfaces are shown in \cref{fig:analytic_response_whole}.
 
 
-inversion; response surfaces; active constraints
+\begin{figure}
+	\centering
+	\begin{subfigure}[B]{\columnwidth}
+		\includegraphics{sources/method/analytic_response_whole.jpg}
+		\caption{Response for the whole, unbroken situation. Through $(\wb, \va, \hf) = (2.64, 2.70, 1.29)$}
+		\label{fig:analytic_response_whole}
+	\end{subfigure}
+	\begin{subfigure}[B]{\columnwidth}
+		\includegraphics{sources/method/analytic_response_broken.jpg}
+		\caption{Response for the partly broken situation. Through $(\wb, \va, \hf) = (1.50, 0.36, 0.50)$}
+		\label{fig:analytic_response_broken}
+	\end{subfigure}
+	\caption{Maximum strength of the analytical models along three 2D slices of the 3D design space, which intersect at the optimum. }
+	\label{fig:analytic_response}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.49\columnwidth]{sources/method/straight_model_v5_broken.pdf}
+	\caption{Partly broken, partly interlocking cell of the IGIM lattice}
+	\label{fig:straight_model_broken}
+\end{figure}
 
 \subsubsection{Broken cross beams}
+In the situation where part of the TPLA cross beams has sheared off there is still interlocking of PP material around the part of the cross beam which connects fingers together vertically.
+See \cref{fig:straight_model_broken}.
+Because part of the cross beam is missing the stress on the remaining part increases.
+Moreover, the cross beam shear constraint $\gcbbroken$ comes into play and the Z shear constraint $\gzb$ and the cross beam shear constraint $\gca$ are dropped because of the change in the cross beam of $a$.
+The shear constraints \crefrange{eq:g_tensile_a}{eq:g_z_shear_b} are replaced by the following:
 
 
-changed problem definition
+\begin{align}
+%	\gtabroken: & \frac{ 2 \wmin{a} \hf \sigmafail{a} }{ F } \ge 1 &&	\myz{a}  \label{eq:g_tensile_a_broken} \\
+%	\gtbbroken: & \frac{ \wb \hf \sigmafail{b} }{ F } \ge 1 &&	\myz{b}  \label{eq:g_tensile_b_broken} \\
+	\gcbbroken: & \frac{ 4 \vb \hmin \sigmafailz{b} }{ F \sqrt{3} } \ge 1 &&	 \mxz{b}  \label{eq:g_shear_b_broken} \\
+	\gzabroken: & \frac{ 2 \left( \lmax - \vb \right) \wa \sigmafailz{a} }{ F \sqrt{3} } \ge 1 	&&	 \mxy{a} \label{eq:g_z_shear_a_broken}
+%	\gzbbroken: & \frac{ 2 \vb \wb \sigmafailz{b} }{ F \sqrt{3} } \ge 1 	&&	\mxy{b} \label{eq:g_z_shear_b_broken} 
+\end{align}
+
+The response surface of this model is shown in \cref{fig:analytic_response_broken}.
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 
 \subsection{Diagonal}
-symmetry; design variables
+\Cref{fig:diagonal_model_simple} shows a simple cell of the IGIM lattice oriented diagonally w.r.t. the interface between the two materials.
+Because the stress applied is symmetric the optimal structure should also be symmetric.
+Due to symmetry there is not distinction between fingers and cross beams to be made in this model.
+Both beams should have the same height $2\hmin$ and the angle $\alpha$ between the beams and the interface of both beams is the same.
 
-Manufacturability;Rounded edges with radius $r$
+\begin{figure}
+	\centering
+	\begin{subfigure}[B]{.49\columnwidth}
+		\centering
+		\includegraphics[width=\columnwidth]{sources/method/diagonal_model_simple_v5.pdf}
+		\caption{Simple cell}
+		\label{fig:diagonal_model_simple}
+	\end{subfigure}
+	\begin{subfigure}[B]{.8\columnwidth}
+		\centering
+		\includegraphics[width=\columnwidth]{sources/method/diagonal_model_v5.pdf}
+		\caption{Updated design}
+		\label{fig:diagonal_model}
+	\end{subfigure}
+	\caption{Diagonal cell of the IGIM lattice}
+\end{figure}
 
-formula for width
+
+The simple cell consists of protruding fingers and triangular dents;
+however, the advantage these dents give to the strength of the pattern is vastly outweighed by their effect on the total length $L$.
+We therefore trim the triangular ends on the pattern to arrive at the model shown in \cref{fig:diagonal_model}.
+However, doing this introduces some sharp edges, which are not manufacturable using FDM 3D printing.
+We therefore round the vertical edges using a radius $r=\SI{0.15}{\milli\meter}$
+and define the dimensions of the model such that the rounded edges at the ends of both fingers are aligned:
+
+
+
 \begin{align}
 	d &= 2Mw / \sqrt{4M^2-w^2} \\
 	M &= L - 2r \\
@@ -217,6 +303,8 @@ area of Z shear
 \begin{align}
 	A_z &= \frac12 \pi r^2 + r (\wa-2r) \frac{d}{w} + d M \left(\frac{\wa}{w}\right)^2
 \end{align}
+
+
 
 
 difficult to model; homogeneous stress distribution assumption violated; deformation dependent
