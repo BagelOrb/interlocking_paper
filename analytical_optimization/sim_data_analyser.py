@@ -12,10 +12,10 @@ bending = 0.0
 cross_shear_force_ratio_shift = 1
 combine_tensile_and_z_shear = False
 full_stress_on_z = False
-combine_z_shear_and_cross_shear = True
+combine_z_shear_and_cross_shear = False
 
 compare_to_FEM = False
-broken_optimum = False
+broken_optimum = True
 hf_sampling_multiplier = 10
 
 softmin_all_constraints = False
@@ -29,7 +29,7 @@ cross_beam_force_pillar_inclusion_b = float(broken_optimum)
 apply_cross_a = not broken_optimum
 apply_cross_b = broken_optimum
 use_z_shear_a = True  # not broken_optimum
-use_z_shear_b = True
+use_z_shear_b = not broken_optimum
 
 show_results = True
 plot_legend = True
