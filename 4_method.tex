@@ -291,21 +291,37 @@ However, doing this introduces some sharp edges, which are not manufacturable us
 We therefore round the vertical edges using a radius $r=\SI{0.15}{\milli\meter}$
 and define the dimensions of the model such that the rounded edges at the ends of both fingers are aligned:
 
-
-
 \begin{align}
 	d &= 2Mw / \sqrt{4M^2-w^2} \\
 	M &= L - 2r \\
 	w &= \wa + \wb
 \end{align}
 
+
+For a triangular cross section, the maximum shear stress is equal to $\nicefrac{3F}{bh}$
+
 area of Z shear
 \begin{align}
 	A_z &= \frac12 \pi r^2 + r (\wa-2r) \frac{d}{w} + d M \left(\frac{\wa}{w}\right)^2
 \end{align}
 
+area of TPLA under shear and tension: $\wa h$.
+von Mises criterion:
+\begin{align*}
+	\left( \frac{ \nicefrac{w}{d} F }{ \wa h } \right)^2 + 3 \left( \frac{ \nicefrac{d}{2M} F }{ \wa h } \right)^2 &\le \sigmafail{a}^2 \\
+	\left( \frac{ F }{ \wa h } \right)^2 \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) &\le \sigmafail{a}^2 \\
+	\frac{ F }{ \wa h } \sqrt{ \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) } &\le \sigmafail{a} \\
+	F \sqrt{ \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) } &\le \sigmafail{a} \wa h \\
+	F &\le \frac{ \sigmafail{a} \wa h }{  \sqrt{ \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 } }  \\
+\end{align*}
 
 
+area of PP under tension alone $\myz{b}$: $\frac{\wb}{w} d$. PP tensile stress: $\frac{F w}{\wb d} \le \sigmafail{b}$
+
+
+
+
+scale invariance or design constraint
 
 difficult to model; homogeneous stress distribution assumption violated; deformation dependent
 
