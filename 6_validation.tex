@@ -7,6 +7,38 @@ For PP we print the outer before the inner walls so as to improve the dimensiona
 In order to deal with the various widths of the beams we generate toolpaths using the Cura Arachne Engine beta release\cite{CuraArachne},
 which implements the framework for generating variable line width toolpaths from \cite{Kuipers2020}.
 The Inward Distributed and the Distributed strategy were used on TPLA and PP respectively.
+See \cref{fig:gcode}.
+
+
+
+\begin{figure}
+	\setlength{\figheight}{.13\columnwidth}
+	\centering
+	\begin{subfigure}[B]{.2\columnwidth}
+		\centering
+		\includegraphics[height=\figheight]{sources/testing/straight_gcode.jpg}
+		\caption{Straight}
+	\end{subfigure}
+	\begin{subfigure}[B]{.2\columnwidth}
+		\centering
+		\includegraphics[height=\figheight]{sources/testing/diagonal_gcode.jpg}
+		\caption{Diagonal}
+	\end{subfigure}
+	\begin{subfigure}[B]{.24\columnwidth}
+		\centering
+		\includegraphics[height=\figheight]{sources/testing/suture_gcode.jpg}
+		\caption{Trapezoidal suture}
+	\end{subfigure}
+	\begin{subfigure}[B]{.24\columnwidth}
+		\centering
+		\includegraphics[height=\figheight]{sources/testing/jigsaw_gcode.jpg}
+		\caption{Jigsaw}
+	\end{subfigure}
+	\caption{Example of gcodes generated with Cura Arachne engine beta.}
+	\label{fig:gcode}
+\end{figure}
+
+
 
 
 \subsection{Model parameters}
