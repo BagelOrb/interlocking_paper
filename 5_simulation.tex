@@ -9,10 +9,10 @@ using geometric nonlinearity and general contact (explicit) to disregard frictio
 The repeating nature of the interlocking patterns was captured by modelling half the geometry and apply symmetry constraints to the sides, top and bottom.
 The model was meshed using C3D8R hexahedral elements of $\pm\SI{75}{\micro\meter}$.
 
-A grid search was used to measure the influence on the ultimate strength along each of the design variables $\wb (,\va, \hc)$, along with the total length $\lmax$.
+A grid search was used to measure the influence on the ultimate strength along each of the design variables $\wb (,\va, \hc)$, along with the total length $L$.
 The simulation space was therefore 4D and 2D for the straight and diagonal design respectively.
 In order to estimate the optimum we fit a smooth response surface to these data points using a radial basis function network,\cite{Dinh2002}
-where a smoothness of $\lambda=1$ seemed to produce satisfactory results.
+where a smoothness of $\lambda=1$ produces satisfactory results.
 
 
 \subsection{Straight}
@@ -25,6 +25,10 @@ This step only considered the dimensions $\wb$ and $\va$, because $\lmax$ is giv
 It's unlikely the optimum of the fitted hypersurface would be on a different integer multiple of $\hmin$.
 The resulting hypersurfaces are visualized in \cref{fig:simulation_results_straight}.
 The obtained optima are shown in \cref{tab:sim_straight_optima}.
+
+We compare the results of round 1 to our analytical model by adjusting our model to capture the inaccurate Z strength used in the simulations:
+$\sigmafailz{m} := \sigmafail{m}$.
+We then observe that our analytical model on average predicts only \SI{7.8}{\percent} higher ultimate strength values than then the FEM simulations, with a standard deviation of \SI{16.2}{\percent}.
 
 \begin{figure}
 	\centering
@@ -66,12 +70,12 @@ The obtained optima are shown in \cref{tab:sim_straight_optima}.
 		\includegraphics{sources/simulation/r12-lmax1.8.pdf}
 		\caption{$\lmax=\SI{1.8}{\milli\meter}; \hf=\SI{0.6}{\milli\meter}$}
 	\end{subfigure}
-	\caption{2D slices of the 4D simulation results and fitted hypersurface for the straight design.}
+	\caption{2D slices of the 4D simulation results and fitted hypersurface for the straight design. Sampled data points in black, optimum in white.}
 	\label{fig:simulation_results_straight}
 \end{figure*}
 
 \begin{table}
-	\caption{Optimal designs according to the hypersurface fitted to the second round of FEM simulations.}
+	\caption{Optimal straight designs according to the hypersurface fitted to the second round of FEM simulations.}
 	\label{tab:sim_straight_optima}
 	\begin{tabular}{l|llll}
 		$\lmax$ (\si{\milli\meter})             & 3.6 & 3.0 & 2.4 & 1.8 \\
@@ -98,7 +102,15 @@ The obtained optima are shown in \cref{tab:sim_straight_optima}.
 
 
 \subsection{Diagonal}
-results
+symmetry constraints; small discontinuities
+
+result surfaces
+
+optimal designs table
+
+comparison to analytical model
+
+
 
 
 
