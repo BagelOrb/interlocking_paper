@@ -1,18 +1,88 @@
 % !TeX spellcheck = en_GB 
 \section{Validation}
-materials; print settings; Instron settings
+Tensile tests were performed on an Instron 3366 Universal Testing machine at \SI{5}{\milli\meter\per\minute}.
+Prints were manufactured in 5-fold with Ultimaker Green Tough PLA and Ultimaker PP using the default \SI{0.1}{\milli\meter} layer thickness profile,
+with \SI{100}{\percent} infill and a custom brim to make sure both materials stick to the build plate.
+For PP we print the outer before the inner walls so as to improve the dimensional accuracy. % on TPLA we forgot to edit those settings
+In order to deal with the various widths of the beams we generate toolpaths using the Cura Arachne Engine beta release\cite{CuraArachne},
+which implements the framework for generating variable line width toolpaths from \cite{Kuipers2020}.
+The Inward Distributed and the Distributed strategy were used on TPLA and PP respectively.
 
 
 \subsection{Model parameters}
 \subsubsection{Straight}
-sampling strategy; curse of dimensionality
+The straight design suffers from the curse of dimensionality;
+Even when setting $\wa=\SI{0.6}{\milli\meter}$, $\hc=\SI{0.1}{\milli\meter}$ and $L=\SI{3.6}{\milli\meter}$,
+there are still the three free design variables $\wb$, $\va$ and $\hf$ to determine.
+With 5 specimens per sample point and limited resources, the total number of data points we are able to test is limited.
+We therefore chose to sample close to the two optima of the analytical models: whole and broken, as well as deviations from those optima in each of the directions along a design variable.
+See \cref{fig:test_points_straight}.
+
+Each specimen has $5\times5$ cells.
+Because the repetition of cells is broken at the sides of the specimen, the boundary cells are adjusted for manufacturability and stability.
+The specimens end with a TPLA finger on both sides and in crossbeams on both top and bottom.
+See \cref{fig:test_straight_boundary_cells}.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[B]{.24\columnwidth}
+		\centering
+		\includegraphics[width=\columnwidth]{sources/testing/straight_sample.jpg}
+		\caption{Example print mesh near optimum}
+		\label{fig:test_straight_boundary_cells}
+	\end{subfigure}
+	\begin{subfigure}[B]{.24\columnwidth}
+		\centering
+		\includegraphics[width=\columnwidth]{sources/testing/straight_print.jpg}
+		\caption{Example print near broken optimum}
+	\end{subfigure}
+	\begin{subfigure}[B]{.5\columnwidth}
+		\centering
+		\includegraphics[width=\columnwidth]{sources/testing/straight_sample_points.pdf}
+		\caption{Sampled points}
+		\label{fig:test_points_straight}
+	\end{subfigure}
+	\caption{Experimental setup of straight design.}
+\end{figure}
+
+
+\todo{Further results are listen below.}
+
+
 
 
 \subsubsection{Diagonal}
-sampling strategy 
+Because with a given $L=\SI{3.6}{\milli\meter}$, $h=\SI{0.2}{\milli\meter}$ and $\wa=\SI{0.6}{\milli\meter}$ the remaining design space is only one-dimensional,
+we can simply sample various points along $\wb$: $(0.6, 1.2, 1.8, 2.4, 3.0, 3.6)$.
+Again each specimen contains 5 cells in the horizontal direction, but 13 repetition in Z.
+Extra finger beams are added to the sides of the specimen to prevent any part of the beam to be less than $2\wmin=\SI{0.6}{\milli\meter}$ wide.
+See \cref{fig:test_diagonal_boundary_cells}.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[B]{.24\columnwidth}
+		\centering
+		\includegraphics[width=\columnwidth]{sources/testing/diagonal_sample.jpg}
+		\caption{Example print mesh}
+		\label{fig:test_diagonal_boundary_cells}
+	\end{subfigure}
+	\begin{subfigure}[B]{.24\columnwidth}
+		\centering
+		\includegraphics[width=\columnwidth]{sources/testing/straight_print.jpg}
+		\caption{Example print}
+	\end{subfigure}
+	\begin{subfigure}[B]{.5\columnwidth}
+		\centering
+		%\includegraphics[width=\columnwidth]{sources/testing/straight_sample_points.pdf}
+		\caption{Comparison of results to analytical model}
+	\end{subfigure}
+	\caption{Experimental setup of diagonal design.}
+\end{figure}
 
 
-\subsubsection{Related work}
+
+
+\subsubsection{Dovetail interlocking}
 suture; trapezoidal design for interlocking
 
 jigsaw; similar to suture, but with semicircles attached. Lmax violated.
