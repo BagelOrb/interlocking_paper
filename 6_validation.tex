@@ -115,11 +115,20 @@ See \cref{fig:test_diagonal_boundary_cells}.
 
 
 \subsubsection{Dovetail interlocking}
-suture; trapezoidal design for interlocking
+We compared our interlocking structures against two interlocking designs: trapezoidal sutures and jigsaw interlocking.
+See \cref{fig:suture_jigsaw}.
+We used $\wa=2\wmin{a}$, $dw=\SI{0.3}{\milli\meter}$ and $L=2.4$ for the trapezoidal suture,
+and $\wa=2\wmin{a}$ and $\alpha = \SI{35}{\degree}$ for the jigsaw interlocking design.
+We printed samples with both $\wb=3\wa$ and $\wb=\nicefrac{\sigmafail{a}}{\sigmafail{b}}\wa = 4.48 \wa$.
+The latter value is optimized for tensile failure along $\myz{b}$.
+We used 6 and 4 repetition respectively and a height of \SI{5}{\milli\meter}.
 
-jigsaw; similar to suture, but with semicircles attached. Lmax violated.
+Note that the jigsaw interlocking structure is quite similar to the trapezoidal suture, with the addition of semicircles to the ends of the trapezoids.
+The total length $L$ of the jigsaw structure is \SI{2.96}{\milli\meter} and \SI{4.05}{\milli\meter} for the two $\wb$ values respectively,
+so the $\lmax$ constraint is violated by that structure.
 
-parameters, optimized using homogenous max tensile stress.
+The boundaries of these two structures and in half a TPLA lobe, because that is the stiffer material.
+In order to meet the minimum width constraint there, the sides of the specimen are extruded by $\wmin{a}$.
 
 
 \subsection{Results}
@@ -130,3 +139,9 @@ max strength calculation
 printing results; max strength table; some force-displacement figures
 
 tables and figures comparing to model and FEM
+
+
+
+
+
+
