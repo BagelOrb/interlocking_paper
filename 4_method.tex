@@ -55,8 +55,6 @@ See \cref{tab:mat_props_manufacturing_constraints}.
 
 The structure is furthermore subject to manufacturing constraints determined by the nozzle sizes and the layer thickness.
 It should be noted that with a nozzle size of \SI{0.4}{\milli\meter} one can still manufacture geometry as small as \SI{0.3}{\milli\meter}.
-In order to generate the correct toolpaths we use the Cura Arachne Engine beta release, which implements the framework for generating variable line width toolpaths from \cite{Kuipers2020}.
-\todo{(Make proper reference to Cura?)}
 
 
 \begin{table}
@@ -121,9 +119,19 @@ This section considers these two designs and analytical models to optimize them.
 
 \begin{figure}
 	\centering
-	\includegraphics[width=\columnwidth]{sources/method/straight_model_v5.pdf}
+	\begin{subfigure}[B]{.8\columnwidth}
+		\centering
+		\includegraphics{sources/method/straight_model_v5.pdf}
+		\caption{Whole cell}
+		\label{fig:straight_model}
+	\end{subfigure}
+	\begin{subfigure}[B]{.49\columnwidth}
+		\centering
+		\includegraphics{sources/method/straight_model_v5_broken.pdf}
+		\caption{Partly broken, partly interlocking cell}
+		\label{fig:straight_model_broken}
+	\end{subfigure}
 	\caption{Straight cell of the IGIM lattice}
-	\label{fig:straight_model}
 \end{figure}
 
 \subsection{Straight}
@@ -221,12 +229,6 @@ The resulting response surfaces are shown in \cref{fig:analytic_response_whole}.
 
 
 
-\begin{figure}
-	\centering
-	\includegraphics[width=.49\columnwidth]{sources/method/straight_model_v5_broken.pdf}
-	\caption{Partly broken, partly interlocking cell of the IGIM lattice}
-	\label{fig:straight_model_broken}
-\end{figure}
 
 \subsubsection{Broken cross beams}
 In the situation where part of the TPLA cross beams has sheared off there is still interlocking of PP material around the part of the cross beam which connects fingers together vertically.
@@ -274,7 +276,7 @@ Both beams should have the same height $2\hmin$ and the angle $\alpha$ between t
 		\caption{Simple cell}
 		\label{fig:diagonal_model_simple}
 	\end{subfigure}
-	\begin{subfigure}[B]{.8\columnwidth}
+	\begin{subfigure}[B]{.7\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{sources/method/diagonal_model_v5.pdf}
 		\caption{Updated design}
@@ -289,40 +291,78 @@ however, the advantage these dents give to the strength of the pattern is vastly
 We therefore trim the triangular ends on the pattern to arrive at the model shown in \cref{fig:diagonal_model}.
 However, doing this introduces some sharp edges, which are not manufacturable using FDM 3D printing.
 We therefore round the vertical edges using a radius $r=\SI{0.15}{\milli\meter}$
-and define the dimensions of the model such that the rounded edges at the ends of both fingers are aligned:
+and define the dimensions of the model such that the rounded edges at the ends of both fingers are aligned.
+See \cref{fig:analytical_math_diagonal}.
+
+
+Because of the diagonal geometry we expect that the stress distribution throughout the structure will be quite complex,
+and the failure will depend on the deformation of both materials during stretching.
+Nevertheless, we provide a simplified analytical model assuming the stress is homogeneously distributed.
+By using the component of the force $F$ parallel and orthogonal to the direction of the beams,
+we can use the von Mises yield criterion to formulate the tensile constraint on the fingers.
+The diagonal model is then defined by the following constrained optimization problem:
 
 \begin{align}
-	d &= 2Mw / \sqrt{4M^2-w^2} \\
-	M &= L - 2r \\
-	w &= \wa + \wb
+	f: & \max{ \frac{F}{ 2h d } }  \label{eq:objective_diagonal} \\
+	\omit\rlap{subject to} \nonumber \\
+	\gwa: & \wa \ge 2\wmin{a}		&&	\label{eq:gwa_diag}\\
+	\gwb: & \wb \ge 2\wmin{b}		&&	\label{eq:gwb_diag}\\
+	\gd:  & L \le \lmax && \label{eq:gd_diag}\\
+	\gtm: & \frac{ F }{ 2 \wm h } \sqrt{ \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) } \le \sigmafail{m} &&	\myz{m}  \label{eq:g_tensile_m_diag} \\
+	%\gtb: & \frac{ F }{ 2 \wb h } \sqrt{ \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) } \le \sigmafail{b} &&	\myz{b}  \label{eq:g_tensile_b_diag} \\
+	%\gtb: & \frac{ F }{ 2 \wb h } \sqrt{ \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) } \le \sigmafail{b} &&	\myz{b}  \label{eq:g_tensile_b_diag} \\
+	\gzm: & \frac{F}{2 A_{\text{z},m}} \le \sigmafailz{m} 	&&	 \mxy{m} \label{eq:g_z_shear_m_diag} \\
+	%\gza: & \frac{F}{2 A_{\text{z},a}} \le \sigmafailz{a} 	&&	 \mxy{a} \label{eq:g_z_shear_a_diag} \\
+	%\gzb: & \frac{F}{2 A_{\text{z},b}} \le \sigmafailz{b} 	&&	 \mxy{b} \label{eq:g_z_shear_b_diag} \\
+	\omit\rlap{where} \nonumber \\
+	d &= 2Mw / \sqrt{4M^2-w^2} \nonumber \\
+	M &= L - 2r \nonumber \\
+	w &= \wa + \wb \nonumber \\
+	A_{\text{z},m} &= \frac12 \pi r^2 + r (\wm-2r) \frac{d}{w} + d M \left(\frac{\wm}{w}\right)^2 \nonumber \\
+	\omit\rlap{for either material $ m \in \left\{a, b\right\} $ } \nonumber
 \end{align}
 
 
-For a triangular cross section, the maximum shear stress is equal to $\nicefrac{3F}{bh}$
 
-area of Z shear
-\begin{align}
-	A_z &= \frac12 \pi r^2 + r (\wa-2r) \frac{d}{w} + d M \left(\frac{\wa}{w}\right)^2
-\end{align}
 
+
+\iffalse
 area of TPLA under shear and tension: $\wa h$.
 von Mises criterion:
 \begin{align*}
-	\left( \frac{ \nicefrac{w}{d} F }{ \wa h } \right)^2 + 3 \left( \frac{ \nicefrac{d}{2M} F }{ \wa h } \right)^2 &\le \sigmafail{a}^2 \\
-	\left( \frac{ F }{ \wa h } \right)^2 \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) &\le \sigmafail{a}^2 \\
-	\frac{ F }{ \wa h } \sqrt{ \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) } &\le \sigmafail{a} \\
-	F \sqrt{ \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) } &\le \sigmafail{a} \wa h \\
-	F &\le \frac{ \sigmafail{a} \wa h }{  \sqrt{ \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 } }  \\
+	\left( \frac{ \nicefrac12 \nicefrac{w}{d} F }{ \wa h } \right)^2 + 3 \left( \frac{ \nicefrac12 \nicefrac{d}{2M} F }{ \wa h } \right)^2 &\le \sigmafail{a}^2 \\
+	\left( \frac{ F }{ 2 \wa h } \right)^2 \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) &\le \sigmafail{a}^2 \\
+	\frac{ F }{ 2 \wa h } \sqrt{ \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) } &\le \sigmafail{a} \\
+	F \sqrt{ \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) } &\le 2 \sigmafail{a} \wa h \\
+	F &\le \frac{ 2 \sigmafail{a} \wa h }{  \sqrt{ \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 } }  \\
 \end{align*}
 
 
-area of PP under tension alone $\myz{b}$: $\frac{\wb}{w} d$. PP tensile stress: $\frac{F w}{\wb d} \le \sigmafail{b}$
+% NAIVE pp stress: area of PP under tension alone $\myz{b}$: $ 2h \frac{\wb}{w} d$. PP tensile stress: $\frac{\nicefrac12 F w}{\wb d 2 h} = \frac{F w}{4 \wb d h} \le \sigmafail{b}$
+\fi
+
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[B]{.4\columnwidth}
+		\includegraphics{sources/method/diagonal_math.pdf}
+		\caption{Geometrical relations.}
+		\label{fig:analytical_math_diagonal}
+	\end{subfigure}
+	\begin{subfigure}[B]{.59\columnwidth}
+		\includegraphics{sources/method/analytic_response_diagonal.jpg}
+		\caption{Response surface coloured to failure mode.}
+		\label{fig:analytic_response_diagonal}
+	\end{subfigure}
+	\caption{Analytical model for the diagonal IGIM cell.}
+%	\label{fig:analytic_response}
+\end{figure}
+
+Again the stresses are all scale-invariant, so we set $\wa = 2 \wmin{a}$.
+However, because changes in $\wb$ given the same $L$ will change the angle $\alpha$ of the beams, we cannot assume the design constraint is active.
+
+The resulting response surface can be viewed in \cref{fig:analytic_response_diagonal}.
+Because the height of the fingers is minimal the Z shear constraints are both dominated.
 
 
 
-
-scale invariance or design constraint
-
-difficult to model; homogeneous stress distribution assumption violated; deformation dependent
-
-assume homogenous tensile stress as if beam was straight?
