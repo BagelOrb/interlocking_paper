@@ -70,7 +70,7 @@ n=2;
 
 N = len(sample_points);
 
-
+use_brim = false;
 brim = 7;
 outer_brim = 20;
 side_brim = 30;
@@ -127,6 +127,7 @@ module sample_(tag, wa,wb,va,vb,hc,hf,w,h,l, extend_brim_after)
 
     if (mat_a)
     {
+        if (use_brim) 
         { // brim
             difference() 
             {
@@ -148,6 +149,7 @@ module sample_(tag, wa,wb,va,vb,hc,hf,w,h,l, extend_brim_after)
     }
     else
     {
+        if (use_brim) 
         { // brim
             translate([l,-brim,0])
             cube([tot_l+side_brim,rep_y*w+wa+brim*2, .2]);
@@ -185,10 +187,10 @@ samples(0, len(sample_points) - 1);
 if (mat_a)
 {
     translate([-tot_l-side_brim,-outer_brim,0])
-    cube([tot_l+side_brim+lmax,outer_brim, .2]);
+    if (use_brim) cube([tot_l+side_brim+lmax,outer_brim, .2]);
 }
 else
 {
     translate([lmax,-outer_brim,0])
-    cube([tot_l+side_brim,outer_brim, .2]);
+    if (use_brim) cube([tot_l+side_brim,outer_brim, .2]);
 }
