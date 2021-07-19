@@ -3,7 +3,7 @@
 alternate = 0;
 
 tpla=true;pp=false; material = tpla;
-jigsaw=0;suture=1; type = jigsaw;
+jigsaw=0;suture=1; type = suture;
 
 approx_h = 5;
 approx_w = 17;
@@ -46,6 +46,7 @@ dwb = rb*cos(t);
 dla = ra*sin(t);
 dlb = rb*sin(t);
 
+
 if (type == jigsaw)
 {
     echo("min width a:", 2*(dwa+dwb-rb));
@@ -63,6 +64,7 @@ elem_l = (dla+dlb+ra+rb) * (1-type) + type * suture_l;
 rep_x = round(approx_w / elem_w);
 rep_z = round(approx_h / h) * alternate + (1-alternate);
 
+echo(rep_x);
 
 tot_w = rep_x * elem_w;
 tot_h = rep_z * h;

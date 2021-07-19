@@ -1,20 +1,16 @@
 
 sample_points = [
-    [[0.6, 3.6], "s1"],
-    [[0.6, 3.6], "s2"],
-    [[0.6, 3.6], "s3"],
-    [[0.6, 3.6], "s4"],
-    [[0.6, 3.6], "s5"],
+    [[0.6, 3.6], "s"],
 //    [[0.9, 3.6], "t"],
-//    [[1.2, 3.6], "v"],
-//    [[1.8, 3.6], "w"],
-//    [[2.4, 3.6], "x"],
-//    [[3.0, 3.6], "y"],
-//    [[3.6, 3.6], "z"],
+    [[1.2, 3.6], "v"],
+    [[1.8, 3.6], "w"],
+    [[2.4, 3.6], "x"],
+    [[3.0, 3.6], "y"],
+    [[3.6, 3.6], "z"],
     ];
 
 
-tpla = true; pp = false; material = pp;
+tpla = true; pp = false; material = tpla;
 
 n=1;
 N = len(sample_points);
@@ -163,7 +159,7 @@ module sample(tag, wb, L)
 
 module samples(from, till)
 {
-    echo((from + N - round((n-1) / 5 * N)) % N);
+    echo(sample_points[(from + N - round((n-1) / 5 * N)) % N][1]);
     wb = sample_points[(from + N - round((n-1) / 5 * N)) % N][0][0];
     L = sample_points[(from + N - round((n-1) / 5 * N)) % N][0][1];
     w = wa + wb;
@@ -171,6 +167,7 @@ module samples(from, till)
     d = get_d(M,w);
     echo("d=",d);
     da = wa * d/w;
+    echo("ideal w:", rep_y*d);
     tot_w = rep_y*d+da;
     echo("wb, L", wb, L);
     sample(str(sample_points[(from + N - round((n-1) / 5 * N)) % N][1])
