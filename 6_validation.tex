@@ -86,7 +86,7 @@ See \cref{fig:test_straight_boundary_cells}.
 \subsubsection{Diagonal}
 Because with a given $L=\SI{3.6}{\milli\meter}$, $h=\SI{0.2}{\milli\meter}$ and $\wa=\SI{0.6}{\milli\meter}$ the remaining design space is only one-dimensional,
 we can simply sample various points along $\wb$: $(0.6, 1.2, 1.8, 2.4, 3.0, 3.6)$.
-Again each specimen contains 5 cells in the horizontal direction, but 13 repetition in Z.
+Each specimen contains 5 cells in the horizontal direction, but 13 repetition in Z.
 Extra finger beams are added to the sides of the specimen to prevent any part of the beam to be less than $2\wmin=\SI{0.6}{\milli\meter}$ wide.
 See \cref{fig:test_diagonal_boundary_cells}.
 
@@ -132,9 +132,9 @@ In order to meet the minimum width constraint there, the sides of the specimen a
 
 
 \subsection{Results}
-figure for all printed models what the boundaries look like;
-figure of gcode toolpaths;
-max strength calculation
+figure of some stress-strain graphs
+
+max strength calculation; two types: idealized and actual
 
 printing results; max strength table; some force-displacement figures
 
@@ -143,5 +143,11 @@ tables and figures comparing to model and FEM
 
 
 
+\begin{figure}
+	\centering
+	\includegraphics[width=\columnwidth]{sources/testing/results.jpg}
+	\caption{Test results compared to the predictions according to the analytical model and the simulations.}
+	\label{fig:test_results}
+\end{figure}
 
 
