@@ -18,25 +18,38 @@ See \cref{fig:gcode}.
 		\centering
 		\includegraphics[height=\figheight]{sources/testing/straight_gcode.jpg}
 		\caption{Straight}
+		\label{fig:gcode_straight}
 	\end{subfigure}
 	\begin{subfigure}[B]{.2\columnwidth}
 		\centering
 		\includegraphics[height=\figheight]{sources/testing/diagonal_gcode.jpg}
 		\caption{Diagonal}
+		\label{fig:gcode_diagonal}
 	\end{subfigure}
 	\begin{subfigure}[B]{.24\columnwidth}
 		\centering
 		\includegraphics[height=\figheight]{sources/testing/suture_gcode.jpg}
 		\caption{Trapezoidal suture}
+		\label{fig:gcode_suture}
 	\end{subfigure}
 	\begin{subfigure}[B]{.24\columnwidth}
 		\centering
 		\includegraphics[height=\figheight]{sources/testing/jigsaw_gcode.jpg}
 		\caption{Jigsaw}
+		\label{fig:gcode_jigsaw}
 	\end{subfigure}
 	\caption{Example of gcodes generated with Cura Arachne engine beta.}
 	\label{fig:gcode}
 \end{figure}
+
+
+
+\begin{figure*}
+	\centering
+	\includegraphics[width=\textwidth]{sources/testing/results.pdf}
+	\caption{Test results compared to the predictions according to the analytical model and the simulations.}
+	\label{fig:test_results}
+\end{figure*}
 
 
 
@@ -78,8 +91,6 @@ See \cref{fig:test_straight_boundary_cells}.
 \end{figure}
 
 
-\todo{Further results are listen below.}
-
 
 
 
@@ -88,8 +99,9 @@ Because with a given $L=\SI{3.6}{\milli\meter}$, $h=\SI{0.2}{\milli\meter}$ and 
 we can simply sample various points along $\wb$: $(0.6, 1.2, 1.8, 2.4, 3.0, 3.6)$.
 Each specimen contains 5 cells in the horizontal direction, but 13 repetition in Z.
 Extra finger beams are added to the sides of the specimen to prevent any part of the beam to be less than $2\wmin=\SI{0.6}{\milli\meter}$ wide.
-See \cref{fig:test_diagonal_boundary_cells}.
+See \cref{fig:gcode_diagonal}.
 
+\iffalse
 \begin{figure}
 	\centering
 	\begin{subfigure}[B]{.24\columnwidth}
@@ -100,7 +112,7 @@ See \cref{fig:test_diagonal_boundary_cells}.
 	\end{subfigure}
 	\begin{subfigure}[B]{.24\columnwidth}
 		\centering
-		\includegraphics[width=\columnwidth]{sources/testing/straight_print.jpg}
+		\includegraphics[width=\columnwidth]{sources/testing/diagonal_print.jpg}
 		\caption{Example print}
 	\end{subfigure}
 	\begin{subfigure}[B]{.5\columnwidth}
@@ -110,7 +122,7 @@ See \cref{fig:test_diagonal_boundary_cells}.
 	\end{subfigure}
 	\caption{Experimental setup of diagonal design.}
 \end{figure}
-
+\fi
 
 
 
@@ -120,34 +132,52 @@ See \cref{fig:suture_jigsaw}.
 We used $\wa=2\wmin{a}$, $dw=\SI{0.3}{\milli\meter}$ and $L=2.4$ for the trapezoidal suture,
 and $\wa=2\wmin{a}$ and $\alpha = \SI{35}{\degree}$ for the jigsaw interlocking design.
 We printed samples with both $\wb=3\wa$ and $\wb=\nicefrac{\sigmafail{a}}{\sigmafail{b}}\wa = 4.48 \wa$.
-The latter value is optimized for tensile failure along $\myz{b}$.
+%The latter value is optimized for tensile failure along $\myz{b}$. >> not true!!!
 We used 6 and 4 repetition respectively and a height of \SI{5}{\milli\meter}.
 
 Note that the jigsaw interlocking structure is quite similar to the trapezoidal suture, with the addition of semicircles to the ends of the trapezoids.
 The total length $L$ of the jigsaw structure is \SI{2.96}{\milli\meter} and \SI{4.05}{\milli\meter} for the two $\wb$ values respectively,
 so the $\lmax$ constraint is violated by that structure.
 
-The boundaries of these two structures and in half a TPLA lobe, because that is the stiffer material.
+The boundaries of these two structures end in half a TPLA lobe, because that is the stiffer material.
 In order to meet the minimum width constraint there, the sides of the specimen are extruded by $\wmin{a}$.
 
 
+
 \subsection{Results}
-figure of some stress-strain graphs
-
-max strength calculation; two types: idealized and actual
-
-printing results; max strength table; some force-displacement figures
-
-tables and figures comparing to model and FEM
-
-
+After tensile testing we can observe various failure modes, such as in \cref{fig:failures}.
+The tensile tests performed result in force-displacement graphs such as displayed in \cref{fig:force-displacement},
+from which the ultimate tensile strength is derived.
+Because the boundary cells deviate from the regular pattern, computing the ultimate tensile strength can be done in two ways, giving rise to two statistics.
+We compute the \emph{cell stress} by dividing the maximum force of the force-displacement graphs by the number of cells and then divide it by the cross sectional area of the cell.
+We compute the \emph{total stress} by dividing the force by the total cross-sectional area of the sample, including the extra geometry at the boundaries of the sample.
+Ideally we would compensate for manufacturing inaccuracies by using measured dimensions of the specimens,
+but measuring the internal geometry of the interlocking structure is practically infeasible, so we use the dimensions of the 3D mesh instead.
 
 
 \begin{figure}
 	\centering
-	\includegraphics[width=\columnwidth]{sources/testing/results.jpg}
-	\caption{Test results compared to the predictions according to the analytical model and the simulations.}
-	\label{fig:test_results}
+	\begin{subfigure}[B]{.69\columnwidth}
+		\centering
+		\includegraphics[width=\columnwidth]{sources/testing/force_displacement_J.png}
+		\caption{Force-displacement graph.}
+		\label{fig:force-displacement}
+	\end{subfigure}
+\setlength{\figwidth}{.14\columnwidth}
+	\begin{subfigure}[B]{.29\columnwidth}
+		\centering
+		\includegraphics[width=\figwidth]{sources/testing/j1_cropped.jpg}
+		\includegraphics[width=\figwidth]{sources/testing/j2_cropped.jpg}
+		\includegraphics[width=\figwidth]{sources/testing/j4_cropped.jpg}
+		\includegraphics[width=\figwidth]{sources/testing/j5_cropped.jpg}
+		\caption{Specimens after tensile test}
+		\label{fig:failures}
+	\end{subfigure}
+	\caption{Tensile results for broken wb+: $\lmax=3.6, \wb=1.7, \va=0.3, \hf=0.5$}
 \end{figure}
+
+
+% table of best sample dimensions?
+
 
 
