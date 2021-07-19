@@ -8,16 +8,16 @@ import matplotlib.colors
 from math import sqrt
 from math import pi
 
-big = True
+big = False
 only_one = False
 
-compare_to_FEM = True
+compare_to_FEM = False
 
 Ls = np.linspace(.6, 3.6, 200)
 wbs = np.linspace(.6, 4.8, 200)
 if not big:
     Ls = np.asarray([3.6])
-    wbs = np.linspace(.6, 3.6, 60)
+    wbs = np.linspace(.6, 3.6, 6)
 L, wb = np.meshgrid(Ls, wbs)
 if only_one:
     L = np.asarray([3.6])
@@ -56,14 +56,14 @@ gFs["tensile b"] = 2 * sb * wb * h / div
 gFs["Z shear a"] = 2 * saz * Aza / sqrt(3)
 gFs["Z shear b"] = 2 * sbz * Azb / sqrt(3)
 
-if Ls.size == 1:
-    for gF in gFs.values():
-        print(gF)
 
 minF = np.minimum.reduce(list(gFs.values()))
 np.where(np.isnan(minF), minF, 0)
 
 stress = minF / d / (2 * h)
+
+if not big:
+    print(f"{stress=}")
 
 best_wb_idx = np.unravel_index(np.argmax(stress), stress.shape)
 print(f"max stress: {stress.max()} at wb: {wb[best_wb_idx]}")
