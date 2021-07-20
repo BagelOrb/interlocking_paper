@@ -8,7 +8,7 @@ jigsaw=0;suture=1; type = suture;
 approx_h = 5;
 approx_w = 17;
 
-b_mult = 4.48;
+b_mult = 4.48; // 3
 
 h_min = .5;
 
@@ -64,7 +64,7 @@ elem_l = (dla+dlb+ra+rb) * (1-type) + type * suture_l;
 rep_x = round(approx_w / elem_w);
 rep_z = round(approx_h / h) * alternate + (1-alternate);
 
-echo(rep_x);
+echo("rep_x:", rep_x);
 
 tot_w = rep_x * elem_w;
 tot_h = rep_z * h;
