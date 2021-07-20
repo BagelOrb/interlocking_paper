@@ -1,11 +1,13 @@
 \documentclass[5p,twocolumn,10pt,times]{elsarticle}
 \usepackage{amsmath}
-\usepackage{hyperref} % added [draft] to avoid compilation issues that happen if a link is split and appears in two pages
-%\modulolinenumbers[5]
-\addtolength{\textheight}{8mm}
-\addtolength{\textwidth}{4mm}
-\addtolength{\voffset}{-10mm}
-\addtolength{\hoffset}{-3mm}
+%\usepackage{hyperref}
+\usepackage{lineno, hyperref}
+\modulolinenumbers[1]
+\linenumbers
+%\addtolength{\textheight}{8mm}
+%\addtolength{\textwidth}{4mm}
+%\addtolength{\voffset}{-10mm}
+%\addtolength{\hoffset}{-3mm}
 
 \bibliographystyle{elsarticle-num-names}
 
@@ -175,7 +177,7 @@
 
 \begin{frontmatter} 
 
-\title{IGIM: Interlaced Genus Interlocking Microstructure to enhance adhesion between chemically incompatible filaments}
+\title{IGIM: Interlaced Genus-Interlocking Microstructure to enhance adhesion between chemically incompatible 3D printing filaments}
 
 %\author{Paper ID: xxx}
 
@@ -192,21 +194,20 @@
 
 
 \begin{abstract}
-3D printing incompatible materials is difficult.
+Fused deposition modelling (FDM) 3D printing has developed over the recent years from a tool used for prototyping to a tool for manufacturing end-use products.
+Being able to print with multiple materials unlocks applications where different parts have different requirements.
+However, when incompatible materials are concerned the chemical adhesion between two materials can be negligible.
+In order to affix two bodies of incompatible materials a common strategy is to design mechanically interlocking structures at the interface between the two.
 
-Existing literature considers only 2D interlocking structures.
+Existing literature considers only 2D interlocking dovetail structures for FDM 3D printing.
+3D interlocking with high genus topology locks all 3 dimensions and depends less on material specifics.
+Requiring a high genus topology to satisfy (semi-)continuous extrusion constraints might seem challenging.
 
-3D interlocking with high genus topology depends less on material specifics.
+We propose a simple interlocking microstructure which consists of interlaced beams in two directions which constitute a high genus topology: the interlaced genus-interlocking microstructure (IGIM).
+We optimize the structure for PolyPropylene and PLA against a horizontal tensile force.
+IGIM can obtain 82\% of the theoretical maximum of \SI{8.6}{\mega\pascal}, which is 67\% of the ultimate tensile strength of the PP and slightly higher than the strength obtained using dovetail designs.
 
-We propose a simple interlocking microstructure which consists of interlaced beams in two directions which constitute a high genus topology.
-
-We optimize the structure for PolyPropylene and PLA against a tensile force.
-
-Our structure obtains 70\% of the ultimate tensile strength of the PP in theory.
-
-In practice our structure obtains \todo{some percentage} in practice.
-
-We propose an upper bound to the ultimate tensile strength of any interlocking structure and show that we obtain 86\% in theory and \todo{some percentage} in practice.
+Expanding this research to interlocking structures optimized for non-vertical interfaces and non-horizontal forces is an interesting direction for future research.
 
 \end{abstract}
 
@@ -298,7 +299,6 @@ keywords
 
 \input{12_conclusions_future_work}
 
-\section*{References}
 \interlinepenalty=100000 % prevents pdfendlink ended up accross pages error. see https://tex.stackexchange.com/a/449633/129190
 \bibliography{99_mybib}
 
