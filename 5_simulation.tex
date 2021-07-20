@@ -17,7 +17,7 @@ where a smoothness of $\lambda=1$ produces satisfactory results.
 
 \subsection{Straight}
 In order to prevent stress concentrations and adhere to manufacturing accuracy, the vertical edges of the straight design were rounded with $r=\SI{0.15}{\milli\meter}$;
-see \cref{fig:sim_diagonal_model}.
+see \cref{fig:sim_straight_model}.
 We performed two rounds of hypersurface fitting on grid search; the second round was in a zoomed in region and with elements of $\pm\SI{50}{\micro\meter}$.
 
 Newton's method was used to determine the optimum, starting from the best sampled point.
@@ -42,8 +42,8 @@ We then observe that our analytical model on average predicts only \SI{7.8}{\per
 		\includegraphics[width=\columnwidth]{sources/simulation/mesh-pla.jpg}
 		\caption{TPLA}
 	\end{subfigure}
-	\caption{Example simulation mesh of the diagonal design.}
-	\label{fig:sim_diagonal_model}
+	\caption{Example simulation mesh of the straight design.}
+	\label{fig:sim_straight_model}
 \end{figure}
 
 
@@ -102,13 +102,34 @@ We then observe that our analytical model on average predicts only \SI{7.8}{\per
 
 
 \subsection{Diagonal}
-symmetry constraints; small discontinuities
+Modelling the diagonal design in Abaqus can be quite cumbersome, since it doesn't natively support periodic boundary constraints.
+Whereas this problem can be overcame in the straight design because it is symmetric,
+the diagonal design is rotationally symmetric.
+While a symmetry constraint can be used on the top and bottom, the two sides of the design are mirror images of each other, but also flipped vertically.
 
-result surfaces
+However, since the height of the beams is relatively low compared to their width we have observed that the stresses and strains are quite similar in the top and bottom.
+If we model half of the diagonal cell by cutting it vertically and apply symmetry constraints to the sides,
+the induced error is only approximately 10\% compared to simulating an interface consisting of two whole cells.
+% small discontinuities
 
-optimal designs table
 
-comparison to analytical model
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[B]{.49\columnwidth}
+		\centering
+		\includegraphics[width=\columnwidth]{sources/simulation/diagonal_sim_response.jpg}
+		\caption{Linear interpolation}
+	\end{subfigure}
+	\caption{Diagonal results.}
+	\label{fig:sim_diagonal_model}
+\end{figure}
+
+
+The results of these simulations are shows in \cref{fig:sim_diagonal_model}.
+
+%optimal designs table
+
 
 
 

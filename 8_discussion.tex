@@ -19,12 +19,12 @@ but shearing off of part of the cross beams is not one of them.
 One possible explanation is that for geometry so small as the order of the nozzle size the material properties are closer to the bulk material than to the empirical material properties of printed samples;
 the strength determined by the empirical tensile tests relies on the geometry of the toolpaths with which those were printed, while the toolpaths in our interlocking designs might be locally stronger.
 
-The diagonal IGIM lattice is quite well approximated by the simulations;
-the analytical model seems to slightly underestimate the PP material,
+Although the anticipated optimum from the simulations of the diagonal design are at the same $\wb$ as the tensile tests,
+the simulations seem to underestimate the strength of the design.
+This might be related to the limitations in the boundary conditions which were applied, but also to an underestimation of the empirically determined material properties of 3D printed parts.
+The analytical model seems to slightly underestimate the PP material as well,
 which can be related to the fact that the predicted tensile failure surface $\myz{b}$ overlaps $\mxy{b}$ and thereby doesn't fully disconnect the top of the PP finger from its base.
 See \cref{fig:diagonal_model}.
-
-\todo{TODO: consider FEM results of diagonal model}
 
 The analytical modelling of the dovetail geometries considers only homogeneous tensile stress,
 but disregards the fact that the interlock is broken by deformation alone.
