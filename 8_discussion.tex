@@ -1,30 +1,63 @@
 % !TeX spellcheck = en_GB 
 \section{Discussion}
+This section discusses the results visualized in \cref{fig:test_results}.
 
+\subsection{Model and simulation validity}
+%ana optimum wrt FEM optimum wrt print results
 
-\subsection{Model and simulation accuracy}
-ana optimum wrt FEM optimum wrt print results
+When comparing the tensile test results to the analytical models and the simulation results,
+we observe that the whole straight model is predicted rather well by the models.
+Although the standard deviation is too high to capture the differences in response with significance,
+the direction in which the average ultimate strength changes corresponds to the predicted direction of change according to our models in half of the samples.
+The analytical model tends to overestimate the strength because of homogeneous stress assumptions,
+while the simulations tend to underestimate the strength - perhaps because the tensile properties of the base 3D printing materials were acquired using a different type of toolpathing.
 
-print results dont disprove models?
+The response around the anticipated broken optimum is predicted by our models considerably worse.
+The fact that the simulations performed worse around that area was expected, since after cells in the mesh are broken some self-intersection may occur in the simulation.
+When viewing the best performing straight sample (broken wb+, \cref{fig:failures}) we observe that due to manufacturing inaccuracy several failure modes occur throughout the sample,
+but shearing off of part of the cross beams is not one of them.
+One possible explanation is that for geometry so small as the order of the nozzle size the material properties are closer to the bulk material than to the empirical material properties of printed samples;
+the strength determined by the empirical tensile tests relies on the geometry of the toolpaths with which those were printed, while the toolpaths in our interlocking designs might be locally stronger.
+
+The diagonal IGIM lattice is quite well approximated by the simulations;
+the analytical model seems to slightly underestimate the PP material,
+which can be related to the fact that the predicted tensile failure surface $\myz{b}$ overlaps $\mxy{b}$ and thereby doesn't fully disconnect the top of the PP finger from its base.
+See \cref{fig:diagonal_model}.
+
+\todo{TODO: consider FEM results of diagonal model}
+
+The analytical modelling of the dovetail geometries considers only homogeneous tensile stress,
+but disregards the fact that the interlock is broken by deformation alone.
+The fact that the dovetail designs don't rely on genus interlocking means that they are more difficult to model.
+
 
 
 \subsection{Comparison of interlocking structures}
+All geometries considered can reach roughly 6 to \SI{7}{\mega\pascal}, 
+which means that circa \SI{2}{\mega\pascal} is used to secure the interlock, compared to the general upper bound of \SI{8.6}{\mega\pascal}. See \cref{eq:general_uper_bound}.
+The diagonal design with a cell stress of $7.07 \pm 1.0 \si{\mega\pascal}$ seems to outperform the others, but not significantly.
+The straight model has some geometries around the anticipated broken optimum performing significantly better than the other tested straight geometries;
+given the high dimensionality of the design space it might be the case that there is a straight geometry in between the whole and broken optima which outperforms the diagonal model nonetheless.
+The dovetail designs performed considerably worse then the other designs - even when the $\lmax$ constraint was violated.
 
-achieved strength; compared to theoretical max
 
-broken optimum seems to perform a lot better than expected
 
-only some designs performed worse significantly
 
-on par with jigsaw, but that one violated the $\lmax$ constraint
-
-show optimal designs
 
 
 \subsection{Limitations}
-Causes for Standard deviation: manufacturing inaccuracies due to location on print bed, filament diameter, temperature oscillations
+The biggest obstacle to drawing definitive conclusions about the relative strengths of the interlocking structures is the size of the standard deviation.
+The variation in results has a multitude of causes, related to print head position inaccuracy, filament diameter, temperature oscillations and even the location on the print bed.
+\footnote{With different locations on the build plate the Bowden tube is bent differently, altering the pressure and thus the amount of extrusion.}
+In order to mitigate these factors we have spread out the various geometries over 5 different Ultimaker S5 printers and different locations on the bed.
+Although this increases the variability in the results it does increase the reliability.
 
-Boundary cells of interlocking structure: 12/25, weird geometry
+Because we needed to test a large quantity of samples, we had to limit the size of the samples in terms of interface dimensions.
+For the $5\times5$ cells of the straight geometries 12 out of 25 cells were boundary cells, so it is challenging to extrapolate these results to larger interfaces.
+Moreover, the different geometries were tested with different amounts of cells, because the cell geometries were very different.
+This makes it hard to draw definitive conclusions comparing the different interlocking geometries.
 
-Different number of cells
-
+Finally, the validity of our models turned out to be limited,
+partly because of homogeneity assumptions and partly because we used empirical material properties of 3D prints, rather than simulating how those properties come about.
+In order to get more accurate models we could emulate the contact area and polymer entanglement between neighbouring traces,
+fit that to the empirically obtained tensile properties and use the resulting fitted model to simulate the structures on a toolpath level.
