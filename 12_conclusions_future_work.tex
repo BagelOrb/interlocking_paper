@@ -1,21 +1,24 @@
 % !TeX spellcheck = en_GB 
 \section{Conclusion}
+The diagonal interlocking design outperforms the straight design and existing dovetail designs,
+but the standard deviation is too high to make that conclusion definitive.
+All tested interlocking designs can between 6 and 7 \si{\mega\pascal}, which is roughly \SI{80}{\percent} of the theoretical maximum of \SI{8.6}{\mega\pascal}.
 
-interlocking can achieve 85\% of the strength of the PP and TPLA base materials; we reach about \todo{65\%}
+The analytical models can be used to quickly get a rough estimate of optimal interlocking designs,
+which might come in handy when considering different materials.
+Performing FEM simulations of interlocking structure behaviour is time consuming and provides results which are comparable to analytical methods.
 
-diagonal design outperforms dovetail interlocking?
+Genus interlocking shows potential for high compliance materials, because deformation isn't enough to break the interlock.
+It can help with complex and slanted surfaces, because genus interlocking locks translation in each dimension, 
+whereas dovetail designs allow for translation along Z.
 
-genus interlocking shows potential for high compliance materials
-
-genus interlocking can help with complex and slanted surfaces 
 
 
 \subsection{Applications}
-explain: PP for living hinges; TPLA for stiffness
-
-
-photo's of gripper, container, prosthetic hand 
-
+While TPLA is a relatively tough and stiff material, PP is more compliant and doesn't fatigue easily.
+As such PP is often used for living hinges, which consist of a single part.
+Combining these materials unlocks compliant mechanism applications.
+See \cref{fig:applications}.
 
 
 \begin{figure}
@@ -23,10 +26,20 @@ photo's of gripper, container, prosthetic hand
 	\begin{subfigure}[B]{.33\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{sources/applications/gripper.jpg}
-		\caption{Gripper design}
-		\label{fig:gripper}
+		\caption{Gripper}
+	\end{subfigure}
+	\begin{subfigure}[B]{.33\columnwidth}
+		\centering
+		\includegraphics[width=\columnwidth]{sources/applications/prosthetic.jpg}
+		\caption{Prosthetic}
+	\end{subfigure}
+	\begin{subfigure}[B]{.33\columnwidth}
+		\centering
+		\includegraphics[width=\columnwidth]{sources/applications/storage_box.jpg}
+		\caption{Storage box}
 	\end{subfigure}
 	\caption{Applications of interlocking structures.}
+	\label{fig:applications}
 \end{figure}
 
 
@@ -36,6 +49,8 @@ photo's of gripper, container, prosthetic hand
 Future work might be aimed at loading scenarios different from tensile, different materials, different nozzle sizes and different layer heights.
 It is specifically compelling to investigate the resilience of the interlocking structure against vertically applied loads.
 Another interesting route is to optimize for an interface between two bodies which has a complex geometry and heterogeneous stress distribution.
+
+In the light of sustainability and recycling specific failure modes might be selected for.
 
 If the design constraint on the length of the transitional structure between the two material is released,
 the manufacturing constraints are less relevant, which means that the geometry of the structure is less restricted.
