@@ -5,19 +5,29 @@ from matplotlib.patches import Patch
 import matplotlib._color_data as mcd
 import matplotlib.colors
 
+from scipy import interpolate
+
 from math import sqrt
 from math import pi
 
-big = False
+big = True
 only_one = False
 
-compare_to_FEM = False
+compare_to_FEM = True
+replace_by_FEM = True
+
+data_file = np.genfromtxt('diagonal_sim_results.csv', delimiter=';')
+FEM_stress = data_file[1:, 1:].T
+
 
 Ls = np.linspace(.6, 3.6, 200)
 wbs = np.linspace(.6, 4.8, 200)
 if not big:
     Ls = np.asarray([3.6])
     wbs = np.linspace(.6, 3.6, 6)
+if compare_to_FEM:
+    Ls = np.linspace(1.8, 3.6, 4)
+    wbs = np.linspace(.6, 1.8, 5)
 L, wb = np.meshgrid(Ls, wbs)
 if only_one:
     L = np.asarray([3.6])
@@ -62,8 +72,12 @@ np.where(np.isnan(minF), minF, 0)
 
 stress = minF / d / (2 * h)
 
+if replace_by_FEM:
+    stress = FEM_stress
+
 if not big:
     print(f"{stress=}")
+
 
 best_wb_idx = np.unravel_index(np.argmax(stress), stress.shape)
 print(f"max stress: {stress.max()} at wb: {wb[best_wb_idx]}")
@@ -104,12 +118,25 @@ if not only_one:
         fig = plt.figure()
         ax = plt.axes(projection='3d')
         ax.set(xlabel='$w_b$', ylabel='$L$', zlabel="stress (MPa)")
-        #ax.plot_surface(wb, L, stress)
-        ax.scatter(wb, L, stress, c=col.reshape(-1, 4), s=1)
-        legend_elements = []
-        for name, constr in gFs.items():
-            color = colormap[name]
-            legend_elements.append(Patch(facecolor=color, edgecolor='none', label=name_map[name]))
-        ax.legend(handles=legend_elements)
-        ax.set_zlim(0, 7)
+        if not big or compare_to_FEM:
+            Ls_ = np.linspace(np.min(Ls), np.max(Ls), 200)
+            wbs_ = np.linspace(np.min(wbs), np.max(wbs), 200)
+            L_, wb_ = np.meshgrid(Ls_, wbs_)
+            tck = interpolate.interp2d(L, wb, stress, kind='linear')
+            stress_ = tck(Ls_, wbs_)
+            plot = ax.plot_surface(wb_, L_, stress_, cmap=plt.get_cmap('jet'), edgecolor='none', linewidth=0)
+            fig.colorbar(plot)
+        else:
+            ax.scatter(wb, L, stress, c=col.reshape(-1, 4), s=1)
+        if len(wbs) < 20:
+            ax.set_xticks(wbs)
+        if len(Ls) < 20:
+            ax.set_yticks(Ls)
+        if not replace_by_FEM:
+            legend_elements = []
+            for name, constr in gFs.items():
+                color = colormap[name]
+                legend_elements.append(Patch(facecolor=color, edgecolor='none', label=name_map[name]))
+            ax.legend(handles=legend_elements)
+        ax.set_zlim(3, 7)
     plt.show()
