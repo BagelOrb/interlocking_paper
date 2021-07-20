@@ -1,7 +1,7 @@
 % !TeX spellcheck = en_GB 
 \section{Validation}
 Tensile tests were performed on an Instron 3366 Universal Testing machine at \SI{5}{\milli\meter\per\minute}.
-Prints were manufactured in 5-fold with Ultimaker Green Tough PLA and Ultimaker PP using the default \SI{0.1}{\milli\meter} layer thickness profile,
+Prints were manufactured on an Ultimaker S5 in 5-fold with Ultimaker Green Tough PLA and Ultimaker PP using the default \SI{0.1}{\milli\meter} layer thickness profile,
 with \SI{100}{\percent} infill and a custom brim to make sure both materials stick to the build plate.
 For PP we print the outer before the inner walls so as to improve the dimensional accuracy. % on TPLA we forgot to edit those settings
 In order to deal with the various widths of the beams we generate toolpaths using the Cura Arachne Engine beta release\cite{CuraArachne},
@@ -29,7 +29,7 @@ See \cref{fig:gcode}.
 	\begin{subfigure}[B]{.24\columnwidth}
 		\centering
 		\includegraphics[height=\figheight]{sources/testing/suture_gcode.jpg}
-		\caption{Trapezoidal suture}
+		\caption{Trap. suture}
 		\label{fig:gcode_suture}
 	\end{subfigure}
 	\begin{subfigure}[B]{.24\columnwidth}
@@ -46,8 +46,8 @@ See \cref{fig:gcode}.
 
 \begin{figure*}
 	\centering
-	\includegraphics[width=\textwidth]{sources/testing/results.pdf}
-	\caption{Test results compared to the predictions according to the analytical model and the simulations.}
+	\includegraphics[width=\textwidth]{sources/testing/results.png}
+	\caption{Test results compared to the predictions according to the analytical model and the RBF network fitted to the simulation results. The straight model samples are labelled relative to the whole and broken optimum, while the rest is labelled by their $\wb$ value.}
 	\label{fig:test_results}
 \end{figure*}
 
