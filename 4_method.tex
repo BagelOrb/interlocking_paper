@@ -2,21 +2,29 @@
 \section{Interlocking}
 
 
+
 \begin{figure}
 	\centering
-	\begin{subfigure}{.49\columnwidth}
-		\includegraphics{sources/method/suture_model_v5.pdf}
-		\caption{Trapezoidal suture}
-		\label{fig:suture}
+	\setlength{\figheight}{.3\columnwidth}
+	\begin{subfigure}[B]{.3\columnwidth}
+		\includegraphics[height=\figheight]{sources/method/basic_2d_interlock.jpg}
+		\caption{A 2D dovetail interlock}
+		\label{fig:basic_2d_interlock}
 	\end{subfigure}
-	\begin{subfigure}{.49\columnwidth}
-		\includegraphics{sources/method/jigsaw_model_v5.pdf}
-		\caption{Jigsaw}
-		\label{fig:jigsaw}
+	\begin{subfigure}[B]{.39\columnwidth}
+		\includegraphics[height=\figheight]{sources/method/basic_lattice.jpg}
+		\caption{The IGIM lattice}
+		\label{fig:basic_structure_single_mat}
 	\end{subfigure}
-	\caption{Simple 2D dovetail interlocking microstructures.}
-	\label{fig:suture_jigsaw}
+	\begin{subfigure}[B]{.29\columnwidth}
+		\includegraphics[height=\figheight]{sources/method/connectivity_lattice.jpg}
+		\caption{Connectivity graph}
+		\label{fig:connectivity_graph}
+	\end{subfigure}
+	\caption{Classical 2D interlocking versus IGIM 3D interlocking. The second material is transparent so that the internal structure is visible.}
+	\label{fig:basic_structure}
 \end{figure}
+
 
 
 
@@ -41,8 +49,7 @@ The best interlocking microstructure will be such that the stress will be homoge
 
 This upper bound to the ultimate tensile strength of interlocking microstructures is just a theoretical limit.
 In practice the worst cross-sectional area $A_a$ is in a different plane than the worst cross-sectional area $A_b$, so they don't add up to $A_\text{total}$.
-In the jigsaw example the highest stress of a jigsaw bulb of material $a$ is at its base $\myz{a}$, while the highest stress in $b$ will be at the main body of the bulb of material $a$ at $\myz{b}$.
-See \cref{fig:jigsaw}.
+In the dovetail example (\cref{fig:basic_2d_interlock}) the highest stress of a dovetail of material $a$ is at its base, while the highest stress in $b$ will be at the end of the dovetail of material $a$.
 The geometry by which the interlock is secured reduces the strength compared to the theoretical upper bound of the ultimate tensile strength.
 % Moreover, the stress distribution won't be homogenous when subjecting a complex geometry to tension.
 
@@ -74,28 +81,12 @@ It should be noted that with a nozzle size of \SI{0.4}{\milli\meter} one can sti
 
 
 
-\begin{figure}
-	\centering
-	\begin{subfigure}[B]{.49\columnwidth}
-		\includegraphics{sources/method/basic_lattice.jpg}
-		\caption{The IGIM lattice. (one material shown)}
-		\label{fig:basic_structure_single_mat}
-	\end{subfigure}
-	\begin{subfigure}[B]{.49\columnwidth}
-		\includegraphics{sources/method/connectivity_lattice.jpg}
-		\caption{Connectivity graph}
-		\label{fig:connectivity_graph}
-	\end{subfigure}
-	%\caption{}
-	\label{fig:basic_structure}
-\end{figure}
-
-
 \section{Interlaced Genus Interlocking Microstructure}
 The genus interlocking structure we propose consists of horizontal beams alternating in material.
 On top of that we print another set of beams rotated about Z.
 Long horizontal beams assure continuous extrusion, while the alternating direction of the beams assures the interlock - simple and effective.
-See \cref{fig:basic_structure}.
+See \cref{fig:basic_structure_single_mat}.
+\Cref{fig:connectivity_graph} exhibits the highly connected connectivity graph of the IGIM lattice, which demonstrates the high genus of the topology.
 
 When joining bodies of a different material, some region around the interface between the two bodies would be replaced by such a lattice structure.
 The interface could be several cells wide, but if the beams were of constant width then the addition of extra cells wouldn't increase the tensile strength of the interface lattice.
