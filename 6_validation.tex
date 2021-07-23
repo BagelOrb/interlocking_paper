@@ -166,8 +166,8 @@ In order to meet the minimum width constraint there, the sides of the specimen a
 
 
 \subsection{Results}
-After tensile testing we can observe various failure modes, such as in \cref{fig:failures}.
-The tensile tests performed result in force-displacement graphs such as displayed in \cref{fig:force-displacement},
+After tensile testing we can observe various failure modes, such as in \cref{fig:failures_straight,fig:failures_diagonal,fig:failures_jigsaw,fig:failures_suture}.
+The tensile tests performed result in force-displacement graphs such as displayed in \cref{fig:force-displacement_straight,fig:force-displacement_diagonal,fig:force-displacement_dovetail},
 from which the ultimate tensile strength is derived.
 Because the boundary cells deviate from the regular pattern, computing the ultimate tensile strength can be done in two ways, giving rise to two statistics.
 We compute the \emph{cell stress} by dividing the maximum force of the force-displacement graphs by the number of cells and then divide it by the cross sectional area of the cell.
@@ -182,7 +182,7 @@ but measuring the internal geometry of the interlocking structure is practically
 		\centering
 		\includegraphics[width=\columnwidth]{sources/testing/force_displacement_J.png}
 		\caption{Force-displacement graph.}
-		\label{fig:force-displacement}
+		\label{fig:force-displacement_straight}
 	\end{subfigure}
 \setlength{\figwidth}{.19\columnwidth}
 	\begin{subfigure}[B]{.99\columnwidth}
@@ -192,12 +192,62 @@ but measuring the internal geometry of the interlocking structure is practically
 		\includegraphics[width=\figwidth]{sources/testing/j3_cropped.jpg}
 		\includegraphics[width=\figwidth]{sources/testing/j4_cropped.jpg}
 		\includegraphics[width=\figwidth]{sources/testing/j5_cropped.jpg}
-		\caption{Specimens after tensile test}
-		\label{fig:failures}
+		\caption{Specimens 1 to 5 after tensile test}
+		\label{fig:failures_straight}
 	\end{subfigure}
 	\caption{Tensile results for broken wb+: $\lmax=3.6, \wb=1.7, \va=0.3, \hf=0.5$}
 \end{figure}
 
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[B]{.99\columnwidth}
+		\centering
+		\includegraphics[width=\columnwidth]{sources/testing/force_displacement_V.png}
+		\caption{Force-displacement graph.}
+		\label{fig:force-displacement_diagonal}
+	\end{subfigure}
+	\setlength{\figwidth}{.19\columnwidth}
+	\begin{subfigure}[B]{.99\columnwidth}
+		\centering
+		\includegraphics[width=\figwidth]{sources/testing/v1_cropped.jpg}
+		\includegraphics[width=\figwidth]{sources/testing/v2_cropped.jpg}
+		\includegraphics[width=\figwidth]{sources/testing/v3_cropped.jpg}
+		\includegraphics[width=\figwidth]{sources/testing/v4_cropped.jpg}
+		\includegraphics[width=\figwidth]{sources/testing/v5_cropped.jpg}
+		\caption{Specimens 1 to 5 after tensile test}
+		\label{fig:failures_diagonal}
+	\end{subfigure}
+	\caption{Tensile results for the diagonal design with: $\lmax=3.6, \wb=1.2$}
+	\label{fig:diagonal_tests}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[B]{.79\columnwidth}
+		\centering
+		\includegraphics[width=\columnwidth]{sources/testing/force_displacement_jigsaw_and_suture.png}
+		\caption{Force-displacement for jigsaw (reds) and trapezoidal suture (blues).}
+		\label{fig:force-displacement_dovetail}
+	\end{subfigure}
+\setlength{\figwidth}{.19\columnwidth}
+	\begin{minipage}[b]{\figwidth}\centering
+		\begin{subfigure}[B]{\figwidth}
+			\centering
+			\includegraphics{sources/testing/jigsaw_cropped.jpg}
+			\caption{Jigsaw}
+			\label{fig:failures_jigsaw}
+		\end{subfigure}
+		\begin{subfigure}[B]{\figwidth}
+			\centering
+			\includegraphics{sources/testing/suture_cropped.jpg}
+			\caption{Trap. suture}
+			\label{fig:failures_suture}
+		\end{subfigure}
+	\end{minipage}
+	\caption{Tensile results for dovetail designs with: $\wb=.7$}
+	\label{fig:dovetail_tests}
+\end{figure}
 
 % table of best sample dimensions?
 
