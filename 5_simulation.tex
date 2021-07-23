@@ -1,5 +1,5 @@
 % !TeX spellcheck = en_GB 
-\section{Simulation}
+\subsection{Simulation}
 In order to simulate interlocking structures with a range of design parameters we automatically generate an INP file in Abaqus CAE (2020) using a script.
 Solving the INP file gives us the force-displacement graph, from which we can determine the ultimate tensile strength.
 In order to simulate accurately we used the stress-strain curves from tensile tests on the base materials printed flat on the build plate as the plasticity in tabular form.
@@ -15,7 +15,7 @@ In order to estimate the optimum we fit a smooth response surface to these data 
 where a smoothness of $\lambda=1$ produces satisfactory results.
 
 
-\subsection{Straight}
+\subsubsection{Straight}
 In order to prevent stress concentrations and adhere to manufacturing accuracy, the vertical edges of the straight design were rounded with $r=\SI{0.15}{\milli\meter}$;
 see \cref{fig:sim_straight_model}.
 We performed two rounds of hypersurface fitting on grid search; the second round was in a zoomed in region and with elements of $\pm\SI{50}{\micro\meter}$.
@@ -101,7 +101,7 @@ We then observe that our analytical model on average predicts only \SI{7.8}{\per
 
 
 
-\subsection{Diagonal}
+\subsubsection{Diagonal}
 Modelling the diagonal design in Abaqus can be quite cumbersome, since it doesn't natively support periodic boundary constraints.
 Whereas this problem can be overcame in the straight design because it is symmetric,
 the diagonal design is rotationally symmetric.

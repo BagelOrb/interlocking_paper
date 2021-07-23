@@ -1,5 +1,22 @@
 % !TeX spellcheck = en_GB 
 \section{Validation}
+In order to validate our analytical models we compare its predictions against both simulation results and physical tensile tests.
+While the physical tests constitute the final arbiter on the matter,
+our resources for performing physical tests are limited.
+
+Simulations can easily be performed by running a script for days on end without user interaction.
+Given that the simulations make use of the same material properties which were acquired from tensile tests performed by Ultimaker,
+the simulations can teach us about which homogeneity assumptions were acceptable,
+whereas the physical test results are conflated with manufacturing inaccuracies and a potential difference in base material properties.
+
+
+
+
+
+\input{5_simulation}
+
+
+\subsection{Tensile tests}
 Tensile tests were performed on an Instron 3366 Universal Testing machine at \SI{5}{\milli\meter\per\minute}.
 Prints were manufactured on an Ultimaker S5 in 5-fold with Ultimaker Green Tough PLA and Ultimaker PP using the default \SI{0.1}{\milli\meter} layer thickness profile,
 with \SI{100}{\percent} infill and a custom brim to make sure both materials stick to the build plate.
@@ -54,8 +71,8 @@ See \cref{fig:gcode}.
 
 
 
-\subsection{Model parameters}
-\subsubsection{Straight}
+\subsubsection{Model parameters}
+\paragraph{Straight}
 The straight design suffers from the curse of dimensionality;
 Even when setting $\wa=\SI{0.6}{\milli\meter}$, $\hc=\SI{0.1}{\milli\meter}$ and $L=\SI{3.6}{\milli\meter}$,
 there are still the three free design variables $\wb$, $\va$ and $\hf$ to determine.
@@ -94,7 +111,7 @@ See \cref{fig:test_straight_boundary_cells}.
 
 
 
-\subsubsection{Diagonal}
+\paragraph{Diagonal}
 Because with a given $L=\SI{3.6}{\milli\meter}$, $h=\SI{0.2}{\milli\meter}$ and $\wa=\SI{0.6}{\milli\meter}$ the remaining design space is only one-dimensional,
 we can simply sample various points along $\wb$: $(0.6, 1.2, 1.8, 2.4, 3.0, 3.6)$.
 Each specimen contains 5 cells in the horizontal direction, but 13 repetition in Z.
@@ -147,7 +164,7 @@ See \cref{fig:gcode_diagonal}.
 \end{figure}
 
 
-\subsubsection{Dovetail interlocking}
+\paragraph{Dovetail interlocking}
 We compared our interlocking structures against two interlocking designs: trapezoidal sutures and jigsaw interlocking.
 See \cref{fig:suture_jigsaw}.
 We used $\wa=2\wmin{a}$, $dw=\SI{0.3}{\milli\meter}$ and $L=2.4$ for the trapezoidal suture,
@@ -165,10 +182,10 @@ In order to meet the minimum width constraint there, the sides of the specimen a
 
 
 
-\subsection{Results}
+\subsubsection{Results}
 After tensile testing we can observe various failure modes, such as in \cref{fig:failures_straight,fig:failures_diagonal,fig:failures_jigsaw,fig:failures_suture}.
 The tensile tests performed result in force-displacement graphs such as displayed in \cref{fig:force-displacement_straight,fig:force-displacement_diagonal,fig:force-displacement_dovetail},
-from which the ultimate tensile strength is derived.
+from which the ultimate tensile strength values are derived.
 Because the boundary cells deviate from the regular pattern, computing the ultimate tensile strength can be done in two ways, giving rise to two statistics.
 We compute the \emph{cell stress} by dividing the maximum force of the force-displacement graphs by the number of cells and then divide it by the cross sectional area of the cell.
 We compute the \emph{total stress} by dividing the force by the total cross-sectional area of the sample, including the extra geometry at the boundaries of the sample.
