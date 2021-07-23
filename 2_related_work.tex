@@ -1,55 +1,52 @@
 % !TeX spellcheck = en_GB 
 \section{Related Work}
 
-\subsection{Interlocking}
-
-\subsubsection{Friction interlocking}
-
-\cite{Duty2019} and \cite{Kazmer2020} consider injecting material from above which spans several layers which are thus joined together.
-% pinning layers together using pillars which span multiple layers and which are injected from above.
-
-% Cura 4.8 allows for generating sandwich structures where the layers are alternated between the two materials.
-
-\subsubsection{Dovetail interlocking}
-
-\cite{gouker2006manufacturing} considers the use of 3D dovetail interlocking for multi-material compliant mechanisms.
-
-\cite{debora2020} propose various types of connectors specifically developed for multi-material FDM.
-
-\cite{aharoni2021} consider topology optimization for (2D) interlocking structures.
-
-\cite{malik2017} consider a two-dimensional jigsaw type of interlocking structure.
-
-\cite{Li2013} consider a generalized model for trapezoidal dovetail and friction interlocking.
-
-\cite{Ribeiro2019} consider several 3D printed dovetail designs.
-
-\cite{Wang2021} consider star shaped dovetail interlocking.
-
-
-\subsubsection{Genus interlocking}
-
-\cite{Rossing2020} develop an interlocking structure, where one material is produced using FDM and the other is produced by overmolding silicone onto the printed part.
-
-
-Related literature about weaving. e.g. carbon fiber tubes
-
 
 \subsection{Microstructures}
 % multi-material microstructures
+Microstructures such as beam lattices, triply periodic surfaces and ordered dithering have widely been studied for their mechanical properties\cite{Cadman2013,Zhang2018a,tamburrino2018}.
+Single material microstructures can constitute auxetic materials, or light weight structures with tailored material properties, through fine adjustments of the microstructure geometry.
+Such microstructures are often manufactured using stereolithography and polyjetting, because of these processes have very few manufacturing constraints.
+Microstructures are inherently high genus, which makes them good candidates for interlocking\cite{freund2019determination}.
+However, optimizing microstructures for adhesions between incompatible materials while adhering to FDM manufacturing constraints has been studied scarcely.
 
-\cite{Afshar2016} considers material properties of Polyjet printed solid TPMS.
 
-\cite{Wang2015} propose a dual material auxetic microstructure which unlocks unlocks a new area of material properties compared to single material metamaterials.
-
-
-\cite{mirzaali2020} explore polyjet printing structures of soft and hard material. % ?
 
 \subsection{Adhesion}
-%\citeauthor{tamburrino19} investigate the adhesion between multi-material prints and propose a simple friction based interlocking structure, which consists of straight extrusions of the one material around the other~\cite{tamburrino19}.
 
-\cite{fernandez2019} and \citeauthor{tamburrino19} investigate the adhesion between incompatible materials and the influence of infill pattern and of overlapping toolpaths.
+Adhesion between two materials can be divided into chemical, dispersive and diffuse adhesion\cite{abbott2015adhesion}.
+The adhesion by which two bodies of different FDM printed material stick together can be influences by a wide spectrum of pre-treatment methods, process parameters and material properties\cite{freund2019determination}.
+Increasing surface roughness can improve the adhesion between materials\cite{huttenbach1991interface,gent1990model}, but the benefit is inherently limited\cite{abbott2015adhesion}.
+For FDM one could try mixing the materials by overlapping their toolpaths to increase adhesion or create simple straight protrusions in order to increase the friction between the two materials\cite{tamburrino19}.
+However, if such protrusions bulge outward the adhesions doesn't merely increase through friction, but also because it would constitute a dovetail type of interlocking structure.
 
-\subsection{Multi-material}
-\cite{Zhang2020} explore grading mixing ratios between glass and metal in a custom multi-material SLM machine.
+% Cura 4.8 allows for generating sandwich structures where the layers are alternated between the two materials.
+
+
+\subsection{Interlocking in FDM}
+
+%\subsubsection{Dovetail interlocking}
+Literature on interlocking patterns for adhesion between incompatible materials in FDM 3D printing has focussed on extruded 2D interlocking dovetail type of designs,
+such as jigsaw shapes ($\Omega$)\cite{malik2017}, trapezoidal sutures ($\sqcap$)\cite{Li2013}, T-shapes\cite{Ribeiro2019}, star shapes ($\bigstar$)\cite{Wang2021} in the horizontal direction
+as well as in the vertical direction across several layers\cite{debora2020}.
+Topology optimization can generate complex 2D dovetail interlocking shapes, which fit to the specifics of the design locally\cite{aharoni2021}.
+Such interlocking designs are extrusions of 2D shapes and therefore they allow for translation along the extrusion axis, so these type of interlocking designs don't lock all axes.
+
+The jigsaw idea can be expanded into a 3D interlocking structure by protruding not only sideways, but also vertically, resulting in a shape which looks like a tree ($\clubsuit$)\cite{gouker2006manufacturing}.
+Similarly the T-shaped interlocking design can be expanded with beams in the vertical directions as well as the horizontal bars of the T.
+However, such designs violate the semi-continuous extrusion requirement because the layers above and below the base of the T contain separated islands of one material, 
+which are difficult to print when the two materials don't adhere to each other.
+
+%\subsubsection{Genus interlocking}
+These issues can be addressed by generating a repeating microstructure where the interlocks are connected together to form a high genus topology which locks all degrees of freedom.
+Simple straight I shaped extrusions can be linked together by cross beams in order to form a genus interlocking structure\cite{Rossing2020}.
+In their application where the second material is overmolded silicone the manufacturing constraints don't hold,
+but in cases where the second material is also 3D printed, the space enclosed by the cross beams and extruded walls forms an island and thereby violates the extrusion continuity constraint.
+A different microstructure is required if the extrusion continuity constraint is to be met for both materials.
+
+%%  Single material adhesion structures
+%The mechanical properties of single material 3D prints can also be improved by techniques similar to interlocking.
+%By injecting material which span several layers the inter-layer bonding can be improved\cite{Duty2019,Kazmer2020}.
+%Weaving extruded strands together across several layers is another technique to improve layer adhesion\cite{yao20213d}.
+
 
