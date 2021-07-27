@@ -31,8 +31,9 @@
 We will optimize interlocking structures for tensile strength;
 the geometry of the designs are optimized to yield or break at the highest horizontally applied tensile stress.
 The highest administrable force applied to a unit cell of any interlocking structure will be borne by both materials $a$ and $b$.
-At any cross-section perpendicular to the applied stress the total force will be distributed over the area $A_a$ covered by material $a$ and likewise over the area $A_b$.
-The best interlocking microstructure will be such that the stress will be homogeneously distributed over $A_a$ and $A_b$ and both will be at the yield strength of their respective base materials:
+In the plane where tensile failure of material $a$ occurs the total force $F$ will be distributed over the cross-sectional area $A_a$;
+likewise for material $b$.
+The theoretically optimal interlocking microstructure would be such that the stress will be homogeneously distributed over $A_a$ and $A_b$ such that both will be at the yield strength of their respective base materials:
 
 \begin{align}
 	\sigma^* &= \frac{F}{A_\text{total}} = \frac{F}{A_a + A_b}  \nonumber
@@ -40,14 +41,14 @@ The best interlocking microstructure will be such that the stress will be homoge
 	= \sigmafail{b} \frac{A_b}{A_a + A_b} \nonumber \\
 %	\sigmafail{a} A_a &= \sigmafail{b} A_b \nonumber \\
 \label{eq:general_uper_bound}
-	\sigma^* % &= \sigmafail{b} \left(\frac{ \nicefrac{\sigmafail{a}}{\sigmafail{b}} }{ \nicefrac{\sigmafail{a}}{\sigmafail{b}} + 1 } \right) \nonumber \\
+%	\sigma^* % &= \sigmafail{b} \left(\frac{ \nicefrac{\sigmafail{a}}{\sigmafail{b}} }{ \nicefrac{\sigmafail{a}}{\sigmafail{b}} + 1 } \right) \nonumber \\
 	% &= \sigmafail{b} \left(\frac{ 1 }{ 1 + \nicefrac{\sigmafail{b}}{\sigmafail{a}} } \right)  \nonumber \\
 	&= \frac{ 1 }{ \nicefrac{1}{\sigmafail{a}} + \nicefrac{1}{\sigmafail{b}} } 
 	\approx \SI{8.6}{\mega\pascal}
 \end{align}
 
 
-This upper bound to the ultimate tensile strength of interlocking microstructures is just a theoretical limit.
+This formula for the ultimate tensile strength of interlocking microstructures is a theoretical upper bound.
 In practice the worst cross-sectional area $A_a$ is in a different plane than the worst cross-sectional area $A_b$, so they don't add up to $A_\text{total}$.
 In the dovetail example (\cref{fig:basic_2d_interlock}) the highest stress of a dovetail of material $a$ is at its base, while the highest stress in $b$ will be at the end of the dovetail of material $a$.
 The geometry by which the interlock is secured reduces the strength compared to the theoretical upper bound of the ultimate tensile strength.
@@ -57,11 +58,11 @@ The geometry by which the interlock is secured reduces the strength compared to 
 
 
 For the materials chosen by this study, Ultimaker Tough PLA (TPLA) and Ultimaker PolyProlylene (PP), the upper bound comes out to be \SI{8.6}{\mega\pascal}.
+The structure may not only be subject to tensile failure, but also to shear failure modes.
 Because of the layer-wise build-up employed by FDM 3D printing, the tensile properties in the Z direction are different from those in the horizontal plane.
 See \cref{tab:mat_props_manufacturing_constraints}.
-
 The structure is furthermore subject to manufacturing constraints determined by the nozzle sizes and the layer thickness.
-It should be noted that with a nozzle size of \SI{0.4}{\milli\meter} one can still manufacture geometry as small as \SI{0.3}{\milli\meter}.
+The standard layer thickness is \SI{0.1}{\milli\meter} and the minimal line width for a \SI{0.4}{\milli\meter} nozzle is \SI{0.3}{\milli\meter}.
 
 
 \begin{table}
@@ -91,13 +92,19 @@ See \cref{fig:basic_structure_single_mat}.
 When joining bodies of a different material, some region around the interface between the two bodies would be replaced by such a lattice structure.
 The interface could be several cells wide, but if the beams were of constant width then the addition of extra cells wouldn't increase the tensile strength of the interface lattice.
 One might consider varying the width of the beams in order to optimize the tensile strength.
-Each added cell would increase the tensile strength, but by a lesser degree than the last added cell.
+Adding cells does increase the ultimate tensile strength, but with diminishing returns;
+going from a lattice of 3 cells wide to 4 cells wide can only improve the strength marginally.
+Nonetheless the optimal structure could be infinite cells wide.
+%Each added cell would increase the tensile strength, but by a lesser degree than the last added cell.
 In practice the amount of space available is limited by the design of the two bodies.
 We consider a design constraint of $\lmax = 3.6$.
 
 Given such a design constraint the efficacy of adding extra cells in the direction of the applied force is weighed against widening the beams.
 Instead of having multiple cells with a fraction of the $\lmax$ width it's better to make a single cell as wide as $\lmax$.
-Verifying this conjecture falls outside the scope of this work.
+Splitting the $\lmax$ over two identical cells means that the total force will be transferred from the one material to the other in two stages,
+but whichever portion goes through either cell the worst cell of the two will obtain shear stresses twice as high compared to the single cell scenario, because the beams are half as wide.
+Allowing for the two cells to have different beam widths can improve on those shear stresses, but by a factor well below two,
+so using more cells along the width of the interface only increases shear stresses.
 
 Given that we will fill the space around the interface with a single layer of cells, the orientation of those cells w.r.t. the interface is relevant.
 While rotating the lattice about X or Y is impossible due to the continuous extrusion constraint, we are free to rotate about Z.

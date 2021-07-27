@@ -1,36 +1,38 @@
 % !TeX spellcheck = en_GB 
 \section{Introduction}
 Multi-material FDM 3D printers unlock a plethora of applications through combining the unique material properties of various materials.
-However, depending on the combination of materials the chemical adhesion between the materials can be nearly non-existent.
-In such cases we can turn to \emph{mechanical} interlocking to prevent the materials from breaking apart from each other.
+However, depending on the combination of materials the chemical adhesion between the materials can be negligibly weak.
+For example, polypropylene (PP) has a very weak chemical bond to most other types of filament.
+In such cases it is necessary to rely on \emph{mechanical} interlocking to prevent the materials from breaking apart from each other.
 
 A common type of interlocking can be found in jigsaw puzzles.
 The pieces interlock and stay connected because of the material stiffness.
 The interlock can be broken in plane by deformation of the pieces.
 Out of plane the pieces can be disassembled easily.
 
-A better type of interlocking can be found in a chain.
+A different type of interlocking can be found in a chain.
 The only way to break a chain is by breaking one of the links.
 They cannot be broken by deformation alone, because links of a chain have a topology of genus 1.
-An interlocking geometry with a high genus topology means that the interlock is preserved under continuous deformations.
-This type of \emph{genus interlocking} suggests to be robust in the face of flexible and deformable materials.
+An interlocking geometry with a high genus topology means that the interlock is preserved under continuous deformations of the two materials.
+This type of \emph{genus interlocking} suggests to be robust when flexible and deformable materials are concerned.
 
-For the application of dual material FDM 3D printing we propose a high genus interlocking structure where holes in the one material are filled with the other material and vice versa.
-Introducing discontinuities in the extrusion process leads to defects, which influence the accuracy and the mechanical properties of the resulting part.
+For the application of dual material FDM 3D printing we propose a high genus interlocking structure where all voids in the one material are filled with the other material and vice versa.
+However, most high genus topologies would introduce discontinuities in the extrusion process when sliced into layers for 3D printing, as each slice would contain disconnected islands.
+Such discontinuities lead to defects, which influence the accuracy and the mechanical properties of the resulting part.
 Moreover, depositing disconnected islands of one material on top of a chemically incompatible material cannot reliably be performed since the island isn't fastened to anything.
-We therefore have to generate interlocking geometry for which the layers consist of continuously connected areas.
+We therefore have to generate interlocking geometry for which the layers consist of long continuously connected areas.
 
 Intuitively it seems impossible to generate high genus interlocking geometry while enforcing continuous extrusion for both materials;
 if the one material leaves a hole in a layer then filling that hole with the other material will cause it to be disconnected from the other regions of the second material.
-The trick is to align all holes horizontally, so that they never cross a plane at which a printing layer is sliced.
-
+Our idea is to align all holes horizontally, so that they never cross a plane at which a printing layer is sliced.
+See \cref{fig:basic_structure_single_mat}.
 
 
 Our contributions are as follows:
 \begin{itemize}
 	\item An interlaced genus interlocking microstructure (IGIM) which satisfies the extrusion continuity constraint
-	\item Two types of optimized interlocking designs based on IGIM
-	\item Simplified analytical models for estimating tensile properties and for optimizing them
+	\item Two variations of the IGIM lattice optimized for tensile forces
+	\item Simplified analytical models for estimating tensile properties and for optimizing the design parameters of the interlocking structures
 \end{itemize}
 
 
