@@ -6,16 +6,19 @@
 When comparing the tensile test results to the analytical models and the simulation results (\cref{fig:test_results}),
 we observe that the whole straight model is predicted rather well by the models.
 Although the standard deviation is too high to capture the differences in response with significance,
-the direction in which the average ultimate strength changes corresponds to the predicted direction of change according to our models in half of the samples.
+the analytical model follows the trends of the FEM simulations rather well and simulation results generally fall within one standard error of the physical results.
 The analytical model tends to overestimate the strength because of homogeneous stress assumptions,
 while the simulations tend to underestimate the strength - perhaps because the tensile properties of the base 3D printing materials were acquired using a different type of toolpathing.
 
 The response around the anticipated broken optimum is predicted by our models considerably worse.
 The fact that the simulations performed worse around that area was expected, since after cells in the mesh are broken some self-intersection may occur in the simulation.
-When viewing the best performing straight sample (broken wb+, \cref{fig:failures}) we observe that due to manufacturing inaccuracy several failure modes occur throughout the sample,
+When viewing the best performing straight sample (broken wb+, \cref{fig:failures_straight}) we observe that due to manufacturing inaccuracy several failure modes occur throughout the sample,
 but shearing off of part of the cross beams is not one of them.
 One possible explanation is that for geometry so small as the order of the nozzle size the material properties are closer to the bulk material than to the empirical material properties of printed samples;
 the strength determined by the empirical tensile tests relies on the geometry of the toolpaths with which those were printed, while the toolpaths in our interlocking designs might be locally stronger.
+Specifically the IGIM toolpaths consist of long semi-continuous extrusion paths, while the dovetail designs have discontinuous toolpaths in the wider part of the dovetails.
+In contrast, the tensile test specimens with which the material properties were determined were printed using diagonal toolpaths
+and because they are printed in a large scale compared to the nozzle size their properties are influenced more by the air gaps in between the extrusions.
 
 Although the anticipated optimum from the simulations of the diagonal design are at the same $\wb$ as the tensile tests,
 the simulations seem to underestimate the strength of the design.
@@ -53,6 +56,7 @@ Although this increases the variability in the results it does increase the reli
 Because we needed to test a large quantity of samples, we had to limit the size of the samples in terms of interface dimensions.
 For the $5\times5$ cells of the straight geometries 12 out of 25 cells were boundary cells, so it is challenging to extrapolate these results to larger interfaces.
 Moreover, the different geometries were tested with different amounts of cells, because the cell geometries were very different.
+The dovetail designs were modelled without taking friction into account and the size of the interlock ($dw, \alpha$) wasn't optimized for.
 This makes it hard to draw definitive conclusions comparing the different interlocking geometries.
 
 Finally, the validity of our models turned out to be limited,
