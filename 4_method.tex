@@ -111,7 +111,10 @@ Given that we will fill the space around the interface with a single layer of ce
 While rotating the lattice about X or Y is impossible due to the continuous extrusion constraint, we are free to rotate about Z.
 However, given that the tensile stress is applied in a single direction it only makes sense to consider two orientations: straight and diagonal.
 
-If all dimensions of the beams are set to minimal and the angle between the beams is set to \SI{90}{\degree}, tensile tests show that the straight orientation reaches \SI{3.3}{\mega\pascal} and the diagonal orientation reaches \SI{4.9}{\mega\pascal}.
+If all dimensions of the beams are set to minimal and the angle between the beams is set to \SI{90}{\degree},
+%tensile tests show that the straight orientation reaches \SI{3.3}{\mega\pascal} and the diagonal orientation reaches \SI{4.9}{\mega\pascal}.
+the beam in the straight orientation only takes up a quarter of the area at the base of the cell, so we can expect the strength to be roughly $\nicefrac14 \sigmafail{b} = \SI{2.6}{\mega\pascal}$.
+For the diagonal orientation the beams take up half of the area at the base of the cell, which would amount to roughly $\nicefrac12 \sigmafail{b} = \SI{5.3}{\mega\pascal}$.
 However, these ultimate strengths can be improved upon considerably by optimizing the geometry.
 This section considers these two designs and analytical models to optimize them.
 
@@ -153,11 +156,11 @@ we can safely assert that a subset of the bounds on the design variables are met
 	\va &= \lmax - \vb
 \end{align*}
 
-A careful analysis of the geometry will show that if shearing failure mode $\myz{a}$ has occurred, 
+A careful analysis of the geometry will show that if shearing failure mode $\mxz{a}$ has occurred, 
 there is still interlocking between the two materials. 
 If a part of the cross beams of $a$ has sheared off, still a column of material $a$ remains, which is surrounded by material $b$.
-Once failure mode $\myz{a}$ has occurred, still any other failure mode has to occur for the interlock to fail.
-Since the Young's modulus of PP is lower than that of TPLA, we know that $\myz{a}$ will always happen before $\myz{b}$.
+Once failure mode $\mxz{a}$ has occurred, still any other failure mode has to occur for the interlock to fail.
+Since both cross beams shear together and TPLA breaks at a lower strain than PP, we know that $\mxz{a}$ will always happen before $\mxz{b}$.
 We will therefore construct two models: one where the TPLA cross beam is whole and one where it is broken into segments.
 
 \subsubsection{Whole cross beams}
@@ -288,7 +291,7 @@ Both beams should have the same height $2\hmin$ and the angle $\alpha$ between t
 \end{figure}
 
 
-The simple cell consists of protruding fingers and triangular dents;
+The simple cell consists of protruding fingers and triangular dents (see red triangles in \cref{fig:diagonal_model_simple});
 however, the advantage these dents give to the strength of the pattern is vastly outweighed by their effect on the total length $L$.
 We therefore trim the triangular ends on the pattern to arrive at the model shown in \cref{fig:diagonal_model}.
 However, doing this introduces some sharp edges, which are not manufacturable using FDM 3D printing.
