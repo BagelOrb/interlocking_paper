@@ -3,15 +3,15 @@
 In order to simulate interlocking structures with a range of design parameters we automatically generate an INP file in Abaqus CAE (2020) using a script.
 Solving the INP file gives us the force-displacement graph, from which we can determine the ultimate tensile strength.
 In order to simulate accurately we used the stress-strain curves from tensile tests on the base materials printed flat on the build plate as the plasticity in tabular form.
-The simulations were performed in the Abaqus/Explicit solver where Dynamic,Explicit procedure step was used with the mass scaling factor of $10^7$,
+The simulations were performed in the Abaqus/Explicit solver where Dynamic, Explicit procedure step was used with the mass scaling factor of $10^7$,
 using geometric nonlinearity and general contact (explicit) to disregard friction for simplicity.
 
-The repeating nature of the interlocking patterns was captured by modelling half the geometry and apply symmetry constraints to the sides, top and bottom.
+The repeating nature of the interlocking patterns was captured by modelling half of the unit cell and apply symmetry constraints to the sides, top and bottom.
 The model was meshed using C3D8R hexahedral elements of $\pm\SI{75}{\micro\meter}$.
 
 A grid search was used to measure the influence on the ultimate strength along each of the design variables $\wb (,\va, \hc)$, along with the total length $L$.
-The simulation space was therefore 4D and 2D for the straight and diagonal design respectively.
-In order to estimate the optimum we fit a smooth response surface to these data points using a radial basis function (RBF) network,\cite{Dinh2002}
+The search space was therefore 4D and 2D for the straight and diagonal design respectively.
+In order to estimate the optimum we fit a smooth response surface to these data points using a radial basis function (RBF) network\cite{Dinh2002},
 where a smoothness of $\lambda=1$ produces satisfactory results.
 
 
@@ -26,7 +26,7 @@ It's unlikely the optimum of the fitted hypersurface would be on a different int
 The resulting hypersurfaces are visualized in \cref{fig:simulation_results_straight}.
 The obtained optima are shown in \cref{tab:sim_straight_optima}.
 
-We compare the results of round 1 to our analytical model by adjusting our model to capture the inaccurate Z strength used in the simulations:
+We compare the results of round 1 to our analytical model by adjusting the analytical model to capture the inaccurate Z strength used in the simulations:
 $\sigmafailz{m} := \sigmafail{m}$.
 We then observe that our analytical model on average predicts only \SI{7.8}{\percent} higher ultimate strength values than then the FEM simulations, with a standard deviation of \SI{16.2}{\percent}.
 
