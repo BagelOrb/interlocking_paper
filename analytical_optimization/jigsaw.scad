@@ -3,7 +3,7 @@
 alternate = 0;
 
 tpla=true;pp=false; material = tpla;
-jigsaw=0;suture=1; type = jigsaw;
+jigsaw=0;suture=1; type = suture;
 
 approx_h = 5;
 approx_w = 17;
@@ -51,6 +51,7 @@ if (type == jigsaw)
 {
     echo("min width a:", 2*(dwa+dwb-rb));
     echo("min width b:", 2*(dwa+dwb-ra));
+    echo("w1:", 2*ra);
     echo("dw:", ra - (dwa+dwb-rb));
 }
 else
