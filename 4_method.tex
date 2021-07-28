@@ -186,16 +186,15 @@ The above considerations combine to form the following constrained optimization 
 \begin{align}
 	f: & \max{ \frac{F}{\left( 2 \wmin{a} + \wb \right) \left( \hf + 2\hmin \right) } }  \label{eq:objective} \\
 	\omit\rlap{subject to} \nonumber \\
-	\gwb: & \nicefrac{\wb }{2 \wmin{b}} \ge 1 		&&	\label{eq:gwb}\\
-	\gva: & \nicefrac{ \left( \lmax - \vb \right) }{\wmin{a}} \ge 1 		&&	\label{eq:gva}\\
-	\gvb: & \nicefrac{\vb }{\wmin{b}} \ge 1 		&&	 \label{eq:gvb}\\
-	\ghf: & \nicefrac{\hf}{\hmin} \ge 1 		&&	 \label{eq:ghf}\\
-	\gta: & \frac{ 2 \wmin{a} \hf \sigmafail{a} }{ F } \ge 1 &&	\myz{a}  \label{eq:g_tensile_a} \\
-	\gtb: & \frac{ \wb \hf \sigmafail{b} }{ F } \ge 1 &&	\myz{b}  \label{eq:g_tensile_b} \\
-	\gca: & \frac{ 2 w \left( \lmax - \vb \right) 2 \hmin \sigmafailz{a} }{ \wb F \sqrt{3} } \ge 1 &&	 \mxz{a}  \label{eq:g_shear_a} \\
-	%	\gcb: & \frac{ 2 w \vb \hc \sigmafailz{b} }{ \wa F \sqrt{3} } \ge 1 &&	 \mxz{b}  \label{eq:g_shear_b} \\
-	\gza: & \frac{ 2 w \left( \lmax - \vb \right) \wa \sigmafailz{a} }{ \wa F \sqrt{3} } \ge 1 	&&	 \mxy{a} \label{eq:g_z_shear_a} \\
-	\gzb: & \frac{ 2 w \vb \wb \sigmafailz{b} }{ \wb F \sqrt{3} } \ge 1 	&&	\mxy{b} \label{eq:g_z_shear_b} 
+	\gwb: & \wb \ge 2 \wmin{b} 		&&	\label{eq:gwb}\\
+	\gva: & \lmax - \vb \ge \wmin{a} 		&&	\label{eq:gva}\\
+	\gvb: & \vb \ge \wmin{b} 		&&	 \label{eq:gvb}\\
+	\ghf: & \hf \ge \hmin 		&&	 \label{eq:ghf}\\
+	\gta: & \frac{ F }{ 2 \wmin{a} \hf } \le \sigmafail{a} &&	\myz{a}  \label{eq:g_tensile_a} \\
+	\gtb: & \frac{ F }{ \wb \hf  } \le \sigmafail{b} &&	\myz{b}  \label{eq:g_tensile_b} \\
+	\gca: & \frac{\wb}{w} \frac{ F }{ 2 \left( \lmax - \vb \right) 2 \hmin  } \le  \frac{1}{\sqrt{3}} \sigmafail{a} &&	 \mxz{a}  \label{eq:g_shear_a} \\
+	\gza: & \frac{\wa}{w} \frac{ F }{ 2 \left( \lmax - \vb \right) \wa  } \le  \frac{1}{\sqrt{3}} \sigmafailz{a} 	&&	 \mxy{a} \label{eq:g_z_shear_a} \\
+	\gzb: & \frac{\wb}{w} \frac{ F }{ 2 \vb \wb  } \le  \frac{1}{\sqrt{3}} \sigmafailz{b} 	&&	\mxy{b} \label{eq:g_z_shear_b} 
 \end{align}
 
 The $\sqrt{3}$ comes from the von Mises yield criterion.
@@ -244,11 +243,8 @@ The shear constraints \crefrange{eq:g_tensile_a}{eq:g_z_shear_b} are replaced by
 
 
 \begin{align}
-%	\gtabroken: & \frac{ 2 \wmin{a} \hf \sigmafail{a} }{ F } \ge 1 &&	\myz{a}  \label{eq:g_tensile_a_broken} \\
-%	\gtbbroken: & \frac{ \wb \hf \sigmafail{b} }{ F } \ge 1 &&	\myz{b}  \label{eq:g_tensile_b_broken} \\
-	\gcbbroken: & \frac{ 4 \vb \hmin \sigmafailz{b} }{ F \sqrt{3} } \ge 1 &&	 \mxz{b}  \label{eq:g_shear_b_broken} \\
-	\gzabroken: & \frac{ 2 \left( \lmax - \vb \right) \wa \sigmafailz{a} }{ F \sqrt{3} } \ge 1 	&&	 \mxy{a} \label{eq:g_z_shear_a_broken}
-%	\gzbbroken: & \frac{ 2 \vb \wb \sigmafailz{b} }{ F \sqrt{3} } \ge 1 	&&	\mxy{b} \label{eq:g_z_shear_b_broken} 
+	\gcbbroken: & \frac{ F }{ 2 \vb 2 \hmin } \le  \frac{1}{\sqrt{3}} \sigmafail{b} &&	 \mxz{b}  \label{eq:g_shear_b_broken} \\
+	\gzabroken: & \frac{ F }{ 2 \left( \lmax - \vb \right) \wa } \le \frac{1}{\sqrt{3}} \sigmafailz{a}  	&&	 \mxy{a} \label{eq:g_z_shear_a_broken}
 \end{align}
 
 The response surface of this model is shown in \cref{fig:analytic_response_broken}.
