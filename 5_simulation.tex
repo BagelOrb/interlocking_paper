@@ -32,17 +32,19 @@ We then observe that our analytical model on average predicts only \SI{7.8}{\per
 
 \begin{figure}
 	\centering
-	\begin{subfigure}[B]{.45\columnwidth}
+	\setlength{\figheight}{.32\columnwidth}
+	\begin{subfigure}[B]{.6\columnwidth}
 		\centering
-		\includegraphics[width=\columnwidth]{sources/simulation/mesh-pp.jpg}
-		\caption{PP}
+		\includegraphics[height=\figheight]{sources/simulation/mesh-straight.png}
+		\caption{Straight}
 	\end{subfigure}
-	\begin{subfigure}[B]{.45\columnwidth}
+\hspace{-.5cm}
+	\begin{subfigure}[B]{.39\columnwidth}
 		\centering
-		\includegraphics[width=\columnwidth]{sources/simulation/mesh-pla.jpg}
-		\caption{TPLA}
+		\includegraphics[height=\figheight]{sources/simulation/mesh-diagonal.png}
+		\caption{Diagonal}
 	\end{subfigure}
-	\caption{Example simulation mesh of the straight design.}
+	\caption{Example simulation meshes. The diagonal mesh is half a unit cell.}
 	\label{fig:sim_straight_model}
 \end{figure}
 
@@ -121,12 +123,8 @@ the induced error is only approximately 10\% compared to simulating an interface
 
 \begin{figure}
 	\centering
-	\begin{subfigure}[B]{.49\columnwidth}
-		\centering
-		\includegraphics[width=\columnwidth]{sources/simulation/diagonal_sim_response.jpg}
-		\caption{Linear interpolation}
-	\end{subfigure}
-	\caption{Diagonal results.}
+	\includegraphics[width=.7\columnwidth]{sources/simulation/diagonal_sim_response.jpg}
+	\caption{Diagonal results using linear interpolation between the simulation results.}
 	\label{fig:sim_diagonal_model}
 \end{figure}
 
