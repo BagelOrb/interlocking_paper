@@ -28,6 +28,7 @@ The obtained optima are shown in \cref{tab:sim_straight_optima}.
 
 We compare the results of round 1 to our analytical model by adjusting the analytical model to capture the inaccurate Z strength used in the simulations:
 $\sigmafailz{m} := \sigmafail{m}$.
+See \cref{fig:ana_sim_accuracy_straight}.
 We then observe that our analytical model on average predicts only \SI{7.8}{\percent} higher ultimate strength values than then the FEM simulations, with a standard deviation of \SI{16.2}{\percent}.
 
 \begin{figure}
@@ -108,6 +109,8 @@ We then observe that our analytical model on average predicts only \SI{7.8}{\per
 
 
 
+
+
 \subsubsection{Diagonal}
 Modelling the diagonal design in Abaqus can be quite cumbersome, since it doesn't natively support periodic boundary constraints.
 Whereas this problem can be overcame in the straight design because it is symmetric,
@@ -131,11 +134,32 @@ the induced error is only approximately 10\% compared to simulating an interface
 
 The results of these simulations are shows in \cref{fig:sim_diagonal_model}.
 The predictions from the analytical model can directly be compared to the simulation results, because the constraints on Z shear are not active.
+See \cref{fig:ana_sim_accuracy_diagonal}.
 The analytical model predicts 6\% lower ultimate strength values on average with a standard deviation of 15\%.
 
 %optimal designs table
 
 
+
+\begin{figure*}
+	\centering
+	\setlength{\figheight}{.2\textwidth}
+	\begin{subfigure}[B]{.7\textwidth}
+		\centering
+		\includegraphics[height=\figheight]{sources/simulation/model_accuracy.pdf}
+		\caption{Straight ITIM for $L=\SI{3.6}{\milli\meter}$}
+		\label{fig:ana_sim_accuracy_straight}
+	\end{subfigure}
+	\hspace{-.5cm}
+	\begin{subfigure}[B]{.29\textwidth}
+		\centering
+		\includegraphics[height=\figheight]{sources/simulation/model_accuracy_diagonal.pdf}
+		\caption{Diagonal ITIM for various values of $L$}
+		\label{fig:ana_sim_accuracy_diagonal}
+	\end{subfigure}
+	\caption{Ultimate strength according to the analytical models and the simulation results. The analytical models follow roughly the same shape and same height as the simulation results. }
+	\label{fig:ana_sim_accuracy}
+\end{figure*}
 
 
 
