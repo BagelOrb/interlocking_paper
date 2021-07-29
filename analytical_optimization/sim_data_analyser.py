@@ -1,3 +1,4 @@
+import numpy
 import numpy as np
 
 import matplotlib.pyplot as plt
@@ -14,8 +15,8 @@ combine_tensile_and_z_shear = False
 full_stress_on_z = False
 combine_z_shear_and_cross_shear = False
 
-compare_to_FEM = False
-broken_optimum = True
+compare_to_FEM = True
+broken_optimum = False
 hf_sampling_multiplier = 10
 
 softmin_all_constraints = False
@@ -270,6 +271,14 @@ valid_manufacturing_constraints_multiplier = ((np.maximum.reduce(list(gMs.values
 stress = stress * valid_manufacturing_constraints_multiplier
 FEM_stress = FEM_stress * valid_manufacturing_constraints_multiplier
 
+# with open('broken_stress.npy', 'wb') as f:
+#     numpy.save(f, stress)
+
+stress_broken = np.load('broken_stress.npy')
+stress_whole = np.load('whole_stress.npy')
+
+# stress = np.maximum.reduce([stress_broken, stress_whole])
+
 F = stress * (wa + wb) * (hf + hc)
 if compare_to_FEM:
     F_FEM = FEM_stress * (wa + wb) * (hf + hc)
@@ -464,8 +473,8 @@ if show_results:
             ZZ = np.append(Z1, Z2, axis=0)
             col = np.append(col, col2, axis=0)
 
-        #ax.plot_surface(XX, YY, ZZ, facecolors=col, edgecolor='none', linewidth=0, shade=compare_to_FEM)
-        ax.scatter(X, Y, Z1, c=col.reshape(-1, 4), s=1)
+        ax.plot_surface(XX, YY, ZZ, facecolors=col, edgecolor='none', linewidth=0, shade=compare_to_FEM)
+        #ax.scatter(X, Y, Z1, c=col.reshape(-1, 4), s=1)
         ax.set_zlim(1, 8)
 
     if not compare_to_FEM:
@@ -494,6 +503,7 @@ if show_results:
         for name, constr in gFs.items():
             color = colormap[name]
             legend_elements.append(Patch(facecolor=color, edgecolor='none', label=name_map[name]))
+        legend_elements.append(Patch(facecolor=[.5, .5, .5, 1], edgecolor='none', label='FEM'))
         ax[2].legend(handles=legend_elements)
         #plt.axis('off')
 
