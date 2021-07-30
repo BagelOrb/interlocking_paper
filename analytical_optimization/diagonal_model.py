@@ -10,12 +10,12 @@ from scipy import interpolate
 from math import sqrt
 from math import pi
 
-big = True
+big = False
 only_one = False
 
-compare_to_FEM = True
+compare_to_FEM = False
 replace_by_FEM = False
-make_comparison_plot = True
+make_comparison_plot = compare_to_FEM
 
 data_file = np.genfromtxt('diagonal_sim_results.csv', delimiter=';')
 FEM_stress = data_file[1:, 1:].T
@@ -58,7 +58,7 @@ if only_one: print(f"{d=}")
 Aza = .5 * pi * r**2 + r * (wa - 2*r)*d/w + d*M*(wa/w)**2
 Azb = .5 * pi * r**2 + r * (wb - 2*r)*d/w + d*M*(wb/w)**2
 
-div = np.sqrt((w/d)**2 + 3*(d/2/M)**2)
+div = np.sqrt((w/d)**2 + 3*(w/2/M)**2)
 div[np.logical_not(np.isfinite(div))] = 99999
 if only_one: print(f"{div=}")
 gFs = {}
@@ -75,6 +75,10 @@ stress = minF / d / (2 * h)
 
 if replace_by_FEM:
     stress = FEM_stress
+
+if compare_to_FEM:
+    prediction_ratio = stress / FEM_stress
+    print(f"\n== prediction ratio : {np.average(prediction_ratio):.1%}, stdev: {np.std(prediction_ratio):.1%}")
 
 if not big:
     print(f"{stress=}")
@@ -158,6 +162,8 @@ if not only_one:
         ax.plot(wb, stress)
         ax.set_xlabel("$w_b$")
         ax.set_ylabel("stress (MPa)")
+        if len(wbs) < 20:
+            ax.set_xticks(wbs)
     else:
         col = failure_mode_colors
         ZZ = stress
@@ -170,7 +176,7 @@ if not only_one:
         mult = np.repeat(is_grey, 4, axis=1).reshape(col.shape)
         col = mapped * mult + (1 - mult) * col
         col[ZZ > .01, 3] = .6 if compare_to_FEM else 1.
-        col[ZZ <= .01, 3] = 0
+        col[ZZ <= .1, 3] = 0
 
         fig = plt.figure()
         ax = plt.axes(projection='3d')
@@ -181,7 +187,8 @@ if not only_one:
             for name, constr in gFs.items():
                 color = colormap[name]
                 legend_elements.append(Patch(facecolor=color, edgecolor='none', label=name_map[name]))
-            legend_elements.append(Patch(facecolor=FEM_color, edgecolor='none', label='FEM'))
+            if compare_to_FEM:
+                legend_elements.append(Patch(facecolor=FEM_color, edgecolor='none', label='FEM'))
             ax.legend(handles=legend_elements)
         else:
             if not big or compare_to_FEM:
@@ -204,5 +211,5 @@ if not only_one:
                     color = colormap[name]
                     legend_elements.append(Patch(facecolor=color, edgecolor='none', label=name_map[name]))
                 ax.legend(handles=legend_elements)
-            ax.set_zlim(3, 7)
+            ax.set_zlim(0, 7)
     plt.show()
