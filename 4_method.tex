@@ -133,11 +133,11 @@ We set the minimum height of either of the beams to twice the layer height, so a
 The ultimate tensile strength of the whole cell is given by $\nicefrac{F}{(\wa +\wb)(\hf + \hc)}$.
 Because the objective and all stresses are invariant under scaling,
 we can safely assert that a subset of the bounds on the design variables are met, in order to limit the design space from six to three dimensions:
-\begin{align*}
-	\wa &= 2 \wmin{a} \\
-	\hc &= 2\hmin \\
-	\va &= \lmax - \vb
-\end{align*}
+\begin{align}
+	\wa &= 2 \wmin{a}  \label{eq:wa} \\
+	\hc &= 2\hmin \label{eq:hc}\\
+	\va &= \lmax - \vb \label{eq:va}
+\end{align}
 
 A careful analysis of the geometry will show that if shearing failure mode $\mxz{a}$ has occurred, 
 there is still interlocking between the two materials. 
@@ -164,7 +164,7 @@ the two shear stresses obtain only a portion of the total force.
 The shear stress is multiplied by one half because the beams are fixed on both sides.
 %The Z shear stress $\stresszshear{m}$ is multiplied with the ratio between the vertical and horizontal strength, so that all stresses can be compared to $\sigmafail{m}$ fairly.
 
-The above considerations combine to form the following constrained optimization problem:
+The above \crefrange{eq:wa}{eq:z_shear} combine to form the following constrained optimization problem:
 
 \begin{align}
 	f: & \max{ \frac{F}{\left( 2 \wmin{a} + \wb \right) \left( \hf + 2\hmin \right) } }  \label{eq:objective} \\
@@ -202,7 +202,7 @@ The resulting response surfaces are shown in \cref{fig:analytic_response_whole}.
 		\caption{Response for the partly broken situation. Through $(\wb, \va, \hf) = (1.50, 0.36, 0.50)$}
 		\label{fig:analytic_response_broken}
 	\end{subfigure}
-	\caption{Maximum strength of the analytical models along three 2D slices of the 3D design space, which intersect at the optimum. }
+	\caption{Maximum strength of the analytical models along three 2D slices of the 3D design space, which intersect at the optimum.}
 	\label{fig:analytic_response}
 \end{figure}
 
