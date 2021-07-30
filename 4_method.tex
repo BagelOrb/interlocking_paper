@@ -99,22 +99,28 @@ This section considers these two designs and analytical models to optimize them.
 
 
 
-\begin{figure}
+\begin{figure*}
 	\centering
-	\begin{subfigure}[B]{.8\columnwidth}
+	\begin{subfigure}[B]{.33\textwidth}
 		\centering
-		\includegraphics{sources/method/straight_model_v5.pdf}
-		\caption{Whole cell}
+		\includegraphics{sources/method/straight_model_v5_no_failures.pdf}
+		\caption{Design variables}
 		\label{fig:straight_model}
 	\end{subfigure}
-	\begin{subfigure}[B]{.49\columnwidth}
+	\begin{subfigure}[B]{.33\textwidth}
+		\centering
+		\includegraphics{sources/method/straight_model_v5_failures.pdf}
+		\caption{Failures modes}
+		\label{fig:straight_model_failure_modes}
+	\end{subfigure}
+	\begin{subfigure}[B]{.33\textwidth}
 		\centering
 		\includegraphics{sources/method/straight_model_v5_broken.pdf}
 		\caption{Partly broken, partly interlocking cell}
 		\label{fig:straight_model_broken}
 	\end{subfigure}
-	\caption{Straight cell of the ITIM lattice}
-\end{figure}
+	\caption{Straight cell of the ITIM lattice. Force is transferred from PP to TPLA through the contact area on the cross beams. In the partly broken situation there is still interlocking, but the total force is transferred through a narrower area.}
+\end{figure*}
 
 \subsection{Straight}
 The straight model can be seen in \cref{fig:straight_model}.
@@ -231,9 +237,48 @@ The response surface of this model is shown in \cref{fig:analytic_response_broke
 
 
 
+\begin{figure*}
+	\centering
+	\begin{subfigure}[B]{.25\textwidth}
+		\centering
+		\includegraphics{sources/method/diagonal_model_simple_v5.pdf}
+		\caption{Simple cell}
+		\label{fig:diagonal_model_simple}
+	\end{subfigure}
+	\begin{subfigure}[B]{.33\textwidth}
+		\centering
+		\includegraphics{sources/method/diagonal_model_v5_no_failures.pdf}
+		\caption{Rounded and aligned design}
+		\label{fig:diagonal_model}
+	\end{subfigure}
+	\begin{subfigure}[B]{.33\textwidth}
+		\centering
+		\includegraphics{sources/method/diagonal_model_v5_failures.pdf}
+		\caption{Failure modes}
+		\label{fig:diagonal_model_failures}
+	\end{subfigure}
+	\caption{Diagonal cell of the ITIM lattice. The $\myz{m}$ failure modes are orthogonal to the beams and influenced by both tensile and shear components of the total force.}
+\end{figure*}
 
 
 
+
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[B]{.4\columnwidth}
+		\includegraphics{sources/method/diagonal_math.pdf}
+		\caption{Geometric relations.}
+		\label{fig:analytical_math_diagonal}
+	\end{subfigure}
+	\begin{subfigure}[B]{.59\columnwidth}
+		\includegraphics{sources/method/analytic_response_diagonal.jpg}
+		\caption{Response surface coloured to failure mode.}
+		\label{fig:analytic_response_diagonal}
+	\end{subfigure}
+	\caption{Analytical model for the diagonal ITIM cell. The Z shear constraints are redundant because of the small height of the unit cell. The optimum is determined only by the tensile constraint of PP: $\gtb$.}
+	%	\label{fig:analytic_response}
+\end{figure}
 
 
 
@@ -245,23 +290,6 @@ The response surface of this model is shown in \cref{fig:analytic_response_broke
 Because the stress applied is homogeneous and precisely normal to the interface the optimal structure should be symmetric.
 Due to symmetry there is not distinction between fingers and cross beams to be made in this model.
 Both beams should have the same height $2\hmin$ and the angle $\alpha$ between the beams and the interface of both beams is the same.
-
-\begin{figure}
-	\centering
-	\begin{subfigure}[B]{.49\columnwidth}
-		\centering
-		\includegraphics[width=\columnwidth]{sources/method/diagonal_model_simple_v5.pdf}
-		\caption{Simple cell}
-		\label{fig:diagonal_model_simple}
-	\end{subfigure}
-	\begin{subfigure}[B]{.7\columnwidth}
-		\centering
-		\includegraphics[width=\columnwidth]{sources/method/diagonal_model_v5.pdf}
-		\caption{Updated design}
-		\label{fig:diagonal_model}
-	\end{subfigure}
-	\caption{Diagonal cell of the ITIM lattice}
-\end{figure}
 
 
 The simple cell consists of protruding fingers and triangular dents (see red triangles in \cref{fig:diagonal_model_simple});
@@ -319,22 +347,6 @@ von Mises criterion:
 % NAIVE pp stress: area of PP under tension alone $\myz{b}$: $ 2h \frac{\wb}{w} d$. PP tensile stress: $\frac{\nicefrac12 F w}{\wb d 2 h} = \frac{F w}{4 \wb d h} \le \sigmafail{b}$
 \fi
 
-
-\begin{figure}
-	\centering
-	\begin{subfigure}[B]{.4\columnwidth}
-		\includegraphics{sources/method/diagonal_math.pdf}
-		\caption{Geometrical relations.}
-		\label{fig:analytical_math_diagonal}
-	\end{subfigure}
-	\begin{subfigure}[B]{.59\columnwidth}
-		\includegraphics{sources/method/analytic_response_diagonal.jpg}
-		\caption{Response surface coloured to failure mode.}
-		\label{fig:analytic_response_diagonal}
-	\end{subfigure}
-	\caption{Analytical model for the diagonal ITIM cell.}
-%	\label{fig:analytic_response}
-\end{figure}
 
 Again the stresses are all scale-invariant, so we set $\wa = 2 \wmin{a}$.
 However, because changes in $\wb$ given the same $L$ will change the angle $\alpha$ of the beams, we cannot assume the design constraint is active.
