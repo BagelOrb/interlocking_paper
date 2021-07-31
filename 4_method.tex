@@ -257,7 +257,7 @@ The response surface of this model is shown in \cref{fig:analytic_response_broke
 		\caption{Failure modes}
 		\label{fig:diagonal_model_failures}
 	\end{subfigure}
-	\caption{Diagonal cell of the ITIM lattice. The $\myz{m}$ failure modes are orthogonal to the beams and influenced by both tensile and shear components of the total force.}
+	\caption{Diagonal cell of the ITIM lattice. The $\mt{m}$ failure modes are orthogonal to the beams and influenced by both tensile and shear components of the total force.}
 \end{figure*}
 
 
@@ -314,9 +314,9 @@ The diagonal model is then defined by the following constrained optimization pro
 	\gwa: & \wa \ge 2\wmin{a}		&&	\label{eq:gwa_diag}\\
 	\gwb: & \wb \ge 2\wmin{b}		&&	\label{eq:gwb_diag}\\
 	\gd:  & L \le \lmax && \label{eq:gd_diag}\\
-	\gtm: & \frac{ F }{ 2 \wm h } \sqrt{ \left( \frac{w}{d} \right)^2  + 3 \left( \frac{w}{2M} \right)^2 } \le \sigmafail{m} &&	\myz{m}  \label{eq:g_tensile_m_diag} \\
-	%\gtb: & \frac{ F }{ 2 \wb h } \sqrt{ \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) } \le \sigmafail{b} &&	\myz{b}  \label{eq:g_tensile_b_diag} \\
-	%\gtb: & \frac{ F }{ 2 \wb h } \sqrt{ \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) } \le \sigmafail{b} &&	\myz{b}  \label{eq:g_tensile_b_diag} \\
+	\gtm: & \frac{ F }{ 2 \wm h } \sqrt{ \left( \frac{w}{d} \right)^2  + 3 \left( \frac{w}{2M} \right)^2 } \le \sigmafail{m} &&	\mt{m}  \label{eq:g_tensile_m_diag} \\
+	%\gtb: & \frac{ F }{ 2 \wb h } \sqrt{ \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) } \le \sigmafail{b} &&	\mt{b}  \label{eq:g_tensile_b_diag} \\
+	%\gtb: & \frac{ F }{ 2 \wb h } \sqrt{ \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) } \le \sigmafail{b} &&	\mt{b}  \label{eq:g_tensile_b_diag} \\
 	\gzm: & \frac{F}{2 A_{\text{z},m}} \le \sigmafailz{m} 	&&	 \mxy{m} \label{eq:g_z_shear_m_diag} \\
 	%\gza: & \frac{F}{2 A_{\text{z},a}} \le \sigmafailz{a} 	&&	 \mxy{a} \label{eq:g_z_shear_a_diag} \\
 	%\gzb: & \frac{F}{2 A_{\text{z},b}} \le \sigmafailz{b} 	&&	 \mxy{b} \label{eq:g_z_shear_b_diag} \\
@@ -344,7 +344,7 @@ von Mises criterion:
 \end{align*}
 
 
-% NAIVE pp stress: area of PP under tension alone $\myz{b}$: $ 2h \frac{\wb}{w} d$. PP tensile stress: $\frac{\nicefrac12 F w}{\wb d 2 h} = \frac{F w}{4 \wb d h} \le \sigmafail{b}$
+% NAIVE pp stress: area of PP under tension alone $\mt{b}$: $ 2h \frac{\wb}{w} d$. PP tensile stress: $\frac{\nicefrac12 F w}{\wb d 2 h} = \frac{F w}{4 \wb d h} \le \sigmafail{b}$
 \fi
 
 
