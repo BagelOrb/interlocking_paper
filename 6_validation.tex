@@ -3,12 +3,11 @@
 In order to validate our analytical models we compare its predictions against both simulation results and physical tensile tests.
 While the physical tests constitute the final arbiter on the matter,
 our resources for performing physical tests are limited.
-
 Simulations can easily be performed by running a script for multiple days without user interaction.
 Given that the simulations make use of the same material properties which were acquired from tensile tests performed by Ultimaker,
-the simulations can teach us about the validity of the homogeneity assumptions,
-whereas the physical test results are conflated with manufacturing inaccuracies and a potential difference in base material properties.
-
+the simulations can teach us about the validity of the homogeneity assumptions in the analytical models.
+Moreover, the physical test results are afflicted with a spread in manufacturing inaccuracies.
+The simulations can therefore enrich the understanding we gain from physical experiments.
 
 
 
@@ -18,11 +17,11 @@ whereas the physical test results are conflated with manufacturing inaccuracies 
 
 \subsection{Physical experimental tests}
 Tensile tests were performed on an Instron 3366 Universal Testing machine at \SI{5}{\milli\meter\per\minute}.
-Prints were manufactured on an Ultimaker S5 in 5-fold with Ultimaker Green Tough PLA and Ultimaker PP using the default \SI{0.1}{\milli\meter} layer thickness profile,
+Prints were manufactured on a Ultimaker S5 systems in 5-fold with Ultimaker Green Tough PLA and Ultimaker PP using the default \SI{0.1}{\milli\meter} layer thickness profile,
 with \SI{100}{\percent} infill and a custom brim to make sure both materials stick to the build plate.
 For PP we print the outer before the inner walls so as to improve the dimensional accuracy. % on TPLA we forgot to edit those settings
 In order to deal with the various widths of the beams we generate toolpaths using the Cura Arachne Engine beta release\cite{CuraArachne},
-which implements the framework for generating variable line width toolpaths from \cite{Kuipers2020}.
+which implements a framework for generating variable line width toolpaths to fill small geometry of arbitrary dimensions\cite{Kuipers2020}.
 The Inward Distributed and the Distributed strategy were used on TPLA and PP respectively.
 See \cref{fig:gcode}.
 
@@ -61,26 +60,18 @@ See \cref{fig:gcode}.
 
 
 
-\begin{figure*}
-	\centering
-	\includegraphics[width=\textwidth]{sources/testing/results.pdf}
-	\caption{Test results compared to the predictions according to the analytical model and the RBF network fitted to the simulation results. The straight model samples are labelled relative to the whole and broken optimum, while the rest is labelled by their $\wb$ value.}
-	\label{fig:test_results}
-\end{figure*}
-
-
 
 
 \subsubsection{Model parameters}
 \paragraph{Straight}
 The straight design suffers from the curse of dimensionality;
-Even when setting $\wa=\SI{0.6}{\milli\meter}$, $\hc=\SI{0.1}{\milli\meter}$ and $L=\SI{3.6}{\milli\meter}$,
+even when setting $\wa=\SI{0.6}{\milli\meter}$, $\hc=\SI{0.1}{\milli\meter}$ and $L=\SI{3.6}{\milli\meter}$,
 there are still the three free design variables $\wb$, $\va$ and $\hf$ to determine.
 With 5 specimens per sample point and limited resources, the total number of data points we are able to test is limited.
-We therefore chose to sample close to the two optima of the analytical models: whole and broken, as well as deviations from those optima in each of the directions along a design variable.
+We therefore chose to sample close to the two optima of the analytical models: whole and broken, as well as deviations from those optima in both directions along the axis of each design variable.
 See \cref{fig:test_points_straight}.
 
-Each specimen has $5\times5$ cells.
+Each sample of the straight orientation has $5\times5$ cells.
 Because the repetition of cells is broken at the sides of the specimen, the boundary cells are adjusted for manufacturability and stability.
 The specimens end with a TPLA finger on both sides and in cross beams on both top and bottom.
 See \cref{fig:test_straight_boundary_cells}.
@@ -112,11 +103,11 @@ See \cref{fig:test_straight_boundary_cells}.
 
 
 \paragraph{Diagonal}
-Because with a given $L=\SI{3.6}{\milli\meter}$, $h=\SI{0.2}{\milli\meter}$ and $\wa=\SI{0.6}{\milli\meter}$ the remaining design space is only one-dimensional,
-we can simply sample various points along $\wb$: $(0.6, 1.2, 1.8, 2.4, 3.0, 3.6)$.
-Each specimen contains 5 cells in the horizontal direction, but 13 repetition in Z.
+Each sample of the diagonal orientation contains 5 cells in the horizontal direction, but 13 repetition in Z because of the low unit cell height.
 Extra finger beams are added to the sides of the specimen to prevent any part of the beam to be less than $2\wmin=\SI{0.6}{\milli\meter}$ wide.
 See \cref{fig:gcode_diagonal}.
+Because with a given $L=\SI{3.6}{\milli\meter}$, $h=\SI{0.2}{\milli\meter}$ and $\wa=\SI{0.6}{\milli\meter}$ the remaining design space is only one-dimensional,
+we can simply sample various points along $\wb$: $(0.6, 1.2, 1.8, 2.4, 3.0, 3.6)$.
 
 \iffalse
 \begin{figure}
@@ -178,8 +169,16 @@ The total length $L$ of the jigsaw structure is \SI{2.96}{\milli\meter} and \SI{
 so the $\lmax$ constraint is violated by that structure.
 
 The boundaries of these two structures end in half a TPLA lobe, because that is the stiffer material.
-In order to meet the minimum width constraint there, the sides of the specimen are extruded by $\wmin{a}$.
+In order to meet the minimum width constraint there, the sides of the specimen are extruded by $\wmin{a}$; see \cref{fig:gcode_suture,fig:gcode_jigsaw}
 
+
+
+\begin{figure*}
+	\centering
+	\includegraphics[width=\textwidth]{sources/testing/results.pdf}
+	\caption{Test results compared to the predictions according to the analytical model and the RBF network fitted to the simulation results. The straight model samples are labelled relative to the whole and broken optimum, while the rest is labelled by their $\wb$ value.}
+	\label{fig:test_results}
+\end{figure*}
 
 
 \subsubsection{Results}
@@ -191,17 +190,18 @@ We compute the \emph{cell stress} by dividing the maximum force of the force-dis
 We compute the \emph{total stress} by dividing the force by the total cross-sectional area of the sample, including the extra geometry at the boundaries of the sample.
 Ideally we would compensate for manufacturing inaccuracies by using measured dimensions of the specimens,
 but measuring the internal geometry of the interlocking structure is practically infeasible, so we use the dimensions of the 3D mesh instead.
+The results from the physical experiments, along with the analytical and simulated predictions are gathered in \cref{fig:test_results}.
 
 
 \begin{figure}
 	\centering
 	\includegraphics[width=\columnwidth]{sources/testing/stress_displacement_comparison.pdf}
-	\label{fig:stress_displacement_comparison}
 	\caption{Comparison of the best performing design of each type. 
 		The diagonal design with $\wb=\SI{1.2}{\milli\meter}$ showed the highest maximum tensile stress. 
 		By inspecting the shape of the graph you can determine the dominant failure mode: TPLA breaking (sharp drop) or PP yielding (plateau).
 		Dovetail unlocking has either a sharp drop or a more gradual decline.
 	}
+	\label{fig:stress_displacement_comparison}
 \end{figure}
 
 
@@ -243,9 +243,9 @@ but measuring the internal geometry of the interlocking structure is practically
 		\caption{Trap. suture $2.7$}
 		\label{fig:failures_suture}
 	\end{subfigure}
-	\label{fig:failures}
 	\caption{Samples after tensile tests of the best performing designs.
 		The broken wb+ samples from the straight model exhibit multiple failure modes, indicating that this sample was close to the intersection of several constraint surfaces.}
+	\label{fig:failures}
 \end{figure}
 
 

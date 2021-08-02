@@ -6,8 +6,8 @@
 % multi-material microstructures
 Microstructures such as beam lattices, triply periodic surfaces and ordered dithering have widely been studied for their mechanical properties\cite{Cadman2013,Zhang2018a,tamburrino2018}.
 Single material microstructures can constitute auxetic materials, or light weight structures with tailored material properties, through fine adjustments of the microstructure geometry.
-Such microstructures are often manufactured using stereolithography and polyjetting, because of these processes have very few manufacturing constraints.
-Microstructures are inherently high genus, which makes them good candidates for interlocking\cite{freund2019determination}.
+Such microstructures are often manufactured using stereolithography and polyjetting, because these processes have very few manufacturing constraints.
+Microstructures inherently have a high genus topology, which makes them good candidates for interlocking\cite{freund2019determination}.
 However, optimizing microstructures for adhesions between incompatible materials while adhering to FDM manufacturing constraints has been studied scarcely.
 
 
@@ -33,15 +33,15 @@ Topology optimization can generate complex 2D dovetail interlocking shapes, whic
 Such interlocking designs are extrusions of 2D shapes and therefore they allow for translation along the extrusion axis, so these type of interlocking designs don't lock all axes.
 
 The jigsaw idea can be expanded into a 3D interlocking structure by protruding not only sideways, but also vertically, resulting in a shape which looks like a tree ($\clubsuit$)\cite{gouker2006manufacturing}.
-Similarly the T-shaped interlocking design can be expanded with beams in the vertical directions as well as the horizontal bars of the T.
+Similarly the T-shaped interlocking design with horizontal bars can be expanded with bars in the vertical directions.
 However, such designs violate the semi-continuous extrusion requirement because the layers above and below the base of the T contain separated islands of one material, 
 which are difficult to print when the two materials don't adhere to each other.
 
-%\subsubsection{Genus interlocking}
+%\subsubsection{Topological interlocking}
 These issues can be addressed by generating a repeating microstructure where the interlocks are connected together to form a high genus topology which locks all degrees of freedom.
-Simple straight I shaped extrusions can be linked together by cross beams in order to form a genus interlocking structure\cite{Rossing2020}.
-In their application where the second material is overmolded silicone the manufacturing constraints don't hold,
-but in cases where the second material is also 3D printed, the space enclosed by the cross beams and extruded walls forms an island and thereby violates the extrusion continuity constraint.
+Simple straight I shaped extrusions can be linked together by cross beams in order to form a topologically interlocking structure\cite{Rossing2020}.
+In case of the application where the second material is overmolded silicone the extrusion continuity constraint doesn't apply,
+but in cases where the second material is also 3D printed, the space enclosed by the cross beams and extruded walls forms an island which introduces an extrusion discontinuity.
 A different microstructure is required if the extrusion continuity constraint is to be met for both materials.
 
 %%  Single material adhesion structures

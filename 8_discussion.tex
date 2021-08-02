@@ -5,10 +5,11 @@
 
 When comparing the tensile test results to the analytical models and the simulation results (\cref{fig:test_results}),
 we observe that the whole straight model is predicted rather well by the models.
+The analytical model tends to overestimate the strength because of homogeneous stress assumptions,
+while the simulations tend to underestimate the strength.
 Although the standard deviation is too high to capture the differences in response with significance,
 the analytical model follows the trends of the FEM simulations rather well and simulation results generally fall within one standard error of the physical results.
-The analytical model tends to overestimate the strength because of homogeneous stress assumptions,
-while the simulations tend to underestimate the strength - perhaps because the tensile properties of the base 3D printing materials were acquired using a different type of toolpathing.
+% - perhaps because the tensile properties of the base 3D printing materials were acquired using a different type of toolpathing.
 
 The response around the anticipated broken optimum is predicted by our models considerably worse.
 The fact that the simulations performed worse around that area was expected, since after cells in the mesh are broken some self-intersection may occur in the simulation.
@@ -16,8 +17,9 @@ When viewing the best performing straight sample (broken wb+, \cref{fig:failures
 but shearing off of part of the cross beams is not one of them.
 One possible explanation is that for geometry so small as the order of the nozzle size the material properties are closer to the bulk material than to the empirical material properties of printed samples;
 the strength determined by the empirical tensile tests relies on the geometry of the toolpaths with which those were printed, while the toolpaths in our interlocking designs might be locally stronger.
-Specifically the ITIM toolpaths consist of long semi-continuous extrusion paths, while the dovetail designs have discontinuous toolpaths in the wider part of the dovetails.
-In contrast, the tensile test specimens with which the material properties were determined were printed using diagonal toolpaths
+Specifically the ITIM toolpaths consist of a small number of long semi-continuous extrusion paths, while %the dovetail designs have discontinuous toolpaths in the wider part of the dovetails.
+%In contrast, 
+the tensile test specimens with which the material properties were determined were printed using a large bulk of diagonal toolpaths
 and because they are printed in a large scale compared to the nozzle size their properties are influenced more by the air gaps in between the extrusions.
 
 Although the anticipated optimum from the simulations of the diagonal design are at the same $\wb$ as the tensile tests,
@@ -29,13 +31,13 @@ See \cref{fig:diagonal_model}.
 
 The analytical modelling of the dovetail geometries considers only homogeneous tensile stress,
 but disregards the fact that the interlock is broken by deformation alone.
-The fact that the dovetail designs don't rely on genus interlocking means that they are more difficult to model.
+The fact that the dovetail designs don't rely on topological interlocking means that they are more difficult to model.
 
 
 
 \subsection{Comparison of interlocking structures}
 All geometries considered can reach roughly 6 to \SI{7}{\mega\pascal}, 
-which means that circa \SI{2}{\mega\pascal} is used to secure the interlock, compared to the general upper bound of \SI{8.6}{\mega\pascal}. See \cref{eq:general_uper_bound}.
+which means that circa \SI{2}{\mega\pascal} is used to secure the interlock, compared to the theoretical upper bound of \SI{8.6}{\mega\pascal} from \cref{eq:general_uper_bound}.
 The diagonal design with a cell stress of $7.07 \pm 1.0 \si{\mega\pascal}$ seems to outperform the others, but not significantly.
 The straight model has some geometries around the anticipated broken optimum performing significantly better than the other tested straight geometries;
 given the high dimensionality of the design space it might be the case that there is a straight geometry in between the whole and broken optima which outperforms the diagonal model nonetheless.
@@ -52,7 +54,7 @@ The performance of the diagonal model greatly reduces for lower $\lmax$, because
 
 \subsection{Limitations}
 The biggest obstacle to drawing definitive conclusions about the relative strengths of the interlocking structures is the size of the standard deviation.
-The variation in results has a multitude of causes, related to print head position inaccuracy, filament diameter, temperature oscillations and even the location on the print bed.
+The variation in results has a multitude of causes, related to print head position inaccuracy, filament diameter fluctuations, temperature oscillations and even the location on the print bed.
 \footnote{With different locations on the build plate the Bowden tube is bent differently, altering the pressure and thus the amount of extrusion.}
 In order to mitigate these factors we have spread out the various geometries over 5 different Ultimaker S5 printers and different locations on the bed.
 Although this increases the variability in the results it does increase the reliability.

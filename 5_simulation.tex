@@ -1,28 +1,28 @@
 % !TeX spellcheck = en_GB 
 \subsection{Simulation}
-In order to simulate interlocking structures with a range of design parameters we automatically generate an INP file in Abaqus CAE (2020) using a script.
-Solving the INP file gives us the force-displacement graph, from which we can determine the ultimate tensile strength.
+In order to simulate interlocking structures with a range of design parameters we automatically generate INP files in Abaqus CAE (2020) using a script.
+Solving an INP file gives us the force-displacement graph, from which we can determine the ultimate tensile strength of a particular design.
 In order to simulate accurately we used the stress-strain curves from tensile tests on the base materials printed flat on the build plate as the plasticity in tabular form.
-The simulations were performed in the Abaqus/Explicit solver where Dynamic, Explicit procedure step was used with the mass scaling factor of $10^7$,
+The simulations were performed in the Abaqus/Explicit solver where the Dynamic, Explicit procedure step was used with a mass scaling factor of $10^7$,
 using geometric nonlinearity and general contact (explicit) to disregard friction for simplicity.
 
 The repeating nature of the interlocking patterns was captured by modelling half of the unit cell and apply symmetry constraints to the sides, top and bottom.
 The model was meshed using C3D8R hexahedral elements of $\pm\SI{75}{\micro\meter}$.
 
-A grid search was used to measure the influence on the ultimate strength along each of the design variables $\wb (,\va, \hc)$, along with the total length $L$.
+A grid search was used to measure the influence on the ultimate strength along each of the design variables $\wb,\va, \hc$, along with the total length $L$.
 The search space was therefore 4D and 2D for the straight and diagonal design respectively.
 In order to estimate the optimum we fit a smooth response surface to these data points using a radial basis function (RBF) network\cite{Dinh2002},
-where a smoothness of $\lambda=1$ produces satisfactory results.
+with a smoothness of $\lambda=1$.
 
 
 \subsubsection{Straight}
 In order to prevent stress concentrations and adhere to manufacturing accuracy, the vertical edges of the straight design were rounded with $r=\SI{0.15}{\milli\meter}$;
 see \cref{fig:sim_straight_model}.
-We performed two rounds of hypersurface fitting on grid search; the second round was in a zoomed in region and with elements of $\pm\SI{50}{\micro\meter}$.
+We performed two rounds of hypersurface fitting on grid search; the second round was on a zoomed in region and with elements of $\pm\SI{50}{\micro\meter}$.
 
 Newton's method was used to determine the optimum, starting from the best sampled point.
 This step only considered the dimensions $\wb$ and $\va$, because $\lmax$ is given and $\hf$ has to be an integer multiple of $\hmin$.
-It's unlikely the optimum of the fitted hypersurface would be on a different integer multiple of $\hmin$.
+\footnote{It's unlikely the optimum of the fitted hypersurface would be on a different integer multiple of $\hmin$.}
 The resulting hypersurfaces are visualized in \cref{fig:simulation_results_straight}.
 The obtained optima are shown in \cref{tab:sim_straight_optima}.
 
@@ -45,7 +45,7 @@ We then observe that our analytical model on average predicts only \SI{7.8}{\per
 		\includegraphics[height=\figheight]{sources/simulation/mesh-diagonal.png}
 		\caption{Diagonal}
 	\end{subfigure}
-	\caption{Example simulation meshes. The diagonal mesh is half a unit cell.}
+	\caption{Example simulation meshes. The diagonal mesh is half a unit cell. Because of the rounded corners an axis aligned meshing was impossible, leading to singularities in the mesh.}
 	\label{fig:sim_straight_model}
 \end{figure}
 
@@ -114,12 +114,12 @@ We then observe that our analytical model on average predicts only \SI{7.8}{\per
 \subsubsection{Diagonal}
 Modelling the diagonal design in Abaqus can be quite cumbersome, since it doesn't natively support periodic boundary constraints.
 Whereas this problem can be overcame in the straight design because it is symmetric,
-the diagonal design is rotationally symmetric.
+the diagonal design is only \emph{rotationally} symmetric.
 While a symmetry constraint can be used on the top and bottom, the two sides of the design are mirror images of each other, but also flipped vertically.
 
 However, since the height of the beams is relatively low compared to their width we have observed that the stresses and strains are quite similar in the top and bottom.
 If we model half of the diagonal cell by cutting it vertically and apply symmetry constraints to the sides,
-the induced error is only approximately 10\% compared to simulating an interface consisting of two whole cells.
+the induced error is only $\pm \SI{10}{\percent}$ compared to simulating an interface consisting of two whole cells.
 % small discontinuities
 
 
@@ -133,8 +133,8 @@ the induced error is only approximately 10\% compared to simulating an interface
 
 
 The results of these simulations are shows in \cref{fig:sim_diagonal_model}.
-The predictions from the analytical model can directly be compared to the simulation results, because the constraints on Z shear are not active.
-See \cref{fig:ana_sim_accuracy_diagonal}.
+%The predictions from the analytical model can directly be compared to the simulation results, because the constraints on Z shear are not active. < What do I mean here?!
+We compare the simulations against our analytical model in \cref{fig:ana_sim_accuracy_diagonal}.
 The analytical model predicts only 0.4\% lower ultimate strength values on average with a standard deviation of 10\%.
 
 %optimal designs table
@@ -157,10 +157,7 @@ The analytical model predicts only 0.4\% lower ultimate strength values on avera
 		\caption{Diagonal ITIM for various values of $L$}
 		\label{fig:ana_sim_accuracy_diagonal}
 	\end{subfigure}
-	\caption{Ultimate strength according to the analytical models and the simulation results.
-		The analytical models roughly follow the same shape and same height as the simulation results. 
-		(Not all constraints are active in the simulated design domain.)
-	}
+	\caption{Ultimate strength according to the analytical models and the simulation results. The analytical models follow roughly the same shape and same height as the simulation results. }
 	\label{fig:ana_sim_accuracy}
 \end{figure*}
 

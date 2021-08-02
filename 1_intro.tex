@@ -45,16 +45,16 @@ See \cref{fig:basic_2d_interlock}.
 The mathematical study of topology can point us to a solution.
 Topology is the study of properties of geometric shapes which are preserved under continuous deformations, such as stretching, twisting and bending.
 The property of \emph{genus} counts how many holes a shape has;
-a ball has a genus of 0, a doughnut has a genus of 1 and a fidget spinner has a genus of 3.
+a ball has a genus of 0, a doughnut has a genus of 1 and pants have a genus of 2.
 
-If the holes in the geometry of one material are filled with the other material we achieve a new type of interlocking, which we call \emph{genus interlocking}.
+If the holes in the geometry of one material are filled with the other material we achieve a new type of interlocking, which we call \emph{topological interlocking}.
 Doughnuts can be imagined to be chained together to form the geometry of a chain.
 The only way to disassemble a chain is by breaking one of the links.
 %They cannot be broken by deformation alone, because links of a chain have a topology of genus 1.
 An interlocking geometry with a high genus topology means that the interlock is preserved under deformations of the two materials.
 This interlocking principle is robust especially when flexible and deformable materials are concerned.
 
-For the application of dual material FDM 3D printing we propose a high genus interlocking structure where all voids in the one material are filled with the other material and vice versa.
+For the application of dual material FDM we propose a high genus topologically interlocking structure where all voids in the one material are filled with the other material and vice versa.
 However, most high genus topologies would introduce discontinuities in the extrusion process when sliced into layers for 3D printing, as each slice would contain disconnected islands.
 See \cref{fig:discontinuous_lattice}.
 Such discontinuities lead to defects, which influence the accuracy and the mechanical properties of the resulting part.
@@ -69,9 +69,10 @@ See \cref{fig:basic_structure_single_mat}.
 
 Our contributions are as follows:
 \begin{itemize}
-	\item An interlaced genus interlocking microstructure (ITIM) which satisfies the extrusion continuity constraint
-	\item Two variations of the ITIM lattice optimized for tensile forces
-	\item Simplified analytical models for estimating tensile properties and for optimizing the design parameters of the interlocking structures
+	\item A theoretical upper bound to the tensile strength of any interlocking structure.
+	\item An interlaced topologically interlocking microstructure (ITIM) which satisfies the extrusion continuity constraint.
+	\item Two variations of the ITIM lattice optimized for tensile forces.
+	\item Analytical models for estimating tensile properties and for optimizing the design parameters of the interlocking structures.
 \end{itemize}
 
 

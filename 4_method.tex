@@ -7,13 +7,18 @@
 
 We will optimize interlocking structures for tensile strength;
 the geometry of the designs are optimized to yield or break at the highest horizontally applied tensile stress.
-The highest administrable force applied to a unit cell of any interlocking structure will be borne by both materials $a$ and $b$.
+The highest administrable force applied to a unit cell of any interlocking structure will be carried by both materials $a$ and $b$.
 In the plane where tensile failure of material $a$ occurs the total force $F$ will be distributed over the cross-sectional area $A_a$;
 likewise for material $b$.
-The theoretically optimal interlocking microstructure would be such that the stress will be homogeneously distributed over $A_a$ and $A_b$ such that both will be at the yield strength of their respective base materials:
+The theoretically optimal interlocking microstructure would be such that the stress will be homogeneously distributed over $A_a$ and $A_b$
+such that both will be at the yield strength of their respective base materials.
+The structure will break where $A_a$ or $A_b$ is smallest, so increasing their overall size would improve on the microstructure,
+but their combined area is limited to the total cross sectional area $A_\text{total}$ of the microstructure.
+The ultimate strength of any multi-material microstructure is therefore limited to:
 
 \begin{align}
-	\sigma^* &= \frac{F}{A_\text{total}} = \frac{F}{A_a + A_b}  \nonumber
+	\sigma^* &= \frac{F}{A_\text{total}} 
+	= \frac{F}{A_a + A_b}  \nonumber
 	= \sigmafail{a} \frac{A_a}{A_a + A_b} \nonumber
 	= \sigmafail{b} \frac{A_b}{A_a + A_b} \nonumber \\
 %	\sigmafail{a} A_a &= \sigmafail{b} A_b \nonumber \\
@@ -21,14 +26,15 @@ The theoretically optimal interlocking microstructure would be such that the str
 %	\sigma^* % &= \sigmafail{b} \left(\frac{ \nicefrac{\sigmafail{a}}{\sigmafail{b}} }{ \nicefrac{\sigmafail{a}}{\sigmafail{b}} + 1 } \right) \nonumber \\
 	% &= \sigmafail{b} \left(\frac{ 1 }{ 1 + \nicefrac{\sigmafail{b}}{\sigmafail{a}} } \right)  \nonumber \\
 	&= \frac{ 1 }{ \nicefrac{1}{\sigmafail{a}} + \nicefrac{1}{\sigmafail{b}} } 
-	\approx \SI{8.6}{\mega\pascal}
+	%\approx \SI{8.6}{\mega\pascal} \text{ for TPLA and PP}
 \end{align}
 
 
 This formula for the ultimate tensile strength of interlocking microstructures is a theoretical upper bound.
 In practice the worst cross-sectional area $A_a$ is in a different plane than the worst cross-sectional area $A_b$, so they don't add up to $A_\text{total}$.
-In the dovetail example (\cref{fig:basic_2d_interlock}) the highest stress of a dovetail of material $a$ is at its base, while the highest stress in $b$ will be at the end of the dovetail of material $a$.
+For example, in the dovetail geometry (\cref{fig:basic_2d_interlock}) the highest stress of a dovetail of material $a$ is at its base, while the highest stress in $b$ will be at the end of the dovetail of material $a$.
 The geometry by which the interlock is secured reduces the strength compared to the theoretical upper bound of the ultimate tensile strength.
+The upper bound can therefore never be reached.
 % Moreover, the stress distribution won't be homogenous when subjecting a complex geometry to tension.
 
 
@@ -36,7 +42,7 @@ The geometry by which the interlock is secured reduces the strength compared to 
 
 For the materials chosen by this study, Ultimaker Tough PLA (TPLA) and Ultimaker PolyProlylene (PP), the upper bound comes out to be \SI{8.6}{\mega\pascal}.
 The structure may not only be subject to tensile failure, but also to shear failure modes.
-Because of the layer-wise build-up employed by FDM 3D printing, the tensile properties in the Z direction are different from those in the horizontal plane.
+Because of the layer-wise build-up employed by FDM, the tensile properties in the Z direction are different from those in the horizontal plane.
 See \cref{tab:mat_props_manufacturing_constraints}.
 The structure is furthermore subject to manufacturing constraints determined by the nozzle sizes and the layer thickness.
 The standard layer thickness is \SI{0.1}{\milli\meter} and the minimal line width for a \SI{0.4}{\milli\meter} nozzle is \SI{0.3}{\milli\meter}.
@@ -59,8 +65,8 @@ The standard layer thickness is \SI{0.1}{\milli\meter} and the minimal line widt
 
 
 
-\section{Interlaced Genus Interlocking Microstructure}
-The genus interlocking structure we propose consists of horizontal beams alternating in material.
+\section{Interlaced Topologically Interlocking Microstructure}
+The topologically interlocking structure we propose consists of horizontal beams alternating in material.
 On top of that we print another set of beams rotated about Z.
 Long horizontal beams assure continuous extrusion, while the alternating direction of the beams assures the interlock - simple and effective.
 See \cref{fig:basic_structure_single_mat}.
@@ -73,7 +79,7 @@ Adding cells does increase the ultimate tensile strength, but with diminishing r
 going from a lattice of 3 cells wide to 4 cells wide can only improve the strength marginally.
 Nonetheless the optimal structure could be infinite cells wide.
 %Each added cell would increase the tensile strength, but by a lesser degree than the last added cell.
-In practice the amount of space available is limited by the design of the two bodies.
+In practice the amount of space available is limited by the design of the product.
 We consider a design constraint of $\lmax = 12 \wmin{m} = \SI{3.6}{\milli\meter}$;
 this is enough to have some design freedom for the microstructure, while limiting the impact on the rest of the product.
 
@@ -125,21 +131,15 @@ This section considers these two designs and analytical models to optimize them.
 \subsection{Straight}
 The straight model can be seen in \cref{fig:straight_model}.
 A cell consists of a single \emph{finger} of height $\hf$ protruding from the body outward from material $a$ and part of a \emph{cross beam} of height $\hc$ angled at \SI{90}{\degree}.
-In order to print the relatively short fingers using continuous extrusion, we employ the constraints that $\wm \ge 2\wmin{m}$,
-whereas the cross beams are long and continuous enough, so $\vm \ge \wmin{m}$ (where $m$ is either material $a$ or $b$).
+In order to print the relatively short fingers using continuous extrusion, we employ the constraints that $\wm \ge 2\wmin{m}$ (where $m$ is either material $a$ or $b$),
+so that the toolpaths for the outline of each layer can go back and forth along the finger without interruption.
+The cross beams are long and continuous enough, so they could be printed using a single extrusion path: $\vm \ge \wmin{m}$.
 We set the minimum height of either of the beams to twice the layer height, so as to be able to recover from manufacturing inaccuracies: $\hf \ge 2\hmin$ and $\hc \ge 2\hmin$.
-\footnote{If the structure would consist of alternating geometry each layer, then the inaccuracy of the one layer can cause overextrusion in the next layer, which escalates the problem upward during printing.}
+\footnote{If the structure would consist of alternating geometry each layer, then the inaccuracy of the one layer can cause overextrusion in the next layer,
+	which snowballs the problem upward during printing.}
 
-The ultimate tensile strength of the whole cell is given by $\nicefrac{F}{(\wa +\wb)(\hf + \hc)}$.
-Because the objective and all stresses are invariant under scaling,
-we can safely assert that a subset of the bounds on the design variables are met, in order to limit the design space from six to three dimensions:
-\begin{align}
-	\wa &= 2 \wmin{a}  \label{eq:wa} \\
-	\hc &= 2\hmin \label{eq:hc}\\
-	\va &= \lmax - \vb \label{eq:va}
-\end{align}
 
-\subsubsection{Straight model (whole)}
+%\subsubsection{Straight model (whole)}
 In order to optimize the ITIM in straight orientation for a maximal tensile strength we consider three types of stress, related to three types of failure mode for either material $m$:
 tensile stress $\stresstensile{m}$ for $\myz{m}$, cross beam shear stress $\stresscrossshear{m}$ for $\mxz{m}$ and Z shear stress $\stresszshear{m}$ for $\mxy{m}$.
 These three failure modes are modelled as having a homogenous stress distribution:
@@ -157,30 +157,44 @@ the two shear stresses obtain only a portion of the total force.
 The shear stress is multiplied by one half because the beams are fixed on both sides.
 %The Z shear stress $\stresszshear{m}$ is multiplied with the ratio between the vertical and horizontal strength, so that all stresses can be compared to $\sigmafail{m}$ fairly.
 
-The above \crefrange{eq:wa}{eq:z_shear} combine to form the following constrained optimization problem:
-
+The tensile stress of the whole cell is given by $\nicefrac{F}{(\wa +\wb)(\hf + \hc)}$.
+Because the objective and all stresses are invariant under scaling,
+we can safely assert that a subset of the bounds on the design variables are met, in order to limit the design space from six to three dimensions:
 \begin{align}
-	f: & \max{ \frac{F}{\left( 2 \wmin{a} + \wb \right) \left( \hf + 2\hmin \right) } }  \label{eq:objective} \\
-	\omit\rlap{subject to} \nonumber \\
-	\gwb: & \wb \ge 2 \wmin{b} 		&&	\label{eq:gwb}\\
-	\gva: & \lmax - \vb \ge \wmin{a} 		&&	\label{eq:gva}\\
-	\gvb: & \vb \ge \wmin{b} 		&&	 \label{eq:gvb}\\
-	\ghf: & \hf \ge \hmin 		&&	 \label{eq:ghf}\\
-	\gta: & \frac{ F }{ 2 \wmin{a} \hf } \le \sigmafail{a} &&	\myz{a}  \label{eq:g_tensile_a} \\
-	\gtb: & \frac{ F }{ \wb \hf  } \le \sigmafail{b} &&	\myz{b}  \label{eq:g_tensile_b} \\
-	\gca: & \frac{\wb}{w} \frac{ F }{ 2 \left( \lmax - \vb \right) 2 \hmin  } \le  \frac{1}{\sqrt{3}} \sigmafail{a} &&	 \mxz{a}  \label{eq:g_shear_a} \\
-	\gza: & \frac{\wa}{w} \frac{ F }{ 2 \left( \lmax - \vb \right) \wa  } \le  \frac{1}{\sqrt{3}} \sigmafailz{a} 	&&	 \mxy{a} \label{eq:g_z_shear_a} \\
-	\gzb: & \frac{\wb}{w} \frac{ F }{ 2 \vb \wb  } \le  \frac{1}{\sqrt{3}} \sigmafailz{b} 	&&	\mxy{b} \label{eq:g_z_shear_b} 
+	\wa &= 2 \wmin{a}  \label{eq:wa} \\
+	\hc &= 2\hmin \label{eq:hc}\\
+	\va &= \lmax - \vb \label{eq:va}
 \end{align}
+
+
+The above \crefrange{eq:tensile}{eq:va} combine to form the constrained optimization problem given by \crefrange{eq:objective}{eq:g_z_shear_b}.
+
+
+\begin{tcolorbox}[float,colback=white,title=Straight model]
+	\begin{align}
+		f: & \max{ \frac{F}{\left( 2 \wmin{a} + \wb \right) \left( \hf + 2\hmin \right) } }  \label{eq:objective} \\
+		\omit\rlap{subject to} \nonumber \\
+		\gwb: & \wb \ge 2 \wmin{b} 		&&	\label{eq:gwb}\\
+		\gva: & \lmax - \vb \ge \wmin{a} 		&&	\label{eq:gva}\\
+		\gvb: & \vb \ge \wmin{b} 		&&	 \label{eq:gvb}\\
+		\ghf: & \hf \ge \hmin 		&&	 \label{eq:ghf}\\
+		\gta: & \frac{ F }{ 2 \wmin{a} \hf } \le \sigmafail{a} &&	\myz{a}  \label{eq:g_tensile_a} \\
+		\gtb: & \frac{ F }{ \wb \hf  } \le \sigmafail{b} &&	\myz{b}  \label{eq:g_tensile_b} \\
+		\gca: & \frac{\wb}{w} \frac{ F }{ 2 \left( \lmax - \vb \right) 2 \hmin  } \le  \frac{1}{\sqrt{3}} \sigmafail{a} &&	 \mxz{a}  \label{eq:g_shear_a} \\
+		\gza: & \frac{\wa}{w} \frac{ F }{ 2 \left( \lmax - \vb \right) \wa  } \le  \frac{1}{\sqrt{3}} \sigmafailz{a} 	&&	 \mxy{a} \label{eq:g_z_shear_a} \\
+		\gzb: & \frac{\wb}{w} \frac{ F }{ 2 \vb \wb  } \le  \frac{1}{\sqrt{3}} \sigmafailz{b} 	&&	\mxy{b} \label{eq:g_z_shear_b}
+	\end{align}
+\end{tcolorbox}
 
 The $\sqrt{3}$ comes from the von Mises yield criterion.
 Although one might consider combining the stresses together using the same criterion, this does not increase the accuracy of the model,
 because the failure mode planes do not overlap.
 
 Using these formulae one can find the maximum force and thus the maximum stress of any design;
-simply multiply both sides of the mechanical constraints \crefrange{eq:g_tensile_a}{eq:g_z_shear_b}
-by $F$ and using the lowest value will tell you which of the failure modes will happen first in a given design.
+we can rewrite each of the mechanical constraints \crefrange{eq:g_tensile_a}{eq:g_z_shear_b} to give a formula for $F$
+and the lowest value of those formulae will give the active failure mode for a given design.
 The resulting response surfaces are shown in \cref{fig:analytic_response_whole}.
+The optimum is at the intersection of four constraint surfaces.
 
 
 \begin{figure}
@@ -208,41 +222,7 @@ The resulting response surfaces are shown in \cref{fig:analytic_response_whole}.
 
 
 
-
-
-
-
-\subsubsection{Broken cross beams model}
-A careful analysis of the geometry will show that if shearing failure mode $\mxz{a}$ has occurred, 
-there is still interlocking between the two materials. 
-If a part of the cross beams of $a$ has sheared off, still a column of material $a$ remains, which is surrounded by material $b$.
-See \cref{fig:straight_model_broken}.
-Once failure mode $\mxz{a}$ has occurred, still any other failure mode has to occur for the interlock to fail.
-Since both cross beams shear together and TPLA breaks at a lower strain than PP, we know that $\mxz{a}$ will always happen before $\mxz{b}$.
-We will therefore construct separate model for analysing the case where the cross beam is broken into segments.
-
-
-Because part of the cross beam is missing the stress on the remaining part increases.
-Moreover, the cross beam shear constraint $\gcbbroken$ comes into play and the Z shear constraint $\gzb$ and the cross beam shear constraint $\gca$ are dropped because of the change in the cross beam of $a$.
-The shear constraints \crefrange{eq:g_tensile_a}{eq:g_z_shear_b} are replaced by the following:
-
-
-\begin{align}
-	\gcbbroken: & \frac{ F }{ 2 \vb 2 \hmin } \le  \frac{1}{\sqrt{3}} \sigmafail{b} &&	 \mxz{b}  \label{eq:g_shear_b_broken} \\
-	\gzabroken: & \frac{ F }{ 2 \left( \lmax - \vb \right) \wa } \le \frac{1}{\sqrt{3}} \sigmafailz{a}  	&&	 \mxy{a} \label{eq:g_z_shear_a_broken}
-\end{align}
-
-The response surface of this model is shown in \cref{fig:analytic_response_broken}.
-In order to estimate the ultimate force of a given design one must consider both of these models: the one for the whole and the one for the broken situation.
-When considering designs where the cross beam constraint $gca$ is active in the whole model, the maximal force applicable is the highest of the two maximal forces according to the two models.
-
-
-
-
-
-
-
-\begin{figure*}
+\begin{figure*}[t]
 	\centering
 	\begin{subfigure}[B]{.25\textwidth}
 		\centering
@@ -264,6 +244,44 @@ When considering designs where the cross beam constraint $gca$ is active in the 
 	\end{subfigure}
 	\caption{Diagonal cell of the ITIM lattice. The $\mt{m}$ failure modes are orthogonal to the beams and influenced by both tensile and shear components of the total force.}
 \end{figure*}
+
+
+
+
+
+\subsubsection{Broken cross beams model}
+A careful analysis of the geometry will show that if shearing failure mode $\mxz{a}$ has occurred, 
+there is still interlocking between the two materials. 
+If a part of the cross beams of $a$ has sheared off, still a column of material $a$ remains, which is surrounded by material $b$.
+See \cref{fig:straight_model_broken}.
+Once failure mode $\mxz{a}$ has occurred, still any other failure mode has to occur for the interlock to fail.
+Since the failure mode can only happen by part of the PP cross beam pushing against the part of the TPLA cross beam which is being sheared off,
+both cross beams shear together.
+TPLA breaks at a lower strain than PP, so we know that $\mxz{b}$ never occurs unless $\mxz{a}$ has occurred.
+We will construct a separate model for analysing the case where the TPLA cross beam is broken into segments.
+
+
+Because part of the cross beam is missing the stress on the remaining part increases.
+Moreover, the cross beam shear constraint for PP $\gcbbroken$ comes into play and the Z shear constraint $\gzb$ and the cross beam shear constraint $\gca$ are dropped because of the change in the cross beam of $a$.
+The shear constraints \crefrange{eq:g_tensile_a}{eq:g_z_shear_b} are replaced by \cref{eq:g_shear_b_broken,eq:g_z_shear_a_broken}.
+
+
+\begin{tcolorbox}[float,colback=white,title=Straight model (broken cross beams)]
+	\begin{align}
+		\gcbbroken: & \frac{ F }{ 2 \vb 2 \hmin } \le  \frac{1}{\sqrt{3}} \sigmafail{b} &&	 \mxz{b}  \label{eq:g_shear_b_broken} \\
+		\gzabroken: & \frac{ F }{ 2 \left( \lmax - \vb \right) \wa } \le \frac{1}{\sqrt{3}} \sigmafailz{a}  	&&	 \mxy{a} \label{eq:g_z_shear_a_broken}
+	\end{align}
+\end{tcolorbox}
+
+The response surface of this model is shown in \cref{fig:analytic_response_broken}.
+In order to estimate the ultimate force of a given design one must consider both of these models: the one for the whole and the one for the broken situation.
+When considering designs where the cross beam constraint $\gca$ is active in the whole model, the maximal force applicable is the highest of the two maximal forces according to the two models.
+
+
+
+
+
+
 
 
 
@@ -291,9 +309,10 @@ When considering designs where the cross beam constraint $gca$ is active in the 
 
 
 \subsection{Diagonal}
-\Cref{fig:diagonal_model_simple} shows a simple cell of the ITIM lattice oriented diagonally w.r.t. the interface between the two materials.
+Besides the straight orientation of the ITIM lattice, we also consider the orientation where the beams are diagonal to the interface surface.
+\Cref{fig:diagonal_model_simple} shows a simple cell of the ITIM lattice in the diagonal orientation.
 Because the stress applied is homogeneous and precisely normal to the interface the optimal structure should be symmetric.
-Due to symmetry there is not distinction between fingers and cross beams to be made in this model.
+Due to symmetry there is no distinction between fingers and cross beams to be made in this model.
 Both beams should have the same height $2\hmin$ and the angle $\alpha$ between the beams and the interface of both beams is the same.
 
 
@@ -311,28 +330,31 @@ and the failure will depend on the deformation of both materials during stretchi
 Nevertheless, we provide a simplified analytical model assuming the stress is homogeneously distributed.
 By using the component of the force $F$ parallel and orthogonal to the direction of the beams,
 we can use the von Mises yield criterion to formulate the tensile constraint on the fingers.
-The diagonal model is then defined by the following constrained optimization problem:
+The diagonal model is then defined by the constrained optimization problem given by \crefrange{eq:objective_diagonal}{eq:g_z_shear_m_diag}.
 
-\begin{align}
-	f: & \max{ \frac{F}{ 2h d } }  \label{eq:objective_diagonal} \\
-	\omit\rlap{subject to} \nonumber \\
-	\gwa: & \wa \ge 2\wmin{a}		&&	\label{eq:gwa_diag}\\
-	\gwb: & \wb \ge 2\wmin{b}		&&	\label{eq:gwb_diag}\\
-	\gd:  & L \le \lmax && \label{eq:gd_diag}\\
-	\gtm: & \frac{ F }{ 2 \wm h } \sqrt{ \left( \frac{w}{d} \right)^2  + 3 \left( \frac{w}{2M} \right)^2 } \le \sigmafail{m} &&	\mt{m}  \label{eq:g_tensile_m_diag} \\
-	%\gtb: & \frac{ F }{ 2 \wb h } \sqrt{ \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) } \le \sigmafail{b} &&	\mt{b}  \label{eq:g_tensile_b_diag} \\
-	%\gtb: & \frac{ F }{ 2 \wb h } \sqrt{ \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) } \le \sigmafail{b} &&	\mt{b}  \label{eq:g_tensile_b_diag} \\
-	\gzm: & \frac{F}{2 A_{\text{z},m}} \le \sigmafailz{m} 	&&	 \mxy{m} \label{eq:g_z_shear_m_diag} \\
-	%\gza: & \frac{F}{2 A_{\text{z},a}} \le \sigmafailz{a} 	&&	 \mxy{a} \label{eq:g_z_shear_a_diag} \\
-	%\gzb: & \frac{F}{2 A_{\text{z},b}} \le \sigmafailz{b} 	&&	 \mxy{b} \label{eq:g_z_shear_b_diag} \\
-	\omit\rlap{where} \nonumber \\
-	d &= 2Mw / \sqrt{4M^2-w^2} \nonumber \\
-	M &= L - 2r \nonumber \\
-	w &= \wa + \wb \nonumber \\
-	A_{\text{z},m} &= \frac12 \pi r^2 + r (\wm-2r) \frac{d}{w} + d M \left(\frac{\wm}{w}\right)^2 \nonumber \\
-	\omit\rlap{for either material $ m \in \left\{a, b\right\} $ } \nonumber
-\end{align}
 
+
+\begin{tcolorbox}[float,colback=white,title=Diagonal model]
+	\begin{align}
+		f: & \max{ \frac{F}{ 2h d } }  \label{eq:objective_diagonal} \\
+		\omit\rlap{subject to} \nonumber \\
+		\gwa: & \wa \ge 2\wmin{a}		&&	\label{eq:gwa_diag}\\
+		\gwb: & \wb \ge 2\wmin{b}		&&	\label{eq:gwb_diag}\\
+		\gd:  & L \le \lmax && \label{eq:gd_diag}\\
+		\gtm: & \frac{ F }{ 2 \wm h } \sqrt{ \left( \frac{w}{d} \right)^2  + 3 \left( \frac{w}{2M} \right)^2 } \le \sigmafail{m} &&	\mt{m}  \label{eq:g_tensile_m_diag} \\
+		%\gtb: & \frac{ F }{ 2 \wb h } \sqrt{ \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) } \le \sigmafail{b} &&	\mt{b}  \label{eq:g_tensile_b_diag} \\
+		%\gtb: & \frac{ F }{ 2 \wb h } \sqrt{ \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) } \le \sigmafail{b} &&	\mt{b}  \label{eq:g_tensile_b_diag} \\
+		\gzm: & \frac{F}{2 A_{\text{z},m}} \le \sigmafailz{m} 	&&	 \mxy{m} \label{eq:g_z_shear_m_diag} \\
+		%\gza: & \frac{F}{2 A_{\text{z},a}} \le \sigmafailz{a} 	&&	 \mxy{a} \label{eq:g_z_shear_a_diag} \\
+		%\gzb: & \frac{F}{2 A_{\text{z},b}} \le \sigmafailz{b} 	&&	 \mxy{b} \label{eq:g_z_shear_b_diag} \\
+		\omit\rlap{where} \nonumber \\
+		d &= 2Mw / \sqrt{4M^2-w^2} \nonumber \\
+		M &= L - 2r \nonumber \\
+		w &= \wa + \wb \nonumber \\
+		A_{\text{z},m} &= 	\rlap{$\frac12 \pi r^2 + r (\wm-2r) \frac{d}{w} + d M \left(\frac{\wm}{w}\right)^2$} \nonumber \\
+		\omit\rlap{for either material $ m \in \left\{a, b\right\} $ } \nonumber
+	\end{align}
+\end{tcolorbox}
 
 
 
@@ -354,7 +376,7 @@ von Mises criterion:
 
 
 Again the stresses are all scale-invariant, so we set $\wa = 2 \wmin{a}$.
-However, because changes in $\wb$ given the same $L$ will change the angle $\alpha$ of the beams, we cannot assume the design constraint is active.
+However, because changes in $\wb$ given the same $L$ will change the angle $\alpha$ of the beams, we cannot assume the design constraint $\gd$ is active.
 
 The resulting response surface can be viewed in \cref{fig:analytic_response_diagonal}.
 Because the height of the fingers is minimal the Z shear constraints are both dominated.

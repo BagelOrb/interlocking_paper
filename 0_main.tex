@@ -56,6 +56,8 @@
 
 	\usepackage{wrapfig} % inline figures
 
+	\usepackage{dblfloatfix}
+
 	% tables
 	\usepackage{multirow} % multicolumn, multirow
 	\usepackage{colortbl} % \cellcolor{<color>}
@@ -146,8 +148,15 @@
 
 	\usepackage[normalem]{ulem} % squigly underline
 
-	\renewcommand\floatpagefraction{.8}
+	\renewcommand\floatpagefraction{.99}
+	\renewcommand\topfraction{.99}
+	\renewcommand\bottomfraction{.99}
+	\renewcommand\textfraction{.01}
+	
+	
 
+
+	\usepackage[most]{tcolorbox} % equation inside colored box
 
 	\newlength{\figwidth}
 	\newlength{\figwidthTwo}
@@ -193,21 +202,21 @@
 
 
 \begin{abstract}
-Fused deposition modelling (FDM) 3D printing has developed over the recent years from a tool used for prototyping to a tool for manufacturing end-use products.
+Fused deposition modelling (FDM) has developed over the recent years from a tool used for prototyping to a tool for manufacturing end-use products.
 Being able to print with multiple materials unlocks applications where different parts have different requirements.
 However, when chemically incompatible materials are used the adhesion between two materials can be negligible.
 In order to affix two bodies of incompatible materials a common strategy is to design mechanically interlocking structures at the interface between the two.
 
-Existing literature considers only 2D interlocking dovetail structures for FDM 3D printing.
+Existing literature is focused on 2D interlocking dovetail structures for FDM.
 3D interlocking with high genus topology locks all 3 dimensions by linking closed loops of both materials together comparable to a chain mail.
 The interlock is therefore less affected by the material's tendency to deform under stress.
 Requiring a high genus topology to satisfy extrusion continuity constraints appears challenging.
 
 We propose a simple and effective interlocking microstructure consisting of interlaced beams in two directions which constitute a high genus topology: the interlaced topologically interlocking microstructure (ITIM).
-We develop general analytical models for optimizing the ultimate tensile strength of the ITIM lattice in two different orientations w.r.t. the interface.
-The general analytical models are applied to polypropylene (PP) and polylactic acid (PLA) and verified by FEM simulations and physical tensile experiments.
+We develop analytical models for optimizing the ultimate tensile strength of the ITIM lattice in two different orientations w.r.t. the interface.
+The analytical models are applied to polypropylene (PP) and polylactic acid (PLA) and verified by FEM simulations and physical tensile experiments.
 In the diagonal orientation ITIM can obtain 82\% of the theoretical upper bound of \SI{8.6}{\mega\pascal}, which is 67\% of the ultimate tensile strength of the PP and slightly higher than the strength obtained using dovetail designs.
-If the length of the transition region is limited to less than \SI{2.4}{\milli\meter} the straight orientation is expected to outperform the diagonal orientation of the ITIM lattice.
+If the application design only allows for an interface region less than \SI{2.4}{\milli\meter} long, the straight orientation is expected to outperform the diagonal orientation of the ITIM lattice.
 
 %Expanding this research to interlocking structures optimized for non-vertical interfaces and non-horizontal forces is an interesting direction for future research.
 
@@ -270,12 +279,12 @@ keywords
 \newcommand{\gd}{g_\text{d}}
 \newcommand{\gta}{g_\text{ta}}
 \newcommand{\gtb}{g_\text{tb}}
-\newcommand{\gtm}{g_\text{tm}}
+\newcommand{\gtm}{g_{\text{t}m}}
 \newcommand{\gca}{g_\text{ca}}
 \newcommand{\gcb}{g_\text{cb}}
 \newcommand{\gza}{g_\text{za}}
 \newcommand{\gzb}{g_\text{zb}}
-\newcommand{\gzm}{g_\text{zm}}
+\newcommand{\gzm}{g_{\text{z}m}}
 \newcommand{\gtabroken}{g_{\text{ta}\lightning}}
 \newcommand{\gtbbroken}{g_{\text{tb}\lightning}}
 \newcommand{\gcbbroken}{g_{\text{cb}\lightning}}
