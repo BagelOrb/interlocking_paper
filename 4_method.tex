@@ -139,15 +139,8 @@ we can safely assert that a subset of the bounds on the design variables are met
 	\va &= \lmax - \vb \label{eq:va}
 \end{align}
 
-A careful analysis of the geometry will show that if shearing failure mode $\mxz{a}$ has occurred, 
-there is still interlocking between the two materials. 
-If a part of the cross beams of $a$ has sheared off, still a column of material $a$ remains, which is surrounded by material $b$.
-Once failure mode $\mxz{a}$ has occurred, still any other failure mode has to occur for the interlock to fail.
-Since both cross beams shear together and TPLA breaks at a lower strain than PP, we know that $\mxz{a}$ will always happen before $\mxz{b}$.
-We will therefore construct two models: one where the TPLA cross beam is whole and one where it is broken into segments.
-
-\subsubsection{Whole cross beams}
-In order to optimize it for a maximal tensile strength we consider three types of stress, related to three types of failure mode for either material $m$:
+\subsubsection{Straight model (whole)}
+In order to optimize the ITIM in straight orientation for a maximal tensile strength we consider three types of stress, related to three types of failure mode for either material $m$:
 tensile stress $\stresstensile{m}$ for $\myz{m}$, cross beam shear stress $\stresscrossshear{m}$ for $\mxz{m}$ and Z shear stress $\stresszshear{m}$ for $\mxy{m}$.
 These three failure modes are modelled as having a homogenous stress distribution:
 
@@ -202,7 +195,9 @@ The resulting response surfaces are shown in \cref{fig:analytic_response_whole}.
 		\caption{Response for the partly broken situation. Through $(\wb, \va, \hf) = (1.50, 0.36, 0.50)$}
 		\label{fig:analytic_response_broken}
 	\end{subfigure}
-	\caption{Maximum strength of the analytical models along three 2D slices of the 3D design space, which intersect at the optimum.}
+	\caption{Maximum strength of the analytical models along three 2D slices of the 3D design space, which intersect at the optimum.
+		By taking the maximum values of these two models a single unified model is given for the straight ITIM cell.
+	}
 	\label{fig:analytic_response}
 \end{figure}
 
@@ -217,9 +212,16 @@ The resulting response surfaces are shown in \cref{fig:analytic_response_whole}.
 
 
 
-\subsubsection{Broken cross beams}
-In the situation where part of the TPLA cross beams has sheared off there is still interlocking of PP material around the part of the cross beam which connects fingers together vertically.
+\subsubsection{Broken cross beams model}
+A careful analysis of the geometry will show that if shearing failure mode $\mxz{a}$ has occurred, 
+there is still interlocking between the two materials. 
+If a part of the cross beams of $a$ has sheared off, still a column of material $a$ remains, which is surrounded by material $b$.
 See \cref{fig:straight_model_broken}.
+Once failure mode $\mxz{a}$ has occurred, still any other failure mode has to occur for the interlock to fail.
+Since both cross beams shear together and TPLA breaks at a lower strain than PP, we know that $\mxz{a}$ will always happen before $\mxz{b}$.
+We will therefore construct separate model for analysing the case where the cross beam is broken into segments.
+
+
 Because part of the cross beam is missing the stress on the remaining part increases.
 Moreover, the cross beam shear constraint $\gcbbroken$ comes into play and the Z shear constraint $\gzb$ and the cross beam shear constraint $\gca$ are dropped because of the change in the cross beam of $a$.
 The shear constraints \crefrange{eq:g_tensile_a}{eq:g_z_shear_b} are replaced by the following:
@@ -231,6 +233,9 @@ The shear constraints \crefrange{eq:g_tensile_a}{eq:g_z_shear_b} are replaced by
 \end{align}
 
 The response surface of this model is shown in \cref{fig:analytic_response_broken}.
+In order to estimate the ultimate force of a given design one must consider both of these models: the one for the whole and the one for the broken situation.
+When considering designs where the cross beam constraint $gca$ is active in the whole model, the maximal force applicable is the highest of the two maximal forces according to the two models.
+
 
 
 
