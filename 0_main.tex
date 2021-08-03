@@ -205,17 +205,18 @@
 Fused deposition modelling (FDM) has developed over the recent years from a tool used for prototyping to a tool for manufacturing end-use products.
 Being able to print with multiple materials unlocks applications where different parts have different requirements.
 However, when chemically incompatible materials are used the adhesion between two materials can be negligible.
-In order to affix two bodies of incompatible materials a common strategy is to design mechanically interlocking structures at the interface between the two.
+In order to affix two bodies of incompatible materials a common strategy is to apply mechanically interlocking structures at the interface where the two bodies meet.
 
 Existing literature is focused on 2D interlocking dovetail structures for FDM.
 3D interlocking with high genus topology locks all 3 dimensions by linking closed loops of both materials together comparable to a chain mail.
-The interlock is therefore less affected by the material's tendency to deform under stress.
-Requiring a high genus topology to satisfy extrusion continuity constraints appears challenging.
+The interlock is therefore less affected by the material's tendency to deform under stress, overcoming a limitation of the dovetail structures.
+However, requiring a high genus topology to satisfy extrusion continuity constraints appears challenging.
 
-We propose a simple and effective interlocking microstructure consisting of interlaced beams in two directions which constitute a high genus topology: the interlaced topologically interlocking microstructure (ITIM).
-We develop analytical models for optimizing the ultimate tensile strength of the ITIM lattice in two different orientations w.r.t. the interface.
-The analytical models are applied to polypropylene (PP) and polylactic acid (PLA) and verified by FEM simulations and physical tensile experiments.
-In the diagonal orientation ITIM can obtain 82\% of the theoretical upper bound of \SI{8.6}{\mega\pascal}, which is 67\% of the ultimate tensile strength of the PP and slightly higher than the strength obtained using dovetail designs.
+We propose a simple and effective 3D interlocking microstructure consisting of interlaced horizontal beams in vertically alternating directions which constitute a high genus topology: the interlaced topologically interlocking microstructure (ITIM).
+We develop analytical models for optimizing the ultimate tensile strength of the ITIM lattice in two different orientations relative to the interface: straight and diagonal.
+The analytical models are applied to polypropylene (PP) and polylactic acid (PLA) and verified by finite elements method (FEM) simulations and physical tensile experiments.
+In the diagonal orientation ITIM can obtain 82\% of the theoretical upper bound of \SI{8.6}{\mega\pascal}, which is 67\% of the ultimate tensile strength of the PP.
+% and slightly higher than the strength obtained using dovetail designs.
 If the application design only allows for an interface region less than \SI{2.4}{\milli\meter} long, the straight orientation is expected to outperform the diagonal orientation of the ITIM lattice.
 
 %Expanding this research to interlocking structures optimized for non-vertical interfaces and non-horizontal forces is an interesting direction for future research.
@@ -254,20 +255,20 @@ keywords
 \newcommand{\vb}{v_{b}}
 \newcommand{\vm}{v_{m}}
 \newcommand{\hmin}{h_\text{min}}
-\newcommand{\wmin}[1]{w_{\text{min}, #1}}
+\newcommand{\wmin}[1]{w_{\text{min}\ifthenelse{\equal{#1}{}}{}{, #1}}}
 \newcommand{\lmax}{L_\text{max}}
 \newcommand{\mt}[1]{M_{\text{T}}^#1}
 \newcommand{\myz}[1]{M_{\text{XX}}^#1}
 \newcommand{\mxz}[1]{M_{\text{XZ}}^#1}
 \newcommand{\mxy}[1]{M_{\text{XY}}^#1}
 
-\newcommand{\stresstensile}[1]{\sigma_{\text{XX}, #1}}
-\newcommand{\stresszshear}[1]{\tau_{\text{XY}, #1}}
-\newcommand{\stresscrossshear}[1]{\tau_{\text{XZ}, #1}}
-\newcommand{\sigmafail}[1]{\sigma_{\text{y}, #1}}
-\newcommand{\sigmafailz}[1]{\sigma_{\text{yZ}, #1}}
-\newcommand{\taufail}[1]{\tau_{\text{y}, #1}}
-\newcommand{\tauz}[1]{\tau_{\text{yZ}, #1}}
+\newcommand{\stresstensile}[1]{\sigma_{\text{XX}\ifthenelse{\equal{#1}{}}{}{, #1}}}
+\newcommand{\stresszshear}[1]{\tau_{\text{XY}\ifthenelse{\equal{#1}{}}{}{, #1}}}
+\newcommand{\stresscrossshear}[1]{\tau_{\text{XZ}\ifthenelse{\equal{#1}{}}{}{, #1}}}
+\newcommand{\sigmafail}[1]{\sigma_{\text{y}\ifthenelse{\equal{#1}{}}{}{, #1}}}
+\newcommand{\sigmafailz}[1]{\sigma_{\text{yZ}\ifthenelse{\equal{#1}{}}{}{, #1}}}
+\newcommand{\taufail}[1]{\tau_{\text{y}\ifthenelse{\equal{#1}{}}{}{, #1}}}
+\newcommand{\tauz}[1]{\tau_{\text{yZ}\ifthenelse{\equal{#1}{}}{}{, #1}}}
 
 
 

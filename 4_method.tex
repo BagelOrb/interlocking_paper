@@ -21,11 +21,11 @@ The ultimate strength of any multi-material microstructure is therefore limited 
 	= \frac{F}{A_a + A_b}  \nonumber
 	= \sigmafail{a} \frac{A_a}{A_a + A_b} \nonumber
 	= \sigmafail{b} \frac{A_b}{A_a + A_b} \nonumber \\
-%	\sigmafail{a} A_a &= \sigmafail{b} A_b \nonumber \\
+	\sigmafail{a} A_a &= \sigmafail{b} A_b \nonumber \\
 \label{eq:general_uper_bound}
-%	\sigma^* % &= \sigmafail{b} \left(\frac{ \nicefrac{\sigmafail{a}}{\sigmafail{b}} }{ \nicefrac{\sigmafail{a}}{\sigmafail{b}} + 1 } \right) \nonumber \\
-	% &= \sigmafail{b} \left(\frac{ 1 }{ 1 + \nicefrac{\sigmafail{b}}{\sigmafail{a}} } \right)  \nonumber \\
-	&= \frac{ 1 }{ \nicefrac{1}{\sigmafail{a}} + \nicefrac{1}{\sigmafail{b}} } 
+	\sigma^* % &= \sigmafail{b} \left(\frac{ \nicefrac{\sigmafail{a}}{\sigmafail{b}} }{ \nicefrac{\sigmafail{a}}{\sigmafail{b}} + 1 } \right) \nonumber \\
+	&= \sigmafail{b} \left(\frac{ 1 }{ 1 + \nicefrac{\sigmafail{b}}{\sigmafail{a}} } \right)
+	= \frac{ 1 }{ \nicefrac{1}{\sigmafail{a}} + \nicefrac{1}{\sigmafail{b}} } 
 	%\approx \SI{8.6}{\mega\pascal} \text{ for TPLA and PP}
 \end{align}
 
@@ -45,18 +45,18 @@ The structure may not only be subject to tensile failure, but also to shear fail
 Because of the layer-wise build-up employed by FDM, the tensile properties in the Z direction are different from those in the horizontal plane.
 See \cref{tab:mat_props_manufacturing_constraints}.
 The structure is furthermore subject to manufacturing constraints determined by the nozzle sizes and the layer thickness.
-The standard layer thickness is \SI{0.1}{\milli\meter} and the minimal line width for a \SI{0.4}{\milli\meter} nozzle is \SI{0.3}{\milli\meter}.
+The standard layer thickness $\hmin$ is \SI{0.1}{\milli\meter} and the minimal line width $\wmin{}$ for a \SI{0.4}{\milli\meter} nozzle is \SI{0.3}{\milli\meter}.
 
 
 \begin{table}
 	\caption{Material properties and manufacturing constraints}
 	\label{tab:mat_props_manufacturing_constraints}
+	\centering
 	\begin{tabular}{l|rrrr}
-		material $m$ & $\sigmafail{m}$ & $\sigmafailz{m}$ & 
-		$\wmin{m}$ & $\hmin$ \\
+		material & $\sigmafail{}$ & $\sigmafailz{}$ \\
 		\hline
-		TPLA & \SI{47}{\mega\pascal} & \SI{33}{\mega\pascal} & \SI{0.3}{\milli\meter} & \SI{0.1}{\milli\meter} \\
-		PP & \SI{10.5}{\mega\pascal} & \SI{10.6}{\mega\pascal} & \SI{0.3}{\milli\meter} & \SI{0.1}{\milli\meter}
+		TPLA & \SI{47}{\mega\pascal} & \SI{33}{\mega\pascal} \\
+		PP & \SI{10.5}{\mega\pascal} & \SI{10.6}{\mega\pascal}
 	\end{tabular}
 \end{table}
 
@@ -68,7 +68,7 @@ The standard layer thickness is \SI{0.1}{\milli\meter} and the minimal line widt
 \section{Interlaced Topologically Interlocking Microstructure}
 The topologically interlocking structure we propose consists of horizontal beams alternating in material.
 On top of that we print another set of beams rotated about Z.
-Long horizontal beams assure continuous extrusion, while the alternating direction of the beams assures the interlock - simple and effective.
+Long horizontal beams assure continuous extrusion, while the alternating direction of the beams assures the interlock.
 See \cref{fig:basic_structure_single_mat}.
 %\Cref{fig:connectivity_graph} exhibits the highly connected connectivity graph of the ITIM lattice, which demonstrates the high genus of the topology.
 
@@ -110,13 +110,13 @@ This section considers these two designs and analytical models to optimize them.
 	\begin{subfigure}[B]{.33\textwidth}
 		\centering
 		\includegraphics{sources/method/straight_model_v5_no_failures.pdf}
-		\caption{Design variables}
+		\caption{Design variables (in red)}
 		\label{fig:straight_model}
 	\end{subfigure}
 	\begin{subfigure}[B]{.33\textwidth}
 		\centering
 		\includegraphics{sources/method/straight_model_v5_failures.pdf}
-		\caption{Failures modes}
+		\caption{Failures modes for TPLA (in red) and PP (in blue)}
 		\label{fig:straight_model_failure_modes}
 	\end{subfigure}
 	\begin{subfigure}[B]{.33\textwidth}
@@ -158,8 +158,12 @@ The shear stress is multiplied by one half because the beams are fixed on both s
 %The Z shear stress $\stresszshear{m}$ is multiplied with the ratio between the vertical and horizontal strength, so that all stresses can be compared to $\sigmafail{m}$ fairly.
 
 The tensile stress of the whole cell is given by $\nicefrac{F}{(\wa +\wb)(\hf + \hc)}$.
-Because the objective and all stresses are invariant under scaling,
-we can safely assert that a subset of the bounds on the design variables are met, in order to limit the design space from six to three dimensions:
+Because the objective and all stresses are invariant under various scaling operations,
+we can choose the value of a subset of the design variables.
+Because of invariance to uniform scaling we employ the design constraint;
+scaling the width up only increases the cross beam shear values $\stresscrossshear{m}$, so we employ the minimum width constraint;
+scaling the height up only increases the Z shear values $\stresszshear{m}$, so we employ the minimum height constraint.
+This way we limit the design space from six to three dimensions, i.e. $\wb, \hf, \vb$:
 \begin{align}
 	\wa &= 2 \wmin{a}  \label{eq:wa} \\
 	\hc &= 2\hmin \label{eq:hc}\\
