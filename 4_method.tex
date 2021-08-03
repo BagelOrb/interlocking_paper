@@ -40,26 +40,6 @@ The upper bound can therefore never be reached.
 
 
 
-For the materials chosen by this study, Ultimaker Tough PLA (TPLA) and Ultimaker PolyProlylene (PP), the upper bound comes out to be \SI{8.6}{\mega\pascal}.
-The structure may not only be subject to tensile failure, but also to shear failure modes.
-Because of the layer-wise build-up employed by FDM, the tensile properties in the Z direction are different from those in the horizontal plane.
-See \cref{tab:mat_props_manufacturing_constraints}.
-The structure is furthermore subject to manufacturing constraints determined by the nozzle sizes and the layer thickness.
-The standard layer thickness $\hmin$ is \SI{0.1}{\milli\meter} and the minimal line width $\wmin{}$ for a \SI{0.4}{\milli\meter} nozzle is \SI{0.3}{\milli\meter}.
-
-
-\begin{table}
-	\caption{Material properties and manufacturing constraints}
-	\label{tab:mat_props_manufacturing_constraints}
-	\centering
-	\begin{tabular}{l|rrrr}
-		material & $\sigmafail{}$ & $\sigmafailz{}$ \\
-		\hline
-		TPLA & \SI{47}{\mega\pascal} & \SI{33}{\mega\pascal} \\
-		PP & \SI{10.5}{\mega\pascal} & \SI{10.6}{\mega\pascal}
-	\end{tabular}
-\end{table}
-
 
 
 
@@ -93,6 +73,28 @@ so using more cells along the width of the interface only increases shear stress
 Given that we will fill the space around the interface with a single layer of cells, the orientation of those cells w.r.t. the interface is relevant.
 While rotating the lattice about X or Y is impossible due to the continuous extrusion constraint, we are free to rotate about Z.
 However, given that the tensile stress is applied in a single direction it only makes sense to consider two orientations: straight and diagonal.
+
+
+For the materials chosen by this study, Ultimaker Tough PLA (TPLA) and Ultimaker PolyProlylene (PP), the theoretical upper bound comes out to be \SI{8.6}{\mega\pascal}.
+The structure may not only be subject to tensile failure, but also to shear failure modes.
+Because of the layer-wise build-up employed by FDM, the tensile properties in the Z direction are different from those in the horizontal plane.
+See \cref{tab:mat_props_manufacturing_constraints}.
+The structure is furthermore subject to manufacturing constraints determined by the nozzle sizes and the layer thickness.
+The standard layer thickness $\hmin$ is \SI{0.1}{\milli\meter} and the minimal line width $\wmin{}$ for a \SI{0.4}{\milli\meter} nozzle is \SI{0.3}{\milli\meter}.
+
+
+\begin{table}
+	\caption{Material properties and manufacturing constraints}
+	\label{tab:mat_props_manufacturing_constraints}
+	\centering
+	\begin{tabular}{l|rrrr}
+		material & $\sigmafail{}$ & $\sigmafailz{}$ \\
+		\hline
+		TPLA & \SI{47}{\mega\pascal} & \SI{33}{\mega\pascal} \\
+		PP & \SI{10.5}{\mega\pascal} & \SI{10.6}{\mega\pascal}
+	\end{tabular}
+\end{table}
+
 
 If all dimensions of the beams are set to minimal and the angle between the beams is set to \SI{90}{\degree},
 %tensile tests show that the straight orientation reaches \SI{3.3}{\mega\pascal} and the diagonal orientation reaches \SI{4.9}{\mega\pascal}.
@@ -158,6 +160,11 @@ The shear stress is multiplied by one half because the beams are fixed on both s
 %The Z shear stress $\stresszshear{m}$ is multiplied with the ratio between the vertical and horizontal strength, so that all stresses can be compared to $\sigmafail{m}$ fairly.
 
 The tensile stress of the whole cell is given by $\nicefrac{F}{(\wa +\wb)(\hf + \hc)}$.
+Combining the above we obtain the constrained optimization problem given by \crefrange{eq:objective}{eq:g_z_shear_b}.
+The $\sqrt{3}$ comes from the von Mises yield criterion.
+Although one might consider combining the stresses together using the same criterion, this does not increase the accuracy of the model,
+because the failure mode planes do not overlap.
+
 Because the objective and all stresses are invariant under various scaling operations,
 we can choose the value of a subset of the design variables.
 Because of invariance to uniform scaling we employ the design constraint;
@@ -165,52 +172,50 @@ scaling the width up only increases the cross beam shear values $\stresscrossshe
 scaling the height up only increases the Z shear values $\stresszshear{m}$, so we employ the minimum height constraint.
 This way we limit the design space from six to three dimensions, i.e. $\wb, \hf, \va$:
 \begin{align}
-	\wa &= 2 \wmin{a}  \label{eq:wa} \\
-	\hc &= 2\hmin \label{eq:hc}\\
+	\wa &= 2 \wmin{a}   & %\label{eq:wa} \\
+	\hc &= 2\hmin  & %\label{eq:hc}\\
 	\vb &= \lmax - \va \label{eq:va}
 \end{align}
 
 
-The above \crefrange{eq:tensile}{eq:va} combine to form the constrained optimization problem given by \crefrange{eq:objective}{eq:g_z_shear_b}.
 
 
 \begin{tcolorbox}[float,colback=white,title=Straight model]
 	\begin{align}
-		f: & \max{ \frac{F}{\left( 2 \wmin{a} + \wb \right) \left( \hf + 2\hmin \right) } }  \label{eq:objective} \\
+		f: & \max{ \frac{F}{\left( \wa + \wb \right) \left( \hf + \hc \right) } }  \label{eq:objective} \\
 		\omit\rlap{subject to} \nonumber \\
 		\gwb: & \wb \ge 2 \wmin{b} 		&&	\label{eq:gwb}\\
 		\gva: & \va \ge \wmin{a} 		&&	\label{eq:gva}\\
-		\gvb: & \lmax - \va \ge \wmin{b} 		&&	 \label{eq:gvb}\\
+		\gvb: & \vb \ge \wmin{b} 		&&	 \label{eq:gvb}\\
 		\ghf: & \hf \ge \hmin 		&&	 \label{eq:ghf}\\
-		\gta: & \frac{ F }{ 2 \wmin{a} \hf } \le \sigmafail{a} &&	\myz{a}  \label{eq:g_tensile_a} \\
-		\gtb: & \frac{ F }{ \wb \hf  } \le \sigmafail{b} &&	\myz{b}  \label{eq:g_tensile_b} \\
-		\gca: & \frac{\wb}{w} \frac{ F }{ 2 \va 2 \hmin  } \le  \frac{1}{\sqrt{3}} \sigmafail{a} &&	 \mxz{a}  \label{eq:g_shear_a} \\
-		\gza: & \frac{\wa}{w} \frac{ F }{ 2 \va \wa  } \le  \frac{1}{\sqrt{3}} \sigmafailz{a} 	&&	 \mxy{a} \label{eq:g_z_shear_a} \\
-		\gzb: & \frac{\wb}{w} \frac{ F }{ 2 \left( \lmax - \va \right) \wb  } \le  \frac{1}{\sqrt{3}} \sigmafailz{b} 	&&	\mxy{b} \label{eq:g_z_shear_b}
+		\gtm: & \frac{ F }{ \wm \hf } \le \sigmafail{m} &&	\myz{m}  \label{eq:g_tensile_a} \\
+		%\gtb: & \frac{ F }{ \wb \hf  } \le \sigmafail{b} &&	\myz{b}  \label{eq:g_tensile_b} \\
+		\gca: & \frac{\wb}{w} \frac{ F }{ 2 \va \hc  } \le  \frac{1}{\sqrt{3}} \sigmafail{a} &&	 \mxz{a}  \label{eq:g_shear_a} \\
+		%\gza: & \frac{\wa}{w} \frac{ F }{ 2 \va \wa  } \le  \frac{1}{\sqrt{3}} \sigmafailz{a} 	&&	 \mxy{a} \label{eq:g_z_shear_a} \\
+		\gzm: & \frac{\wm}{w} \frac{ F }{ 2 \vb \wb  } \le  \frac{1}{\sqrt{3}} \sigmafailz{m} 	&&	\mxy{b} \label{eq:g_z_shear_b} \\
+		\omit\rlap{for either material $ m \in \left\{a, b\right\} $ } \nonumber
 	\end{align}
 \end{tcolorbox}
 
-The $\sqrt{3}$ comes from the von Mises yield criterion.
-Although one might consider combining the stresses together using the same criterion, this does not increase the accuracy of the model,
-because the failure mode planes do not overlap.
 
-Using these formulae one can find the maximum force and thus the maximum stress of any design;
+
+Using the formulae of the constrained optimization problem one can find the maximum force and thus the maximum stress of any design;
 we can rewrite each of the mechanical constraints \crefrange{eq:g_tensile_a}{eq:g_z_shear_b} to give a formula for $F$
 and the lowest value of those formulae will give the active failure mode for a given design.
 The resulting response surfaces are shown in \cref{fig:analytic_response_whole}.
-The optimum is at the intersection of four constraint surfaces.
+The optimum is at the intersection of four constraint surfaces, which is unusual for a 3D space.
 
 
 \begin{figure}
 	\centering
 	\begin{subfigure}[B]{\columnwidth}
 		\includegraphics{sources/method/analytic_response_whole.jpg}
-		\caption{Response for the whole, unbroken situation. Through $(\wb, \va, \hf) = (2.64, 2.70, 1.29)$}
+		\caption{Straight model (whole) response. At $\hf = 1.29$, $\wb=2.64$ and $\va=2.70$ respectively.}
 		\label{fig:analytic_response_whole}
 	\end{subfigure}
 	\begin{subfigure}[B]{\columnwidth}
 		\includegraphics{sources/method/analytic_response_broken.jpg}
-		\caption{Response for the partly broken situation. Through $(\wb, \va, \hf) = (1.50, 0.36, 0.50)$}
+		\caption{Straight model (broken) response. At $\hf = 0.50$, $\wb=1.50$ and $\va=0.36$ respectively.}
 		\label{fig:analytic_response_broken}
 	\end{subfigure}
 	\caption{Maximum strength of the analytical models along three 2D slices of the 3D design space, which intersect at the optimum.
@@ -258,7 +263,7 @@ A careful analysis of the geometry will show that if shearing failure mode $\mxz
 there is still interlocking between the two materials. 
 If a part of the cross beams of $a$ has sheared off, still a column of material $a$ remains, which is surrounded by material $b$.
 See \cref{fig:straight_model_broken}.
-Once failure mode $\mxz{a}$ has occurred, still any other failure mode has to occur for the interlock to fail.
+Once failure mode $\mxz{a}$ has occurred, still any other failure mode has to occur for the interlock to fail completely.
 Since the failure mode can only happen by part of the PP cross beam pushing against the part of the TPLA cross beam which is being sheared off,
 both cross beams shear together.
 TPLA breaks at a lower strain than PP, so we know that $\mxz{b}$ never occurs unless $\mxz{a}$ has occurred.
@@ -267,7 +272,7 @@ We will construct a separate model for analysing the case where the TPLA cross b
 
 Because part of the cross beam is missing the stress on the remaining part increases.
 Moreover, the cross beam shear constraint for PP $\gcbbroken$ comes into play and the Z shear constraint $\gzb$ and the cross beam shear constraint $\gca$ are dropped because of the change in the cross beam of $a$.
-The shear constraints \crefrange{eq:g_tensile_a}{eq:g_z_shear_b} are replaced by \cref{eq:g_shear_b_broken,eq:g_z_shear_a_broken}.
+The shear constraints \crefrange{eq:g_shear_a}{eq:g_z_shear_b} are replaced by \cref{eq:g_shear_b_broken,eq:g_z_shear_a_broken}.
 
 
 \begin{tcolorbox}[float,colback=white,title=Straight model (broken cross beams)]
@@ -318,12 +323,12 @@ Besides the straight orientation of the ITIM lattice, we also consider the orien
 Because the stress applied is homogeneous and precisely normal to the interface the optimal structure should be symmetric.
 Due to symmetry there is no distinction between fingers and cross beams to be made in this model.
 Both beams should have the same height $2\hmin$ and the angle $\alpha$ between the beams and the interface of both beams is the same.
-
+The remaining design variables are: $\wa$, $\wb$ and $L$.
 
 The simple cell consists of protruding fingers and triangular dents (see red triangles in \cref{fig:diagonal_model_simple});
 however, the advantage these dents give to the strength of the pattern is vastly outweighed by their effect on the total length $L$.
 We therefore trim the triangular ends on the pattern to arrive at the model shown in \cref{fig:diagonal_model}.
-However, doing this introduces some sharp edges, which are not manufacturable using FDM 3D printing.
+However, doing this introduces some sharp edges, with a diameter below the minimum feature size $\wmin{}$.
 We therefore round the vertical edges using a radius $r=\SI{0.15}{\milli\meter}$
 and define the dimensions of the model such that the rounded edges at the ends of both fingers are aligned.
 See \cref{fig:analytical_math_diagonal}.
@@ -332,8 +337,9 @@ See \cref{fig:analytical_math_diagonal}.
 Because of the diagonal geometry we expect that the stress distribution throughout the structure will be quite complex,
 and the failure will depend on the deformation of both materials during stretching.
 Nevertheless, we provide a simplified analytical model assuming the stress is homogeneously distributed.
-By using the component of the force $F$ parallel and orthogonal to the direction of the beams,
-we can use the von Mises yield criterion to formulate the tensile constraint on the fingers.
+We decompose the force $F$ into one component parallel and another orthogonal to the direction of the beams.
+We then use the parallel component to determine the tensile stress and the orthonogal component to determine the shear stress in the beam,
+which combine into a single constraint using the von Mises yield criterion in \cref{eq:g_tensile_m_diag}.
 The diagonal model is then defined by the constrained optimization problem given by \crefrange{eq:objective_diagonal}{eq:g_z_shear_m_diag}.
 
 
@@ -348,7 +354,7 @@ The diagonal model is then defined by the constrained optimization problem given
 		\gtm: & \frac{ F }{ 2 \wm h } \sqrt{ \left( \frac{w}{d} \right)^2  + 3 \left( \frac{w}{2M} \right)^2 } \le \sigmafail{m} &&	\mt{m}  \label{eq:g_tensile_m_diag} \\
 		%\gtb: & \frac{ F }{ 2 \wb h } \sqrt{ \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) } \le \sigmafail{b} &&	\mt{b}  \label{eq:g_tensile_b_diag} \\
 		%\gtb: & \frac{ F }{ 2 \wb h } \sqrt{ \left( \left( \frac{w}{d} \right)^2  + 3 \left( \frac{d}{2M} \right)^2 \right) } \le \sigmafail{b} &&	\mt{b}  \label{eq:g_tensile_b_diag} \\
-		\gzm: & \frac{F}{2 A_{\text{z},m}} \le \sigmafailz{m} 	&&	 \mxy{m} \label{eq:g_z_shear_m_diag} \\
+		\gzm: & \frac{F}{2 A_{\text{z},m}} \le  \frac{1}{\sqrt{3}} \sigmafailz{m} 	&&	 \mxy{m} \label{eq:g_z_shear_m_diag} \\
 		%\gza: & \frac{F}{2 A_{\text{z},a}} \le \sigmafailz{a} 	&&	 \mxy{a} \label{eq:g_z_shear_a_diag} \\
 		%\gzb: & \frac{F}{2 A_{\text{z},b}} \le \sigmafailz{b} 	&&	 \mxy{b} \label{eq:g_z_shear_b_diag} \\
 		\omit\rlap{where} \nonumber \\
