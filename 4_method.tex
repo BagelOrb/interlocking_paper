@@ -163,11 +163,11 @@ we can choose the value of a subset of the design variables.
 Because of invariance to uniform scaling we employ the design constraint;
 scaling the width up only increases the cross beam shear values $\stresscrossshear{m}$, so we employ the minimum width constraint;
 scaling the height up only increases the Z shear values $\stresszshear{m}$, so we employ the minimum height constraint.
-This way we limit the design space from six to three dimensions, i.e. $\wb, \hf, \vb$:
+This way we limit the design space from six to three dimensions, i.e. $\wb, \hf, \va$:
 \begin{align}
 	\wa &= 2 \wmin{a}  \label{eq:wa} \\
 	\hc &= 2\hmin \label{eq:hc}\\
-	\va &= \lmax - \vb \label{eq:va}
+	\vb &= \lmax - \va \label{eq:va}
 \end{align}
 
 
@@ -179,14 +179,14 @@ The above \crefrange{eq:tensile}{eq:va} combine to form the constrained optimiza
 		f: & \max{ \frac{F}{\left( 2 \wmin{a} + \wb \right) \left( \hf + 2\hmin \right) } }  \label{eq:objective} \\
 		\omit\rlap{subject to} \nonumber \\
 		\gwb: & \wb \ge 2 \wmin{b} 		&&	\label{eq:gwb}\\
-		\gva: & \lmax - \vb \ge \wmin{a} 		&&	\label{eq:gva}\\
-		\gvb: & \vb \ge \wmin{b} 		&&	 \label{eq:gvb}\\
+		\gva: & \va \ge \wmin{a} 		&&	\label{eq:gva}\\
+		\gvb: & \lmax - \va \ge \wmin{b} 		&&	 \label{eq:gvb}\\
 		\ghf: & \hf \ge \hmin 		&&	 \label{eq:ghf}\\
 		\gta: & \frac{ F }{ 2 \wmin{a} \hf } \le \sigmafail{a} &&	\myz{a}  \label{eq:g_tensile_a} \\
 		\gtb: & \frac{ F }{ \wb \hf  } \le \sigmafail{b} &&	\myz{b}  \label{eq:g_tensile_b} \\
-		\gca: & \frac{\wb}{w} \frac{ F }{ 2 \left( \lmax - \vb \right) 2 \hmin  } \le  \frac{1}{\sqrt{3}} \sigmafail{a} &&	 \mxz{a}  \label{eq:g_shear_a} \\
-		\gza: & \frac{\wa}{w} \frac{ F }{ 2 \left( \lmax - \vb \right) \wa  } \le  \frac{1}{\sqrt{3}} \sigmafailz{a} 	&&	 \mxy{a} \label{eq:g_z_shear_a} \\
-		\gzb: & \frac{\wb}{w} \frac{ F }{ 2 \vb \wb  } \le  \frac{1}{\sqrt{3}} \sigmafailz{b} 	&&	\mxy{b} \label{eq:g_z_shear_b}
+		\gca: & \frac{\wb}{w} \frac{ F }{ 2 \va 2 \hmin  } \le  \frac{1}{\sqrt{3}} \sigmafail{a} &&	 \mxz{a}  \label{eq:g_shear_a} \\
+		\gza: & \frac{\wa}{w} \frac{ F }{ 2 \va \wa  } \le  \frac{1}{\sqrt{3}} \sigmafailz{a} 	&&	 \mxy{a} \label{eq:g_z_shear_a} \\
+		\gzb: & \frac{\wb}{w} \frac{ F }{ 2 \left( \lmax - \va \right) \wb  } \le  \frac{1}{\sqrt{3}} \sigmafailz{b} 	&&	\mxy{b} \label{eq:g_z_shear_b}
 	\end{align}
 \end{tcolorbox}
 
@@ -272,8 +272,8 @@ The shear constraints \crefrange{eq:g_tensile_a}{eq:g_z_shear_b} are replaced by
 
 \begin{tcolorbox}[float,colback=white,title=Straight model (broken cross beams)]
 	\begin{align}
-		\gcbbroken: & \frac{ F }{ 2 \vb 2 \hmin } \le  \frac{1}{\sqrt{3}} \sigmafail{b} &&	 \mxz{b}  \label{eq:g_shear_b_broken} \\
-		\gzabroken: & \frac{ F }{ 2 \left( \lmax - \vb \right) \wa } \le \frac{1}{\sqrt{3}} \sigmafailz{a}  	&&	 \mxy{a} \label{eq:g_z_shear_a_broken}
+		\gcbbroken: & \frac{ F }{ 2 \left( \lmax - \va \right) 2 \hmin } \le  \frac{1}{\sqrt{3}} \sigmafail{b} &&	 \mxz{b}  \label{eq:g_shear_b_broken} \\
+		\gzabroken: & \frac{ F }{ 2 \va \wa } \le \frac{1}{\sqrt{3}} \sigmafailz{a}  	&&	 \mxy{a} \label{eq:g_z_shear_a_broken}
 	\end{align}
 \end{tcolorbox}
 
