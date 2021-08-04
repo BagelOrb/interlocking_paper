@@ -3,6 +3,8 @@
 */.idea
 # matlab generated temp files
 *.asv
+# GIMP files
+*.xcf
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
