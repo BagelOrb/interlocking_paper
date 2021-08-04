@@ -52,23 +52,17 @@ Long horizontal beams assure continuous extrusion, while the alternating directi
 See \cref{fig:basic_structure_single_mat}.
 %\Cref{fig:connectivity_graph} exhibits the highly connected connectivity graph of the ITIM lattice, which demonstrates the high genus of the topology.
 
-When joining bodies of a different material, some region around the interface between the two bodies would be replaced by a number of unit cells from such a lattice structure.
-That transitional region could be several cells long, but if the beams were of constant width then the addition of extra cells wouldn't increase the tensile strength of the interface lattice.
-One might consider varying the width of the beams in order to optimize the tensile strength.
-Adding cells does increase the ultimate tensile strength, but with diminishing returns;
-going from a lattice of 3 cells wide to 4 cells wide can only improve the strength marginally.
-Nonetheless the optimal structure could be infinite cells wide.
-%Each added cell would increase the tensile strength, but by a lesser degree than the last added cell.
-In practice the amount of space available is limited by the design of the product.
+
+When joining bodies of different materials, some region around the interface between the two bodies would be replaced by a number of unit cells from such a lattice structure.
+The length of the transition region $L$ is limited by the design of the product within which the lattice is to be employed.
 We consider a design constraint of $\lmax = 12 \wmin{m} = \SI{3.6}{\milli\meter}$;
 this is enough to have some design freedom for the microstructure, while limiting the impact on the rest of the product.
 
-Given such a design constraint the efficacy of adding extra cells in the direction of the applied force is weighed against widening the beams.
-Instead of having multiple cells with a fraction of the $\lmax$ width it's better to make a single cell as wide as $\lmax$.
-Splitting the $\lmax$ over two identical cells means that the total force will be transferred from the one material to the other in two stages,
-but whichever portion goes through either cell the worst cell of the two will obtain shear stresses twice as high compared to the single cell scenario, because the beams are half as wide.
-Allowing for the two cells to have different beam widths can improve on those shear stresses, but by a factor well below two,
-so using more cells along the width of the interface only increases shear stresses.
+With a relatively small length $\lmax$ it stands to reason to fill that space using a single unit cell in the length direction only.
+If the same region were to be filled with 2 versions of the same cell but scaled to half lengthwise, then the total area of shear remains the same,
+but the shear areas of the two cells wouldn't bear the same load, so the stresses in one of the cells would only increase by using two cells instead of one.
+One might consider using a different geometry for the two cells to counteract that fact,
+but we don't expect such a multi-layered interlocking design to outperform a single layered interlocking lattice when $\lmax$ is relatively low. 
 
 Given that we will fill the space around the interface with a single layer of cells, the orientation of those cells w.r.t. the interface is relevant.
 While rotating the lattice about X or Y is impossible due to the continuous extrusion constraint, we are free to rotate about Z.
