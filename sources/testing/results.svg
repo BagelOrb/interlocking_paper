@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
    width="231.76767mm"
-   height="89.341194mm"
-   viewBox="0 0 23176.767 8934.1194"
+   height="89.877975mm"
+   viewBox="0 0 23176.767 8987.7975"
    version="1.1"
    stroke-width="28.222"
    stroke-linejoin="round"
@@ -38,9 +38,9 @@
    fit-margin-left="0"
    fit-margin-right="0"
    fit-margin-bottom="0"
-   inkscape:zoom="0.94831989"
-   inkscape:cx="564.68287"
-   inkscape:cy="85.941464"
+   inkscape:zoom="1.3411268"
+   inkscape:cx="402.27366"
+   inkscape:cy="76.428266"
    inkscape:window-width="2400"
    inkscape:window-height="1421"
    inkscape:window-x="-9"
@@ -134,59 +134,55 @@
  <path
    fill="#8faadc"
    stroke="none"
-   d="m 17939.767,7677.2227 h 128 v -4174 h -128 z"
+   d="m 18151.435,7677.2227 h 128 v -4174 h -128 z"
    id="path42641" />
  <path
    fill="#8faadc"
    stroke="none"
-   d="m 17043.767,7677.2227 h 128 v -5049 h -128 z"
+   d="m 17255.435,7677.2227 h 128 v -5049 h -128 z"
    id="path42643" />
  <path
    fill="#8faadc"
    stroke="none"
-   d="m 16147.767,7677.2227 h 128 v -5824 h -128 z"
+   d="m 16359.435,7677.2227 h 128 v -5824 h -128 z"
    id="path42645" />
  <path
    fill="#8faadc"
    stroke="none"
-   d="m 15250.767,7677.2227 h 129 v -6455 h -129 z"
+   d="m 15462.435,7677.2227 h 129 v -6455 h -129 z"
    id="path42647" />
  <path
    fill="#8faadc"
    stroke="none"
-   d="m 14354.767,7677.2227 h 129 v -6658 h -129 z"
+   d="m 14566.435,7677.2227 h 129 v -6658 h -129 z"
    id="path42649" />
  
  <path
    fill="#8faadc"
    stroke="none"
-   d="m 11666.767,7677.2227 h 128 v -6083 h -128 z"
+   d="m 12090.103,7677.2227 h 128 v -6083 h -128 z"
    id="path42653" />
  <path
    fill="#8faadc"
    stroke="none"
-   d="m 10770.767,7677.2227 h 128 v -5397 h -128 z"
+   d="m 11194.103,7677.2227 h 128 v -5397 h -128 z"
    id="path42655" />
  <path
    fill="#8faadc"
    stroke="none"
-   d="m 9874.7673,7677.2227 h 127.9997 v -5149 h -127.9997 z"
+   d="m 10298.102,7677.2227 h 128.001 v -5149 h -128.001 z"
    id="path42657" />
  <path
    fill="#8faadc"
    stroke="none"
-   d="m 8978.7673,7677.2227 h 128 v -6456 h -128 z"
+   d="m 9402.1009,7677.2227 h 128 v -6456 h -128 z"
    id="path42659" />
  <path
    fill="#8faadc"
    stroke="none"
-   d="m 8082.7673,7677.2227 h 128 v -5025 h -128 z"
+   d="m 8506.1009,7677.2227 h 128 v -5025 h -128 z"
    id="path42661" />
- <path
-   fill="#8faadc"
-   stroke="none"
-   d="m 7186.7673,7677.2227 h 128 v -5749 h -128 z"
-   id="path42663" />
+ 
  <path
    fill="#8faadc"
    stroke="none"
@@ -241,62 +237,62 @@
  <path
    fill="#9dc3e6"
    stroke="none"
-   d="m 18101.767,7677.2227 h 128 v -4058 h -128 z"
+   d="m 18313.435,7677.2227 h 128 v -4058 h -128 z"
    id="path42687" />
  <path
    fill="#9dc3e6"
    stroke="none"
-   d="m 17205.767,7677.2227 h 128 v -4886 h -128 z"
+   d="m 17417.435,7677.2227 h 128 v -4886 h -128 z"
    id="path42689" />
  <path
    fill="#9dc3e6"
    stroke="none"
-   d="m 16309.767,7677.2227 h 128 v -5600 h -128 z"
+   d="m 16521.435,7677.2227 h 128 v -5600 h -128 z"
    id="path42691" />
  <path
    fill="#9dc3e6"
    stroke="none"
-   d="m 15413.767,7677.2227 h 128 v -6148 h -128 z"
+   d="m 15625.435,7677.2227 h 128 v -6148 h -128 z"
    id="path42693" />
  <path
    fill="#9dc3e6"
    stroke="none"
-   d="m 14517.767,7677.2227 h 128 v -6242 h -128 z"
+   d="m 14729.435,7677.2227 h 128 v -6242 h -128 z"
    id="path42695" />
  <path
    fill="#9dc3e6"
    stroke="none"
-   d="m 13621.767,7677.2227 h 128 v -4933 h -128 z"
+   d="m 13833.435,7677.2227 h 128 v -4933 h -128 z"
    id="path42697" />
  <path
    fill="#9dc3e6"
    stroke="none"
-   d="m 11829.767,7677.2227 h 128 v -5509 h -128 z"
+   d="m 12253.103,7677.2227 h 128 v -5509 h -128 z"
    id="path42699" />
  <path
    fill="#9dc3e6"
    stroke="none"
-   d="m 10933.767,7677.2227 h 128 v -4726 h -128 z"
+   d="m 11357.103,7677.2227 h 128 v -4726 h -128 z"
    id="path42701" />
  <path
    fill="#9dc3e6"
    stroke="none"
-   d="m 10037.767,7677.2227 h 128 v -4608 h -128 z"
+   d="m 10461.103,7677.2227 h 128 v -4608 h -128 z"
    id="path42703" />
  <path
    fill="#9dc3e6"
    stroke="none"
-   d="m 9141.7673,7677.2227 h 128 v -5804 h -128 z"
+   d="m 9565.1009,7677.2227 h 128 v -5804 h -128 z"
    id="path42705" />
  <path
    fill="#9dc3e6"
    stroke="none"
-   d="m 8245.7673,7677.2227 h 128 v -4456 h -128 z"
+   d="m 8669.1009,7677.2227 h 128 v -4456 h -128 z"
    id="path42707" />
  <path
    fill="#9dc3e6"
    stroke="none"
-   d="m 7349.7673,7677.2227 h 128 v -5144 h -128 z"
+   d="m 7773.1009,7677.2227 h 128 v -5144 h -128 z"
    id="path42709" />
  <path
    fill="#9dc3e6"
@@ -356,62 +352,62 @@
  <path
    fill="#548235"
    stroke="none"
-   d="m 18264.767,7677.2227 h 128 v -3627 h -128 z"
+   d="m 18476.435,7677.2227 h 128 v -3627 h -128 z"
    id="path42733" />
  <path
    fill="#548235"
    stroke="none"
-   d="m 17368.767,7677.2227 h 128 v -4897 h -128 z"
+   d="m 17580.435,7677.2227 h 128 v -4897 h -128 z"
    id="path42735" />
  <path
    fill="#548235"
    stroke="none"
-   d="m 16472.767,7677.2227 h 128 v -5929 h -128 z"
+   d="m 16684.435,7677.2227 h 128 v -5929 h -128 z"
    id="path42737" />
  <path
    fill="#548235"
    stroke="none"
-   d="m 15576.767,7677.2227 h 128 v -6146 h -128 z"
+   d="m 15788.435,7677.2227 h 128 v -6146 h -128 z"
    id="path42739" />
  <path
    fill="#548235"
    stroke="none"
-   d="m 14680.767,7677.2227 h 128 v -5919 h -128 z"
+   d="m 14892.435,7677.2227 h 128 v -5919 h -128 z"
    id="path42741" />
  <path
    fill="#548235"
    stroke="none"
-   d="m 13784.767,7677.2227 h 128 v -4710 h -128 z"
+   d="m 13996.435,7677.2227 h 128 v -4710 h -128 z"
    id="path42743" />
  <path
    fill="#548235"
    stroke="none"
-   d="m 11992.767,7677.2227 h 128 v -3420 h -128 z"
+   d="m 12416.103,7677.2227 h 128 v -3420 h -128 z"
    id="path42745" />
  <path
    fill="#548235"
    stroke="none"
-   d="m 11096.767,7677.2227 h 128 v -4240 h -128 z"
+   d="m 11520.103,7677.2227 h 128 v -4240 h -128 z"
    id="path42747" />
  <path
    fill="#548235"
    stroke="none"
-   d="m 10200.767,7677.2227 h 128 v -4626 h -128 z"
+   d="m 10624.103,7677.2227 h 128 v -4626 h -128 z"
    id="path42749" />
  <path
    fill="#548235"
    stroke="none"
-   d="m 9304.7673,7677.2227 h 128 v -4013 h -128 z"
+   d="m 9728.1009,7677.2227 h 128 v -4013 h -128 z"
    id="path42751" />
  <path
    fill="#548235"
    stroke="none"
-   d="m 8408.7673,7677.2227 h 128 v -4710 h -128 z"
+   d="m 8832.1009,7677.2227 h 128 v -4710 h -128 z"
    id="path42753" />
  <path
    fill="#548235"
    stroke="none"
-   d="m 7512.7673,7677.2227 h 128 v -4399 h -128 z"
+   d="m 7936.1009,7677.2227 h 128 v -4399 h -128 z"
    id="path42755" />
  <path
    fill="#548235"
@@ -448,17 +444,11 @@
    stroke="none"
    d="m 1239.7673,7677.2227 h 127 v -6331 h -127 z"
    id="path42769" />
- <g
-   id="g115204"
-   transform="translate(-1023.2327,-234.77734)"><path
-     fill="#8faadc"
-     stroke="none"
-     d="m 22581,7912 h 128 V 3185 h -128 z"
-     id="path42635" /><path
-     fill="#ed7d31"
-     stroke="none"
-     d="m 23931,7912 h 128 v -909 h -128 z"
-     id="path42771" /></g>
+ <path
+   fill="#8faadc"
+   stroke="none"
+   d="m 21557.767,7677.2227 h 128 v -4727 h -128 z"
+   id="path42635" />
  <path
    fill="#ed7d31"
    stroke="none"
@@ -482,7 +472,7 @@
    id="path42777" />
  <g
    id="g115196"
-   transform="translate(-1023.2327,-234.77734)"><path
+   transform="translate(-811.56602,-234.77734)"><path
      fill="#8faadc"
      stroke="none"
      d="m 14482,7912 h 129 V 2485 h -129 z"
@@ -494,69 +484,64 @@
  <path
    fill="#ed7d31"
    stroke="none"
-   d="m 17531.767,7677.2227 h 128 v -2941 h -128 z"
+   d="m 17743.435,7677.2227 h 128 v -2941 h -128 z"
    id="path42781" />
  <path
    fill="#ed7d31"
    stroke="none"
-   d="m 16635.767,7677.2227 h 128 v -3692 h -128 z"
+   d="m 16847.435,7677.2227 h 128 v -3692 h -128 z"
    id="path42783" />
  <path
    fill="#ed7d31"
    stroke="none"
-   d="m 15739.767,7677.2227 h 128 v -4817 h -128 z"
+   d="m 15951.435,7677.2227 h 128 v -4817 h -128 z"
    id="path42785" />
  <path
    fill="#ed7d31"
    stroke="none"
-   d="m 14843.767,7677.2227 h 128 v -6028 h -128 z"
+   d="m 15055.435,7677.2227 h 128 v -6028 h -128 z"
    id="path42787" />
  <path
    fill="#ed7d31"
    stroke="none"
-   d="m 13947.767,7677.2227 h 127 v -4583 h -127 z"
+   d="m 14159.435,7677.2227 h 127 v -4583 h -127 z"
    id="path42789" />
- <g
-   id="g115192"
-   transform="translate(-1023.2327,-234.77734)"><path
-     fill="#8faadc"
-     stroke="none"
-     d="m 1938,7912 h 128 V 1883 h -128 z"
-     id="path42677" /><path
-     fill="#ed7d31"
-     stroke="none"
-     d="m 13179,7912 h 127 V 5635 h -127 z"
-     id="path42791" /></g>
+ 
  <path
    fill="#ed7d31"
    stroke="none"
-   d="m 11259.767,7677.2227 h 127 v -3754 h -127 z"
+   d="m 11683.103,7677.2227 h 127 v -3754 h -127 z"
    id="path42793" />
  <path
    fill="#ed7d31"
    stroke="none"
-   d="m 10362.767,7677.2227 h 128 v -4272 h -128 z"
+   d="m 10786.103,7677.2227 h 128 v -4272 h -128 z"
    id="path42795" />
  <path
    fill="#ed7d31"
    stroke="none"
-   d="m 9466.7673,7677.2227 h 128 v -2868 h -128 z"
+   d="m 9890.1009,7677.2227 h 128.0001 v -2868 h -128.0001 z"
    id="path42797" />
  <path
    fill="#ed7d31"
    stroke="none"
-   d="m 8570.7673,7677.2227 h 128 v -3848 h -128 z"
+   d="m 8994.1009,7677.2227 h 128 v -3848 h -128 z"
    id="path42799" />
- <path
+ <g
+   id="g21983"><path
+     fill="#ed7d31"
+     stroke="none"
+     d="m 12579.103,7677.2227 h 127 v -2277 h -127 z"
+     id="path42791" /><path
+     fill="#8faadc"
+     stroke="none"
+     d="m 7610.1009,7677.2227 h 128 v -5749 h -128 z"
+     id="path42663" /></g><path
    fill="#ed7d31"
    stroke="none"
-   d="m 7673.7673,7677.2227 h 128 v -3127 h -128 z"
+   d="m 8097.1009,7677.2227 h 128 v -3127 h -128 z"
    id="path42801" />
- <path
-   fill="#ed7d31"
-   stroke="none"
-   d="m 6777.7673,7677.2227 h 128 v -5358 h -128 z"
-   id="path42803" />
+ 
  <path
    fill="#ed7d31"
    stroke="none"
@@ -583,6 +568,19 @@
    d="m 2297.7673,7677.2227 h 128 v -5548 h -128 z"
    id="path42813" />
  <path
+   fill="#ed7d31"
+   stroke="none"
+   d="m 6777.7673,7677.2227 h 128 v -5358 h -128 z"
+   id="path42803" /><g
+   id="g21991"><path
+     fill="#ed7d31"
+     stroke="none"
+     d="m 22907.767,7677.2227 h 128 v -909 h -128 z"
+     id="path42771" /><path
+     fill="#8faadc"
+     stroke="none"
+     d="m 914.7673,7677.2227 h 128 v -6029 h -128 z"
+     id="path42677" /></g><path
    fill="#ed7d31"
    stroke="none"
    d="m 1401.7673,7677.2227 h 128 v -5768 h -128 z"
@@ -739,245 +737,245 @@
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 7250.7673,2217.2227 v -289 -288"
+   d="m 7674.1009,2217.2227 v -289 -288"
    id="path42859" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 7350.7673,2217.2227 h -200"
+   d="m 7774.1009,2217.2227 h -200"
    id="path42861" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 7150.7673,1640.2227 h 200"
+   d="m 7574.1009,1640.2227 h 200"
    id="path42863" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 8146.7673,3056.2227 v -404 -404"
+   d="m 8570.1009,3056.2227 v -404 -404"
    id="path42865" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 8246.7673,3056.2227 h -200"
+   d="m 8670.1009,3056.2227 h -200"
    id="path42867" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 8046.7673,2248.2227 h 200"
+   d="m 8470.1009,2248.2227 h 200"
    id="path42869" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 9042.7673,1408.2227 v -187 -185"
+   d="m 9466.1009,1408.2227 v -187 -185"
    id="path42871" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 9142.7673,1408.2227 h -200"
+   d="m 9566.1009,1408.2227 h -200"
    id="path42873" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 8942.7673,1036.2227 h 200"
+   d="m 9366.1009,1036.2227 h 200"
    id="path42875" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 9938.7673,2642.2227 v -114 -116"
+   d="m 10362.103,2642.2227 v -114 -116"
    id="path42877" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="M 10038.767,2642.2227 H 9838.7673"
+   d="m 10462.103,2642.2227 h -200.001"
    id="path42879" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 9838.7673,2412.2227 h 199.9997"
+   d="m 10262.102,2412.2227 h 200.001"
    id="path42881" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 10834.767,2541.2227 v -261 -259"
+   d="m 11258.103,2541.2227 v -261 -259"
    id="path42883" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 10934.767,2541.2227 h -200"
+   d="m 11358.103,2541.2227 h -200"
    id="path42885" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 10734.767,2021.2227 h 200"
+   d="m 11158.103,2021.2227 h 200"
    id="path42887" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 11730.767,1933.2227 v -339 -339"
+   d="m 12154.103,1933.2227 v -339 -339"
    id="path42889" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 11830.767,1933.2227 h -200"
+   d="m 12254.103,1933.2227 h -200"
    id="path42891" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 11630.767,1255.2227 h 200"
+   d="m 12054.103,1255.2227 h 200"
    id="path42893" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 13522.767,2737.2227 v -487 -485"
+   d="m 13734.435,2737.2227 v -487 -485"
    id="path42895" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 13622.767,2737.2227 h -200"
+   d="m 13834.435,2737.2227 h -200"
    id="path42897" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 13422.767,1765.2227 h 200"
+   d="m 13634.435,1765.2227 h 200"
    id="path42899" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 14418.767,1981.2227 v -962 -879.00004"
+   d="m 14630.435,1981.2227 v -962 -879.00004"
    id="path42901" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 14518.767,1981.2227 h -200"
+   d="m 14730.435,1981.2227 h -200"
    id="path42903" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 15315.767,1809.2227 v -587 -586.00004"
+   d="m 15527.435,1809.2227 v -587 -586.00004"
    id="path42905" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 15415.767,1809.2227 h -200"
+   d="m 15627.435,1809.2227 h -200"
    id="path42907" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 15215.767,636.22266 h 200"
+   d="m 15427.435,636.22266 h 200"
    id="path42909" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 16211.767,2201.2227 v -348 -348"
+   d="m 16423.435,2201.2227 v -348 -348"
    id="path42911" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 16311.767,2201.2227 h -200"
+   d="m 16523.435,2201.2227 h -200"
    id="path42913" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 16111.767,1505.2227 h 200"
+   d="m 16323.435,1505.2227 h 200"
    id="path42915" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 17107.767,3156.2227 v -528 -526"
+   d="m 17319.435,3156.2227 v -528 -526"
    id="path42917" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 17207.767,3156.2227 h -200"
+   d="m 17419.435,3156.2227 h -200"
    id="path42919" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 17007.767,2102.2227 h 200"
+   d="m 17219.435,2102.2227 h 200"
    id="path42921" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 18003.767,4192.2227 v -689 -688"
+   d="m 18215.435,4192.2227 v -689 -688"
    id="path42923" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 18103.767,4192.2227 h -200"
+   d="m 18315.435,4192.2227 h -200"
    id="path42925" />
  <path
    fill="none"
    stroke="#595959"
    stroke-width="26"
    stroke-linejoin="round"
-   d="m 17903.767,2815.2227 h 200"
+   d="m 18115.435,2815.2227 h 200"
    id="path42927" />
  <path
    fill="none"
@@ -1215,252 +1213,252 @@
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 7413.7673,2791.2227 v -258 -258"
+   d="m 7837.1009,2791.2227 v -258 -258"
    id="path42995" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 7513.7673,2791.2227 h -200"
+   d="m 7937.1009,2791.2227 h -200"
    id="path42997" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 7313.7673,2275.2227 h 200"
+   d="m 7737.1009,2275.2227 h 200"
    id="path42999" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 8309.7673,3579.2227 v -358 -358"
+   d="m 8733.1009,3579.2227 v -358 -358"
    id="path43001" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 8409.7673,3579.2227 h -200"
+   d="m 8833.1009,3579.2227 h -200"
    id="path43003" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 8209.7673,2863.2227 h 200"
+   d="m 8633.1009,2863.2227 h 200"
    id="path43005" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 9205.7673,2041.2227 v -168 -167"
+   d="m 9629.1009,2041.2227 v -168 -167"
    id="path43007" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 9305.7673,2041.2227 h -200"
+   d="m 9729.1009,2041.2227 h -200"
    id="path43009" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 9105.7673,1706.2227 h 200"
+   d="m 9529.1009,1706.2227 h 200"
    id="path43011" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 10101.767,3172.2227 v -103 -103"
+   d="m 10525.103,3172.2227 v -103 -103"
    id="path43013" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 10201.767,3172.2227 h -200"
+   d="m 10625.103,3172.2227 h -200"
    id="path43015" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 10001.767,2966.2227 h 200"
+   d="m 10425.103,2966.2227 h 200"
    id="path43017" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 10997.767,3178.2227 v -227 -228"
+   d="m 11421.103,3178.2227 v -227 -228"
    id="path43019" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 11097.767,3178.2227 h -200"
+   d="m 11521.103,3178.2227 h -200"
    id="path43021" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 10897.767,2723.2227 h 200"
+   d="m 11321.103,2723.2227 h 200"
    id="path43023" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 11893.767,2475.2227 v -307 -308"
+   d="m 12317.103,2475.2227 v -307 -308"
    id="path43025" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 11993.767,2475.2227 h -200"
+   d="m 12417.103,2475.2227 h -200"
    id="path43027" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 11793.767,1860.2227 h 200"
+   d="m 12217.103,1860.2227 h 200"
    id="path43029" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 13685.767,3186.2227 v -442 -442"
+   d="m 13897.435,3186.2227 v -442 -442"
    id="path43031" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 13785.767,3186.2227 h -200"
+   d="m 13997.435,3186.2227 h -200"
    id="path43033" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 13585.767,2302.2227 h 200"
+   d="m 13797.435,2302.2227 h 200"
    id="path43035" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 14581.767,2337.2227 v -902 -902.00004"
+   d="m 14793.435,2337.2227 v -902 -902.00004"
    id="path43037" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 14681.767,2337.2227 h -200"
+   d="m 14893.435,2337.2227 h -200"
    id="path43039" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 14481.767,533.22266 h 200"
+   d="m 14693.435,533.22266 h 200"
    id="path43041" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 15477.767,2088.2227 v -559 -558.00004"
+   d="m 15689.435,2088.2227 v -559 -558.00004"
    id="path43043" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 15577.767,2088.2227 h -200"
+   d="m 15789.435,2088.2227 h -200"
    id="path43045" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 15377.767,971.22266 h 200"
+   d="m 15589.435,971.22266 h 200"
    id="path43047" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 16373.767,2411.2227 v -334 -334"
+   d="m 16585.435,2411.2227 v -334 -334"
    id="path43049" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 16473.767,2411.2227 h -200"
+   d="m 16685.435,2411.2227 h -200"
    id="path43051" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 16273.767,1743.2227 h 200"
+   d="m 16485.435,1743.2227 h 200"
    id="path43053" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 17269.767,3302.2227 v -511 -510"
+   d="m 17481.435,3302.2227 v -511 -510"
    id="path43055" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 17369.767,3302.2227 h -200"
+   d="m 17581.435,3302.2227 h -200"
    id="path43057" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 17169.767,2281.2227 h 200"
+   d="m 17381.435,2281.2227 h 200"
    id="path43059" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 18165.767,4289.2227 v -670 -669"
+   d="m 18377.435,4289.2227 v -670 -669"
    id="path43061" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 18265.767,4289.2227 h -200"
+   d="m 18477.435,4289.2227 h -200"
    id="path43063" />
  <path
    fill="none"
    stroke="#000000"
    stroke-width="18"
    stroke-linejoin="round"
-   d="m 18065.767,2950.2227 h 200"
+   d="m 18277.435,2950.2227 h 200"
    id="path43065" />
  <path
    fill="none"
@@ -1550,7 +1548,7 @@
    class="TextShape"
    id="text43097"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"
-   x="-1023.2327"
+   x="-1014.9808"
    y="-234.77734"><tspan
      class="TextParagraph"
      font-family="Calibri, sans-serif"
@@ -1559,14 +1557,14 @@
      id="tspan43095"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
        class="TextPosition"
-       x="830.76733"
+       x="839.01923"
        y="8009.2227"
        id="tspan43093"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
          fill="#595959"
          stroke="none"
          id="tspan43091"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '">whole</tspan></tspan></tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '">origin</tspan></tspan></tspan></text>
  <text
    class="TextShape"
    id="text43105"
@@ -1697,7 +1695,7 @@
    class="TextShape"
    id="text43153"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"
-   x="-1023.2327"
+   x="-529.646"
    y="-234.77734"><tspan
      class="TextParagraph"
      font-family="Calibri, sans-serif"
@@ -1706,19 +1704,19 @@
      id="tspan43151"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
        class="TextPosition"
-       x="7040.7676"
+       x="7534.353"
        y="8009.2227"
        id="tspan43149"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
          fill="#595959"
          stroke="none"
          id="tspan43147"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '">broken</tspan></tspan></tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '">origin</tspan></tspan></tspan></text>
  <text
    class="TextShape"
    id="text43161"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"
-   x="-1023.2327"
+   x="-599.89923"
    y="-234.77734"><tspan
      class="TextParagraph"
      font-family="Calibri, sans-serif"
@@ -1727,7 +1725,7 @@
      id="tspan43159"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
        class="TextPosition"
-       x="8136.7676"
+       x="8560.1025"
        y="8009.2227"
        id="tspan43157"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
@@ -1739,7 +1737,7 @@
    class="TextShape"
    id="text43169"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"
-   x="-1023.2327"
+   x="-599.89923"
    y="-234.77734"><tspan
      class="TextParagraph"
      font-family="Calibri, sans-serif"
@@ -1748,7 +1746,7 @@
      id="tspan43167"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
        class="TextPosition"
-       x="9012.7676"
+       x="9436.1035"
        y="8009.2227"
        id="tspan43165"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
@@ -1760,7 +1758,7 @@
    class="TextShape"
    id="text43177"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"
-   x="-1023.2327"
+   x="-599.89923"
    y="-234.77734"><tspan
      class="TextParagraph"
      font-family="Calibri, sans-serif"
@@ -1769,7 +1767,7 @@
      id="tspan43175"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
        class="TextPosition"
-       x="9959.7676"
+       x="10383.104"
        y="8009.2227"
        id="tspan43173"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
@@ -1781,7 +1779,7 @@
    class="TextShape"
    id="text43185"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"
-   x="-1023.2327"
+   x="-599.89923"
    y="-234.77734"><tspan
      class="TextParagraph"
      font-family="Calibri, sans-serif"
@@ -1790,7 +1788,7 @@
      id="tspan43183"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
        class="TextPosition"
-       x="10887.768"
+       x="11311.104"
        y="8009.2227"
        id="tspan43181"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
@@ -1802,7 +1800,7 @@
    class="TextShape"
    id="text43193"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"
-   x="-1023.2327"
+   x="-599.89923"
    y="-234.77734"><tspan
      class="TextParagraph"
      font-family="Calibri, sans-serif"
@@ -1811,7 +1809,7 @@
      id="tspan43191"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
        class="TextPosition"
-       x="11764.768"
+       x="12188.104"
        y="8009.2227"
        id="tspan43189"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
@@ -1823,7 +1821,7 @@
    class="TextShape"
    id="text43201"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"
-   x="-1023.2327"
+   x="-811.56598"
    y="-234.77734"><tspan
      class="TextParagraph"
      font-family="Calibri, sans-serif"
@@ -1832,7 +1830,7 @@
      id="tspan43199"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
        class="TextPosition"
-       x="13556.768"
+       x="13768.436"
        y="8009.2227"
        id="tspan43197"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
@@ -1844,7 +1842,7 @@
    class="TextShape"
    id="text43209"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"
-   x="-1023.2327"
+   x="-811.56598"
    y="-234.77734"><tspan
      class="TextParagraph"
      font-family="Calibri, sans-serif"
@@ -1853,7 +1851,7 @@
      id="tspan43207"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
        class="TextPosition"
-       x="14452.768"
+       x="14664.436"
        y="8009.2227"
        id="tspan43205"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
@@ -1865,7 +1863,7 @@
    class="TextShape"
    id="text43217"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"
-   x="-1023.2327"
+   x="-811.56598"
    y="-234.77734"><tspan
      class="TextParagraph"
      font-family="Calibri, sans-serif"
@@ -1874,7 +1872,7 @@
      id="tspan43215"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
        class="TextPosition"
-       x="15348.768"
+       x="15560.436"
        y="8009.2227"
        id="tspan43213"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
@@ -1886,7 +1884,7 @@
    class="TextShape"
    id="text43225"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"
-   x="-1023.2327"
+   x="-811.56598"
    y="-234.77734"><tspan
      class="TextParagraph"
      font-family="Calibri, sans-serif"
@@ -1895,7 +1893,7 @@
      id="tspan43223"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
        class="TextPosition"
-       x="16244.768"
+       x="16456.434"
        y="8009.2227"
        id="tspan43221"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
@@ -1907,7 +1905,7 @@
    class="TextShape"
    id="text43233"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"
-   x="-1023.2327"
+   x="-811.56598"
    y="-234.77734"><tspan
      class="TextParagraph"
      font-family="Calibri, sans-serif"
@@ -1916,7 +1914,7 @@
      id="tspan43231"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
        class="TextPosition"
-       x="17267.768"
+       x="17479.432"
        y="8009.2227"
        id="tspan43229"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
@@ -1928,7 +1926,7 @@
    class="TextShape"
    id="text43241"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"
-   x="-1023.2327"
+   x="-811.56598"
    y="-234.77734"><tspan
      class="TextParagraph"
      font-family="Calibri, sans-serif"
@@ -1937,7 +1935,7 @@
      id="tspan43239"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
        class="TextPosition"
-       x="18036.768"
+       x="18248.432"
        y="8009.2227"
        id="tspan43237"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, '"><tspan
@@ -2227,7 +2225,7 @@
  
  <g
    id="g115226"
-   transform="translate(-1023.2327,-1174.2955)"><path
+   transform="translate(-1894.4718,-9570.3166)"><path
      fill="#8faadc"
      stroke="none"
      d="m 8939,10060 h -95 v -189 h 190 v 189 z"
@@ -2350,46 +2348,86 @@
    style="font-size:2.66667px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect84294)" /><text
    xml:space="preserve"
    style="font-size:352.777px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';stroke-width:746.707"
-   x="5606.7539"
-   y="8488.3252"
+   x="6241.752"
+   y="8911.6611"
    id="text110640"><tspan
      sodipodi:role="line"
      id="tspan110638"
      style="stroke-width:746.707"
-     x="5606.7539"
-     y="8488.3252">Straight ITIM</tspan></text><text
+     x="6241.752"
+     y="8911.6611">Straight ITIM</tspan></text><text
    xml:space="preserve"
    style="font-size:352.777px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';stroke-width:746.707"
-   x="14935.242"
-   y="8488.3252"
+   x="15146.91"
+   y="8911.6611"
    id="text111094"><tspan
      sodipodi:role="line"
      style="stroke-width:746.707"
-     x="14935.242"
-     y="8488.3252"
+     x="15146.91"
+     y="8911.6611"
      id="tspan111132">Diagonal ITIM</tspan></text><text
    xml:space="preserve"
    style="font-size:352.777px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';stroke-width:746.707"
    x="20005.627"
-   y="8488.3252"
+   y="8911.6611"
    id="text112422"><tspan
      sodipodi:role="line"
      id="tspan112420"
      style="stroke-width:746.707"
      x="20005.627"
-     y="8488.3252">Jigsaw</tspan></text><text
+     y="8911.6611">Jigsaw</tspan></text><text
    xml:space="preserve"
    style="font-size:352.777px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';text-align:center;text-anchor:middle;stroke-width:746.707"
    x="22295.045"
-   y="8488.3252"
+   y="8542.0029"
    id="text112756"><tspan
      sodipodi:role="line"
      id="tspan112754"
      style="text-align:center;text-anchor:middle;stroke-width:746.707"
      x="22295.045"
-     y="8488.3252">Trapezoidal</tspan><tspan
+     y="8542.0029">Trapezoidal</tspan><tspan
      sodipodi:role="line"
      style="text-align:center;text-anchor:middle;stroke-width:746.707"
      x="22295.045"
-     y="8929.2969"
-     id="tspan112758">suture</tspan></text></svg>
+     y="8982.9746"
+     id="tspan112758">suture</tspan></text><text
+   class="TextShape"
+   id="text1237"
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:317.5px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman,  Bold'"
+   x="1661.7947"
+   y="188.556"><tspan
+     class="TextParagraph"
+     font-family="Calibri, sans-serif"
+     font-size="317px"
+     font-weight="400"
+     id="tspan1235"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:317.5px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman,  Bold'"><tspan
+       class="TextPosition"
+       x="3515.7952"
+       y="8432.5566"
+       id="tspan1233"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:317.5px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman,  Bold'"><tspan
+         fill="#595959"
+         stroke="none"
+         id="tspan1231"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:317.5px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman,  Bold'">whole</tspan></tspan></tspan></text><text
+   class="TextShape"
+   id="text1245"
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman,  Bold'"
+   x="1613.8804"
+   y="188.39389"><tspan
+     class="TextParagraph"
+     font-family="Calibri, sans-serif"
+     font-size="317px"
+     font-weight="400"
+     id="tspan1243"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman,  Bold'"><tspan
+       class="TextPosition"
+       x="9677.8809"
+       y="8432.3945"
+       id="tspan1241"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman,  Bold'"><tspan
+         fill="#595959"
+         stroke="none"
+         id="tspan1239"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman,  Bold'">broken</tspan></tspan></tspan></text></svg>
