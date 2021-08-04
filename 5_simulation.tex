@@ -78,6 +78,19 @@ We then observe that our analytical model on average predicts only \SI{7.8}{\per
 	\label{fig:simulation_results_straight}
 \end{figure*}
 
+
+\begin{figure*}
+	\centering
+	\includegraphics[width=.8\textwidth]{sources/simulation/model_accuracy.pdf}
+	\caption{Ultimate strength according to the analytical models and the simulation results for the straight variant of the ITIM lattice.
+		The analytical models follow roughly the same shape and same height as the simulation results. 
+		The response on three 2D slices of the 3D design space are shown, from left to right at $\hf=0.8$, $\wb=2.7$ and at $\va=2.88$.
+	}
+	\label{fig:ana_sim_accuracy_straight}
+\end{figure*}
+
+
+
 \begin{table}
 	\caption{Optimal designs according to the hypersurface fitted to the FEM simulations for the straight ITIM variant and for the diagonal ITIM variant.}
 	\label{tab:sim_straight_optima}
@@ -127,9 +140,19 @@ the induced error is only $\pm \SI{10}{\percent}$ compared to simulating an inte
 
 \begin{figure}
 	\centering
-	\includegraphics[width=.7\columnwidth]{sources/simulation/diagonal_sim_response.jpg}
-	\caption{Diagonal results using linear interpolation between the simulation results.}
-	\label{fig:sim_diagonal_model}
+	\begin{subfigure}[B]{.49\columnwidth}
+		\centering	
+		\includegraphics{sources/simulation/diagonal_sim_response.jpg}
+		\caption{Simulation results.}
+		\label{fig:sim_diagonal_model}
+	\end{subfigure}
+	\begin{subfigure}[B]{.49\columnwidth}
+		\centering
+		\includegraphics{sources/simulation/model_accuracy_diagonal.pdf}
+		\caption{The analytical model follows the simulation results rather well at lower $\wb$ values.}
+		\label{fig:ana_sim_accuracy_diagonal}
+	\end{subfigure}
+	\caption{Simulation results for diagonal ITIM variant using linear interpolation between the simulation results.}
 \end{figure}
 
 
@@ -141,26 +164,6 @@ The analytical model predicts only 0.4\% lower ultimate strength values on avera
 %optimal designs table
 
 
-
-\begin{figure*}
-	\centering
-	\setlength{\figheight}{.2\textwidth}
-	\begin{subfigure}[B]{.7\textwidth}
-		\centering
-		\includegraphics[height=\figheight]{sources/simulation/model_accuracy.pdf}
-		\caption{Straight ITIM for $L=\SI{3.6}{\milli\meter}$}
-		\label{fig:ana_sim_accuracy_straight}
-	\end{subfigure}
-	\hspace{-.5cm}
-	\begin{subfigure}[B]{.29\textwidth}
-		\centering
-		\includegraphics[height=\figheight]{sources/simulation/model_accuracy_diagonal.pdf}
-		\caption{Diagonal ITIM for various values of $L$}
-		\label{fig:ana_sim_accuracy_diagonal}
-	\end{subfigure}
-	\caption{Ultimate strength according to the analytical models and the simulation results. The analytical models follow roughly the same shape and same height as the simulation results. }
-	\label{fig:ana_sim_accuracy}
-\end{figure*}
 
 
 
