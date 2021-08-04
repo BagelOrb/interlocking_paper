@@ -68,7 +68,7 @@ The straight design suffers from the curse of dimensionality;
 even when setting $\wa=\SI{0.6}{\milli\meter}$, $\hc=\SI{0.1}{\milli\meter}$ and $L=\SI{3.6}{\milli\meter}$,
 there are still the three free design variables $\wb$, $\va$ and $\hf$ to determine.
 With 5 specimens per sample point and limited resources, the total number of data points we are able to test is limited.
-We therefore chose to sample close to the two optima of the analytical models: whole and broken, as well as deviations from those optima in both directions along the axis of each design variable.
+We therefore chose to sample close to the two optima of the analytical models: whole and broken, as well as deviations from those optima in both directions along the axis of each design variable of \SI{0.3}{\milli\meter} in $\wb$ and $\va$ and \SI{0.2}{\milli\meter} in $\hf$.
 See \cref{fig:test_points_straight}.
 
 Each sample of the straight orientation has $5\times5$ cells.
@@ -92,10 +92,11 @@ See \cref{fig:test_straight_boundary_cells}.
 	\begin{subfigure}[B]{.5\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{sources/testing/straight_sample_points.pdf}
-		\caption{Sampled points and measured cell stress}
+		\caption{Sampled points and measured cell stress.}
 		\label{fig:test_points_straight}
 	\end{subfigure}
-	\caption{Experimental setup of straight design.}
+	\caption{Experimental setup of straight design.
+		Note that for the broken model $\va$ is minimal, so va- is not a valid sample.}
 \end{figure}
 
 
@@ -183,8 +184,11 @@ In order to meet the minimum width constraint there, the sides of the specimen a
 
 \subsubsection{Results}
 After tensile testing we can observe various failure modes, such as in \cref{fig:failures}.
-The tensile tests performed result in force-displacement graphs such as displayed in \cref{fig:stress_displacement_comparison},
+The tensile tests performed result in force-displacement graphs,
 from which the ultimate tensile strength values are derived.
+The slope of these graphs after the optimum has been reached furthermore tells us something about the failure mode by which the sample has failed.
+See \cref{fig:stress_displacement_comparison}.
+
 Because the boundary cells deviate from the regular pattern, computing the ultimate tensile strength can be done in two ways, giving rise to two statistics.
 We compute the \emph{cell stress} by dividing the maximum force of the force-displacement graphs by the number of cells and then divide it by the cross sectional area of the cell.
 We compute the \emph{total stress} by dividing the force by the total cross-sectional area of the sample, including the extra geometry at the boundaries of the sample.

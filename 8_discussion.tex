@@ -11,7 +11,7 @@ Although the standard deviation is too high to capture the differences in respon
 the analytical model follows the trends of the FEM simulations rather well and simulation results generally fall within one standard error of the physical results.
 % - perhaps because the tensile properties of the base 3D printing materials were acquired using a different type of toolpathing.
 
-The response around the anticipated broken optimum is predicted by our models considerably worse.
+The response around the anticipated optimum of the broken model is predicted by our models considerably worse.
 The fact that the simulations performed worse around that area was expected, since after cells in the mesh are broken some self-intersection may occur in the simulation.
 When viewing the best performing straight sample (broken wb+, \cref{fig:failures_straight}) we observe that due to manufacturing inaccuracy several failure modes occur throughout the sample,
 but shearing off of part of the cross beams is not one of them.
@@ -36,14 +36,16 @@ The fact that the dovetail designs don't rely on topological interlocking means 
 
 
 \subsection{Comparison of interlocking structures}
-All geometries considered can reach roughly 6 to \SI{7}{\mega\pascal}, 
-which means that circa \SI{2}{\mega\pascal} is used to secure the interlock, compared to the theoretical upper bound of \SI{8.6}{\mega\pascal} from \cref{eq:general_uper_bound}.
+All interlocking designs considered can reach roughly 6 to \SI{7}{\mega\pascal}, 
+which means that $\pm \SI{2}{\mega\pascal}$ of the theoretical upper bound of \SI{8.6}{\mega\pascal} from \cref{eq:general_uper_bound} is used to secure the interlock.
 The diagonal design with a cell stress of $7.07 \pm 1.0 \si{\mega\pascal}$ seems to outperform the others, but not significantly.
-The straight model has some geometries around the anticipated broken optimum performing significantly better than the other tested straight geometries;
-given the high dimensionality of the design space it might be the case that there is a straight geometry in between the whole and broken optima which outperforms the diagonal model nonetheless.
 The dovetail designs performed considerably worse then the other designs - even when the $\lmax$ constraint was violated.
+See \cref{fig:stress_displacement_comparison}.
 
-For designs where a lower $\lmax$ is allowed the diagonal model performs worse.
+Some designs of the straight ITIM variant near where the broken model is optimal perform significantly better than the other tested straight designs;
+given the high dimensionality of the design space it might be the case that there is a straight design in between the whole and broken optima which outperforms the diagonal model nonetheless.
+
+For designs where a lower $\lmax$ is allowed the diagonal orientation performs worse.
 For $\lmax=\SI{1.8}{\milli\meter}$ the diagonal is simulated to outperform the straight model by \SI{5.53}{\mega\pascal} to \SI{4.69}{\mega\pascal}.
 See \cref{tab:sim_straight_optima}.
 The performance of the diagonal model greatly reduces for lower $\lmax$, because the angle of the beams is reduced, which causes them to be more susceptible to shear stresses.

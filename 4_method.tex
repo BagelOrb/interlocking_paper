@@ -52,8 +52,8 @@ Long horizontal beams assure continuous extrusion, while the alternating directi
 See \cref{fig:basic_structure_single_mat}.
 %\Cref{fig:connectivity_graph} exhibits the highly connected connectivity graph of the ITIM lattice, which demonstrates the high genus of the topology.
 
-When joining bodies of a different material, some region around the interface between the two bodies would be replaced by such a lattice structure.
-The interface could be several cells wide, but if the beams were of constant width then the addition of extra cells wouldn't increase the tensile strength of the interface lattice.
+When joining bodies of a different material, some region around the interface between the two bodies would be replaced by a number of unit cells from such a lattice structure.
+That transitional region could be several cells long, but if the beams were of constant width then the addition of extra cells wouldn't increase the tensile strength of the interface lattice.
 One might consider varying the width of the beams in order to optimize the tensile strength.
 Adding cells does increase the ultimate tensile strength, but with diminishing returns;
 going from a lattice of 3 cells wide to 4 cells wide can only improve the strength marginally.
@@ -118,7 +118,7 @@ This section considers these two designs and analytical models to optimize them.
 	\begin{subfigure}[B]{.33\textwidth}
 		\centering
 		\includegraphics{sources/method/straight_model_v5_failures.pdf}
-		\caption{Failures modes for TPLA (in red) and PP (in blue)}
+		\caption{Failures modes for material $a$ (in red) and for $b$ (in blue)}
 		\label{fig:straight_model_failure_modes}
 	\end{subfigure}
 	\begin{subfigure}[B]{.33\textwidth}
@@ -127,7 +127,7 @@ This section considers these two designs and analytical models to optimize them.
 		\caption{Partly broken, partly interlocking cell}
 		\label{fig:straight_model_broken}
 	\end{subfigure}
-	\caption{Straight cell of the ITIM lattice. Force is transferred from PP to TPLA through the contact area on the cross beams. In the partly broken situation there is still interlocking, but the total force is transferred through a narrower area.}
+	\caption{Straight cell of the ITIM lattice. Force is transferred from material $a$ (green) to material $b$ (transparent cyan) through the contact area on the cross beams. In the partly broken situation there is still interlocking, but the total force is transferred through a narrower area.}
 \end{figure*}
 
 \subsection{Straight}
@@ -161,7 +161,7 @@ The shear stress is multiplied by one half because the beams are fixed on both s
 
 The tensile stress of the whole cell is given by $\nicefrac{F}{(\wa +\wb)(\hf + \hc)}$.
 Combining the above we obtain the constrained optimization problem given by \crefrange{eq:objective}{eq:g_z_shear_b}.
-The $\sqrt{3}$ comes from the von Mises yield criterion.
+The $\sqrt{3}$ in \cref{eq:g_shear_a,eq:g_z_shear_b} comes from the von Mises yield criterion.
 Although one might consider combining the stresses together using the same criterion, this does not increase the accuracy of the model,
 because the failure mode planes do not overlap.
 
@@ -193,7 +193,8 @@ This way we limit the design space from six to three dimensions, i.e. $\wb, \hf,
 		\gca: & \frac{\wb}{w} \frac{ F }{ 2 \va \hc  } \le  \frac{1}{\sqrt{3}} \sigmafail{a} &&	 \mxz{a}  \label{eq:g_shear_a} \\
 		%\gza: & \frac{\wa}{w} \frac{ F }{ 2 \va \wa  } \le  \frac{1}{\sqrt{3}} \sigmafailz{a} 	&&	 \mxy{a} \label{eq:g_z_shear_a} \\
 		\gzm: & \frac{\wm}{w} \frac{ F }{ 2 \vb \wb  } \le  \frac{1}{\sqrt{3}} \sigmafailz{m} 	&&	\mxy{b} \label{eq:g_z_shear_b} \\
-		\omit\rlap{for either material $ m \in \left\{a, b\right\} $ } \nonumber
+		\omit\rlap{where \cref{eq:g_tensile_a,eq:g_z_shear_b} are duplicated  } \nonumber \\ 
+		\omit\rlap{for both materials $ m \in \left\{a, b\right\} $ } \nonumber
 	\end{align}
 \end{tcolorbox}
 
@@ -218,8 +219,9 @@ The optimum is at the intersection of four constraint surfaces, which is unusual
 		\caption{Straight model (broken) response. At $\hf = 0.50$, $\wb=1.50$ and $\va=0.36$ respectively.}
 		\label{fig:analytic_response_broken}
 	\end{subfigure}
-	\caption{Maximum strength of the analytical models along three 2D slices of the 3D design space, which intersect at the optimum.
-		By taking the maximum values of these two models a single unified model is given for the straight ITIM cell.
+	\caption{Maximum strength according to analytical models for the straight ITIM variant along three 2D slices of the 3D design space.
+		Four constraint surfaces meet at the optimum.
+		By taking the maximum values of these two models the maximum stress before separation can be calculated.
 	}
 	\label{fig:analytic_response}
 \end{figure}
@@ -362,7 +364,8 @@ The diagonal model is then defined by the constrained optimization problem given
 		M &= L - 2r \nonumber \\
 		w &= \wa + \wb \nonumber \\
 		A_{\text{z},m} &= 	\rlap{$\frac12 \pi r^2 + r (\wm-2r) \frac{d}{w} + d M \left(\frac{\wm}{w}\right)^2$} \nonumber \\
-		\omit\rlap{for either material $ m \in \left\{a, b\right\} $ } \nonumber
+		\omit\rlap{where \cref{eq:g_z_shear_m_diag,eq:g_tensile_m_diag} are duplicated  } \nonumber \\ 
+		\omit\rlap{for both materials $ m \in \left\{a, b\right\} $ } \nonumber
 	\end{align}
 \end{tcolorbox}
 

@@ -6,7 +6,7 @@ In order to simulate accurately we used the stress-strain curves from tensile te
 The simulations were performed in the Abaqus/Explicit solver where the Dynamic, Explicit procedure step was used with a mass scaling factor of $10^7$,
 using geometric nonlinearity and general contact (explicit) to disregard friction for simplicity.
 
-The repeating nature of the interlocking patterns was captured by modelling half of the unit cell and apply symmetry constraints to the sides, top and bottom.
+The repeating nature of the interlocking patterns was captured by modelling half of the unit cell and applying symmetry constraints to the sides, top and bottom.
 The model was meshed using C3D8R hexahedral elements of $\pm\SI{75}{\micro\meter}$.
 
 A grid search was used to measure the influence on the ultimate strength along each of the design variables $\wb,\va, \hc$, along with the total length $L$.
@@ -22,7 +22,7 @@ see \cref{fig:sim_straight_model}.
 
 Newton's method was used to determine the optimum, starting from the best sampled point.
 This step only considered the dimensions $\wb$ and $\va$, because $\lmax$ is given and $\hf$ has to be an integer multiple of $\hmin$.
-\footnote{It's unlikely the optimum of the fitted hypersurface would be on a different integer multiple of $\hmin$.}
+%\footnote{It's unlikely the optimum of the fitted hypersurface would be on a different integer multiple of $\hmin$.}
 The resulting hypersurfaces are visualized in \cref{fig:simulation_results_straight}.
 The obtained optima are shown in \cref{tab:sim_straight_optima}.
 
