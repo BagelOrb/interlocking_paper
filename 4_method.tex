@@ -50,7 +50,6 @@ The topologically interlocking structure we propose consists of horizontal beams
 On top of that we print another set of beams rotated about Z.
 Long horizontal beams assure continuous extrusion, while the alternating direction of the beams assures the interlock.
 See \cref{fig:basic_structure_single_mat}.
-%\Cref{fig:connectivity_graph} exhibits the highly connected connectivity graph of the ITIM lattice, which demonstrates the high genus of the topology.
 
 
 When joining bodies of different materials, some region around the interface between the two bodies would be replaced by a number of unit cells from such a lattice structure.
@@ -138,7 +137,7 @@ We set the minimum height of either of the beams to twice the layer height, so a
 %\subsubsection{Straight model (whole)}
 In order to optimize the ITIM in straight orientation for a maximal tensile strength we consider three types of stress, related to three types of failure mode for either material $m$:
 tensile stress $\stresstensile{m}$ for $\myz{m}$, cross beam shear stress $\stresscrossshear{m}$ for $\mxz{m}$ and Z shear stress $\stresszshear{m}$ for $\mxy{m}$.
-These three failure modes are modelled as having a homogenous stress distribution:
+These three failure modes are modelled using classical beam theory as having a homogenous stress distribution:
 
 \begin{align}
 	\stresstensile{m} &= \frac{ F }{ \wm \hf } \label{eq:tensile} \\
@@ -262,7 +261,7 @@ See \cref{fig:straight_model_broken}.
 Once failure mode $\mxz{a}$ has occurred, still any other failure mode has to occur for the interlock to fail completely.
 Since the failure mode can only happen by part of the PP cross beam pushing against the part of the TPLA cross beam which is being sheared off,
 both cross beams shear together.
-TPLA breaks at a lower strain than PP, so we know that $\mxz{b}$ never occurs unless $\mxz{a}$ has occurred.
+Experimental tests have shown that TPLA breaks at a lower strain than PP, so we know that for these materials $\mxz{b}$ never occurs unless $\mxz{a}$ has occurred.
 We will construct a separate model for analysing the case where the TPLA cross beam is broken into segments.
 
 
@@ -332,9 +331,9 @@ See \cref{fig:analytical_math_diagonal}.
 
 Because of the diagonal geometry we expect that the stress distribution throughout the structure will be quite complex,
 and the failure will depend on the deformation of both materials during stretching.
-Nevertheless, we provide a simplified analytical model assuming the stress is homogeneously distributed.
+Nevertheless, we provide a simplified analytical model assuming the stress is homogeneously distributed and disregarding the influence of deformation on stress distribution.
 We decompose the force $F$ into one component parallel and another orthogonal to the direction of the beams.
-We then use the parallel component to determine the tensile stress and the orthonogal component to determine the shear stress in the beam,
+We then use the parallel component to determine the tensile stress and the orthogonal component to determine the shear stress in the beam,
 which combine into a single constraint using the von Mises yield criterion in \cref{eq:g_tensile_m_diag}.
 The diagonal model is then defined by the constrained optimization problem given by \crefrange{eq:objective_diagonal}{eq:g_z_shear_m_diag}.
 

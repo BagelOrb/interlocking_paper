@@ -51,44 +51,41 @@ In such cases it is necessary to rely on mechanical interlocking to prevent the 
 
 
 
-
-A common type of interlocking can be found in jigsaw puzzles.
+Dovetail interlocking is a common strategy to affix two bodies together;
+one example can be found in jigsaw puzzles.
 The pieces interlock and stay connected because of the material stiffness.
 However, the interlock can be broken in plane by deformation of the pieces.
 Out of plane the pieces can be disassembled easily.
 See \cref{fig:basic_2d_interlock}.
+Moreover, because the dovetails widen toward their tip, they cannot easily be printed with continuous extrusion toolpaths.
 
-In order to overcome these limitations, we invoke the mathematical study of topology.
-Topology is the study of properties of geometric shapes which are preserved under continuous deformations, such as stretching, twisting and bending.
-The property of \emph{genus} counts how many holes a shape has;
-a ball has a genus of 0, a doughnut has a genus of 1 and pants have a genus of 2.
-
-If the holes in the geometry of one material are filled with the other material we achieve a new type of interlocking, which we call \emph{topological interlocking}.
-Doughnuts can be imagined to be chained together to form the geometry of a chain.
-The only way to disassemble a chain is by breaking one of the links.
-%They cannot be broken by deformation alone, because links of a chain have a topology of genus 1.
-An interlocking geometry with a high genus topology means that the interlock is preserved under deformations of the two materials.
+In order to overcome these limitations, we propose \emph{topological interlocking}.
+For topological interlocking structures the holes or tunnels in one material are filled with the other material and vice versa,
+thereby creating a structure where the two materials are linked together similar to chain-mail.
+A chain-mail cannot be disassembled by continuous deformations such as stretching, twisting or bending,
+because the presence of holes or tunnels is preserved under any such deformations.
+A topological interlock remains effective under any deformation of the base materials and can only be broken by failure in either material.
 This interlocking principle is robust especially when flexible and deformable materials are concerned.
 
-For the application of dual material FDM we propose a high genus topologically interlocking structure where all voids in the one material are filled with the other material and vice versa.
-However, most high genus geometries would introduce discontinuities in the extrusion process when sliced into layers for 3D printing, as each slice would contain disconnected islands.
+We propose a topologically interlocking structure where all voids in the one material are filled with the other material and vice versa.
+However, most topologically interlocking geometries would introduce discontinuities in the extrusion process when sliced into layers for 3D printing, as each slice would contain disconnected islands.
 See \cref{fig:discontinuous_lattice}.
-Such discontinuities lead to defects, which influence the accuracy and the mechanical properties of the resulting part.
-Moreover, depositing small disconnected islands of one material on top of a chemically incompatible material cannot reliably be performed because of the weak bonding.
+Such discontinuities can easily lead to defects, which influence the dimensional accuracy and the mechanical properties of the resulting part.
+% Moreover, depositing small disconnected islands of one material on top of a chemically incompatible material cannot reliably be performed because of the weak bonding.
 We therefore have to generate interlocking geometry for which the layers consist of long continuously connected areas for both materials.
 
-Intuitively it seems impossible to generate high genus interlocking geometry while enforcing continuous extrusion for both materials;
+It seems impossible to generate topologically interlocking geometry with holes or tunnels while enforcing continuous extrusion for both materials;
 if the one material leaves a hole in a layer then filling that hole with the other material will cause it to be disconnected from the other regions of the second material.
-The ITIM lattice consists of long horizontal beams which ensure continuous extrusion, which alternate in orientation along the Z axis in order to connect all beams together, thereby ensuring the high genus of the topology.
+The ITIM lattice consists of long horizontal beams which ensure continuous extrusion, which alternate in orientation along the Z axis in order to connect all beams together, thereby creating linked hoops which constitute the topological interlock.
 The holes are then all aligned horizontally in between the layers, so that they never result in disconnected islands.
 See \cref{fig:basic_structure_single_mat}.
 
 
 Our contributions are as follows:
 \begin{itemize}
-	\item A theoretical upper bound to the tensile strength of any interlocking structure.
 	\item An interlaced topologically interlocking microstructure (ITIM) which satisfies the extrusion continuity constraint.
 	\item Two variations of the ITIM lattice optimized for tensile forces.
+	\item A theoretical upper bound to the tensile strength of any interlocking structure.
 	\item Analytical models for estimating tensile properties and for optimizing the design parameters of the interlocking structures.
 	\item Numerical and experimental validation.
 \end{itemize}
