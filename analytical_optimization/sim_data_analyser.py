@@ -273,10 +273,10 @@ FEM_stress = FEM_stress * valid_manufacturing_constraints_multiplier
 
 # with open('broken_stress.npy', 'wb') as f:
 #     numpy.save(f, stress)
-
-stress_broken = np.load('broken_stress.npy')
-stress_whole = np.load('whole_stress.npy')
-
+#
+# stress_broken = np.load('broken_stress.npy')
+# stress_whole = np.load('whole_stress.npy')
+#
 # stress = np.maximum.reduce([stress_broken, stress_whole])
 
 F = stress * (wa + wb) * (hf + hc)
