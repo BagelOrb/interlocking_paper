@@ -3,16 +3,16 @@
 In this paper we have presented the ITIM lattice: a highly interconnected interlocking structure,
 which cannot be broken by deformation alone and satisfies extrusion continuity constraints.
 When optimizing for a horizontally applied tensile stress orthogonal to the interface,
-two orientations of the ITIM lattice present themselves: straight and diagonal.
+two orientations of the ITIM lattice present themselves: the straight ITIM variant and the diagonal ITIM variant.
 We have developed analytical models for these two and compared them against simulation results and physical tensile tests.
 
-Based on just the average tensile strength of the physical specimens we could conclude that the diagonal interlocking design outperforms the straight design and existing dovetail designs,
+Based on just the average tensile strength of the physical specimens we could conclude that the diagonal ITIM variant outperforms the straight one and existing dovetail designs,
 but the standard deviation is too high to make that conclusion definitive.
-The diagonal model is more simple, has less free design variables, has no active Z shear constraints, the cells are smaller and the toolpaths are fully continuous because all beams are directly connected to the main body.
+The diagonal ITIM model is more simple, has less free design variables, has no active Z shear constraints, the cells are smaller and the toolpaths are fully continuous because all beams are directly connected to the main body.
 All tested interlocking designs can reach between 6 and 7 \si{\mega\pascal}, which is roughly three quarters of the theoretical upper bound of \SI{8.6}{\mega\pascal},
-but the optimal diagonal design produces the best average tensile strength.
-However, according to the analytical models and simulation results the diagonal orientation is outperformed by the straight orientation for $\lmax < \SI{2.4}{\milli\meter}$.,
-so for designs with a smaller margin available for the interlocking structure the straight design is preferred.
+but the optimal diagonal ITIM design produces the best average tensile strength.
+However, according to the analytical models and simulation results the diagonal ITIM variant is outperformed by the straight variant for $\lmax < \SI{2.4}{\milli\meter}$.,
+so for products with a smaller margin available for the interlocking structure the straight ITIM variant is preferred.
 
 %The analytical models can be used to quickly get a rough estimate of optimal interlocking designs,
 %which might come in handy when considering different materials.
@@ -25,7 +25,7 @@ Future work might be aimed at loading scenarios different from tensile, differen
 Investigating other properties such as the displacement at break, stiffness or toughness would also be interesting under compressive loads.
 It is specifically compelling to investigate the resilience of the interlocking structure against vertically applied loads.
 Another interesting route is to optimize for an interface between two bodies which has a complex geometry and heterogeneous stress distribution.
-In the light of sustainability and recycling one might select for specific failure modes, such as Z shear failure, which don't leave parts of the one material attached to the body of the other material after failure.
+In the light of sustainability and recycling one might select for specific failure modes, such as Z shear failure, which do not leave parts of the one material attached to the body of the other material after failure.
 Taking a broader perspective one might design an interlocking structure which is both topologically interlocking and also has dovetail features.
 
 \iffalse

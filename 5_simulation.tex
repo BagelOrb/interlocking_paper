@@ -10,13 +10,13 @@ The repeating nature of the interlocking patterns was captured by modelling half
 The model was meshed using C3D8R hexahedral elements of $\pm\SI{75}{\micro\meter}$.
 
 A grid search was used to measure the influence on the ultimate strength along each of the design variables $\wb,\va, \hc$, along with the total length $L$.
-The search space was therefore 4D and 2D for the straight and diagonal design respectively.
+The search space was therefore 4D and 2D for the straight and diagonal ITIM model respectively.
 In order to estimate the optimum we fit a smooth response surface to these data points using a radial basis function (RBF) network\cite{Dinh2002},
 with a smoothness of $\lambda=1$.
 
 
-\subsubsection{Straight}
-In order to prevent stress concentrations and adhere to manufacturing accuracy, the vertical edges of the straight design were rounded with $r=\SI{0.15}{\milli\meter}$;
+\subsubsection{Straight ITIM variant}
+In order to prevent stress concentrations and adhere to manufacturing accuracy, the vertical edges of the straight ITIM variant were rounded with $r=\SI{0.15}{\milli\meter}$;
 see \cref{fig:sim_straight_model}.
 %We performed two rounds of hypersurface fitting on grid search; the second round was on a zoomed in region and with elements of $\pm\SI{50}{\micro\meter}$.
 
@@ -37,16 +37,16 @@ We then observe that our analytical model on average predicts only \SI{7.8}{\per
 	\begin{subfigure}[B]{.6\columnwidth}
 		\centering
 		\includegraphics[height=\figheight]{sources-simulation-mesh-straight.png}
-		\caption{Straight}
+		\caption{Straight ITIM}
 	\end{subfigure}
 \hspace{-.5cm}
 	\begin{subfigure}[B]{.39\columnwidth}
 		\centering
 		\includegraphics[height=\figheight]{sources-simulation-mesh-diagonal.png}
-		\caption{Diagonal}
+		\caption{Diagonal ITIM}
 	\end{subfigure}
 	\caption{Example simulation meshes.
-		The diagonal mesh is half a unit cell covering only one of the two diagonal fingers.
+		The mesh of the diagonal ITIM variant is half a unit cell covering only one of the two diagonal fingers.
 		Because of the rounded corners an axis aligned meshing was impossible, leading to singularities in the mesh.}
 	\label{fig:sim_straight_model}
 \end{figure}
@@ -76,7 +76,7 @@ We then observe that our analytical model on average predicts only \SI{7.8}{\per
 		\includegraphics[height=\figheight]{sources-simulation-r1-lmax1.8.png}
 		\caption{$\lmax=\SI{1.8}{\milli\meter}; \hf=\SI{0.6}{\milli\meter}$}
 	\end{subfigure}
-	\caption{2D slices of the 4D simulation results and fitted RBF hypersurface for the straight design. Sampled data points in black.}
+	\caption{2D slices of the 4D simulation results and fitted RBF hypersurface for the straight ITIM variant. Sampled data points in black.}
 	\label{fig:simulation_results_straight}
 \end{figure*}
 
@@ -127,14 +127,14 @@ We then observe that our analytical model on average predicts only \SI{7.8}{\per
 
 
 
-\subsubsection{Diagonal}
-Modelling the diagonal design in Abaqus can be quite cumbersome, since it doesn't natively support periodic boundary constraints.
-Whereas this problem can be overcame in the straight design because it is symmetric,
-the diagonal design is only \emph{rotationally} symmetric.
+\subsubsection{Diagonal ITIM variant}
+Modelling the diagonal ITIM variant in Abaqus can be quite cumbersome, since it does not natively support periodic boundary constraints.
+Whereas this problem can be overcame in the straight ITIM variant because it is symmetric,
+the diagonal variant is only \emph{rotationally} symmetric.
 While a symmetry constraint can be used on the top and bottom, the two sides of the design are mirror images of each other, but also flipped vertically.
 
 However, since the height of the beams is relatively low compared to their width we have observed that the stresses and strains are quite similar in the top and bottom.
-If we model half of the diagonal cell by cutting it vertically and apply symmetry constraints to the sides,
+If we model half of the diagonal ITIM cell by cutting it vertically and apply symmetry constraints to the sides,
 the induced error is only $\pm \SI{10}{\percent}$ compared to simulating an interface consisting of two whole cells.
 % small discontinuities
 

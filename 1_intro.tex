@@ -1,7 +1,7 @@
 % !TeX spellcheck = en_GB 
 \section{Introduction}
 Multi-material FDM 3D printers unlock a plethora of applications through combining the unique material properties of various materials.
-However, depending on the combination of materials the adhesion between the materials can be negligibly weak.
+However, depending on the combination of materials the adhesion between the materials can be excessively weak.
 While only a small number of all possible 3D printing material combinations may exhibit any incompatibility issues,
 it is often precisely those incompatible combinations where the different chemical make-up produces interesting applications.
 For example, polypropylene (PP) is semi-flexible and fatigue-resistant, but has a very weak chemical bond to typical rigid filaments such as polylactic acid (PLA).
@@ -54,15 +54,15 @@ In such cases it is necessary to rely on mechanical interlocking to prevent the 
 Dovetail interlocking is a common strategy to affix two bodies together;
 one example can be found in jigsaw puzzles.
 The pieces interlock and stay connected because of the material stiffness.
-However, the interlock can be broken in plane by deformation of the pieces.
-Out of plane the pieces can be disassembled easily.
+However, the interlock can be broken in plane by deformation of the pieces,
+and out of plane the pieces can be disassembled by translation alone.
 See \cref{fig:basic_2d_interlock}.
 Moreover, because the dovetails widen toward their tip, they cannot easily be printed with continuous extrusion toolpaths.
 
 In order to overcome these limitations, we propose \emph{topological interlocking}.
 For topologically interlocking structures the holes or tunnels in one material are filled with the other material and vice versa,
-thereby creating a structure where the two materials are linked together similar to chain-mail.
-A chain-mail cannot be disassembled by continuous deformations such as stretching, twisting or bending,
+thereby creating a structure where the two materials are linked together similar to chain mail.
+Chain mail cannot be disassembled by continuous deformations such as stretching, twisting or bending,
 because the presence of holes or tunnels is preserved under any such deformations.
 A topological interlock remains effective under any deformation of the base materials and can only be broken by failure in either material.
 This interlocking principle is robust especially when flexible and deformable materials are concerned.
@@ -77,14 +77,15 @@ We therefore have to generate interlocking geometry for which the layers consist
 It seems impossible to generate topologically interlocking geometry with holes or tunnels while enforcing continuous extrusion for both materials;
 if the one material leaves a hole in a layer then filling that hole with the other material will cause it to be disconnected from the other regions of the second material.
 The ITIM lattice consists of long horizontal beams which ensure continuous extrusion, which alternate in orientation along the Z axis in order to connect all beams together, thereby creating linked hoops which constitute the topological interlock.
-The horizontal holes are then all located in between the layers, so that they never result in disconnected islands.
+Where the beams of the two orientations meet they form long vertical pillars. %, which constitute vertical tunnels in the other material.
+However, the small island cross-sections of these pillars are all located in between consecutive layers, so that they never result in disconnected islands.
 See \cref{fig:basic_structure_single_mat}.
 
 
 Our contributions are as follows:
 \begin{itemize}
 	\item An interlaced topologically interlocking microstructure (ITIM) which satisfies the extrusion continuity constraint.
-	\item Two variations of the ITIM lattice optimized for tensile forces.
+	\item Two variants of the ITIM lattice optimized for tensile forces: straight and diagonal.
 	\item A theoretical upper bound to the tensile strength of any interlocking structure.
 	\item Analytical models for estimating tensile properties and for optimizing the design parameters of the interlocking structures.
 	\item Numerical and experimental validation.
