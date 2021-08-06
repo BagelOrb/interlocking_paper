@@ -170,7 +170,9 @@ The total length $L$ of the jigsaw structure is \SI{2.96}{\milli\meter} and \SI{
 so the $\lmax$ constraint is violated by that structure.
 
 The boundaries of these two structures end in half a TPLA lobe, because that is the stiffer material.
-In order to meet the minimum width constraint there, the sides of the specimen are extruded by $\wmin{a}$; see \cref{fig:gcode_suture,fig:gcode_jigsaw}
+In order to meet the minimum width constraint there, the sides of the specimen are extruded by $\wmin{a}$.
+However, because the dovetails wider toward the tip, they require an extra toolpath to be filled densely, which is disconnected from the other toolpaths, therefy violating extrusion continuity constraints.
+See \cref{fig:gcode_suture,fig:gcode_jigsaw}
 
 
 

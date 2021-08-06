@@ -60,14 +60,14 @@ See \cref{fig:basic_2d_interlock}.
 Moreover, because the dovetails widen toward their tip, they cannot easily be printed with continuous extrusion toolpaths.
 
 In order to overcome these limitations, we propose \emph{topological interlocking}.
-For topological interlocking structures the holes or tunnels in one material are filled with the other material and vice versa,
+For topologically interlocking structures the holes or tunnels in one material are filled with the other material and vice versa,
 thereby creating a structure where the two materials are linked together similar to chain-mail.
 A chain-mail cannot be disassembled by continuous deformations such as stretching, twisting or bending,
 because the presence of holes or tunnels is preserved under any such deformations.
 A topological interlock remains effective under any deformation of the base materials and can only be broken by failure in either material.
 This interlocking principle is robust especially when flexible and deformable materials are concerned.
 
-We propose a topologically interlocking structure where all voids in the one material are filled with the other material and vice versa.
+%We propose a topologically interlocking structure where all voids in the one material are filled with the other material and vice versa.
 However, most topologically interlocking geometries would introduce discontinuities in the extrusion process when sliced into layers for 3D printing, as each slice would contain disconnected islands.
 See \cref{fig:discontinuous_lattice}.
 Such discontinuities can easily lead to defects, which influence the dimensional accuracy and the mechanical properties of the resulting part.
@@ -77,7 +77,7 @@ We therefore have to generate interlocking geometry for which the layers consist
 It seems impossible to generate topologically interlocking geometry with holes or tunnels while enforcing continuous extrusion for both materials;
 if the one material leaves a hole in a layer then filling that hole with the other material will cause it to be disconnected from the other regions of the second material.
 The ITIM lattice consists of long horizontal beams which ensure continuous extrusion, which alternate in orientation along the Z axis in order to connect all beams together, thereby creating linked hoops which constitute the topological interlock.
-The holes are then all aligned horizontally in between the layers, so that they never result in disconnected islands.
+The horizontal holes are then all located in between the layers, so that they never result in disconnected islands.
 See \cref{fig:basic_structure_single_mat}.
 
 
