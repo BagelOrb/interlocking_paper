@@ -1,13 +1,31 @@
 % !TeX spellcheck = en_GB 
 \section{Related Work}
 
+\subsection{Multi-material additive manufacturing}
+Multi-material 3D printing has unlocked a plethora of applications, by making use of functionally graded material properties, tailored composite materials or multi-material designs.
+Several review papers cover a wide range of techniques on these topics.\cite{Vaezi2013,Rafiee2020}
+Using multiple materials to create coloured surface imagery is commonly performed using multi-jet technologies, but can alternatively be performed using inkjet techniques\cite{sachs1994three} or even DLP resin printers \cite{Zhou2011Development}.
+Such techniques can even be extended to deal with translucency\cite{Brunton2018} and gloss\cite{elkhuizen2019gloss}.
+Several colour printing techniques have also been proposed for FDM.\cite{reiner2014dual,Song2019,Kuipers2018}
+
+Besides visual properties, multi-material systems can be used to create parts with graded material properties, by generating composite structures with varying densities of soft and hard materials.\cite{Cho2003851}
+Adjusting the fine level geometry in which such materials are deposited can give a more sophisticated control over the induced material properties,\cite{Leung2019,mirzaali2020}
+and adjusting the fine level geometry throughout the product on a mesa level can increase the performance of the product even more.\cite{Zhu2017}
+
+Some FDM systems for multi-material extrusion have been proposed for extruding multiple materials out of a single nozzle, e.g. by routing multiple filaments into a single mixing nozzle\cite{diamondhotend} or by creating a single strand of multi-material filament\cite{Takahashi2020,Mosaic2015},
+but such systems can break down when the different materials require vastly different processing parameters.
+Therefore the more upscale multi-material extrusion systems use a separate nozzle for each material.\cite{UltimakerS5}
+
+% \cite{DeBacker2018,Yu2020} fibre reinforced FDM
+
 
 \subsection{Microstructures}
 % multi-material microstructures
-Microstructures such as beam lattices, triply periodic surfaces and ordered dithering have widely been studied for their mechanical properties\cite{Cadman2013,Zhang2018a,tamburrino2018}.
+Microstructures such as beam lattices, triply periodic surfaces and ordered dithering have widely been studied for their mechanical properties.
+Several reviews provide a comprehensive overview of such microstructures.\cite{Cadman2013,Zhang2018a,tamburrino2018}
 Single material microstructures can constitute auxetic materials, or light weight structures with tailored material properties, through fine adjustments of the microstructure geometry.
-Such microstructures are often manufactured using stereolithography and polyjetting, because these processes have very few manufacturing constraints.
-Microstructures inherently exhibit topological interlocking, which makes them good candidates for interlocking\cite{freund2019determination}.
+%Such microstructures are often manufactured using stereolithography and polyjetting, because these processes have very few manufacturing constraints.
+Multi-material microstructures inherently exhibit topological interlocking, which makes them good candidates for interlocking\cite{freund2019determination}.
 However, optimizing microstructures for adhesions between incompatible materials while adhering to FDM manufacturing constraints has been studied scarcely.
 
 % aremu2017voxelbased 
