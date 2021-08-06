@@ -1,0 +1,64 @@
+\documentclass[a4paper,12pt]{letter}
+
+% !TeX spellcheck = en_GB
+
+% Some of the article customisations are relevant for this class
+
+\name{} % To be used for the return address on the envelope
+\signature{
+} % Goes after the closing (ie at the end of the letter, with space for a signature)
+%\address{Address \\ of \\ Sender}
+% Alternatively, these may be set on an individual basis within each letter environment.
+
+\makelabels % this command prints envelope labels on the final page of the document
+
+\begin{document}
+\begin{letter}{}
+
+
+\vspace*{-5\baselineskip}% Correct for vertical displacement
+
+\opening{
+\vspace*{-1\baselineskip}% Correct for vertical displacement
+Dear Editor-in-Chief, and dear reviewers,
+}
+
+
+We are pleased to submit our manuscript entitled ``ITIM: Interlaced Topologically Interlocking Microstructure for continuous extrusion dual-material FDM''
+for consideration for publication in the journal Additive Manufacturing.
+
+When printing dual-material products using FDM the adhesion between incompatible materials can be increased significantly using dovetail type interlocking geometry at their boundary.
+However, dovetail type interlocking designs can often be disassembled vertically, introduce extrusion discontinuities, and rely on the rigidity of the interlocking structure, which is difficult to model.
+We therefore introduce a novel type: topological interlocking, which addresses these concerns.
+We propose analytical models for two variants of our Interlaced Topologically Interlocking Microstructure (ITIM) with which their dimensions can be optimized
+and show that they agree reasonably well with simulation results and experimental test data.
+Which of the two variants outperforms the other depends on the space in the product available for the interlocking structure.
+
+We believe this research is highly relevant to the journal, since it proposes novel methods to expand the multi-material capabilities of FDM systems.
+It is particularly relevant since additive manufacturing is the only available product technique for topologically interlocking structures,
+since such structures cannot be assembled or disassembled without breaking them.
+
+This manuscript describes original work and has not been published and is not under consideration for publication elsewhere. 
+All authors approved the manuscript and its submission. We have no conflicts of interest to disclose.
+
+Thank you for your consideration and we are looking forward to your response.
+
+\bigskip 
+
+Sincerely,
+
+\bigskip 
+% PhD student at Delft University of Technology, 
+Tim Kuipers, Software engineer at Ultimaker \\
+Renbo Su, PhD candidate at The University of Manchester\\
+Jun Wu, Assistant professor at Delft University of Technology \\
+Charlie C. L. Wang, Professor at The University of Manchester
+
+%\closing{Sincerely,} % eg Regards,
+
+%\cc{} % people this letter is cc-ed to
+%\encl{} % list of anything enclosed
+%\ps{} % any post scriptums. ``PS'' labels must be put in manually
+
+\end{letter}
+\end{document}

@@ -1,0 +1,1 @@
+We propose a novel type of topological interlocking which satisfies continuous extrusion constraints to affix two bodies of incompatible materials for desktop FDM systems.
