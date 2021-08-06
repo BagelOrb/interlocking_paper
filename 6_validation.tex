@@ -32,25 +32,25 @@ See \cref{fig:gcode}.
 	\centering
 	\begin{subfigure}[B]{.26\columnwidth}
 		\centering
-		\includegraphics[width=\figheight,rotate=90]{sources/testing/straight_gcode.jpg}
+		\includegraphics[width=\figheight,rotate=90]{sources-testing-straight_gcode.jpg}
 		\caption{Straight}
 		\label{fig:gcode_straight}
 	\end{subfigure}
 	\begin{subfigure}[B]{.26\columnwidth}
 		\centering
-		\includegraphics[width=\figheight,rotate=90]{sources/testing/diagonal_gcode.jpg}
+		\includegraphics[width=\figheight,rotate=90]{sources-testing-diagonal_gcode.jpg}
 		\caption{Diagonal}
 		\label{fig:gcode_diagonal}
 	\end{subfigure}
 	\begin{subfigure}[B]{.22\columnwidth}
 		\centering
-		\includegraphics[width=\figheight,rotate=90]{sources/testing/suture_gcode.jpg}
+		\includegraphics[width=\figheight,rotate=90]{sources-testing-suture_gcode.jpg}
 		\caption{Trap. suture}
 		\label{fig:gcode_suture}
 	\end{subfigure}
 	\begin{subfigure}[B]{.22\columnwidth}
 		\centering
-		\includegraphics[width=\figheight,rotate=90]{sources/testing/jigsaw_gcode.jpg}
+		\includegraphics[width=\figheight,rotate=90]{sources-testing-jigsaw_gcode.jpg}
 		\caption{Jigsaw}
 		\label{fig:gcode_jigsaw}
 	\end{subfigure}
@@ -80,18 +80,18 @@ See \cref{fig:test_straight_boundary_cells}.
 	\centering
 	\begin{subfigure}[B]{.24\columnwidth}
 		\centering
-		\includegraphics[width=\columnwidth]{sources/testing/straight_sample.jpg}
+		\includegraphics[width=\columnwidth]{sources-testing-straight_sample.jpg}
 		\caption{Example print mesh near optimum}
 		\label{fig:test_straight_boundary_cells}
 	\end{subfigure}
 	\begin{subfigure}[B]{.24\columnwidth}
 		\centering
-		\includegraphics[width=\columnwidth]{sources/testing/straight_print.jpg}
+		\includegraphics[width=\columnwidth]{sources-testing-straight_print.jpg}
 		\caption{Example print near broken optimum}
 	\end{subfigure}
 	\begin{subfigure}[B]{.5\columnwidth}
 		\centering
-		\includegraphics[width=\columnwidth]{sources/testing/straight_sample_points.pdf}
+		\includegraphics[width=\columnwidth]{sources-testing-straight_sample_points.pdf}
 		\caption{Sampled points and measured cell stress.}
 		\label{fig:test_points_straight}
 	\end{subfigure}
@@ -115,18 +115,18 @@ we can simply sample various points along $\wb$: $(0.6, 1.2, 1.8, 2.4, 3.0, 3.6)
 	\centering
 	\begin{subfigure}[B]{.24\columnwidth}
 		\centering
-		\includegraphics[width=\columnwidth]{sources/testing/diagonal_sample.jpg}
+		\includegraphics[width=\columnwidth]{sources-testing-diagonal_sample.jpg}
 		\caption{Example print mesh}
 		\label{fig:test_diagonal_boundary_cells}
 	\end{subfigure}
 	\begin{subfigure}[B]{.24\columnwidth}
 		\centering
-		\includegraphics[width=\columnwidth]{sources/testing/diagonal_print.jpg}
+		\includegraphics[width=\columnwidth]{sources-testing-diagonal_print.jpg}
 		\caption{Example print}
 	\end{subfigure}
 	\begin{subfigure}[B]{.5\columnwidth}
 		\centering
-		%\includegraphics[width=\columnwidth]{sources/testing/straight_sample_points.pdf}
+		%\includegraphics[width=\columnwidth]{sources-testing-straight_sample_points.pdf}
 		\caption{Comparison of results to analytical model}
 	\end{subfigure}
 	\caption{Experimental setup of diagonal design.}
@@ -142,12 +142,12 @@ we can simply sample various points along $\wb$: $(0.6, 1.2, 1.8, 2.4, 3.0, 3.6)
 \begin{figure}
 	\centering
 	\begin{subfigure}{.49\columnwidth}
-		\includegraphics{sources/method/suture_model_v5.pdf}
+		\includegraphics{sources-method-suture_model_v5.pdf}
 		\caption{Trapezoidal suture}
 		\label{fig:suture}
 	\end{subfigure}
 	\begin{subfigure}{.49\columnwidth}
-		\includegraphics{sources/method/jigsaw_model_v5.pdf}
+		\includegraphics{sources-method-jigsaw_model_v5.pdf}
 		\caption{Jigsaw}
 		\label{fig:jigsaw}
 	\end{subfigure}
@@ -178,7 +178,7 @@ See \cref{fig:gcode_suture,fig:gcode_jigsaw}
 
 \begin{figure*}
 	\centering
-	\includegraphics[width=\textwidth]{sources/testing/results.pdf}
+	\includegraphics[width=\textwidth]{sources-testing-results.pdf}
 	\caption{Test results compared to the predictions according to the analytical model and the RBF network fitted to the simulation results. The straight model samples are labelled relative to the whole and broken optimum, while the rest is labelled by their $\wb$ value.}
 	\label{fig:test_results}
 \end{figure*}
@@ -201,7 +201,7 @@ The results from the physical experiments, along with the analytical and simulat
 
 \begin{figure}
 	\centering
-	\includegraphics[width=\columnwidth]{sources/testing/stress_displacement_comparison.pdf}
+	\includegraphics[width=\columnwidth]{sources-testing-stress_displacement_comparison.pdf}
 	\caption{Comparison of the best performing design of each type. 
 		The diagonal design with $\wb=\SI{1.2}{\milli\meter}$ showed the highest maximum tensile stress. 
 		By inspecting the shape of the graph you can determine the dominant failure mode: TPLA breaking (sharp drop) or PP yielding (plateau).
@@ -216,36 +216,36 @@ The results from the physical experiments, along with the analytical and simulat
 	\setlength{\figwidth}{.19\columnwidth}
 	\begin{subfigure}[B]{.99\columnwidth}
 		\centering
-		\includegraphics[width=\figwidth]{sources/testing/j1_cropped.jpg}
-		\includegraphics[width=\figwidth]{sources/testing/j2_cropped.jpg}
-		\includegraphics[width=\figwidth]{sources/testing/j3_cropped.jpg}
-		\includegraphics[width=\figwidth]{sources/testing/j4_cropped.jpg}
-		\includegraphics[width=\figwidth]{sources/testing/j5_cropped.jpg}
+		\includegraphics[width=\figwidth]{sources-testing-j1_cropped.jpg}
+		\includegraphics[width=\figwidth]{sources-testing-j2_cropped.jpg}
+		\includegraphics[width=\figwidth]{sources-testing-j3_cropped.jpg}
+		\includegraphics[width=\figwidth]{sources-testing-j4_cropped.jpg}
+		\includegraphics[width=\figwidth]{sources-testing-j5_cropped.jpg}
 		\caption{Straight broken wb+}
 		\label{fig:failures_straight}
 	\end{subfigure}
 	\setlength{\figheight}{.25\columnwidth}
 	\begin{subfigure}[B]{.28\columnwidth}
 		\centering
-		\includegraphics[height=\figheight]{sources/testing/a1_cropped.jpg}
+		\includegraphics[height=\figheight]{sources-testing-a1_cropped.jpg}
 		\caption{Striaght whole}
 		\label{fig:failures_whole}
 	\end{subfigure}
 	\begin{subfigure}[B]{.28\columnwidth}
 		\centering
-		\includegraphics[height=\figheight]{sources/testing/v1_cropped.jpg}
+		\includegraphics[height=\figheight]{sources-testing-v1_cropped.jpg}
 		\caption{Diagonal $1.2$}
 		\label{fig:failures_diagonal}
 	\end{subfigure}
 	\begin{subfigure}[B]{.18\columnwidth}
 		\centering
-		\includegraphics[height=\figheight]{sources/testing/jigsaw_cropped.jpg}
+		\includegraphics[height=\figheight]{sources-testing-jigsaw_cropped.jpg}
 		\caption{Jigsaw $1.8$}
 		\label{fig:failures_jigsaw}
 	\end{subfigure}
 	\begin{subfigure}[B]{.22\columnwidth}
 		\centering
-		\includegraphics[width=\figheight,rotate=90]{sources/testing/suture_wide_cropped.jpg}
+		\includegraphics[width=\figheight,rotate=90]{sources-testing-suture_wide_cropped.jpg}
 		\caption{Trap. suture $2.7$}
 		\label{fig:failures_suture}
 	\end{subfigure}
