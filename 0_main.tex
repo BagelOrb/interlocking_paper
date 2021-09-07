@@ -1,4 +1,4 @@
-\documentclass[5p,twocolumn,10pt,times]{elsarticle}
+\documentclass[review]{elsarticle}
 \usepackage{amsmath}
 \usepackage{lineno, hyperref}
 \modulolinenumbers[1]
@@ -176,6 +176,9 @@
 	\renewcommand{\includegraphics}[2][width=\textwidth]{\IfFileExists{#2}{\includegraphicsoriginal[#1]{#2}}{\noimage{#2}}}
 
 	\fi
+	
+	
+	\pretolerance=10000 % avoid lines longer than column
 % ENd of TK's added packages and commands
 
 
