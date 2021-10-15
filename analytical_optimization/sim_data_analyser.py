@@ -495,7 +495,7 @@ if show_results:
     ax[2].set(xlabel='$h_f$', ylabel='$w_b$')
 
     wm = plt.get_current_fig_manager()
-    wm.window.state('zoomed')
+    # wm.window.state('zoomed')
 
     if plot_legend:
         #fig, ax = plt.subplots()
@@ -504,7 +504,7 @@ if show_results:
             color = colormap[name]
             legend_elements.append(Patch(facecolor=color, edgecolor='none', label=name_map[name]))
         legend_elements.append(Patch(facecolor=[.5, .5, .5, 1], edgecolor='none', label='FEM'))
-        ax[2].legend(handles=legend_elements)
+        ax[2].legend(handles=legend_elements,loc='upper right')
         #plt.axis('off')
 
     # plt.savefig("C:\\Users\\t.kuipers\\OneDrive - Ultimaker B.V\\Documents\\PhD\\interlocking_project\\paper\\paper_git\\analytical_optimization\\ana_correct_z_yield_ORcross.svg")
