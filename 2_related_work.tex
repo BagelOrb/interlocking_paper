@@ -6,17 +6,17 @@ Multi-material additive manufacturing has unlocked a plethora of applications, b
 Several review papers cover a wide range of techniques on these topics.\cite{Vaezi2013,Rafiee2020}
 Using multiple materials to create coloured surface imagery is commonly performed using MultiJet technologies, but can alternatively be performed using inkjet techniques\cite{sachs1994three} or even DLP resin printers \cite{Zhou2011Development}.
 Such techniques can even be extended to deal with translucency\cite{Brunton2018} and gloss\cite{elkhuizen2019gloss}.
-Several colour printing techniques have also been proposed for FDM.\cite{reiner2014dual,Song2019,Kuipers2018}
+Several colour printing techniques have also been proposed for \revise{FDM}{MEX}.\cite{reiner2014dual,Song2019,Kuipers2018}
 
 Besides visual attributes, multi-material systems can be used to create parts with graded material properties, by generating composite structures with varying densities of soft and hard materials.\cite{Cho2003851}
 Fine-tuning the small-scale geometry in which such materials are deposited can give a more sophisticated control over the induced material properties,\cite{Leung2019,mirzaali2020}
 and adjusting the small-scale geometry throughout the product on a mesa scale can increase the performance of the product even more.\cite{Zhu2017}
 
-Some FDM systems for multi-material extrusion have been proposed which operate by extruding multiple materials out of a single nozzle, e.g. by routing multiple filaments into a single mixing nozzle\cite{diamondhotend} or by creating a single strand of multi-material filament\cite{Takahashi2020,Mosaic2015},
+Some \revise{FDM}{MEX} systems for multi-material extrusion have been proposed which operate by extruding multiple materials out of a single nozzle, e.g. by routing multiple filaments into a single mixing nozzle\cite{diamondhotend} or by creating a single strand of multi-material filament\cite{Takahashi2020,Mosaic2015},
 but such systems can exhibit hardware issues when the different materials require vastly different processing parameters.
 Therefore the more upscale multi-material extrusion systems use a separate nozzle for each material.\cite{UltimakerS5}
 
-% \cite{DeBacker2018,Yu2020} fibre reinforced FDM
+% \cite{DeBacker2018,Yu2020} fibre reinforced \revise{FDM}{MEX}
 
 
 \subsection{Microstructures}
@@ -27,7 +27,7 @@ Single material microstructures can constitute auxetic materials, % TODO citatio
 or light weight structures with tailored material properties, through fine adjustments of the microstructure geometry. % TODO citation needed
 %Such microstructures are often manufactured using stereolithography and polyjetting, because these processes have very few manufacturing constraints.
 Multi-material microstructures inherently exhibit topological interlocking, which makes them good candidates for interlocking\cite{freund2019determination}.
-However, optimizing microstructures for adhesions between incompatible materials while adhering to FDM manufacturing constraints has been studied scarcely.
+However, optimizing microstructures for adhesions between incompatible materials while adhering to \revise{FDM}{MEX} manufacturing constraints has been studied scarcely.
 
 % aremu2017voxelbased 
 
@@ -35,18 +35,18 @@ However, optimizing microstructures for adhesions between incompatible materials
 \subsection{Adhesion}
 
 Important factors for adhesion between polymers are entanglement and dissipation\cite{abbott2015adhesion}.
-The adhesion by which two bodies of different FDM printed material stick together can be influences by a wide spectrum of pre-treatment methods, process parameters and material properties\cite{freund2019determination}.
+The adhesion by which two bodies of different \revise{FDM}{MEX} printed material stick together can be influences by a wide spectrum of pre-treatment methods, process parameters and material properties\cite{freund2019determination}.
 Increasing surface roughness might improve the adhesion between materials\cite{huttenbach1991interface,gent1990model}, but this supposed benefit is contested\cite{abbott2015adhesion}.
-For FDM one could try mixing the materials by overlapping their toolpaths to increase adhesion or create simple straight protrusions in order to increase the friction between the two materials\cite{tamburrino19}.
+For \revise{FDM}{MEX} one could try mixing the materials by overlapping their toolpaths to increase adhesion or create simple straight protrusions in order to increase the friction between the two materials\cite{tamburrino19}.
 However, if such protrusions bulge outward the adhesion does not merely increase because of the increased friction, but also because it would constitute a dovetail type of interlocking structure.
 
 % Cura 4.8 allows for generating sandwich structures where the layers are alternated between the two materials.
 
 
-\subsection{Interlocking in FDM}
+\subsection{Interlocking in \revise{FDM}{MEX}}
 
 %\subsubsection{Dovetail interlocking}
-Literature on interlocking patterns for adhesion between incompatible materials in FDM 3D printing has focussed on extruded 2D interlocking dovetail type of designs,
+Literature on interlocking patterns for adhesion between incompatible materials in \revise{FDM}{MEX} 3D printing has focussed on extruded 2D interlocking dovetail type of designs,
 such as jigsaw shapes \cite{malik2017}, trapezoidal sutures \cite{Li2013}, T-shapes\cite{Ribeiro2019,mustafa2021development} and star shapes\cite{Wang2021} in the horizontal direction
 as well as in the vertical direction across several layers\cite{debora2020}.
 Topology optimization can generate complex 2D dovetail interlocking shapes, which fit to the specifics of the design locally\cite{aharoni2021}.
