@@ -1,5 +1,5 @@
-% !TeX spellcheck = en_GB 
-\section{Validation}
+% !TeX spellcheck = en_US 
+\section{Validation}\label{interlocking:sec:validation}
 In order to validate our analytical models we compare its predictions against both simulation results and physical tensile tests.
 While the physical tests constitute the final arbiter on the matter,
 our resources for performing physical tests are limited.
@@ -12,7 +12,7 @@ The simulations can therefore enrich the understanding we gain from physical exp
 
 
 
-\input{5_simulation}
+\input{interlocking/5_simulation}
 
 
 \subsection{Physical experimental tests}
@@ -23,7 +23,7 @@ For PP we print the outer before the inner walls so as to improve the dimensiona
 In order to deal with the various widths of the beams we generate toolpaths using the Cura Arachne Engine beta release\cite{CuraArachne},
 which implements a framework for generating variable line width toolpaths to fill small geometry of arbitrary dimensions\cite{Kuipers2020}.
 The Inward Distributed and the Distributed strategy were used on TPLA and PP respectively.
-See \cref{fig:gcode}.
+See \cref{interlocking:fig:gcode}.
 
 
 
@@ -32,30 +32,30 @@ See \cref{fig:gcode}.
 	\centering
 	\begin{subfigure}[B]{.26\columnwidth}
 		\centering
-		\includegraphics[width=\figheight,rotate=90]{sources-testing-straight_gcode.jpg}
+		\includegraphics[width=\figheight,rotate=90]{interlocking/sources/testing/straight_gcode.jpg}
 		\caption{Straight ITIM}
-		\label{fig:gcode_straight}
+		\label{interlocking:fig:gcode_straight}
 	\end{subfigure}
 	\begin{subfigure}[B]{.26\columnwidth}
 		\centering
-		\includegraphics[width=\figheight,rotate=90]{sources-testing-diagonal_gcode.jpg}
+		\includegraphics[width=\figheight,rotate=90]{interlocking/sources/testing/diagonal_gcode.jpg}
 		\caption{Diagonal ITIM}
-		\label{fig:gcode_diagonal}
+		\label{interlocking:fig:gcode_diagonal}
 	\end{subfigure}
 	\begin{subfigure}[B]{.22\columnwidth}
 		\centering
-		\includegraphics[width=\figheight,rotate=90]{sources-testing-suture_gcode.jpg}
+		\includegraphics[width=\figheight,rotate=90]{interlocking/sources/testing/suture_gcode.jpg}
 		\caption{Trap. suture}
-		\label{fig:gcode_suture}
+		\label{interlocking:fig:gcode_suture}
 	\end{subfigure}
 	\begin{subfigure}[B]{.22\columnwidth}
 		\centering
-		\includegraphics[width=\figheight,rotate=90]{sources-testing-jigsaw_gcode.jpg}
+		\includegraphics[width=\figheight,rotate=90]{interlocking/sources/testing/jigsaw_gcode.jpg}
 		\caption{Jigsaw}
-		\label{fig:gcode_jigsaw}
+		\label{interlocking:fig:gcode_jigsaw}
 	\end{subfigure}
 	\caption{Gcodes generated with Cura Arachne engine beta. The layers of main fingers are shown and the other layers in a transparent overlay. While the straight and diagonal ITIM lattice produce continuous extrusion beads, the toolpaths for the dovetail designs include small separated segments.}
-	\label{fig:gcode}
+	\label{interlocking:fig:gcode}
 \end{figure}
 
 
@@ -69,31 +69,31 @@ even when setting $\wa=\SI{0.6}{\milli\meter}$, $\hc=\SI{0.1}{\milli\meter}$ and
 there are still the three free design variables $\wb$, $\va$ and $\hf$ to determine.
 With 5 specimens per sample point and limited resources, the total number of data points we are able to test is limited.
 We therefore chose to sample close to the two optima of the analytical models: whole and broken, as well as deviations from those optima in both directions along the axis of each design variable of \SI{0.3}{\milli\meter} in $\wb$ and $\va$ and \SI{0.2}{\milli\meter} in $\hf$.
-See \cref{fig:test_points_straight}.
+See \cref{interlocking:fig:test_points_straight}.
 
 Each sample of the straight ITIM variant has $5\times5$ cells.
 Because the repetition of cells is broken at the sides of the specimen, the boundary cells are adjusted for manufacturability and stability.
 The specimens end with a TPLA finger on both sides and in cross beams on both top and bottom.
-See \cref{fig:test_straight_boundary_cells}.
+See \cref{interlocking:fig:test_straight_boundary_cells}.
 
 \begin{figure}
 	\centering
 	\begin{subfigure}[B]{.24\columnwidth}
 		\centering
-		\includegraphics[width=\columnwidth]{sources-testing-straight_sample.jpg}
+		\includegraphics[width=\columnwidth]{interlocking/sources/testing/straight_sample.jpg}
 		\caption{Example print mesh near optimum}
-		\label{fig:test_straight_boundary_cells}
+		\label{interlocking:fig:test_straight_boundary_cells}
 	\end{subfigure}
 	\begin{subfigure}[B]{.24\columnwidth}
 		\centering
-		\includegraphics[width=\columnwidth]{sources-testing-straight_print.jpg}
+		\includegraphics[width=\columnwidth]{interlocking/sources/testing/straight_print.jpg}
 		\caption{Example print near broken optimum}
 	\end{subfigure}
 	\begin{subfigure}[B]{.5\columnwidth}
 		\centering
-		\includegraphics[width=\columnwidth]{sources-testing-straight_sample_points.pdf}
+		\includegraphics[width=\columnwidth]{interlocking/sources/testing/straight_sample_points.pdf}
 		\caption{Sampled points and measured cell stress.}
-		\label{fig:test_points_straight}
+		\label{interlocking:fig:test_points_straight}
 	\end{subfigure}
 	\caption{Experimental setup of straight ITIM variant.
 		Note that for the broken model $\va$ is minimal, so va- is not a valid sample.}
@@ -106,7 +106,7 @@ See \cref{fig:test_straight_boundary_cells}.
 \paragraph{Diagonal ITIM variant}
 Each sample of the diagonal ITIM variant contains 5 cells in the horizontal direction, but 13 repetition in Z because of the low unit cell height.
 Extra finger beams are added to the sides of the specimen to prevent any part of the beam to be less than $2\wmin=\SI{0.6}{\milli\meter}$ wide.
-See \cref{fig:gcode_diagonal}.
+See \cref{interlocking:fig:gcode_diagonal}.
 Because with a given $L=\SI{3.6}{\milli\meter}$, $h=\SI{0.2}{\milli\meter}$ and $\wa=\SI{0.6}{\milli\meter}$ the remaining design space is only one-dimensional,
 we can simply sample various points along $\wb$: $(0.6, 1.2, 1.8, 2.4, 3.0, 3.6)$.
 
@@ -115,18 +115,18 @@ we can simply sample various points along $\wb$: $(0.6, 1.2, 1.8, 2.4, 3.0, 3.6)
 	\centering
 	\begin{subfigure}[B]{.24\columnwidth}
 		\centering
-		\includegraphics[width=\columnwidth]{sources-testing-diagonal_sample.jpg}
+		\includegraphics[width=\columnwidth]{interlocking/sources/testing/diagonal_sample.jpg}
 		\caption{Example print mesh}
-		\label{fig:test_diagonal_boundary_cells}
+		\label{interlocking:fig:test_diagonal_boundary_cells}
 	\end{subfigure}
 	\begin{subfigure}[B]{.24\columnwidth}
 		\centering
-		\includegraphics[width=\columnwidth]{sources-testing-diagonal_print.jpg}
+		\includegraphics[width=\columnwidth]{interlocking/sources/testing/diagonal_print.jpg}
 		\caption{Example print}
 	\end{subfigure}
 	\begin{subfigure}[B]{.5\columnwidth}
 		\centering
-		%\includegraphics[width=\columnwidth]{sources-testing-straight_sample_points.pdf}
+		%\includegraphics[width=\columnwidth]{interlocking/sources/testing/straight_sample_points.pdf}
 		\caption{Comparison of results to analytical model}
 	\end{subfigure}
 	\caption{Experimental setup of diagonal design.}
@@ -142,23 +142,23 @@ we can simply sample various points along $\wb$: $(0.6, 1.2, 1.8, 2.4, 3.0, 3.6)
 \begin{figure}
 	\centering
 	\begin{subfigure}{.49\columnwidth}
-		\includegraphics{sources-method-suture_model_v5.pdf}
+		\includegraphics{interlocking/sources/method/suture_model_v5.pdf}
 		\caption{Trapezoidal suture}
-		\label{fig:suture}
+		\label{interlocking:fig:suture}
 	\end{subfigure}
 	\begin{subfigure}{.49\columnwidth}
-		\includegraphics{sources-method-jigsaw_model_v5.pdf}
+		\includegraphics{interlocking/sources/method/jigsaw_model_v5.pdf}
 		\caption{Jigsaw}
-		\label{fig:jigsaw}
+		\label{interlocking:fig:jigsaw}
 	\end{subfigure}
 	\caption{Simple 2D dovetail interlocking microstructures.}
-	\label{fig:suture_jigsaw}
+	\label{interlocking:fig:suture_jigsaw}
 \end{figure}
 
 
 \paragraph{Dovetail interlocking}
 We compared our interlocking structures against two interlocking designs: trapezoidal sutures and jigsaw interlocking.
-See \cref{fig:suture_jigsaw}.
+See \cref{interlocking:fig:suture_jigsaw}.
 We used $\wa=2\wmin{a}$, $dw=\SI{0.3}{\milli\meter}$ and $L=2.4$ for the trapezoidal suture,
 and $\wa=2\wmin{a}$ and $\alpha = \SI{35}{\degree}$ for the jigsaw interlocking design.
 We printed samples with both $\wb=3\wa$ and $\wb=\nicefrac{\sigmafail{a}}{\sigmafail{b}}\wa = 4.48 \wa$.
@@ -172,42 +172,42 @@ so the $\lmax$ constraint is violated by that structure.
 The boundaries of these two structures end in half a TPLA lobe, because that is the stiffer material.
 In order to meet the minimum width constraint there, the sides of the specimen are extruded by $\wmin{a}$.
 However, because the dovetails wider toward the tip, they require an extra toolpath to be filled densely, which is disconnected from the other toolpaths, therefy violating extrusion continuity constraints.
-See \cref{fig:gcode_suture,fig:gcode_jigsaw}
+See \cref{interlocking:fig:gcode_suture,interlocking:fig:gcode_jigsaw}
 
 
 
 \begin{figure*}
 	\centering
-	\includegraphics[width=\textwidth]{sources-testing-results.pdf}
+	\includegraphics[width=\textwidth]{interlocking/sources/testing/results.pdf}
 	\caption{Test results compared to the predictions according to the analytical model and the RBF network fitted to the simulation results. The straight ITIM variant samples are labelled relative to the whole and broken optimum, while the rest is labelled by their $\wb$ value.}
-	\label{fig:test_results}
+	\label{interlocking:fig:test_results}
 \end{figure*}
 
 
 \subsubsection{Results}
-After tensile testing we can observe various failure modes, such as in \cref{fig:failures}.
+After tensile testing we can observe various failure modes, such as in \cref{interlocking:fig:failures}.
 The tensile tests performed result in force-displacement graphs,
 from which the ultimate tensile strength values are derived.
 The slope of these graphs after the optimum has been reached furthermore tells us something about the failure mode by which the sample has failed.
-See \cref{fig:stress_displacement_comparison}.
+See \cref{interlocking:fig:stress_displacement_comparison}.
 
 Because the boundary cells deviate from the regular pattern, computing the ultimate tensile strength can be done in two ways, giving rise to two statistics.
 We compute the \emph{cell stress} by dividing the maximum force of the force-displacement graphs by the number of cells and then divide it by the cross sectional area of the cell.
 We compute the \emph{total stress} by dividing the force by the total cross-sectional area of the sample, including the extra geometry at the boundaries of the sample.
 Ideally we would compensate for manufacturing inaccuracies by using measured dimensions of the specimens,
 but measuring the internal geometry of the interlocking structure is practically infeasible, so we use the dimensions of the 3D mesh instead.
-The results from the physical experiments, along with the analytical and simulated predictions are gathered in \cref{fig:test_results}.
+The results from the physical experiments, along with the analytical and simulated predictions are gathered in \cref{interlocking:fig:test_results}.
 
 
 \begin{figure}
 	\centering
-	\includegraphics[width=\columnwidth]{sources-testing-stress_displacement_comparison.pdf}
+	\includegraphics[width=\columnwidth]{interlocking/sources/testing/stress_displacement_comparison.pdf}
 	\caption{Comparison of the best performing design of each type. 
 		The diagonal ITIM design with $\wb=\SI{1.2}{\milli\meter}$ showed the highest maximum tensile stress. 
 		By inspecting the shape of the graph you can determine the dominant failure mode: TPLA breaking (sharp drop) or PP yielding (plateau).
 		Dovetail unlocking has either a sharp drop or a more gradual decline.
 	}
-	\label{fig:stress_displacement_comparison}
+	\label{interlocking:fig:stress_displacement_comparison}
 \end{figure}
 
 
@@ -216,42 +216,42 @@ The results from the physical experiments, along with the analytical and simulat
 	\setlength{\figwidth}{.19\columnwidth}
 	\begin{subfigure}[B]{.99\columnwidth}
 		\centering
-		\includegraphics[width=\figwidth]{sources-testing-j1_cropped.jpg}
-		\includegraphics[width=\figwidth]{sources-testing-j2_cropped.jpg}
-		\includegraphics[width=\figwidth]{sources-testing-j3_cropped.jpg}
-		\includegraphics[width=\figwidth]{sources-testing-j4_cropped.jpg}
-		\includegraphics[width=\figwidth]{sources-testing-j5_cropped.jpg}
+		\includegraphics[width=\figwidth]{interlocking/sources/testing/j1_cropped.jpg}
+		\includegraphics[width=\figwidth]{interlocking/sources/testing/j2_cropped.jpg}
+		\includegraphics[width=\figwidth]{interlocking/sources/testing/j3_cropped.jpg}
+		\includegraphics[width=\figwidth]{interlocking/sources/testing/j4_cropped.jpg}
+		\includegraphics[width=\figwidth]{interlocking/sources/testing/j5_cropped.jpg}
 		\caption{Straight ITIM broken wb+}
-		\label{fig:failures_straight}
+		\label{interlocking:fig:failures_straight}
 	\end{subfigure}
 	\setlength{\figheight}{.25\columnwidth}
 	\begin{subfigure}[B]{.28\columnwidth}
 		\centering
-		\includegraphics[height=\figheight]{sources-testing-a1_cropped.jpg}
+		\includegraphics[height=\figheight]{interlocking/sources/testing/a1_cropped.jpg}
 		\caption{Straight ITIM whole}
-		\label{fig:failures_whole}
+		\label{interlocking:fig:failures_whole}
 	\end{subfigure}
 	\begin{subfigure}[B]{.28\columnwidth}
 		\centering
-		\includegraphics[height=\figheight]{sources-testing-v1_cropped.jpg}
+		\includegraphics[height=\figheight]{interlocking/sources/testing/v1_cropped.jpg}
 		\caption{Diagonal ITIM $1.2$}
-		\label{fig:failures_diagonal}
+		\label{interlocking:fig:failures_diagonal}
 	\end{subfigure}
 	\begin{subfigure}[B]{.18\columnwidth}
 		\centering
-		\includegraphics[height=\figheight]{sources-testing-jigsaw_cropped.jpg}
+		\includegraphics[height=\figheight]{interlocking/sources/testing/jigsaw_cropped.jpg}
 		\caption{Jigsaw $1.8$}
-		\label{fig:failures_jigsaw}
+		\label{interlocking:fig:failures_jigsaw}
 	\end{subfigure}
 	\begin{subfigure}[B]{.22\columnwidth}
 		\centering
-		\includegraphics[width=\figheight,rotate=90]{sources-testing-suture_wide_cropped.jpg}
+		\includegraphics[width=\figheight,rotate=90]{interlocking/sources/testing/suture_wide_cropped.jpg}
 		\caption{Trap. suture $2.7$}
-		\label{fig:failures_suture}
+		\label{interlocking:fig:failures_suture}
 	\end{subfigure}
 	\caption{Samples after tensile tests of the best performing designs.
 		The broken wb+ samples from the straight ITIM variant exhibit multiple failure modes, indicating that this sample was close to the intersection of several constraint surfaces.}
-	\label{fig:failures}
+	\label{interlocking:fig:failures}
 \end{figure}
 
 

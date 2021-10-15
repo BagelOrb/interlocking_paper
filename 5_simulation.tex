@@ -1,4 +1,4 @@
-% !TeX spellcheck = en_GB 
+% !TeX spellcheck = en_US 
 \subsection{Simulation}
 In order to simulate interlocking structures with a range of design parameters we automatically generate INP files in Abaqus CAE (2020) using a script.
 Solving an INP file gives us the force-displacement graph, from which we can determine the ultimate tensile strength of a particular design.
@@ -17,18 +17,18 @@ with a smoothness of $\lambda=1$.
 
 \subsubsection{Straight ITIM variant}
 In order to prevent stress concentrations and adhere to manufacturing accuracy, the vertical edges of the straight ITIM variant were rounded with $r=\SI{0.15}{\milli\meter}$;
-see \cref{fig:sim_straight_model}.
+see \cref{interlocking:fig:sim_straight_model}.
 %We performed two rounds of hypersurface fitting on grid search; the second round was on a zoomed in region and with elements of $\pm\SI{50}{\micro\meter}$.
 
 Newton's method was used to determine the optimum, starting from the best sampled point.
 This step only considered the dimensions $\wb$ and $\va$, because $\lmax$ is given and $\hf$ has to be an integer multiple of $\hmin$.
 %\footnote{It's unlikely the optimum of the fitted hypersurface would be on a different integer multiple of $\hmin$.}
-The resulting hypersurfaces are visualized in \cref{fig:simulation_results_straight}.
-The obtained optima are shown in \cref{tab:sim_straight_optima}.
+The resulting hypersurfaces are visualized in \cref{interlocking:fig:simulation_results_straight}.
+The obtained optima are shown in \cref{interlocking:tab:sim_straight_optima}.
 
 We compare these results to our analytical model by adjusting the analytical model to capture the inaccurate Z strength used in the simulations:
 $\sigmafailz{m} := \sigmafail{m}$.
-See \cref{fig:ana_sim_accuracy_straight}.
+See \cref{interlocking:fig:ana_sim_accuracy_straight}.
 We then observe that our analytical model on average predicts only \SI{7.8}{\percent} higher ultimate strength values than then the FEM simulations, with a standard deviation of \SI{16.2}{\percent}.
 
 \begin{figure}
@@ -36,19 +36,19 @@ We then observe that our analytical model on average predicts only \SI{7.8}{\per
 	\setlength{\figheight}{.32\columnwidth}
 	\begin{subfigure}[B]{.6\columnwidth}
 		\centering
-		\includegraphics[height=\figheight]{sources-simulation-mesh-straight.png}
+		\includegraphics[height=\figheight]{interlocking/sources/simulation/mesh-straight.png}
 		\caption{Straight ITIM}
 	\end{subfigure}
 \hspace{-.5cm}
 	\begin{subfigure}[B]{.39\columnwidth}
 		\centering
-		\includegraphics[height=\figheight]{sources-simulation-mesh-diagonal.png}
+		\includegraphics[height=\figheight]{interlocking/sources/simulation/mesh-diagonal.png}
 		\caption{Diagonal ITIM}
 	\end{subfigure}
 	\caption{Example simulation meshes.
 		The mesh of the diagonal ITIM variant is half a unit cell covering only one of the two diagonal fingers.
 		Because of the rounded corners an axis aligned meshing was impossible, leading to singularities in the mesh.}
-	\label{fig:sim_straight_model}
+	\label{interlocking:fig:sim_straight_model}
 \end{figure}
 
 
@@ -56,46 +56,46 @@ We then observe that our analytical model on average predicts only \SI{7.8}{\per
 \begin{figure*}
 	\centering
 	\setlength{\figheight}{.25\textwidth}
-	\begin{subfigure}[B]{.24\textwidth}
+	\begin{subfigure}[B]{.48\columnwidth}
 		\centering
-		\includegraphics[height=\figheight]{sources-simulation-r1-lmax3.6.png}
+		\includegraphics[height=\figheight]{interlocking/sources/simulation/r1-lmax3.6.png}
 		\caption{$\lmax=\SI{3.6}{\milli\meter}; \hf=\SI{0.8}{\milli\meter}$}
 	\end{subfigure}
-	\begin{subfigure}[B]{.24\textwidth}
+	\begin{subfigure}[B]{.48\columnwidth}
 		\centering
-		\includegraphics[height=\figheight]{sources-simulation-r1-lmax3.0.png}
+		\includegraphics[height=\figheight]{interlocking/sources/simulation/r1-lmax3.0.png}
 		\caption{$\lmax=\SI{3.0}{\milli\meter}; \hf=\SI{0.8}{\milli\meter}$}
 	\end{subfigure}
-	\begin{subfigure}[B]{.24\textwidth}
+	\begin{subfigure}[B]{.48\columnwidth}
 		\centering
-		\includegraphics[height=\figheight]{sources-simulation-r1-lmax2.4.png}
+		\includegraphics[height=\figheight]{interlocking/sources/simulation/r1-lmax2.4.png}
 		\caption{$\lmax=\SI{2.4}{\milli\meter}; \hf=\SI{0.7}{\milli\meter}$}
 	\end{subfigure}
-	\begin{subfigure}[B]{.26\textwidth}
+	\begin{subfigure}[B]{.52\columnwidth}
 		\centering
-		\includegraphics[height=\figheight]{sources-simulation-r1-lmax1.8.png}
+		\includegraphics[height=\figheight]{interlocking/sources/simulation/r1-lmax1.8.png}
 		\caption{$\lmax=\SI{1.8}{\milli\meter}; \hf=\SI{0.6}{\milli\meter}$}
 	\end{subfigure}
 	\caption{2D slices of the 4D simulation results and fitted RBF hypersurface for the straight ITIM variant. Sampled data points in black.}
-	\label{fig:simulation_results_straight}
+	\label{interlocking:fig:simulation_results_straight}
 \end{figure*}
 
 
 \begin{figure*}
 	\centering
-	\includegraphics[width=.99\textwidth]{sources-simulation-model_accuracy.pdf}
+	\includegraphics[width=.8\textwidth]{interlocking/sources/simulation/model_accuracy.pdf}
 	\caption{Ultimate strength according to the analytical models and the simulation results for the straight variant of the ITIM lattice.
 		The analytical models follow roughly the same shape and same height as the simulation results. 
 		The response on three 2D slices of the 3D design space are shown, from left to right at $\hf=0.8$, $\wb=2.7$ and at $\va=2.88$.
 	}
-	\label{fig:ana_sim_accuracy_straight}
+	\label{interlocking:fig:ana_sim_accuracy_straight}
 \end{figure*}
 
 
 
 \begin{table}
 	\caption{Optimal designs according to the hypersurface fitted to the FEM simulations for the straight ITIM variant and for the diagonal ITIM variant.}
-	\label{tab:sim_straight_optima}
+	\label{interlocking:tab:sim_straight_optima}
 	\begin{tabular}{ll|llll}
 		&$\lmax$ (\si{\milli\meter})             & 3.6 & 3.0 & 2.4 & 1.8 \\
 		\hline
@@ -144,23 +144,23 @@ the induced error is only $\pm \SI{10}{\percent}$ compared to simulating an inte
 	\centering
 	\begin{subfigure}[B]{.49\columnwidth}
 		\centering	
-		\includegraphics{sources-simulation-diagonal_sim_response.jpg}
+		\includegraphics{interlocking/sources/simulation/diagonal_sim_response.jpg}
 		\caption{Simulation results.}
-		\label{fig:sim_diagonal_model}
+		\label{interlocking:fig:sim_diagonal_model}
 	\end{subfigure}
 	\begin{subfigure}[B]{.49\columnwidth}
 		\centering
-		\includegraphics{sources-simulation-model_accuracy_diagonal.pdf}
+		\includegraphics{interlocking/sources/simulation/model_accuracy_diagonal.pdf}
 		\caption{The analytical model follows the simulation results rather well at lower $\wb$ values.}
-		\label{fig:ana_sim_accuracy_diagonal}
+		\label{interlocking:fig:ana_sim_accuracy_diagonal}
 	\end{subfigure}
 	\caption{Simulation results for diagonal ITIM variant using linear interpolation between the simulation results.}
 \end{figure}
 
 
-The results of these simulations are shows in \cref{fig:sim_diagonal_model}.
+The results of these simulations are shows in \cref{interlocking:fig:sim_diagonal_model}.
 %The predictions from the analytical model can directly be compared to the simulation results, because the constraints on Z shear are not active. < What do I mean here?!
-We compare the simulations against our analytical model in \cref{fig:ana_sim_accuracy_diagonal}.
+We compare the simulations against our analytical model in \cref{interlocking:fig:ana_sim_accuracy_diagonal}.
 The analytical model predicts only 0.4\% lower ultimate strength values on average with a standard deviation of 10\%.
 
 %optimal designs table

@@ -1,24 +1,24 @@
-% !TeX spellcheck = en_GB 
-\section{Introduction}
+% !TeX spellcheck = en_US 
+\section{Introduction}\label{interlocking:sec:intro}
 Multi-material FDM 3D printers unlock a plethora of applications through combining the unique material properties of various materials.
 However, depending on the combination of materials the adhesion between the materials can be excessively weak.
 While only a small number of all possible 3D printing material combinations may exhibit any incompatibility issues,
 it is often precisely those incompatible combinations where the different chemical make-up produces interesting applications.
 For example, polypropylene (PP) is semi-flexible and fatigue-resistant, but has a very weak chemical bond to typical rigid filaments such as polylactic acid (PLA).
 PP is often used for living hinges, which consist of a single part rather than moving components.
-Combining these materials unlocks compliant mechanism applications such as visualized in \cref{fig:applications}.
+Combining these materials unlocks compliant mechanism applications such as visualized in \cref{interlocking:fig:applications}.
 In such cases it is necessary to rely on mechanical interlocking to prevent the materials from breaking apart from each other.
 
 
 \begin{figure}
 	\centering
-	\includegraphics[width=\columnwidth]{sources-applications-applications.png}
+	\includegraphics[width=\columnwidth]{interlocking/sources/applications/applications.png}
 	\caption{Applications of dual material products using the ITIM lattice for interlocking Ultimaker transparent PP and Ultimaker green tough PLA material.
 	A gripper making use of the straight ITIM variant.
 	A prosthetic hand using the diagonal ITIM variant.
 	A storage box utilizing the straight ITIM variant.
 	}
-	\label{fig:applications}
+	\label{interlocking:fig:applications}
 \end{figure}
 
 
@@ -29,22 +29,22 @@ In such cases it is necessary to rely on mechanical interlocking to prevent the 
 	\centering
 	\setlength{\figheight}{.45\columnwidth}\centering
 	\begin{subfigure}[B]{.25\columnwidth}
-		\includegraphics[height=\figheight]{sources-method-basic_2d_interlock.jpg}
+		\includegraphics[height=\figheight]{interlocking/sources/method/basic_2d_interlock.jpg}
 		\caption{A 2D dovetail interlock}
-		\label{fig:basic_2d_interlock}
+		\label{interlocking:fig:basic_2d_interlock}
 	\end{subfigure}
 	\begin{subfigure}[B]{.36\columnwidth}\centering
-		\includegraphics[height=\figheight]{sources-method-discontinuous_lattice.jpg}
+		\includegraphics[height=\figheight]{interlocking/sources/method/discontinuous_lattice.jpg}
 		\caption{Cubic lattice with disconnected islands}
-		\label{fig:discontinuous_lattice}
+		\label{interlocking:fig:discontinuous_lattice}
 	\end{subfigure}
 	\begin{subfigure}[B]{.36\columnwidth}\centering
-		\includegraphics[height=\figheight]{sources-method-basic_lattice.jpg}
-		\caption{ITIM lattice with long continuous paths}
-		\label{fig:basic_structure_single_mat}
+		\includegraphics[height=\figheight]{interlocking/sources/method/basic_lattice.jpg}
+		\caption{The ITIM lattice with long continuous paths}
+		\label{interlocking:fig:basic_structure_single_mat}
 	\end{subfigure}
 	\caption{Interlocking principles; exploded view with a section cut at the top layer. The dovetail can be disassembled by translation; the cubic lattice causes highly discontinuous extrusion on some layers; the proposed ITIM lattice solves these problems.}
-	\label{fig:basic_structure}
+	\label{interlocking:fig:basic_structure}
 \end{figure}
 
 
@@ -56,7 +56,7 @@ one example can be found in jigsaw puzzles.
 The pieces interlock and stay connected because of the material stiffness.
 However, the interlock can be broken in plane by deformation of the pieces,
 and out of plane the pieces can be disassembled by translation alone.
-See \cref{fig:basic_2d_interlock}.
+See \cref{interlocking:fig:basic_2d_interlock}.
 Moreover, because the dovetails widen toward their tip, they cannot easily be printed with continuous extrusion toolpaths.
 
 In order to overcome these limitations, we propose \emph{topological interlocking}.
@@ -69,7 +69,7 @@ This interlocking principle is robust especially when flexible and deformable ma
 
 %We propose a topologically interlocking structure where all voids in the one material are filled with the other material and vice versa.
 However, most topologically interlocking geometries would introduce discontinuities in the extrusion process when sliced into layers for 3D printing, as each slice would contain disconnected islands.
-See \cref{fig:discontinuous_lattice}.
+See \cref{interlocking:fig:discontinuous_lattice}.
 Such discontinuities can easily lead to defects, which influence the dimensional accuracy and the mechanical properties of the resulting part.
 % Moreover, depositing small disconnected islands of one material on top of a chemically incompatible material cannot reliably be performed because of the weak bonding.
 We therefore have to generate interlocking geometry for which the layers consist of long continuously connected areas for both materials.
@@ -79,7 +79,7 @@ if the one material leaves a hole in a layer then filling that hole with the oth
 The ITIM lattice consists of long horizontal beams which ensure continuous extrusion, which alternate in orientation along the Z axis in order to connect all beams together, thereby creating linked hoops which constitute the topological interlock.
 Where the beams of the two orientations meet they form long vertical pillars. %, which constitute vertical tunnels in the other material.
 However, the small island cross-sections of these pillars are all located in between consecutive layers, so that they never result in disconnected islands.
-See \cref{fig:basic_structure_single_mat}.
+See \cref{interlocking:fig:basic_structure_single_mat}.
 
 
 Our contributions are as follows:
