@@ -9,8 +9,8 @@ In the plane where tensile failure of material $a$ occurs the total force $F$ wi
 likewise for material $b$.
 The theoretically optimal interlocking microstructure would be such that the force $F$ will be homogeneously distributed over $A_a$ and $A_b$
 in such manner that both materials will fail at the same ultimate force: $F = \sigmafail{a} A_a = \sigmafail{b} A_b$.
-The structure will break where the force is distributed of the smallest area $A_a$ or $A_b$, so increasing their overall size would improve on the microstructure,
-but their combined area is limited to the total cross sectional area $A_\text{total}$ of the microstructure.
+\revise{The structure will break where the force is distributed of the smallest area $A_a$ or $A_b$, so increasing their overall size would improve on the microstructure,
+but}{The ultimate force before material $a$ breaks can be improved by increasing the area $A_a$, but this is at the cost of material $b$ (and vice versa), since} their combined area is limited to the total cross sectional area $A_\text{total}$ of the microstructure.
 The ultimate strength of any multi-material microstructure is therefore limited to:
 
 \begin{align}
@@ -111,7 +111,7 @@ but the shear areas of the two cells would not bear the same load, so the stress
 One might consider using a different geometry for the two cells to counteract that fact,
 but we do not expect such a multi-layered interlocking design to outperform a single layered interlocking lattice when $\lmax$ is relatively low. 
 
-Given that we will fill the space around the interface with a single layer of cells, the orientation of those cells w.r.t. the interface is relevant.
+\revise{Given that we will fill the space around the interface with a single layer of cells, the orientation of those cells w.r.t. the interface is relevant.}{According to the reasoning above we should fill the interface with a single layer of cells, but how should those cells be oriented w.r.t. the interface?}
 While rotating the lattice about X or Y is impossible due to the continuous extrusion constraint, we are free to rotate about Z.
 However, given that the tensile stress is applied in a single direction it only makes sense to consider two orientations: straight and diagonal.
 
