@@ -27,7 +27,7 @@ The ultimate strength of any multi-material microstructure is therefore limited 
 	%= \sigmafail{a} \frac{ \nicefrac{\sigmafail{b}}{\sigmafail{a} } }{ \nicefrac{\sigmafail{b}}{\sigmafail{a} }  + 1} \\
 	%&= \frac{ \sigmafail{b} }{ \nicefrac{\sigmafail{b}}{\sigmafail{a} }  + 1} \\
 	= \frac{ 1 }{ \nicefrac{1}{\sigmafail{a}} + \nicefrac{1}{\sigmafail{b}} } 
-	%\approx \SI{8.6}{\mega\pascal} \text{ for TPLA and PP}
+	%\approx \SI{8.6}{\mega\pascal} \text{ for PLA and PP}
 \end{align}
 
 
@@ -116,7 +116,7 @@ While rotating the lattice about X or Y is impossible due to the continuous extr
 However, given that the tensile stress is applied in a single direction it only makes sense to consider two orientations: straight and diagonal.
 
 
-For the materials chosen by this study, Ultimaker Tough PLA (TPLA) and Ultimaker PolyPropylene (PP), the theoretical upper bound comes out to be \SI{8.6}{\mega\pascal}.
+For the materials chosen by this study, Ultimaker Tough \revise{PLA}{Polylactic Acid} (\revise{T}{}PLA) and Ultimaker PolyPropylene (PP), the theoretical upper bound comes out to be \SI{8.6}{\mega\pascal}.
 The structure may not only be subject to tensile failure, but also to shear failure modes.
 Because of the layer-wise build-up employed by \revise{FDM}{MEX}, the tensile properties in the Z direction are different from those in the horizontal plane.
 See \cref{interlocking:tab:mat_props_manufacturing_constraints}.
@@ -131,7 +131,7 @@ The standard layer thickness $\hmin$ is \SI{0.1}{\milli\meter} and the minimal l
 	\begin{tabular}{l|rrrrrr}
 		material & $\sigmafail{}$ & $\sigmafailz{}$ & $\epsilon_\text{y}$ & $\epsilon_\text{yZ}$ \\
 		\hline
-		TPLA & \SI{47}{\mega\pascal} & \SI{33}{\mega\pascal} & \SI{3.5}{\percent} & \SI{2.6}{\percent}\\
+		\revise{T}{}PLA & \SI{47}{\mega\pascal} & \SI{33}{\mega\pascal} & \SI{3.5}{\percent} & \SI{2.6}{\percent}\\
 		PP & \SI{10.5}{\mega\pascal} & \SI{10.6}{\mega\pascal} & \SI{29}{\percent} & \SI{22}{\percent}
 	\end{tabular}
 \end{table}
@@ -263,10 +263,10 @@ there is still interlocking between the two materials.
 If a part of the cross beams of $a$ has sheared off, still the pillar of material $a$ remains, which is surrounded by material $b$.
 See \cref{interlocking:fig:straight_model_broken}.
 Once failure mode $\mxz{a}$ has occurred, still any other failure mode has to occur for the interlock to fail completely.
-Since the failure mode can only happen by part of the PP cross beam pushing against the part of the TPLA cross beam which is being sheared off,
+Since the failure mode can only happen by part of the PP cross beam pushing against the part of the \revise{T}{}PLA cross beam which is being sheared off,
 both cross beams shear together.
-Because TPLA breaks at a lower strain than PP (see \cref{interlocking:tab:mat_props_manufacturing_constraints}), we know that for these materials $\mxz{b}$ never occurs unless $\mxz{a}$ has occurred.
-We will construct a separate model for analysing the case where the TPLA cross beam is broken into segments.
+Because \revise{T}{}PLA breaks at a lower strain than PP (see \cref{interlocking:tab:mat_props_manufacturing_constraints}), we know that for these materials $\mxz{b}$ never occurs unless $\mxz{a}$ has occurred.
+We will construct a separate model for analysing the case where the \revise{T}{}PLA cross beam is broken into segments.
 
 
 Because part of the cross beam is missing the stress on the remaining part increases.
@@ -355,7 +355,7 @@ The diagonal ITIM model is then defined by the constrained optimization problem 
 
 
 \iffalse
-area of TPLA under shear and tension: $\wa h$.
+area of \revise{T}{}PLA under shear and tension: $\wa h$.
 von Mises criterion:
 \begin{align*}
 	\left( \frac{ \nicefrac12 \nicefrac{w}{d} F }{ \wa h } \right)^2 + 3 \left( \frac{ \nicefrac12 \nicefrac{d}{2M} F }{ \wa h } \right)^2 &\le \sigmafail{a}^2 \\
