@@ -24,10 +24,6 @@
 
 % My TK added packages and commands
 
-	\newif\ifcolorrevise
-	
-	\colorrevisefalse
-
 	% for for using hyperref and elsarticle-num-names together in order to get \citeauthor to work
 	\makeatletter
 	\providecommand{\doi}[1]{%
@@ -130,6 +126,11 @@
 	\newcommand{\stkout}[1]{\ifmmode\text{\sout{\ensuremath{#1}}}\else\sout{#1}\fi}
 	
 	% Revise macro (usage: \revise{old}{new})
+	
+	\newif\ifcolorrevise
+	
+	\colorrevisetrue
+	
 	\newcommand{\revise}[2]{#2}
 	% Version a) First arg red and striked out, second argument green
 	%\newcommand{\revise}[2]{\textcolor{red}{\stkout{#1}}\textcolor{blue}{#2}}
