@@ -13,10 +13,10 @@ In such cases it is necessary to rely on mechanical interlocking to prevent the 
 \begin{figure}
 	\centering
 	\includegraphics[width=\columnwidth]{sources-applications-applications.png}
-	\caption{Applications of dual material products using the ITIM lattice for interlocking Ultimaker transparent PP and Ultimaker green tough PLA material.
-	A gripper making use of the straight ITIM variant.
-	A prosthetic hand using the diagonal ITIM variant.
-	A storage box utilizing the straight ITIM variant.
+	\caption{Applications of dual material products using the ITI\revise{M}{L} lattice for interlocking Ultimaker transparent PP and Ultimaker green tough PLA material.
+	A gripper making use of the straight ITI\revise{M}{L} variant.
+	A prosthetic hand using the diagonal ITI\revise{M}{L} variant.
+	A storage box utilizing the straight ITI\revise{M}{L} variant.
 	}
 	\label{interlocking:fig:applications}
 \end{figure}
@@ -40,10 +40,10 @@ In such cases it is necessary to rely on mechanical interlocking to prevent the 
 	\end{subfigure}
 	\begin{subfigure}[B]{.36\columnwidth}\centering
 		\includegraphics[height=\figheight]{sources-method-basic_lattice.jpg}
-		\caption{The ITIM lattice with long continuous paths}
+		\caption{The ITI\revise{M}{L} lattice with long continuous paths}
 		\label{interlocking:fig:basic_structure_single_mat}
 	\end{subfigure}
-	\caption{Interlocking principles; exploded view with a section cut at the top layer. The dovetail can be disassembled by translation; the cubic lattice causes highly discontinuous extrusion on some layers; the proposed ITIM lattice solves these problems.}
+	\caption{Interlocking principles; exploded view with a section cut at the top layer. The dovetail can be disassembled by translation; the cubic lattice causes highly discontinuous extrusion on some layers; the proposed ITI\revise{M}{L} lattice solves these problems.}
 	\label{interlocking:fig:basic_structure}
 \end{figure}
 
@@ -76,7 +76,7 @@ We therefore have to generate interlocking geometry for which the layers consist
 
 It seems impossible to generate topologically interlocking geometry with holes or tunnels while enforcing continuous extrusion for both materials;
 if the one material leaves a hole in a layer then filling that hole with the other material will cause it to be disconnected from the other regions of the second material.
-The ITIM lattice consists of long horizontal beams which ensure continuous extrusion, which alternate in orientation along the Z axis in order to connect all beams together, thereby creating linked hoops which constitute the topological interlock.
+The ITI\revise{M}{L} lattice consists of long horizontal beams which ensure continuous extrusion, which alternate in orientation along the Z axis in order to connect all beams together, thereby creating linked hoops which constitute the topological interlock.
 Where the beams of the two orientations meet they form long vertical pillars. %, which constitute vertical tunnels in the other material.
 However, the small island cross-sections of these pillars are all located in between consecutive layers, so that they never result in disconnected islands.
 See \cref{interlocking:fig:basic_structure_single_mat}.
@@ -84,8 +84,8 @@ See \cref{interlocking:fig:basic_structure_single_mat}.
 
 Our contributions are as follows:
 \begin{itemize}
-	\item An interlaced topologically interlocking microstructure (ITIM) which satisfies the extrusion continuity constraint.
-	\item Two variants of the ITIM lattice optimized for tensile forces: straight and diagonal.
+	\item An interlaced topologically interlocking \revise{microstructure}{lattice} (ITI\revise{M}{L}) which satisfies the extrusion continuity constraint.
+	\item Two variants of the ITI\revise{M}{L} lattice optimized for tensile forces: straight and diagonal.
 	\item A theoretical upper bound to the tensile strength of any interlocking structure.
 	\item Analytical models for estimating tensile properties and for optimizing the design parameters of the interlocking structures.
 	\item Numerical and experimental validation.

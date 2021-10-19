@@ -33,13 +33,13 @@ See \cref{interlocking:fig:gcode}.
 	\begin{subfigure}[B]{.26\columnwidth}
 		\centering
 		\includegraphics[width=\figheight,rotate=90]{sources-testing-straight_gcode.jpg}
-		\caption{Straight ITIM}
+		\caption{Straight ITI\revise{M}{L}}
 		\label{interlocking:fig:gcode_straight}
 	\end{subfigure}
 	\begin{subfigure}[B]{.26\columnwidth}
 		\centering
 		\includegraphics[width=\figheight,rotate=90]{sources-testing-diagonal_gcode.jpg}
-		\caption{Diagonal ITIM}
+		\caption{Diagonal ITI\revise{M}{L}}
 		\label{interlocking:fig:gcode_diagonal}
 	\end{subfigure}
 	\begin{subfigure}[B]{.22\columnwidth}
@@ -54,7 +54,7 @@ See \cref{interlocking:fig:gcode}.
 		\caption{Jigsaw}
 		\label{interlocking:fig:gcode_jigsaw}
 	\end{subfigure}
-	\caption{Gcodes generated with Cura Arachne engine beta. The layers of main fingers are shown and the other layers in a transparent overlay. While the straight and diagonal ITIM lattice produce continuous extrusion beads, the toolpaths for the dovetail designs include small separated segments.}
+	\caption{Gcodes generated with Cura Arachne engine beta. The layers of main fingers are shown and the other layers in a transparent overlay. While the straight and diagonal ITI\revise{M}{L} lattice produce continuous extrusion beads, the toolpaths for the dovetail designs include small separated segments.}
 	\label{interlocking:fig:gcode}
 \end{figure}
 
@@ -63,15 +63,15 @@ See \cref{interlocking:fig:gcode}.
 
 
 \subsubsection{Model parameters}
-\paragraph{Straight ITIM}
-The straight ITIM variant suffers from the curse of dimensionality;
+\paragraph{Straight ITI\revise{M}{L}}
+The straight ITI\revise{M}{L} variant suffers from the curse of dimensionality;
 even when setting $\wa=\SI{0.6}{\milli\meter}$, $\hc=\SI{0.1}{\milli\meter}$ and $L=\SI{3.6}{\milli\meter}$,
 there are still the three free design variables $\wb$, $\va$ and $\hf$ to determine.
 With 5 specimens per sample point and limited resources, the total number of data points we are able to test is limited.
 We therefore chose to sample close to the two optima of the analytical models: whole and broken, as well as deviations from those optima in both directions along the axis of each design variable of \SI{0.3}{\milli\meter} in $\wb$ and $\va$ and \SI{0.2}{\milli\meter} in $\hf$.
 See \cref{interlocking:fig:test_points_straight}.
 
-Each sample of the straight ITIM variant has $5\times5$ cells.
+Each sample of the straight ITI\revise{M}{L} variant has $5\times5$ cells.
 Because the repetition of cells is broken at the sides of the specimen, the boundary cells are adjusted for manufacturability and stability.
 The specimens end with a \revise{T}{}PLA finger on both sides and in cross beams on both top and bottom.
 See \cref{interlocking:fig:test_straight_boundary_cells}.
@@ -95,7 +95,7 @@ See \cref{interlocking:fig:test_straight_boundary_cells}.
 		\caption{Sampled points and measured cell stress.}
 		\label{interlocking:fig:test_points_straight}
 	\end{subfigure}
-	\caption{Experimental setup of straight ITIM variant.
+	\caption{Experimental setup of straight ITI\revise{M}{L} variant.
 		Note that for the broken model $\va$ is minimal, so va- is not a valid sample.}
 \end{figure}
 
@@ -103,8 +103,8 @@ See \cref{interlocking:fig:test_straight_boundary_cells}.
 
 
 
-\paragraph{Diagonal ITIM variant}
-Each sample of the diagonal ITIM variant contains 5 cells in the horizontal direction, but 13 repetition in Z because of the low unit cell height.
+\paragraph{Diagonal ITI\revise{M}{L} variant}
+Each sample of the diagonal ITI\revise{M}{L} variant contains 5 cells in the horizontal direction, but 13 repetition in Z because of the low unit cell height.
 Extra finger beams are added to the sides of the specimen to prevent any part of the beam to be less than $2\wmin=\SI{0.6}{\milli\meter}$ wide.
 See \cref{interlocking:fig:gcode_diagonal}.
 Because with a given $L=\SI{3.6}{\milli\meter}$, $h=\SI{0.2}{\milli\meter}$ and $\wa=\SI{0.6}{\milli\meter}$ the remaining design space is only one-dimensional,
@@ -151,7 +151,7 @@ we can simply sample various points along $\wb$: $(0.6, 1.2, 1.8, 2.4, 3.0, 3.6)
 		\caption{Jigsaw}
 		\label{interlocking:fig:jigsaw}
 	\end{subfigure}
-	\caption{Simple 2D dovetail interlocking microstructures.}
+	\caption{Simple 2D dovetail interlocking \revise{microstructure}{lattice}s.}
 	\label{interlocking:fig:suture_jigsaw}
 \end{figure}
 
@@ -179,7 +179,7 @@ See \cref{interlocking:fig:gcode_suture,interlocking:fig:gcode_jigsaw}
 \begin{figure*}
 	\centering
 	\includegraphics[width=\textwidth]{sources-testing-results.pdf}
-	\caption{Test results compared to the predictions according to the analytical model and the RBF network fitted to the simulation results. The straight ITIM variant samples are labelled relative to the whole and broken optimum, while the rest is labelled by their $\wb$ value.}
+	\caption{Test results compared to the predictions according to the analytical model and the RBF network fitted to the simulation results. The straight ITI\revise{M}{L} variant samples are labelled relative to the whole and broken optimum, while the rest is labelled by their $\wb$ value.}
 	\label{interlocking:fig:test_results}
 \end{figure*}
 
@@ -203,7 +203,7 @@ The results from the physical experiments, along with the analytical and simulat
 	\centering
 	\includegraphics[width=\columnwidth]{sources-testing-stress_displacement_comparison.pdf}
 	\caption{Comparison of the best performing design of each type. 
-		The diagonal ITIM design with $\wb=\SI{1.2}{\milli\meter}$ showed the highest maximum tensile stress. 
+		The diagonal ITI\revise{M}{L} design with $\wb=\SI{1.2}{\milli\meter}$ showed the highest maximum tensile stress. 
 		By inspecting the shape of the graph you can determine the dominant failure mode: \revise{T}{}PLA breaking (sharp drop) or PP yielding (plateau).
 		Dovetail unlocking has either a sharp drop or a more gradual decline.
 	}
@@ -221,20 +221,20 @@ The results from the physical experiments, along with the analytical and simulat
 		\includegraphics[width=\figwidth]{sources-testing-j3_cropped.jpg}
 		\includegraphics[width=\figwidth]{sources-testing-j4_cropped.jpg}
 		\includegraphics[width=\figwidth]{sources-testing-j5_cropped.jpg}
-		\caption{Straight ITIM broken wb+}
+		\caption{Straight ITI\revise{M}{L} broken wb+}
 		\label{interlocking:fig:failures_straight}
 	\end{subfigure}
 	\setlength{\figheight}{.25\columnwidth}
 	\begin{subfigure}[B]{.28\columnwidth}
 		\centering
 		\includegraphics[height=\figheight]{sources-testing-a1_cropped.jpg}
-		\caption{Straight ITIM whole}
+		\caption{Straight ITI\revise{M}{L} whole}
 		\label{interlocking:fig:failures_whole}
 	\end{subfigure}
 	\begin{subfigure}[B]{.28\columnwidth}
 		\centering
 		\includegraphics[height=\figheight]{sources-testing-v1_cropped.jpg}
-		\caption{Diagonal ITIM $1.2$}
+		\caption{Diagonal ITI\revise{M}{L} $1.2$}
 		\label{interlocking:fig:failures_diagonal}
 	\end{subfigure}
 	\begin{subfigure}[B]{.18\columnwidth}
@@ -250,7 +250,7 @@ The results from the physical experiments, along with the analytical and simulat
 		\label{interlocking:fig:failures_suture}
 	\end{subfigure}
 	\caption{Samples after tensile tests of the best performing designs.
-		The broken wb+ samples from the straight ITIM variant exhibit multiple failure modes, indicating that this sample was close to the intersection of several constraint surfaces.}
+		The broken wb+ samples from the straight ITI\revise{M}{L} variant exhibit multiple failure modes, indicating that this sample was close to the intersection of several constraint surfaces.}
 	\label{interlocking:fig:failures}
 \end{figure}
 

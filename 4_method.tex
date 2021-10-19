@@ -6,11 +6,11 @@ the geometry of the designs are optimized to yield or break at the highest horiz
 The highest administrable force applied to a unit cell of any interlocking structure will be carried by both materials $a$ and $b$.
 In the plane where tensile failure of material $a$ occurs the total force $F$ will be distributed over the cross-sectional area $A_a$;
 likewise for material $b$.
-The theoretically optimal interlocking microstructure would be such that the force $F$ will be homogeneously distributed over $A_a$ and $A_b$
+The theoretically optimal interlocking \revise{microstructure}{lattice} would be such that the force $F$ will be homogeneously distributed over $A_a$ and $A_b$
 in such manner that both materials will fail at the same ultimate force: $F = \sigmafail{a} A_a = \sigmafail{b} A_b$.
-\revise{The structure will break where the force is distributed of the smallest area $A_a$ or $A_b$, so increasing their overall size would improve on the microstructure,
-but}{The ultimate force before material $a$ breaks can be improved by increasing the area $A_a$, but this is at the cost of material $b$ (and vice versa), since} their combined area is limited to the total cross sectional area $A_\text{total}$ of the microstructure.
-The ultimate strength of any multi-material microstructure is therefore limited to:
+\revise{The structure will break where the force is distributed of the smallest area $A_a$ or $A_b$, so increasing their overall size would improve on the \revise{microstructure}{lattice},
+but}{The ultimate force before material $a$ breaks can be improved by increasing the area $A_a$, but this is at the cost of material $b$ (and vice versa), since} their combined area is limited to the total cross sectional area $A_\text{total}$ of the \revise{microstructure}{lattice}.
+The ultimate strength of any multi-material \revise{microstructure}{lattice} is therefore limited to:
 
 \begin{align}
 	\sigma^* &= \frac{F}{A_\text{total}} 
@@ -30,7 +30,7 @@ The ultimate strength of any multi-material microstructure is therefore limited 
 \end{align}
 
 
-This formula for the ultimate tensile strength of interlocking microstructures is a theoretical upper bound.
+This formula for the ultimate tensile strength of interlocking \revise{microstructure}{lattice}s is a theoretical upper bound.
 In practice the worst cross-sectional area $A_a$ is in a different plane than the worst cross-sectional area $A_b$, so they do not add up to $A_\text{total}$.
 For example, in the dovetail geometry (\cref{interlocking:fig:basic_2d_interlock}) the highest stress of a dovetail of material $a$ is at its base, while the highest stress in $b$ will be at the end of the dovetail of material $a$.
 The geometry by which the interlock is secured reduces the strength compared to the theoretical upper bound of the ultimate tensile strength.
@@ -63,7 +63,7 @@ The upper bound can therefore never be reached.
 		\caption{Partly broken, partly interlocking cell}
 		\label{interlocking:fig:straight_model_broken}
 	\end{subfigure}
-	\caption{Unit cell of the straight ITIM variant. Force is transferred from material $a$ (green) to material $b$ (transparent cyan) through the contact area on the cross beams. In the partly broken situation there is still interlocking, but the total force is transferred through a narrower area.}
+	\caption{Unit cell of the straight ITI\revise{M}{L} variant. Force is transferred from material $a$ (green) to material $b$ (transparent cyan) through the contact area on the cross beams. In the partly broken situation there is still interlocking, but the total force is transferred through a narrower area.}
 \end{figure*}
 
 \begin{figure*}
@@ -86,13 +86,13 @@ The upper bound can therefore never be reached.
 		\caption{Failure modes}
 		\label{interlocking:fig:diagonal_model_failures}
 	\end{subfigure}
-	\caption{Unit cell of the diagonal ITIM variant. The $\mt{m}$ failure modes are orthogonal to the beams and influenced by both tensile and shear components of the total force.}
+	\caption{Unit cell of the diagonal ITI\revise{M}{L} variant. The $\mt{m}$ failure modes are orthogonal to the beams and influenced by both tensile and shear components of the total force.}
 \end{figure*}
 
 
 
 
-\subsection{Interlaced Topologically Interlocking Microstructure}\label{interlocking:sec:itim}
+\subsection{Interlaced Topologically Interlocking \revise{Microstructure}{Lattice}}\label{interlocking:sec:itim}
 The topologically interlocking structure we propose consists of horizontal beams alternating in material.
 On top of that we print another set of beams rotated about Z and on top beams of the first rotation again, etc.
 Long horizontal beams assure continuous extrusion, while the alternating direction of the beams assures the interlock.
@@ -102,7 +102,7 @@ See \cref{interlocking:fig:basic_structure_single_mat}.
 When joining bodies of different materials, some region around the interface between the two bodies should be replaced by a number of unit cells from such a lattice structure.
 The length of the transition region $L$ is limited by the design of the product within which the lattice is to be employed.
 We consider a design constraint of $\lmax = 12 \wmin{m} = \SI{3.6}{\milli\meter}$;
-this is enough to have some design freedom for the microstructure, while limiting the impact on the rest of the product.
+this is enough to have some design freedom for the \revise{microstructure}{lattice}, while limiting the impact on the rest of the product.
 
 With a relatively small length $\lmax$ it stands to reason to fill that space using a single unit cell in the length direction only.
 If the same region were to be filled with 2 versions of the same cell but scaled to half lengthwise, then the total area of shear remains the same,
@@ -137,17 +137,17 @@ The standard layer thickness $\hmin$ is \SI{0.1}{\milli\meter} and the minimal l
 
 
 If all dimensions of the beams are set to minimal and the angle between the beams is set to \SI{90}{\degree},
-%tensile tests show that the straight ITIM variant reaches \SI{3.3}{\mega\pascal} and the diagonal variant reaches \SI{4.9}{\mega\pascal}.
-the finger of the straight ITIM variant takes up a quarter of the area at the base of the cell, so we can expect the strength to be close to $\nicefrac14 \sigmafail{b} \approx \SI{2.6}{\mega\pascal}$.
-For the diagonal ITIM variant the beams take up half of the area at the base of the cell, which would be close to $\nicefrac12 \sigmafail{b} \approx \SI{5.3}{\mega\pascal}$.
+%tensile tests show that the straight ITI\revise{M}{L} variant reaches \SI{3.3}{\mega\pascal} and the diagonal variant reaches \SI{4.9}{\mega\pascal}.
+the finger of the straight ITI\revise{M}{L} variant takes up a quarter of the area at the base of the cell, so we can expect the strength to be close to $\nicefrac14 \sigmafail{b} \approx \SI{2.6}{\mega\pascal}$.
+For the diagonal ITI\revise{M}{L} variant the beams take up half of the area at the base of the cell, which would be close to $\nicefrac12 \sigmafail{b} \approx \SI{5.3}{\mega\pascal}$.
 However, these ultimate strengths can be improved upon considerably by optimizing the geometry.
-This section considers these two ITIM variants and analytical models to optimize them.
+This section considers these two ITI\revise{M}{L} variants and analytical models to optimize them.
 
 
 
 
-\subsection{Straight ITIM variant}
-A unit cell of the straight ITIM variant is visualized in \cref{interlocking:fig:straight_model}.
+\subsection{Straight ITI\revise{M}{L} variant}
+A unit cell of the straight ITI\revise{M}{L} variant is visualized in \cref{interlocking:fig:straight_model}.
 A cell consists of a single \emph{finger} of height $\hf$ protruding from the body of material $a$ outward and part of a \emph{cross beam} of height $\hc$ angled at \SI{90}{\degree}.
 In order to print the relatively short fingers using continuous extrusion, we employ the constraints that $\wm \ge 2\wmin{m}$ (where $m$ is either material $a$ or $b$),
 so that the toolpaths for the outline of each layer can go back and forth along the finger without interruption.
@@ -156,8 +156,8 @@ We set the minimum height of the beams to twice the layer height, so as to be ab
 	which snowballs the problem upward during printing.}: $\hf \ge 2\hmin$ and $\hc \ge 2\hmin$.
 
 
-%\subsubsection{Straight ITIM variant (whole)}
-In order to optimize the straight ITIM variant for a maximal tensile strength we consider three types of stress, related to three types of failure mode for either material $m$:
+%\subsubsection{Straight ITI\revise{M}{L} variant (whole)}
+In order to optimize the straight ITI\revise{M}{L} variant for a maximal tensile strength we consider three types of stress, related to three types of failure mode for either material $m$:
 tensile stress $\stresstensile{m}$ for $\myz{m}$, cross beam shear stress $\stresscrossshear{m}$ for $\mxz{m}$ and Z shear stress $\stresszshear{m}$ for $\mxy{m}$.
 See \cref{interlocking:fig:straight_model_failure_modes}.
 These three types of failure mode for either material are modelled using classical beam theory as having a homogenous stress distribution.
@@ -177,7 +177,7 @@ Furthermore, they are divided by two because the beams and pillars are fixed on 
 
 
 \begin{figure}
-	\begin{tcolorbox}[colback=white,title=Model of the straight ITIM variant]
+	\begin{tcolorbox}[colback=white,title=Model of the straight ITI\revise{M}{L} variant]
 		\begin{align}
 			f: & \max{ \frac{F}{\left( \wa + \wb \right) \left( \hf + \hc \right) } }  \label{interlocking:eq:objective} \\
 			\omit\rlap{subject to} \nonumber \\
@@ -229,15 +229,15 @@ The optimum is at the intersection of four constraint surfaces, which is remarka
 	\centering
 	\begin{subfigure}[B]{\columnwidth}
 		\includegraphics{sources-method-analytic_response_whole_bigger_fonts.png}
-		\caption{Straight ITIM model response. At $\hf = 1.29$, $\wb=2.64$ and $\va=2.70$ respectively.}
+		\caption{Straight ITI\revise{M}{L} model response. At $\hf = 1.29$, $\wb=2.64$ and $\va=2.70$ respectively.}
 		\label{interlocking:fig:analytic_response_whole}
 	\end{subfigure}
 	\begin{subfigure}[B]{\columnwidth}
 		\includegraphics{sources-method-analytic_response_broken_bigger_fonts.png}
-		\caption{Straight ITIM model response (broken). At $\hf = 0.50$, $\wb=1.50$ and $\va=0.36$ resp.}
+		\caption{Straight ITI\revise{M}{L} model response (broken). At $\hf = 0.50$, $\wb=1.50$ and $\va=0.36$ resp.}
 		\label{interlocking:fig:analytic_response_broken}
 	\end{subfigure}
-	\caption{Maximum strength according to analytical models for the straight ITIM variant along three 2D slices of the 3D design space.
+	\caption{Maximum strength according to analytical models for the straight ITI\revise{M}{L} variant along three 2D slices of the 3D design space.
 		Four constraint surfaces meet at the optimum.
 		By taking the maximum values of these two models the maximum stress before separation can be calculated.
 	}
@@ -273,7 +273,7 @@ Moreover, the cross beam shear constraint for PP ($\gcbbroken$) comes into play 
 The shear constraints \crefrange{interlocking:eq:g_shear_a}{interlocking:eq:g_z_shear_b} are replaced by \cref{interlocking:eq:g_shear_b_broken,interlocking:eq:g_z_shear_a_broken}.
 
 \begin{figure}
-\begin{tcolorbox}[colback=white,title=Straight ITIM variant - shear constraints for broken case]
+\begin{tcolorbox}[colback=white,title=Straight ITI\revise{M}{L} variant - shear constraints for broken case]
 	\begin{align}
 		\gcbbroken: & \frac{ F }{ 2 \left( \lmax - \va \right) 2 \hmin } \le  \frac{1}{\sqrt{3}} \sigmafail{b} &&	 \mxz{b}  \label{interlocking:eq:g_shear_b_broken} \\
 		\gzabroken: & \frac{ F }{ 2 \va \wa } \le \frac{1}{\sqrt{3}} \sigmafailz{a}  	&&	 \mxy{a} \label{interlocking:eq:g_z_shear_a_broken}
@@ -298,9 +298,9 @@ When considering designs where the cross beam constraint $\gca$ is active in the
 
 
 
-\subsection{Diagonal ITIM variant}
-Besides the straight variant of the ITIM lattice, we also consider the variant where the beams are oriented diagonally to the interface surface.
-\Cref{interlocking:fig:diagonal_model_simple} shows a simple cell of the ITIM lattice in the diagonal orientation.
+\subsection{Diagonal ITI\revise{M}{L} variant}
+Besides the straight variant of the ITI\revise{M}{L} lattice, we also consider the variant where the beams are oriented diagonally to the interface surface.
+\Cref{interlocking:fig:diagonal_model_simple} shows a simple cell of the ITI\revise{M}{L} lattice in the diagonal orientation.
 Because the stress applied is homogeneous and precisely normal to the interface the optimal structure should be symmetric.
 Due to symmetry there is no distinction between fingers and cross beams to be made in this model.
 Both beams should have the same height $2\hmin$ and the angle $\alpha$ between the beams and the interface of both beams is the same.
@@ -321,12 +321,12 @@ Nevertheless, we provide a simplified analytical model assuming the stress is ho
 We decompose the force $F$ into one component parallel and another orthogonal to the direction of the beams.
 We then use the parallel component to determine the tensile stress and the orthogonal component to determine the shear stress in the beam,
 which combine into a single constraint using the von Mises yield criterion in \cref{interlocking:eq:g_tensile_m_diag}.
-The diagonal ITIM model is then defined by the constrained optimization problem given by \crefrange{interlocking:eq:objective_diagonal}{interlocking:eq:g_z_shear_m_diag}.
+The diagonal ITI\revise{M}{L} model is then defined by the constrained optimization problem given by \crefrange{interlocking:eq:objective_diagonal}{interlocking:eq:g_z_shear_m_diag}.
 
 
 
 \begin{figure}
-	\begin{tcolorbox}[colback=white,title=Model for the diagonal ITIM variant]
+	\begin{tcolorbox}[colback=white,title=Model for the diagonal ITI\revise{M}{L} variant]
 	\begin{align}
 		f: & \max{ \frac{F}{ 2h d } }  \label{interlocking:eq:objective_diagonal} \\
 		\omit\rlap{subject to} \nonumber \\
@@ -388,7 +388,7 @@ Because the height of the fingers is minimal the Z shear constraints are both do
 		\caption{Response surface coloured to failure mode.}
 		\label{interlocking:fig:analytic_response_diagonal}
 	\end{subfigure}
-	\caption{Analytical model for the diagonal ITIM cell. The Z shear constraints are redundant because of the small height of the unit cell. The optimum is determined only by the tensile constraint of PP: $\gtb$.}
+	\caption{Analytical model for the diagonal ITI\revise{M}{L} cell. The Z shear constraints are redundant because of the small height of the unit cell. The optimum is determined only by the tensile constraint of PP: $\gtb$.}
 	%	\label{interlocking:fig:analytic_response}
 \end{figure}
 

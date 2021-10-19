@@ -4,7 +4,7 @@
 %ana optimum wrt FEM optimum wrt print results
 
 When comparing the tensile test results to the analytical models and the simulation results (\cref{interlocking:fig:test_results}),
-we observe that the whole straight ITIM variant is predicted rather well by the models.
+we observe that the whole straight ITI\revise{M}{L} variant is predicted rather well by the models.
 The analytical model tends to overestimate the strength because of homogeneous stress assumptions,
 while the simulations tend to underestimate the strength.
 Although the standard deviation is too high to capture the differences in response with significance,
@@ -13,14 +13,14 @@ the analytical model follows the trends of the FEM simulations rather well and t
 
 The response around the anticipated optimum of the broken model is predicted by our models considerably worse.
 The fact that the simulations also performed worse in that region was expected, since after cells in the mesh are broken some self-intersection may occur in the simulation.
-When viewing the best performing straight ITIM sample (broken wb+, \cref{interlocking:fig:failures_straight}) we observe that several failure modes occur throughout the sample (due to manufacturing inaccuracy),
+When viewing the best performing straight ITI\revise{M}{L} sample (broken wb+, \cref{interlocking:fig:failures_straight}) we observe that several failure modes occur throughout the sample (due to manufacturing inaccuracy),
 but shearing off of part of the cross beams is not one of them.
 One possible explanation is that for geometry so small as the order of the nozzle size 
 the micro-gaps in between adjacent extruded strands impair the material properties less than in the relatively large test samples with which the material properties of \revise{FDM}{MEX} printed parts were determined.
 The empirically obtained material properties of \revise{FDM}{MEX} printed parts may be less accurate at smaller scales.
 
 
-By comparing the analytical model for the diagonal ITIM variant to the simulations results
+By comparing the analytical model for the diagonal ITI\revise{M}{L} variant to the simulations results
 we observe that at higher $\wb$ values the analytical model overestimates the strength.
 The height of the constraint surface for $\gta$ (see \cref{interlocking:fig:analytic_response_diagonal}) was higher than it was simulated to be,
 which can be related to the fact that for a higher $\wb$ the angle $\alpha$ of the beams is lower,
@@ -29,7 +29,7 @@ which means that the shear component of the stress was higher and that the stres
 This overestimation of the analytical model is compensated by an underestimation of the simulations,
 which makes the analytical predictions fit well to the empirical results; see \cref{interlocking:fig:test_results}.
 The underestimation of the simulations can be related to the type of boundary conditions which were applied, but also to an underestimation of the empirically determined material properties of 3D printed parts.
-Overall the diagonal ITIM model is supported by the data.
+Overall the diagonal ITI\revise{M}{L} model is supported by the data.
 
 
 The analytical modelling of the dovetail geometries considers only homogeneous tensile stress,
@@ -41,20 +41,20 @@ The fact that the dovetail designs do not rely on topological interlocking means
 \subsection{Comparison of different interlocking structures}
 All interlocking designs considered can reach roughly 6 to \SI{7}{\mega\pascal}, 
 which means that $\pm \SI{2}{\mega\pascal}$ of the theoretical upper bound of \SI{8.6}{\mega\pascal} from \cref{interlocking:eq:general_uper_bound} is used to secure the interlock.
-The diagonal ITIM design with a cell stress of $7.07 \pm 1.0 \si{\mega\pascal}$ seems to outperform the others, but not significantly.
+The diagonal ITI\revise{M}{L} design with a cell stress of $7.07 \pm 1.0 \si{\mega\pascal}$ seems to outperform the others, but not significantly.
 See \cref{interlocking:fig:stress_displacement_comparison}.
 
 The dovetail designs performed considerably worse then the other designs -- even when the $\lmax$ constraint was violated.
 Moreover, some prints of the dovetail designs showed contamination between the two materials (see \cref{interlocking:fig:failures_suture}),
 which might be caused by the toolpath discontinuities (see \cref{interlocking:fig:gcode_suture}).
 
-Some designs of the straight ITIM variant near where the broken model is optimal perform significantly better than the other tested straight ITIM designs;
-given the high dimensionality of the design space it might be the case that there is a straight ITIM design in between the whole and broken optima which outperforms the diagonal ITIM variant nonetheless.
+Some designs of the straight ITI\revise{M}{L} variant near where the broken model is optimal perform significantly better than the other tested straight ITI\revise{M}{L} designs;
+given the high dimensionality of the design space it might be the case that there is a straight ITI\revise{M}{L} design in between the whole and broken optima which outperforms the diagonal ITI\revise{M}{L} variant nonetheless.
 
-For designs where a lower $\lmax$ is allowed the diagonal ITIM variant performs worse.
-For $\lmax=\SI{1.8}{\milli\meter}$ the diagonal is simulated to outperform the straight ITIM variant by \SI{5.53}{\mega\pascal} to \SI{4.69}{\mega\pascal}.
+For designs where a lower $\lmax$ is allowed the diagonal ITI\revise{M}{L} variant performs worse.
+For $\lmax=\SI{1.8}{\milli\meter}$ the diagonal is simulated to outperform the straight ITI\revise{M}{L} variant by \SI{5.53}{\mega\pascal} to \SI{4.69}{\mega\pascal}.
 See \cref{interlocking:tab:sim_straight_optima}.
-The performance of the diagonal ITIM model greatly reduces for lower $\lmax$, because the angle of the beams is reduced, which causes them to be more susceptible to shear stresses.
+The performance of the diagonal ITI\revise{M}{L} model greatly reduces for lower $\lmax$, because the angle of the beams is reduced, which causes them to be more susceptible to shear stresses.
 
 
 
@@ -67,7 +67,7 @@ In order to mitigate these factors we have spread out the various geometries ove
 Although this increases the variability in the results it does increase the reliability.
 
 Because we needed to test a large quantity of samples, we had to limit the size of the samples in terms of interface dimensions.
-For the $5\times5$ cells of the straight ITIM designs 12 out of 25 cells were boundary cells, so it is challenging to extrapolate these results to larger interfaces.
+For the $5\times5$ cells of the straight ITI\revise{M}{L} designs 12 out of 25 cells were boundary cells, so it is challenging to extrapolate these results to larger interfaces.
 Moreover, the different geometries were tested with different amounts of cells, because the cell geometries were very different.
 The dovetail designs were modelled without taking friction into account and the size of the interlock ($dw, \alpha$) was not optimized for.
 This makes it hard to draw definitive conclusions comparing the different interlocking geometries.
