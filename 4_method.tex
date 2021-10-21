@@ -104,11 +104,17 @@ The length of the transition region $L$ is limited by the design of the product 
 We consider a design constraint of $\lmax = 12 \wmin{m} = \SI{3.6}{\milli\meter}$;
 this is enough to have some design freedom for the \revise{microstructure}{lattice}, while limiting the impact on the rest of the product.
 
-With a relatively small length $\lmax$ it stands to reason to fill that space using a single unit cell in the length direction only.
+\revise{With a relatively small length $\lmax$ it stands to reason to fill that space using a single unit cell in the length direction only.
 If the same region were to be filled with 2 versions of the same cell but scaled to half lengthwise, then the total area of shear remains the same,
 but the shear areas of the two cells would not bear the same load, so the stresses in one of the cells would only increase by using two cells instead of one.
 One might consider using a different geometry for the two cells to counteract that fact,
 but we do not expect such a multi-layered interlocking design to outperform a single layered interlocking lattice when $\lmax$ is relatively low. 
+}{
+We consider a single layer of ITIL cells along the interface.
+Adding more cells in the direction orthogonal to the interface would make them protrude farther into the two bodies, which limits design applicability.
+If the two layers of cells would have the same geometry then we would not expect any gain in the ultimate strength of the interlock.
+Optimizing the geometry of the two layers of cells separately could lead to improved ultimate strength, but falls beyond the scope of this paper.
+}
 
 \revise{Given that we will fill the space around the interface with a single layer of cells, the orientation of those cells w.r.t. the interface is relevant.}{According to the reasoning above we should fill the interface with a single layer of cells, but how should those cells be oriented w.r.t. the interface?}
 While rotating the lattice about X or Y is impossible due to the continuous extrusion constraint, we are free to rotate about Z.
