@@ -162,16 +162,20 @@ We set the minimum height of the beams to twice the layer height, so as to be ab
 	which snowballs the problem upward during printing.}: $\hf \ge 2\hmin$ and $\hc \ge 2\hmin$.
 
 
-%\subsubsection{Straight ITI\revise{M}{L} variant (whole)}
+\subsubsection{\revise{}{Straight ITIL variant (whole)}}
 In order to optimize the straight ITI\revise{M}{L} variant for a maximal tensile strength we consider three types of stress, related to three types of failure mode for either material $m$:
 tensile stress $\stresstensile{m}$ for $\myz{m}$, cross beam shear stress $\stresscrossshear{m}$ for $\mxz{m}$ and Z shear stress $\stresszshear{m}$ for $\mxy{m}$.
 See \cref{interlocking:fig:straight_model_failure_modes}.
 These three types of failure mode for either material are model\revise{l}{}ed using classical beam theory as having a homogen\revise{}{e}ous stress distribution.
 Because the total force $F$ is model\revise{l}{}ed as being homogeneously distributed over the whole cross beam,
 the two shear stresses obtain only a portion of the total force.
-Furthermore, they are divided by two because the beams and pillars are fixed on both sides:
+Furthermore, they are divided by two because the beams and pillars are fixed on both sides.
+See \crefrange{interlocking:eq:tensile}{interlocking:eq:z_shear}.
 %The Z shear stress $\stresszshear{m}$ is multiplied with the ratio between the vertical and horizontal strength, so that all stresses can be compared to $\sigmafail{m}$ fairly.
 
+
+\begin{figure}
+	\begin{tcolorbox}[colback=white,title=\revise{}{Stresses in the straight ITIL variant}]
 \begin{align}
 	\stresstensile{m} &= \frac{ F }{ \wm \hf } \label{interlocking:eq:tensile} \\
 	\stresscrossshear{m} &= \frac{\w{\neg m}}{w} \frac{ F}{2 \vm \hc} \label{interlocking:eq:cross_shear} \\
@@ -179,6 +183,8 @@ Furthermore, they are divided by two because the beams and pillars are fixed on 
 	\stresszshear{m} &= \frac{\w{m}}{w}  \frac{ F }{ 2 \vm \wm} \label{interlocking:eq:z_shear} \\
 	\text{where } & m \in \left\{ a, b \right\} \text{ and } \neg a = b \text{ and } \neg b = a  \nonumber
 \end{align}
+	\end{tcolorbox}
+\end{figure}
 
 
 
@@ -204,7 +210,7 @@ Furthermore, they are divided by two because the beams and pillars are fixed on 
 
 
 The tensile stress of the whole cell is given by $\nicefrac{F}{(\wa +\wb)(\hf + \hc)}$.
-Combining the above we obtain the constrained optimization problem given by \crefrange{interlocking:eq:objective}{interlocking:eq:g_z_shear_b}.
+Combining the above we obtain the constrained optimization problem given by \crefrange{interlocking:eq:objective}{interlocking:eq:g_z_shear_b}\revise{ in \cref{interlocking:eqs:straight_model}}{}.
 The $\sqrt{3}$ in \cref{interlocking:eq:g_shear_a,interlocking:eq:g_z_shear_b} comes from the von Mises yield criterion.
 Although one might consider combining the stresses together using the same criterion, this does not increase the accuracy of the model,
 because the failure mode planes do not overlap.
