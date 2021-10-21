@@ -59,13 +59,20 @@ and out of plane the pieces can be disassembled by translation alone.
 See \cref{interlocking:fig:basic_2d_interlock}.
 Moreover, because the dovetails widen toward their tip, they cannot easily be printed with continuous extrusion toolpaths.
 
-In order to overcome these limitations, we propose \emph{topological interlocking}.
-For topologically interlocking structures the holes or tunnels in one material are filled with the other material and vice versa,
-thereby creating a structure where the two materials are linked together similar to chain mail.
+In order to overcome these limitations, we propose \emph{topological interlocking}\revise{.
+For topologically interlocking structures }
+{, which is a type of interlocking where the interlock is preserved under continuous deformations such as stretching, twisting or bending of any magnitude 
+-- that is: the bodies can only be unlocked by discontinuous deformations such as fracture.
+In order to achieve topological interlocking both materials have a high genus topology:}
+the holes or tunnels in one material are filled with the other material and vice versa,
+\revise{thereby creating a structure where the two materials are linked together}{}similar to \revise{}{how the rings of }chain mail\revise{}{ are linked together}.\revise{
 Chain mail cannot be disassembled by continuous deformations such as stretching, twisting or bending,
-because the presence of holes or tunnels is preserved under any such deformations.
+because the presence of holes or tunnels is preserved under any such deformations.}{}
 A topological interlock remains effective under any deformation of the base materials and can only be broken by failure in either material.
 This interlocking principle is robust especially when flexible and deformable materials are concerned.
+
+\revise{}{The concept of topological interlocking should not be confused with the homonymous term which refers to interlocking assemblies, where blocks ``of special shape are arranged in such a way that the whole structure can be held together by a global peripheral constraint [such as compression], while locally the elements are kept in place by kinematic constrains imposed through the shape and mutual arrangement of the elements.''\cite{Estrin2011} % first introduction of the term: dyskin2001toughening
+In contrast, this paper pertains to bodies of different materials which interlock by topological constraints and optimizes for a globally applied tension.}
 
 %We propose a topologically interlocking structure where all voids in the one material are filled with the other material and vice versa.
 However, most topologically interlocking geometries would introduce discontinuities in the extrusion process when sliced into layers for 3D printing, as each slice would contain disconnected islands.
