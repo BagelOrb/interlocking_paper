@@ -50,11 +50,16 @@ However, if such protrusions bulge outward the adhesion does not merely increase
 \paragraph{Interlocking in \revise{FDM}{MEX}}
 
 %\subsubsection{Dovetail interlocking}
-Literature on interlocking patterns for adhesion between incompatible materials in \revise{FDM}{MEX} 3D printing has focussed on extruded 2D interlocking dovetail type of designs,
+Literature on interlocking patterns for adhesion between incompatible materials in \revise{FDM}{MEX} 3D printing has focussed on \revise{extruded}{extended} 2D interlocking dovetail type of designs,
 such as jigsaw shapes \cite{malik2017}, trapezoidal sutures \cite{Li2013}, T-shapes\cite{Ribeiro2019,mustafa2021development} and star shapes\cite{Wang2021} in the horizontal direction
 as well as in the vertical direction across several layers\cite{debora2020}.
 Topology optimization can generate complex 2D dovetail interlocking shapes, which fit to the specifics of the design locally\cite{aharoni2021}.
-\revise{Such}{In as much as such} interlocking designs are \revise{}{straight }extrusions of 2D shapes\revise{ and therefore}{,} they allow for translation along the extrusion axis, so these type of interlocking designs do not lock all axes.\footnote{\revise{}{The addition of a layer of material on top and below the extrusions is a simple ad hoc method to lock the translation, but such an addition is not an inherent element of such lattices.}}
+\revise{}{However, the dovetail shapes are often relatively large, which limits their applicability and if they are shrunk the widening of the dovetails would introduce discontinuous toolpaths.}
+\revise{Such interlocking designs are extrusions of 2D shapes and therefore they allow for translation along the extrusion axis, so these type of interlocking designs do not lock all axes.}
+{If such interlocking designs are considered on their own without horizontal features above and below they would allow for disassembly in the vertical direction.}
+%\revise{}{Moreover, it is unclear how dovetail type interlocks would be applicable to non-vertical interfaces.}
+\revise{}{By considering aspects of the interlock along the Z axis, the dovetail interlocking concept can be expanded into 3D interlocking structures.}
+%\revise{}{The lack of consideration of the Z axis limits dovetail interlocking designs and their applicability.}
 
 The jigsaw idea can be expanded into a 3D interlocking structure by protruding not only sideways, but also vertically, resulting in a shape resembling a tree\cite{gouker2006manufacturing}.
 Similarly the T-shaped interlocking design with horizontal bars could be expanded with bars in the vertical directions.
@@ -77,11 +82,12 @@ However, a different \revise{microstructure}{lattice} is required if the extrusi
 \subsection{Contributions}
 \revise{}{
 We propose an interlocking lattice consisting of interlaced horizontal beams which satisfy the extrusion continuity constraint.
-The lattice interlocks all degrees of freedom in 3D space and as such lends itself to interfaces between the bodies of different material of arbitrary orientation.
+The lattice interlocks all degrees of freedom in 3D space and as such lends itself to interfaces between two bodies of different material of arbitrary orientation.
 We consider the situation of a horizontally applied tensile force to bodies with a vertical interface,
 and optimize the lattice in two different orientations w.r.t. the interface using a simple analytical model.
 The optimized structures are validated using numerical simulation as well as physical experiments.
 Results show that the ITIL lattice on a vertical interface performs comparably to dovetail type interlocking geometries.
+Optimizing the lattice for interfaces of arbitrary orientation is left as future work.
 }
 
 
