@@ -129,19 +129,16 @@
 	
 	\newif\ifcolorrevise
 	
-	\colorrevisetrue
+	\colorrevisefalse
 	
 	\newcommand{\revise}[2]{#2}
-	% Version a) First arg red and striked out, second argument green
-	%\newcommand{\revise}[2]{\textcolor{red}{\stkout{#1}}\textcolor{blue}{#2}}
-	%\newcommand{\revise}[2]{{\color{red}{#1}\color{blue}{#2}}}
-	% Version b) First arg ignored, second argument green
 	\ifcolorrevise
-	\renewcommand{\revise}[2]{{\color{blue}{#2}}}
+	% Version a) First arg red and striked out, second argument green
+	%\renewcommand{\revise}[2]{\textcolor{red}{\stkout{#1}}\textcolor{blue}{#2}}
+	\renewcommand{\revise}[2]{{\color{red}{#1}\color{blue}{#2}}}
+	% Version b) First arg ignored, second argument green
+	%\renewcommand{\revise}[2]{{\color{blue}{#2}}}
 	\fi
-	% Version c) First arg ignored, second argument unchanged (for final draft)
-	%\newcommand{\revise}[2]{#2}
-	%\newcommand{\revise}[2]{#1}
 
 	\newcommand{\outdated}[1]{{\color{red}{#1}}}
 
@@ -222,7 +219,7 @@ We develop analytical models for optimizing the ultimate tensile strength of the
 The analytical models are applied to polypropylene (PP) and polylactic acid (PLA) and verified by finite elements method (FEM) simulations and physical tensile experiments.
 In the diagonal orientation ITI\revise{M}{L} can obtain 82\% of the theoretical upper bound of \SI{8.6}{\mega\pascal}.
 \revise{If the product design only allows for an interface region less than \SI{2.4}{\milli\meter} long, the straight orientation is expected to outperform the diagonal orientation of the ITIM lattice.}{}
-\revise{}{ITIL performs comparably to dovetail interlocking designs, while it lends itself to application to non-vertical interfaces.}
+\revise{}{ITIL seems to perform comparably to dovetail interlocking designs, while it lends itself to application to non-vertical interfaces.}
 \revise{}{Optimizing the lattice for non-vertical interfaces, however, remains future work.}
 %Expanding this research to interlocking structures optimized for non-vertical interfaces and non-horizontal forces is an interesting direction for future research.
 
